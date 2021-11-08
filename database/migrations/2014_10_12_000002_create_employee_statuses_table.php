@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\EmployeeStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class CreateEmployeeStatusesTable extends Migration
     {
         Schema::create('employee_statuses', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->enum('name', EmployeeStatus::getAllStatuses());
             $table->timestamps();
         });
     }

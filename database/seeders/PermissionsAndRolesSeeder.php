@@ -57,6 +57,8 @@ class PermissionsAndRolesSeeder extends Seeder
             'description' => 'Toutes les permissions relatives a la gestion des cartes d\'accès'
         ]);
 
+
+
         $menus = Permission::create([
             'name' => 'menu.*',
             'description' => 'Toutes les permissions relatives a la gestion des menus'

@@ -1,36 +1,31 @@
 <x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="w-full h-screen flex">
+        <div class="bg-white flex justify-center flex-col w-6/12 shadow-lg">
+            <div class="flex font-bold justify-center my-8">
+                <img class="h-auto w-1/3" src="{{asset('images/logo-ciprel-vf.png')}}">
+            </div>
+            <div class="text-xl text-center text-gray-700 px-10 mb-8">
+                {{ __('Mot de passe oublié') }}
+            </div>
+            <div class="w-full text-center px-16">
+                <!-- Session Status -->
+                <x-auth-session-status class="mb-4" :status="session('status')" />
+                <!-- Validation Errors -->
+                <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                <form class="w-full bg-white rounded-lg"  method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <div class="px-12 pb-4">
+                        <div class="w-full mb-2">
+                            <div class="flex items-center">
+                                <i class="ml-3 fill-current text-gray-400 text-xs z-10 fas fa-envelope"></i>
+                                <input type='email' id="email" placeholder="Entrez votre adresse mail" type="email" name="email" :value="old('email')" class="-mx-6 px-8  w-full bg-opacity-25 rounded py-2 text-gray-700 focus:outline-none bg-primary-400" required autofocus  />
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full my-4 py-3 font-bold bg-primary-900 text-gray-100  focus:outline-none">Reinitialisez votre mot de passe</button>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
+        <img src="{{asset('images/loginimg.jpg')}}" alt="background" class="object-cover object-center h-screen w-6/12">
+    </div>
 </x-guest-layout>

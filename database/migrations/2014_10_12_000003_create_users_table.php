@@ -23,12 +23,12 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(true);
             $table->boolean('is_external')->default(false);
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->string('contact')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->foreignId('department_id')->constrained();
+            $table->integer('department_id')->index()->nullable();
             $table->foreignId('employee_status_id')->constrained();
-            $table->foreignId('organization_id')->nullable();
+            $table->integer('organization_id')->index()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

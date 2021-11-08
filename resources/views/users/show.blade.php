@@ -2,11 +2,13 @@
     <section>
         <x-section-header title="Détails">
             <x-slot name="actions">
-                <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                <a href="{{ route('users.index') }}" class="bg-accent-800 hidden md:flex px-6 py-2 font-semibold text-white rounded-md hover:bg-primary-800">
                     Retour
                 </a>
             </x-slot>
         </x-section-header>
+
+        <hr class="mb-4">
 
         <div class="md:grid md:grid-cols-3 md:gap-6">
             <div class="mt-5 md:mt-0 md:col-span-3">

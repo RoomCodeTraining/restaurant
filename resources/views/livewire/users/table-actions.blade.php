@@ -12,18 +12,18 @@
         </button>
         <x-tooltip content="Restaurer" placement="top" append-to="#restore-{{ $user->id }}" />
     @else
-        <a href="{{ route('users.show', $user) }}" class="mr-2">
-            <x-icon name="eye" />
+        <a href="{{ route('users.show', $user) }}" class="mr-2" title="Détails">
+            <x-icon name="eye" class="text-accent-800 h-4 w-4 hover:bg-opacity-50" />
         </a>
         @can('user.update')
-            <a href="{{ route('users.edit', $user) }}" class="mr-2">
-                <x-icon name="pencil" />
+            <a href="{{ route('users.edit', $user) }}" class="mr-2" title="Editer">
+                <x-icon name="pencil" class="text-secondary-600 h-4 w-4" />
             </a>
         @endcan
         @if ($user->id !== auth()->user()->id && !$user->isSuperAdmin())
             <button wire:click="confirmUserDeletion({{ $user->id }})" wire:loading.attr="disabled"
-                class="mr-2">
-                <x-icon name="trash" />
+                class="mr-2" title="Supprimer">
+                <x-icon name="trash" class="text-red-600 h-4 w-4" />
             </button>
         @endif
     @endif

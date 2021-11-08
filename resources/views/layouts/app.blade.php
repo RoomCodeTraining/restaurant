@@ -42,11 +42,11 @@
             }"
             aria-label="Sidebar">
             <!-- Sidebar Header -->
-            <div class="h-16 flex-none flex items-center justify-between lg:justify-center px-4 w-full">
+            <div class="h-16  bg-gray-50 flex-none flex items-center justify-between lg:justify-center px-4 w-full">
                 <!-- Brand -->
                 <a href="{{ route('dashboard') }}"
                     class="inline-flex items-center font-bold text-lg tracking-wide text-gray-600 hover:text-gray-500">
-                    <x-application-logo class="h-12" />
+                    <x-application-logo class="h-10" />
                 </a>
                 <!-- END Brand -->
 
@@ -68,7 +68,7 @@
             <!-- END Sidebar Header -->
 
             <!-- Sidebar Navigation -->
-            <div class="overflow-y-auto">
+            <div class="overflow-y-auto bg-gray-50 min-h-screen">
                 <div class="p-4 w-full">
                     <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"
@@ -142,7 +142,7 @@
                         <form onsubmit="return false;">
                             <input type="text"
                                 class="w-full block border border-gray-200 rounded px-3 py-2 leading-5 text-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                                id="tk-form-layouts-search" placeholder="Rehercher.." />
+                                id="tk-form-layouts-search" placeholder="Rechercher.." />
                         </form>
                     </div>
                     <div class="sm:hidden">
@@ -242,7 +242,7 @@
         <!-- END Page Header -->
 
         <!-- Page Content -->
-        <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16">
+        <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16 bg-primary-100 bg-opacity-10">
             <!-- Page Section -->
             <div class="container xl:max-w-7xl mx-auto p-4 lg:p-8">
                 <x-banner />

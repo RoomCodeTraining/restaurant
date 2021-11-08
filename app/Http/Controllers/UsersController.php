@@ -31,7 +31,7 @@ class UsersController extends Controller
     {
         $user->update($request->all());
 
-        return redirect()->route('users.show', $user);
+        return redirect()->route('users.show', $user)->banner('This is great');
     }
 
     public function destroy(User $user)

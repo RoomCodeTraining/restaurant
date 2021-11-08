@@ -57,7 +57,16 @@ class PermissionsAndRolesSeeder extends Seeder
             'description' => 'Toutes les permissions relatives a la gestion des cartes d\'accès'
         ]);
 
-
+        $accessCards->children()->saveMany([
+            new Permission([
+                'name' => 'access_card.list',
+                'description' => 'Voir la liste des cartes d\'accès',
+            ]),
+            new Permission([
+                'name' => 'access_card.charge',
+                'description' => 'Recharger une carte d\'accès',
+            ]),
+        ]);
 
         $menus = Permission::create([
             'name' => 'menu.*',
@@ -91,7 +100,7 @@ class PermissionsAndRolesSeeder extends Seeder
         $orders->children()->saveMany([
             new Permission([
                 'name' => 'order.list',
-                'description' => 'Voir la liste des commlandes',
+                'description' => 'Voir la liste des commandes',
             ]),
             new Permission([
                 'name' => 'order.update',

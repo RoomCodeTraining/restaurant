@@ -80,7 +80,7 @@
                             <span class="label-text">Choississez un rôle</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="role">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option disabled="disabled" selected="selected">Choississez un rôle</option>
                             @foreach ($roles as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -99,7 +99,7 @@
                             <span class="label-text">Choississez une catégorie</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.employee_status_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option disabled="disabled" selected="selected">Choississez une catégorie</option>
                             @foreach ($employeeStatuses as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -118,7 +118,7 @@
                             <span class="label-text">Choississez un département</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.department_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option disabled="disabled" selected="selected">Choississez un département</option>
                             @foreach ($departments as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -137,7 +137,7 @@
                             <span class="label-text">Choississez une société</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.organization_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option disabled="disabled" selected="selected">Choississez une société</option>
                             @foreach ($organizations as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach

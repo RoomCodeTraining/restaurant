@@ -16,6 +16,7 @@
         [x-cloak] {
             display: none !important;
         }
+
     </style>
 
     <!-- Scripts -->
@@ -244,6 +245,8 @@
         <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16">
             <!-- Page Section -->
             <div class="container xl:max-w-7xl mx-auto p-4 lg:p-8">
+                <x-banner />
+
                 {{ $slot }}
             </div>
             <!-- END Page Section -->
@@ -254,6 +257,7 @@
     <!-- END Page Container -->
 
     <livewire:scripts />
+    @stack('scripts')
 </body>
 
 </html>

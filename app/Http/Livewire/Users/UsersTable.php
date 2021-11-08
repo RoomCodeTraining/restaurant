@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\Users;
 
 use App\Models\User;
-use App\Actions\DeleteUserAction;
+use App\Actions\User\DeleteUserAction;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -66,7 +66,8 @@ class UsersTable extends DataTableComponent
         $this->userIdBeingDeleted = null;
 
         session()->flash('success', "L'utilisateur a été supprimé avec succès !");
-        return redirect()->route('admin.index');
+
+        return redirect()->route('users.index');
     }
 
     public function modalsView(): string

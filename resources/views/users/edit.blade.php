@@ -1,6 +1,6 @@
 <x-app-layout>
     <section>
-        <x-section-header title="Créer un utilisateur">
+        <x-section-header title="Editer un utilisateur">
             <x-slot name="actions">
                 <a href="{{ route('users.index') }}" class="btn btn-secondary hidden md:flex">
                     Retour
@@ -8,7 +8,7 @@
             </x-slot>
         </x-section-header>
 
-        <livewire:users.create-user-form>
+        <livewire:users.edit-user-form :user="$user">
     </section>
 
 </x-app-layout>

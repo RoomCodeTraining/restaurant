@@ -54,7 +54,7 @@ class CreateUserForm extends Component
 
         $user->updateProfilePhoto($this->profile_photo);
 
-        session()->flash('banner', "L'utilisateur a été créé avec succès!");
+        session()->flash('success', "L'utilisateur a été créé avec succès!");
 
         return redirect()->route('users.index');
     }

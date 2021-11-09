@@ -59,13 +59,11 @@ class EditUserForm extends Component
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);
 
-        if ($this->profile_photo) {
-            $this->state['profile_photo_path'] = $this->profile_photo->store('profile-photos');
-        }
-
         $user = $updateUserAction->execute($this->user, array_merge($this->state, ['roles' => [$this->role]]));
 
-        $user->updateProfilePhoto($this->profile_photo);
+        if ($this->profile_photo) {
+            $user->updateProfilePhoto($this->profile_photo);
+        }
 
         session()->flash('success', "L'utilisateur a modifié avec succès!");
 

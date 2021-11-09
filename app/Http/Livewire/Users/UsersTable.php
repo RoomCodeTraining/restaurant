@@ -119,7 +119,6 @@ class UsersTable extends DataTableComponent
         return User::query()
         ->when($this->getFilter('type'), function ($query, $type) {
             return $query->whereHas('roles', function ($query) use ($type) {
-                // dd($type);
                 return $query->where('name', $type);
             });
         })

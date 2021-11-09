@@ -7,5 +7,5 @@
         </x-slot>
     </x-section-header>
 
-    <livewire:users.users-table />
+    <livewire:dishes.dishes-table />
 </x-app-layout>

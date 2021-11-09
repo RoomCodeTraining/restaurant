@@ -21,7 +21,6 @@ class CreateUserForm extends Component
 
     public $state = [
         'identifier' => null,
-        'username' => null,
         'first_name' => null,
         'last_name' => null,
         'email' => null,
@@ -58,6 +57,17 @@ class CreateUserForm extends Component
         session()->flash('banner', "L'utilisateur a été créé avec succès!");
 
         return redirect()->route('users.index');
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'Cette valeur est requise',
+            'string' => 'Cette valeur doit etre une chaine de caractere',
+            'email' => 'Cette valeur doit etre une adresse email',
+            'max' => 'Cette valeur est trop grande',
+            'min' => 'Cette valeur est trop petite',
+        ];
     }
 
     public function render()

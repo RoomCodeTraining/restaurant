@@ -62,6 +62,11 @@ class User extends Authenticatable
         return "{$this->first_name} {$this->last_name}";
     }
 
+    public function setIdentifierAttribute($value)
+    {
+        return $this->attributes['identifier']  = strtoupper($value);
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

@@ -62,7 +62,7 @@
                     @enderror
                 </div>
 
-                <div class="col-span-8 md:col-span-4 form-control">
+                <div class="col-span-8 md:col-span-12 form-control">
                     <label class="label">
                         <span class="label-text">Contact</span>
                     </label>

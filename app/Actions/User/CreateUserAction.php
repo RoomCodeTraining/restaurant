@@ -29,6 +29,7 @@ class CreateUserAction
             'email_verified_at' => now(),
         ]);
 
+
         $user->syncRoles($data['roles'] ?? [Role::USER]);
         $user->syncPermissions($data['permissions'] ?? []);
 

@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\EmployeeStatus;
 use Illuminate\Database\Seeder;
+use Database\Seeders\MenuSeeder;
 use Database\Seeders\DishTypesAndDishesSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             OrganizationSeeder::class,
             DishTypesAndDishesSeeder::class,
             UserSeeder::class,
+            MenuSeeder::class
         ]);
         
 

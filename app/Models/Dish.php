@@ -15,8 +15,12 @@ class Dish extends Model
         'name', 'description', 'dish_type_id', 'image'
     ];
 
-    public function dish_type()
+    public function dishType()
     {
         return $this->belongsTo(DishType::class);
+    }
+
+    public function getCreatedAtAttribute(){
+        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 }

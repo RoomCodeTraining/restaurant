@@ -29,6 +29,7 @@ class CreateUsersTable extends Migration
             $table->integer('department_id')->index()->nullable();
             $table->foreignId('employee_status_id')->constrained();
             $table->integer('organization_id')->index()->nullable();
+            $table->timestamp('password_changed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

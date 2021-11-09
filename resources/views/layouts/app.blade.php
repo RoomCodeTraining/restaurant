@@ -17,15 +17,15 @@
 
     </style>
     <livewire:styles>
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        @stack('styles')
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    @stack('styles')
 
-        <!-- Scripts -->
-        <livewire:scripts>
-            <script src="{{ mix('js/app.js') }}" defer></script>
-            @stack('scripts')
+    <!-- Scripts -->
+    <livewire:scripts>
+    <script src="{{ mix('js/app.js') }}" defer></script>
+    @stack('scripts')
 
-            <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
+    <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
 </head>
 
 <body class="font-sans antialiased">
@@ -51,9 +51,6 @@
                     class="inline-flex items-center font-bold text-lg tracking-wide text-gray-600 hover:text-gray-500">
                     <x-application-logo class="h-12" />
                 </a>
-                <!-- END Brand -->
-
-                <!-- Close Sidebar on Mobile -->
                 <div class="lg:hidden">
                     <button type="button"
                         class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-transparent text-red-600 hover:text-red-400 focus:ring focus:ring-red-500 focus:ring-opacity-50 active:text-red-600"
@@ -66,11 +63,7 @@
                         </svg>
                     </button>
                 </div>
-                <!-- END Close Sidebar on Mobile -->
             </div>
-            <!-- END Sidebar Header -->
-
-            <!-- Sidebar Navigation -->
             <div class="overflow-y-auto">
                 <div class="p-4 w-full">
                     <nav class="space-y-1">
@@ -249,19 +242,16 @@
             </div>
         </header>
         <!-- END Page Header -->
-
         <!-- Page Content -->
         <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16">
             <!-- Page Section -->
             <div class="max-w-10xl mx-auto p-4 lg:p-8 w-full">
-                <x-banner />
-
+                @include('partials.flasher')
                 {{ $slot }}
             </div>
             <!-- END Page Section -->
         </main>
         <!-- END Page Content -->
-
     </div>
     <!-- END Page Container -->
 </body>

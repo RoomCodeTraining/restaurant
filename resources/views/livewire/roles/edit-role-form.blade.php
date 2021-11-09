@@ -90,6 +90,8 @@
         crossorigin="anonymous"></script>
     <script src="{{ asset('js/indeterminate-checkbox.js') }}"></script>
     <script>
-        IndeterminateCheckbox.init()
+        window.addEventListener('load', () => {
+            IndeterminateCheckbox.init()
+        });
     </script>
 @endpush

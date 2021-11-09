@@ -53,9 +53,10 @@ class UsersTable extends DataTableComponent
 
     public function filters(): array
     {
+        // dd(Role::pluck('name', 'name')->toArray());
         return [
             'type' => Filter::make('Profil')
-                ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'id')->toArray())),
+                ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'name')->toArray())),
             'active' => Filter::make('Etat du compte')
                 ->select(array_merge(['' => 'Tous les états'], [
                     'yes' => 'Actif',
@@ -116,7 +117,12 @@ class UsersTable extends DataTableComponent
     public function query(): Builder
     {
         return User::query()
-        ->when($this->getFilter('type'), fn ($query, $type) => $query->where('type', $type))
+        ->when($this->getFilter('type'), function ($query, $type) {
+            return $query->whereHas('roles', function ($query) use ($type) {
+                // dd($type);
+                return $query->where('name', $type);
+            });
+        })
         ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
     }
 }

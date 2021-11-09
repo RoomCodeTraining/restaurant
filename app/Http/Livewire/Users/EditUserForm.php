@@ -52,7 +52,7 @@ class EditUserForm extends Component
             'state.last_name' => ['required', 'string', 'max:50'],
             'state.email' => ['required', 'email', Rule::unique('users', 'email')->ignoreModel($this->user)],
             'state.contact' => ['required', 'string', 'min:10', 'max:20'],
-            'state.department_id' => ['required', Rule::exists('departments', 'id')],
+            'state.department_id' => ['nullable', Rule::exists('departments', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
             'state.is_external' => ['required'],
             'profile_photo' => ['nullable', 'image', 'max:1024'],

@@ -5,8 +5,9 @@ namespace App\Http\Livewire\Menus;
 use App\Models\Dish;
 use App\Models\Menu;
 use Livewire\Component;
-use App\Actions\Menu\UpdateMenuAction;
+use App\Models\DishType;
 use Illuminate\Validation\Rule;
+use App\Actions\Menu\UpdateMenuAction;
 
 class EditMenuForm extends Component
 {
@@ -43,7 +44,9 @@ class EditMenuForm extends Component
     public function render()
     {
         return view('livewire.menus.edit-menu-form', [
-            'dishes' => Dish::pluck('name', 'id')
+            'starter_dishes' => Dish::where('dish_type_id', DishType::STARTER)->pluck('name', 'id'),
+            'main_dishes' => Dish::where('dish_type_id', DishType::MAIN)->pluck('name', 'id'),
+            'dessert_dishes' => Dish::where('dish_type_id', DishType::DESSERT)->pluck('name', 'id'),
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Faker\Provider\Lorem;
+use App\Models\DishType;
 use Illuminate\Database\Seeder;
 
 class DishTypesAndDishesSeeder extends Seeder
@@ -15,11 +15,10 @@ class DishTypesAndDishesSeeder extends Seeder
     public function run()
     {
         $dishTypes = [
-            ['name' => 'Dessert'],
-            ['name' => 'Entrée'],
-            ['name' => 'Plat pricipal']
+            ['id' => DishType::DESSERT, 'name' => 'Dessert'],
+            ['id' => DishType::STARTER, 'name' => 'Entrée'],
+            ['id' => DishType::MAIN, 'name' => 'Plat principal']
         ];
-
 
         foreach ($dishTypes as $dishType) {
             \App\Models\DishType::create($dishType);

@@ -144,7 +144,7 @@
                         <form onsubmit="return false;">
                             <input type="text"
                                 class="w-full block border border-gray-200 rounded px-3 py-2 leading-5 text-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                                id="tk-form-layouts-search" placeholder="Rehercher.." />
+                                id="tk-form-layouts-search" placeholder="Rechercher.." />
                         </form>
                     </div>
                     <div class="sm:hidden">

@@ -70,7 +70,7 @@ module.exports = {
 		themes: [
 			{
 				default: {
-					primary: '#f28a1a',
+					primary: '#35567f',
 					'primary-focus': '#f07d00',
 					'primary-content': '#ffffff',
 					secondary: '#62b250',

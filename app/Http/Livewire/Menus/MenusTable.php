@@ -10,7 +10,6 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class MenusTable extends DataTableComponent
 {
-
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
     public string $defaultSortColumn = 'created_at';
@@ -30,7 +29,7 @@ class MenusTable extends DataTableComponent
             Column::make('Entré', 'starterDish.name')->sortable()->searchable(),
             Column::make('Plat 1', 'mainDish.name')->sortable()->searchable(),
             Column::make('Plat 2', 'secondDish.name')->sortable()->searchable(),
-            Column::make('')->format(function ($value, $column, Menu $row) {
+            Column::make('Actions')->format(function ($value, $column, Menu $row) {
                 return view('livewire.menus.table-actions', ['menu' => $row]);
             }),
 

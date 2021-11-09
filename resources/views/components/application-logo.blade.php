@@ -1,3 +1,3 @@
 <div {{ $attributes }}>
-    <img class="h-full w-full" src="{{ asset('images/logo-ciprel-vf.png') }}">
+    <img class="h-auto w-2/3 mx-auto mt-3" src="{{ asset('images/logo-dash.png') }}">
 </div>

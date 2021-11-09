@@ -37,7 +37,7 @@
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
             x-bind:class="{
-            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-white border-r border-gray-200 z-50 transform transition-transform duration-500 ease-out': true,
+            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-50 border-r border-gray-100 z-50 transform transition-transform duration-500 ease-out': true,
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
             'lg:-translate-x-full': !desktopSidebarOpen,
@@ -243,7 +243,7 @@
         </header>
         <!-- END Page Header -->
         <!-- Page Content -->
-        <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16">
+        <main id="page-content" class="flex flex-auto flex-col bg-primary-100 bg-opacity-10 max-w-full pt-16">
             <!-- Page Section -->
             <div class="max-w-10xl mx-auto p-4 lg:p-8 w-full">
                 @include('partials.flasher')

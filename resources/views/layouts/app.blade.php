@@ -74,7 +74,6 @@
                         </x-nav-link>
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||
     auth()->user()->can('viewAny', \App\Models\User::class))
-
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>

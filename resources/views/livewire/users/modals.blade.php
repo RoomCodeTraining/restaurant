@@ -1,20 +1,20 @@
 <!-- Delete User Confirmation Modal -->
-<x-dialog-modal wire:model="confirmingUserDeletion">
+<x-dialog-modal wire:model="confirmingUserLocking">
     <x-slot name="title">
-        Supprimer l'utilisateur
+        Désactiver l'utilisateur
     </x-slot>
 
     <x-slot name="content">
-        Etes vous sûr de vouloir supprimer cet utilisateur ?
+        Etes vous sûr de vouloir désactiver cet utilisateur ?
     </x-slot>
 
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
-            <button wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
+            <button wire:click="$toggle('confirmingUserLocking')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
 
-            <button class="btn btn-error" wire:click="deleteUser" wire:target="deleteUser"
+            <button class="btn btn-error" wire:click="lockUser" wire:target="lockUser"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>
@@ -23,21 +23,21 @@
 </x-dialog-modal>
 
 <!-- Active User Confirmation Modal -->
-<x-dialog-modal wire:model="confirmingUserRestoration">
+<x-dialog-modal wire:model="confirmingUserUnlocking">
     <x-slot name="title">
-        Restaurer l'utilisateur
+        Réactiver l'utilisateur
     </x-slot>
 
     <x-slot name="content">
-        Etes vous sûr de vouloir restaurer cet utilisateur ?
+        Etes vous sûr de vouloir réactiver cet utilisateur ?
     </x-slot>
 
     <x-slot name="footer">
-        <div class="inline-flex items-center">
-            <button wire:click="$toggle('confirmingUserRestoration')" wire:loading.attr="disabled">
+        <div class="inline-flex items-center space-x-2">
+            <button wire:click="$toggle('confirmingUserUnlocking')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
-            <button class="btn btn-warning" wire:click="restoreUser" wire:target="restoreUser"
+            <button class="btn btn-warning" wire:click="unlockUser" wire:target="unlockUser"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

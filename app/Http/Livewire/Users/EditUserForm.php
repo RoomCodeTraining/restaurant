@@ -8,14 +8,18 @@ use Livewire\Component;
 use Illuminate\Validation\Rule;
 use App\Actions\User\UpdateUserAction;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\WithFileUploads;
 
 class EditUserForm extends Component
 {
     use AuthorizesRequests;
+    use WithFileUploads;
 
     public $user;
 
     public $role;
+
+    public $profile_photo = null;
 
     public $state = [
         'identifier' => null,
@@ -27,13 +31,14 @@ class EditUserForm extends Component
         'employee_status_id' => null,
         'organization_id' => null,
         'department_id' => null,
-        'is_external' => false,
+        'is_external' => null,
     ];
 
     public function mount(User $user)
     {
         $this->user = $user;
         $this->state = $user->toArray();
+        $this->state['is_external'] = $user->is_external ? 'yes' : 'no';
         $this->role = $this->user->roles->first()->id ?? \App\Models\Role::USER;
     }
 
@@ -42,21 +47,27 @@ class EditUserForm extends Component
         $this->authorize('create', User::class);
 
         $this->validate([
-            'state.first_name' => ['required', 'string', 'max:255'],
-            'state.last_name' => ['required', 'string', 'max:255'],
+            'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
+            'state.first_name' => ['required', 'string', 'max:50'],
+            'state.last_name' => ['required', 'string', 'max:50'],
             'state.email' => ['required', 'email', Rule::unique('users', 'email')->ignoreModel($this->user)],
-            'state.identifier' => ['required', 'max:255', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
-            'state.username' => ['required', 'max:255', Rule::unique('users', 'username')->ignoreModel($this->user)],
-            'state.contact' => ['nullable', 'string', 'max:255'],
+            'state.contact' => ['required', 'string', 'min:10', 'max:20'],
             'state.department_id' => ['required', Rule::exists('departments', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
-            'state.organization_id' => ['required', Rule::exists('organizations', 'id')],
+            'state.is_external' => ['required'],
+            'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);
 
-        $updateUserAction->execute($this->user, array_merge($this->state, ['roles' => [$this->role]]));
+        if ($this->profile_photo) {
+            $this->state['profile_photo_path'] = $this->profile_photo->store('profile-photos');
+        }
 
-        session()->flash('success', "L'utilisateur a été créé avec succès!");
+        $user = $updateUserAction->execute($this->user, array_merge($this->state, ['roles' => [$this->role]]));
+
+        $user->updateProfilePhoto($this->profile_photo);
+
+        session()->flash('success', "L'utilisateur a modifié avec succès!");
 
         return redirect()->route('users.index');
     }

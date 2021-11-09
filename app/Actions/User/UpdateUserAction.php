@@ -4,6 +4,7 @@ namespace App\Actions\User;
 
 use App\Models\User;
 use App\Events\UserUpdated;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class UpdateUserAction
@@ -14,14 +15,15 @@ class UpdateUserAction
 
         $user->update([
             'identifier' => $data['identifier'],
-            'username' => $data['username'],
+            'username' => Str::slug(explode('@', $data['email'])[0]),
             'email' => $data['email'],
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
             'contact' => $data['contact'],
-            'employee_status_id' => $data['employee_status_id'],
-            'organization_id' => $data['organization_id'],
-            'department_id' => $data['department_id'],
+            'employee_status_id' => (int) $data['employee_status_id'],
+            'organization_id' => (int) $data['organization_id'],
+            'department_id' => (int) $data['department_id'],
+            'is_external' => (bool) $data['is_external'],
         ]);
 
         $user->syncRoles($data['roles'] ?? []);

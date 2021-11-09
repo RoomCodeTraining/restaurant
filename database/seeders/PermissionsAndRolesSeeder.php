@@ -126,8 +126,8 @@ class PermissionsAndRolesSeeder extends Seeder
 
 
         Role::create([
-            'id' => Role::SUPER_ADMIN,
-            'name' => 'Super Administrateur',
+            'id' => Role::ADMIN,
+            'name' => 'Admin fonctionnel',
         ])->givePermissionTo([
             'user.*',
             'activity.*',
@@ -138,7 +138,7 @@ class PermissionsAndRolesSeeder extends Seeder
 
         Role::create([
             'id' => Role::USER,
-            'name' => 'Collaborateur',
+            'name' => 'Utilisateur',
         ])->givePermissionTo([
             'order.*',
             'menu.list'
@@ -146,7 +146,7 @@ class PermissionsAndRolesSeeder extends Seeder
 
         Role::create([
             'id' => Role::ADMIN_RH,
-            'name' => 'Admin Resource Humaine',
+            'name' => 'Administrateur Ressources Humaines',
         ])->givePermissionTo([
             'order.*',
             'menu.list',
@@ -155,7 +155,7 @@ class PermissionsAndRolesSeeder extends Seeder
 
         Role::create([
             'id' => Role::ADMIN_LUNCHROOM,
-            'name' => 'Admin Cantine',
+            'name' => 'Responsable Cantine',
         ])->givePermissionTo([
             'order.*',
             'menu.*',
@@ -163,8 +163,8 @@ class PermissionsAndRolesSeeder extends Seeder
         ]);
 
         Role::create([
-            'id' => Role::ADMIN_ACCOUNTANT,
-            'name' => 'Admin comptable',
+            'id' => Role::ACCOUNTANT,
+            'name' => 'Comptable',
         ])->givePermissionTo([
             'order.*',
             'menu.list',
@@ -172,7 +172,7 @@ class PermissionsAndRolesSeeder extends Seeder
 
         Role::create([
             'id' => Role::OPERATOR_LUNCHROOM,
-            'name' => 'Operateur Cantine',
+            'name' => 'Agent Cantine',
         ])->givePermissionTo([
             'menu.list',
             'order.*',

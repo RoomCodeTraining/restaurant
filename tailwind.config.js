@@ -7,6 +7,7 @@ module.exports = {
 		content: [
 			'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
 			'./vendor/rappasoft/laravel-livewire-tables/resources/views/tailwind/**/*.blade.php',
+			'./vendor/filament/forms/resources/views/**/*.blade.php',
 			'./app/**/*.php',
 			'./resources/**/*.html',
 			'./resources/**/*.js',
@@ -94,5 +95,5 @@ module.exports = {
 			}
 		]
 	},
-	plugins: [require('@tailwindcss/forms'), require('daisyui')]
+	plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('daisyui')]
 };

@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
 
         ]);
-        $super_admin->assignRole(Role::SUPER_ADMIN);
+        $super_admin->assignRole(Role::ADMIN);
         $admin_rh = User::create(
             [
                 'username' => 'admin-rh',
@@ -98,6 +98,6 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
 
         ]);
-        $admin_accountant->assignRole(Role::ADMIN_ACCOUNTANT);
+        $admin_accountant->assignRole(Role::ACCOUNTANT);
     }
 }

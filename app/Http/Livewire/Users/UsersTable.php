@@ -3,36 +3,48 @@
 namespace App\Http\Livewire\Users;
 
 use App\Models\User;
-use App\Actions\User\DeleteUserAction;
+use App\Events\UserLocked;
+use App\Events\UserUnlocked;
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filter;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class UsersTable extends DataTableComponent
 {
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
+    public array $filterNames = [
+        'type' => 'Profil',
+        'active' => 'Etat du compte',
+    ];
 
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
 
-    public $userIdBeingDeleted;
-    public $confirmingUserDeletion = false;
+    public $userIdBeingLocked;
+    public $confirmingUserLocking = false;
 
-    public $userIdBeingRestored;
-    public $confirmingUserRestoration = false;
+    public $userIdBeingUnlocked;
+    public $confirmingUserUnlocking = false;
 
     public function columns(): array
     {
         return [
-            Column::make('Code', 'identifier')->sortable()->searchable(),
-            Column::make('Username', 'username')->sortable()->searchable(),
+            Column::make('Matricule', 'identifier')->sortable()->searchable(),
             Column::make('Nom & Prénoms', 'full_name')->searchable(function ($builder, $term) {
                 return $builder
                     ->orWhere('first_name', 'like', '%' . $term . '%')
                     ->orWhere('last_name', 'like', '%' . $term . '%');
             }),
             Column::make('Email', 'email')->sortable()->searchable(),
-            Column::make('Categorie', 'employeeStatus.name')->sortable()->searchable(),
+            Column::make('Contact', 'contact')->sortable()->searchable(),
+            Column::make('Profil')->format(function ($val, $col, User $user) {
+                return optional($user->roles()->first())->name;
+            }),
+            Column::make('Etat du compte')->format(function ($val, $col, User $user) {
+                return view('livewire.users.status', ['user' => $user]);
+            }),
             Column::make('Actions')->format(function ($value, $column, User $row) {
                 return view('livewire.users.table-actions', ['user' => $row]);
             }),
@@ -42,30 +54,56 @@ class UsersTable extends DataTableComponent
     public function filters(): array
     {
         return [
-            //DepartmentFilter::$id => DepartmentFilter::make(),
+            'type' => Filter::make('Profil')
+                ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'id')->toArray())),
+            'active' => Filter::make('Etat du compte')
+                ->select(array_merge(['' => 'Tous les états'], [
+                    'yes' => 'Actif',
+                    'no' => 'Inactif',
+                ])),
         ];
     }
 
-    public function confirmUserDeletion($userId)
+    public function confirmUserLocking($userId)
     {
-        $this->userIdBeingDeleted = $userId;
-        $this->confirmingUserDeletion = true;
+        $this->userIdBeingLocked = $userId;
+        $this->confirmingUserLocking = true;
     }
 
-    public function confirmUserRestoration($userId)
+    public function lockUser()
     {
-        $this->userIdBeingRestored = $userId;
-        $this->confirmingUserRestoration = true;
+        $user = User::find($this->userIdBeingLocked);
+
+        $user->update(['is_active' => false]);
+
+        UserLocked::dispatch($user);
+
+        $this->confirmingUserLocking = false;
+        $this->userIdBeingLocked = null;
+
+        session()->flash('success', "L'utilisateur a été désactivé avec succès !");
+
+        return redirect()->route('users.index');
     }
 
-    public function deleteUser(DeleteUserAction $action)
+    public function confirmUserUnlocking($userId)
     {
-        $user = User::find($this->userIdBeingDeleted);
-        $action->execute($user);
-        $this->confirmingUserDeletion = false;
-        $this->userIdBeingDeleted = null;
+        $this->userIdBeingUnlocked = $userId;
+        $this->confirmingUserUnlocking = true;
+    }
 
-        session()->flash('success', "L'utilisateur a été supprimé avec succès !");
+    public function unlockUser()
+    {
+        $user = User::find($this->userIdBeingUnlocked);
+
+        $user->update(['is_active' => true]);
+
+        UserUnlocked::dispatch($user);
+
+        $this->confirmingUserUnlocking = false;
+        $this->userIdBeingUnlocked = null;
+
+        session()->flash('success', "L'utilisateur a été activé avec succès !");
 
         return redirect()->route('users.index');
     }
@@ -77,6 +115,8 @@ class UsersTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return User::query();
+        return User::query()
+        ->when($this->getFilter('type'), fn ($query, $type) => $query->where('type', $type))
+        ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
     }
 }

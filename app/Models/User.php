@@ -5,13 +5,15 @@ namespace App\Models;
 use App\Models\Department;
 use App\Models\Organization;
 use App\Models\EmployeeStatus;
+use App\Support\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Permission\Traits\HasPermissions;
-use Spatie\Permission\Traits\HasRoles;
+use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
 {
@@ -19,7 +21,9 @@ class User extends Authenticatable
         HasFactory,
         Notifiable,
         HasRoles,
-        HasPermissions;
+        HasPermissions,
+        ReceivesWelcomeNotification,
+        HasProfilePhoto;
 
     /**
      * The attributes that are mass assignable.
@@ -49,74 +53,32 @@ class User extends Authenticatable
         'is_external' => 'boolean',
     ];
 
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-
-    public function organization()
-    {
-        return $this->belongsTo(Organization::class);
-    }
-
-
-    public function employeeStatus()
-    {
-        return $this->belongsTo(EmployeeStatus::class);
-    }
-
-
-
-    public function isSuperAdmin()
-    {
-        return $this->hasRole('super-admin');
-    }
+    protected $appends = [
+        'profile_photo_url',
+    ];
 
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
     }
 
-    public function getAciveAttribute()
+    public function department()
     {
-        return $this->is_active ? 'Actif' : 'Non actif';
+        return $this->belongsTo(Department::class);
     }
 
-    public function getExternalAttribute()
+    public function organization()
     {
-        return $this->is_external ? 'Collobarateur Ciprel' : 'Collaborateur externe';
+        return $this->belongsTo(Organization::class);
     }
 
-    public function getDepartmentNameAttribute()
+    public function employeeStatus()
     {
-        return $this->department->name;
+        return $this->belongsTo(EmployeeStatus::class);
     }
 
-    public function getOrganizationNameAttribute()
+    public function accessCards()
     {
-        return $this->organization->name;
-    }
-
-    public function getEmployeeStatusNameAttribute()
-    {
-        return $this->employeeStatus->name;
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->where('is_active', true);
-    }
-
-
-    public function scopeExternal($query)
-    {
-        return $query->where('is_external', true);
-    }
-
-
-    public function getCreatedAtAttribute()
-    {
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
+        return $this->hasMany(AccessCard::class);
     }
 }

@@ -10,19 +10,22 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <livewire:styles />
     <style>
         [x-cloak] {
             display: none !important;
         }
 
     </style>
+    <livewire:styles>
+        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        @stack('styles')
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+        <!-- Scripts -->
+        <livewire:scripts>
+            <script src="{{ mix('js/app.js') }}" defer></script>
+            @stack('scripts')
 
-    <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
+            <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
 </head>
 
 <body class="font-sans antialiased">
@@ -73,24 +76,30 @@
                     <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"
                             :active="request()->routeIs('dashboard')">Tableau de bord</x-nav-link>
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                            Gestion des utilisateurs
-                        </div>
-                        <x-nav-link href="{{ route('users.index') }}" icon="users"
-                            :active="request()->routeIs('users.*')">Utilisateurs</x-nav-link>
-                        <x-nav-link href="{{ route('roles.index') }}" icon="grid"
-                            :active="request()->routeIs('roles.index')">
-                            Rôles et permissions
-                        </x-nav-link>
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                            Gestion des menus
-                        </div>
-                        <x-nav-link href="{{ route('dishes.index') }}" icon="grid"
-                            :active="request()->routeIs('dishes.index')">Plats</x-nav-link>
-                        <x-nav-link href="{{ route('menus.index') }}" icon="grid"
-                            :active="request()->routeIs('menus.index')">
-                            Menus
-                        </x-nav-link>
+                        @can('create', \App\Models\User::class)
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Gestion des utilisateurs
+                            </div>
+                            <x-nav-link href="{{ route('users.index') }}" icon="users"
+                                :active="request()->routeIs('users.*')">Utilisateurs</x-nav-link>
+                            <x-nav-link href="{{ route('roles.index') }}" icon="grid"
+                                :active="request()->routeIs('roles.index')">
+                                Rôles et permissions
+                            </x-nav-link>
+                        @endcan
+                        @can('create', \App\Models\Menu::class)
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Gestion des menus
+                            </div>
+                            <x-nav-link href="{{ route('dishes.index') }}" icon="grid"
+                                :active="request()->routeIs('dishes.index')">
+                                Plats
+                            </x-nav-link>
+                            <x-nav-link href="{{ route('menus.index') }}" icon="grid"
+                                :active="request()->routeIs('menus.index')">
+                                Menus
+                            </x-nav-link>
+                        @endcan
                     </nav>
                 </div>
             </div>
@@ -203,7 +212,7 @@
                             class="absolute right-0 origin-top-right mt-2 w-48 shadow-xl rounded z-1">
                             <div class="bg-white ring-1 ring-black ring-opacity-5 rounded divide-y divide-gray-100">
                                 <div class="p-2 space-y-1">
-                                    <a role="menuitem" href="javascript:void(0)"
+                                    <a role="menuitem" href="{{ route('profile') }}"
                                         class="flex items-center space-x-2 rounded py-2 px-3 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:bg-gray-100 focus:text-gray-700">
                                         <svg class="hi-solid hi-user-circle inline-block w-5 h-5 opacity-50"
                                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -244,7 +253,7 @@
         <!-- Page Content -->
         <main id="page-content" class="flex flex-auto flex-col max-w-full pt-16">
             <!-- Page Section -->
-            <div class="container xl:max-w-7xl mx-auto p-4 lg:p-8">
+            <div class="max-w-10xl mx-auto p-4 lg:p-8 w-full">
                 <x-banner />
 
                 {{ $slot }}
@@ -255,9 +264,6 @@
 
     </div>
     <!-- END Page Container -->
-
-    <livewire:scripts />
-    @stack('scripts')
 </body>
 
 </html>

@@ -4,14 +4,20 @@ namespace App\Http\Livewire\Users;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use App\Actions\User\CreateUserAction;
-use App\Models\Department;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CreateUserForm extends Component
 {
     use AuthorizesRequests;
+    use WithFileUploads;
+
+
+    public $role = null;
+
+    public $profile_photo = null;
 
     public $state = [
         'identifier' => null,
@@ -23,31 +29,33 @@ class CreateUserForm extends Component
         'employee_status_id' => null,
         'organization_id' => null,
         'department_id' => null,
-        'is_external' => false,
+        'is_external' => null,
     ];
-
-    public $role = null;
 
     public function saveUser(CreateUserAction $createUserAction)
     {
         $this->authorize('create', User::class);
 
         $this->validate([
-            'state.first_name' => ['required', 'string', 'max:255'],
-            'state.last_name' => ['required', 'string', 'max:255'],
+            'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')],
+            'state.first_name' => ['required', 'string', 'max:50'],
+            'state.last_name' => ['required', 'string', 'max:50'],
             'state.email' => ['required', 'email', Rule::unique('users', 'email')],
-            'state.identifier' => ['required', 'max:255', Rule::unique('users', 'identifier')],
-            'state.username' => ['required', 'max:255', Rule::unique('users', 'username')],
-            'state.contact' => ['nullable', 'string', 'max:255'],
+            'state.contact' => ['required', 'string', 'min:10', 'max:20'],
             'state.department_id' => ['required', Rule::exists('departments', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
-            'state.organization_id' => ['required', Rule::exists('organizations', 'id')],
+            'state.is_external' => ['required'],
+            'profile_photo' => ['required', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);
 
-        $createUserAction->execute(array_merge($this->state, ['roles' => [$this->role]]));
+        $this->state['is_external'] = $this->state['is_external'] === 'yes' ? true : false;
 
-        session()->flash('success', "L'utilisateur a été créé avec succès!");
+        $user = $createUserAction->execute(array_merge($this->state, ['roles' => [$this->role]]));
+
+        $user->updateProfilePhoto($this->profile_photo);
+
+        session()->flash('banner', "L'utilisateur a été créé avec succès!");
 
         return redirect()->route('users.index');
     }

@@ -1,30 +1,21 @@
-<div class="flex items-center">
-    @if ($user->deleted_at !== null)
-        <button wire:click="confirmUserRestoration({{ $user->id }})" wire:loading.attr="disabled">
-            <svg id="restore-{{ $user->id }}" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
-                <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 17l-2 2l2 2m-2-2h9a2 2 0 0 0 1.75-2.75l-.55-1"></path>
-                    <path d="M8.536 11l-.732-2.732L5.072 9m2.732-.732l-5.5 7.794a2 2 0 0 0 1.506 2.89l1.141.024"></path>
-                    <path d="M15.464 11l2.732.732L18.928 9m-.732 2.732l-5.5-7.794a2 2 0 0 0-3.256-.14l-.591.976"></path>
-                </g>
-            </svg>
-        </button>
-        <x-tooltip content="Restaurer" placement="top" append-to="#restore-{{ $user->id }}" />
-    @else
-        <a href="{{ route('users.show', $user) }}" class="mr-2">
-            <x-icon name="eye" />
+<div class="flex items-center space-x-2">
+    <a href="{{ route('users.show', $user) }}">
+        <x-icon name="eye" />
+    </a>
+    @hasrole(App\Models\Role::ADMIN)
+        <a href="{{ route('users.edit', $user) }}">
+            <x-icon name="pencil" />
         </a>
-        @can('user.update')
-            <a href="{{ route('users.edit', $user) }}" class="mr-2">
-                <x-icon name="pencil" />
-            </a>
-        @endcan
-        @if ($user->id !== auth()->user()->id && !$user->isSuperAdmin())
-            <button wire:click="confirmUserDeletion({{ $user->id }})" wire:loading.attr="disabled"
-                class="mr-2">
-                <x-icon name="trash" />
-            </button>
+        @if ($user->id !== auth()->user()->id)
+            @if ($user->is_active)
+                <button wire:click="confirmUserLocking({{ $user->id }})" wire:loading.attr="disabled">
+                    <x-icon name="lock-closed" />
+                </button>
+                @else
+                <button wire:click="confirmUserUnlocking({{ $user->id }})" wire:loading.attr="disabled">
+                    <x-icon name="lock-open" />
+                </button>
+            @endif
         @endif
-    @endif
+    @endhasrole
 </div>

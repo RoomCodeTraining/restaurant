@@ -34,47 +34,45 @@
                 </div>
             </fieldset>
 
-            @if ($role->id !== \App\Models\Role::SUPER_ADMIN)
-                <fieldset class="mt-4 mb-2 p-5 border border-gray-200">
-                    <legend class="text-base text-gray-900 font-semibold">
-                        Permissions à accordées à ce rôle
-                    </legend>
-                    @foreach ($permissions->chunk(2) as $chunkedPermissions)
-                        <div class="grid grid-cols-2 gap-x-5 mb-2">
-                            @foreach ($chunkedPermissions as $permission)
-                                <ul class="permission-tree m-0 p-0 list-unstyled col-span-1">
-                                    <li>
-                                        <input type="checkbox" class="checkbox checkbox-sm indeterminate-checkbox"
-                                            wire:model.defer="rolePermissions" id="{{ $permission->id }}"
-                                            value="{{ $permission->id }}"
-                                            {{ in_array($permission->id, $rolePermissions ?? [], true) ? 'checked' : '' }}>
-                                        <label for="{{ $permission->id }}">
-                                            {{ $permission->description ?? $permission->name }}
-                                        </label>
-                                        @if ($permission->children->count())
-                                            <ul class="list-unstyled ml-4">
-                                                @foreach ($permission->children as $chilPermission)
-                                                    <li>
-                                                        <input type="checkbox"
-                                                            class="checkbox checkbox-sm indeterminate-checkbox"
-                                                            wire:model.defer="rolePermissions"
-                                                            value="{{ $chilPermission->id }}"
-                                                            id="{{ $chilPermission->id }}"
-                                                            {{ in_array($chilPermission->id, $rolePermissions ?? [], true) ? 'checked' : '' }}>
-                                                        <label for="{{ $chilPermission->id }}">
-                                                            {{ $chilPermission->description ?? $chilPermission->name }}
-                                                        </label>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </li>
-                                </ul>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </fieldset>
-            @endif
+            <fieldset class="mt-4 mb-2 p-5 border border-gray-200">
+                <legend class="text-base text-gray-900 font-semibold">
+                    Permissions à accordées à ce rôle
+                </legend>
+                @foreach ($permissions->chunk(2) as $chunkedPermissions)
+                    <div class="grid grid-cols-2 gap-x-5 mb-2">
+                        @foreach ($chunkedPermissions as $permission)
+                            <ul class="permission-tree m-0 p-0 list-unstyled col-span-1">
+                                <li>
+                                    <input type="checkbox" class="checkbox checkbox-sm indeterminate-checkbox"
+                                        wire:model.defer="rolePermissions" id="{{ $permission->id }}"
+                                        value="{{ $permission->id }}"
+                                        {{ in_array($permission->id, $rolePermissions ?? [], true) ? 'checked' : '' }}>
+                                    <label for="{{ $permission->id }}">
+                                        {{ $permission->description ?? $permission->name }}
+                                    </label>
+                                    @if ($permission->children->count())
+                                        <ul class="list-unstyled ml-4">
+                                            @foreach ($permission->children as $chilPermission)
+                                                <li>
+                                                    <input type="checkbox"
+                                                        class="checkbox checkbox-sm indeterminate-checkbox"
+                                                        wire:model.defer="rolePermissions"
+                                                        value="{{ $chilPermission->id }}"
+                                                        id="{{ $chilPermission->id }}"
+                                                        {{ in_array($chilPermission->id, $rolePermissions ?? [], true) ? 'checked' : '' }}>
+                                                    <label for="{{ $chilPermission->id }}">
+                                                        {{ $chilPermission->description ?? $chilPermission->name }}
+                                                    </label>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            </ul>
+                        @endforeach
+                    </div>
+                @endforeach
+            </fieldset>
         </x-slot>
 
         <x-slot name="actions">

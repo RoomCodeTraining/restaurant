@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
 
+Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
+    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('welcome');
+    Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
 
     Route::resource('/users', App\Http\Controllers\UsersController::class);
     Route::resource('/roles', App\Http\Controllers\RolesController::class);

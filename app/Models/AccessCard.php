@@ -31,6 +31,4 @@ class AccessCard extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
-
-    
 }

@@ -69,30 +69,34 @@
                     <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"
                             :active="request()->routeIs('dashboard')">Tableau de bord</x-nav-link>
-                        @can('create', \App\Models\User::class)
-                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Gestion des utilisateurs
-                            </div>
-                            <x-nav-link href="{{ route('users.index') }}" icon="users"
-                                :active="request()->routeIs('users.*')">Utilisateurs</x-nav-link>
-                            <x-nav-link href="{{ route('roles.index') }}" icon="grid"
-                                :active="request()->routeIs('roles.index')">
-                                Rôles et permissions
-                            </x-nav-link>
-                        @endcan
-                        @can('create', \App\Models\Menu::class)
-                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Gestion des menus
-                            </div>
-                            <x-nav-link href="{{ route('dishes.index') }}" icon="grid"
-                                :active="request()->routeIs('dishes.index')">
-                                Plats
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('menus.index') }}" icon="grid"
-                                :active="request()->routeIs('menus.index')">
-                                Menus
-                            </x-nav-link>
-                        @endcan
+                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Gestion des utilisateurs
+                        </div>
+                        <x-nav-link href="{{ route('users.index') }}" icon="users"
+                            :active="request()->routeIs('users.*')">Utilisateurs</x-nav-link>
+                        <x-nav-link href="{{ route('roles.index') }}" icon="grid"
+                            :active="request()->routeIs('roles.index')">
+                            Rôles et permissions
+                        </x-nav-link>
+                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Gestion des menus
+                        </div>
+                        <x-nav-link href="{{ route('dishes.index') }}" icon="grid"
+                            :active="request()->routeIs('dishes.index')">Plats</x-nav-link>
+                        <x-nav-link href="{{ route('menus.index') }}" icon="grid"
+                            :active="request()->routeIs('menus.index')">
+                            Menus
+                        </x-nav-link>
+                           <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                           Autres
+                        </div>
+                        <x-nav-link href="{{ route('departments.index') }}" icon="grid"
+                            :active="request()->routeIs('departments.index')">Departements</x-nav-link>
+                        <x-nav-link href="{{ route('organizations.index') }}" icon="grid"
+                            :active="request()->routeIs('organizations.index')">
+                            Sociétés
+                        </x-nav-link>
+
                     </nav>
                 </div>
             </div>

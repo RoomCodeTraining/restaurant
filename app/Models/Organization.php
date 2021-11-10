@@ -14,7 +14,7 @@ class Organization extends Model
     protected $fillable = ['name'];
 
 
-    protected function users()
+    protected function employees()
     {
         return $this->hasMany(User::class);
     }

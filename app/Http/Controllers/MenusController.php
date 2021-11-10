@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dish;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
@@ -15,15 +14,24 @@ class MenusController extends Controller
 
     public function create()
     {
-        $dishes = Dish::pluck('name', 'id');
-        return view('menus.create', compact('dishes'));
+        return view('menus.create');
     }
 
-    public function show(Menu $menu){
+    public function show(Menu $menu)
+    {
         return view('menus.show', compact('menu'));
     }
 
-    public function edit(Menu $menu){
+    public function edit(Menu $menu)
+    {
         return view('menus.edit', compact('menu'));
     }
+
+    public function destroy(Menu $menu)
+    {
+        $menu->delete();
+
+        return redirect()->route('menus.index');
+    }
+
 }

@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/roles', App\Http\Controllers\RolesController::class);
     Route::resource('/dishes', App\Http\Controllers\DishesController::class);
     Route::resource('/menus', App\Http\Controllers\MenusController::class);
+    Route::resource('/rechargement', App\Http\Controllers\RechargementController::class);
+    Route::resource('/commande', App\Http\Controllers\CommandeController::class);
     Route::resource('/departments', App\Http\Controllers\DepartmentsController::class);
     Route::resource('/organizations', App\Http\Controllers\OrganizationsController::class);
 });

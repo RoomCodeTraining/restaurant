@@ -6,7 +6,6 @@
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
                         <span class="label-text">Matricule</span>
-                        <span x-text="disableIdentifier"></span>
                     </label>
                     <input x-bind:disabled="user_type == '{{ \App\Enums\UserTypes::NON_CIPREL_AGENT }}'" class="input input-bordered" type="text"
                         wire:model.defer="state.identifier">

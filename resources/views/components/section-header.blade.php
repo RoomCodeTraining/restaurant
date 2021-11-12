@@ -8,9 +8,9 @@
             @endif
         </div>
         @isset($actions)
-            <div class="actions md:flex self-start space-x-2">
+            <div class="actions md:flex self-start space-x-2 mt-3">
                 {{ $actions }}
             </div>
         @endisset
     </div>
-<hr class="mb-5">
+<hr class="mb-5 border border-grey-900">

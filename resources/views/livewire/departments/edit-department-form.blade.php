@@ -12,7 +12,7 @@
                     </label>
                 @enderror
             </div>
-          
+
         </x-slot>
 
         <x-slot name="actions">
@@ -20,7 +20,7 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn btn-primary" wire:target="saveDepartment" type="submit" wire:loading.attr="disabled"
+                <button class="btn-sm btn-primary" wire:target="saveDepartment" type="submit" wire:loading.attr="disabled"
                     wire:loading.class="loading">
                     Enregistrer
                 </button>

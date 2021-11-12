@@ -38,7 +38,7 @@
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
             x-bind:class="{
-            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-50 border-r border-gray-100 z-50 transform transition-transform duration-500 ease-out': true,
+            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-900 border-r border-gray-100 z-50 transform transition-transform duration-500 ease-out': true,
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
             'lg:-translate-x-full': !desktopSidebarOpen,
@@ -67,7 +67,7 @@
             </div>
             <div class="overflow-y-auto">
                 <div class="p-4 w-full">
-                    <nav class="space-y-3">
+                    <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"
                             :active="request()->routeIs('dashboard')">
                             Tableau de bord
@@ -151,7 +151,7 @@
         <!-- Page Header -->
         <header id="page-header"
             x-bind:class="{
-                'flex flex-none items-center h-16 bg-white shadow-sm fixed top-0 right-0 left-0 z-30': true,
+                'flex flex-none items-center h-16 bg-grey-600 shadow-sm fixed top-0 right-0 left-0 z-30': true,
                 'lg:pl-64': desktopSidebarOpen
             }">
             <div class="flex justify-between max-w-10xl mx-auto px-4 lg:px-8 w-full">
@@ -160,7 +160,7 @@
                     <!-- Toggle Sidebar on Desktop -->
                     <div class="hidden lg:block">
                         <button type="button"
-                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-6 rounded border-gray-300 bg-white text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
+                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-6 rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
                             x-on:click="desktopSidebarOpen = !desktopSidebarOpen">
                             <svg class="hi-solid hi-menu-alt-1 inline-block w-5 h-5" fill="currentColor"
                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -175,7 +175,7 @@
                     <!-- Toggle Sidebar on Mobile -->
                     <div class="lg:hidden">
                         <button type="button"
-                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-6 rounded border-gray-300 bg-white text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
+                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-6 rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
                             x-on:click="mobileSidebarOpen = true">
                             <svg class="hi-solid hi-menu-alt-1 inline-block w-5 h-5" fill="currentColor"
                                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -191,13 +191,13 @@
                     <div class="hidden sm:block">
                         <form onsubmit="return false;">
                             <input type="text"
-                                class="w-full block border border-gray-200 rounded px-3 py-2 leading-5 text-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
+                                class="w-full block rounded-full bg-grey-50 bg-opacity-50 border border-gray-200 px-3 py-2 leading-5 text-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
                                 id="tk-form-layouts-search" placeholder="Rechercher.." />
                         </form>
                     </div>
                     <div class="sm:hidden">
                         <button type="button"
-                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-white text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
+                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
                             <svg class="hi-solid hi-search inline-block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
@@ -214,13 +214,13 @@
                 <div class="flex items-center space-x-2">
                     <!-- Notifications -->
                     <button type="button"
-                        class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-white text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
+                        class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
                         <svg class="hi-outline hi-bell inline-block w-5 h-5" stroke="currentColor" fill="none"
                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
-                        <span class="text-primary-500">•</span>
+                   {{--      <span class="text-primary-500">•</span> --}}
                     </button>
                     <!-- END Notifications -->
 
@@ -228,7 +228,7 @@
                     <div class="relative inline-block">
                         <!-- Dropdown Toggle Button -->
                         <button type="button"
-                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-white text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
+                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none"
                             id="tk-dropdown-layouts-user" aria-haspopup="true" x-bind:aria-expanded="userDropdownOpen"
                             x-on:click="userDropdownOpen = true">
                             <span>{{ Auth::user()->full_name }}</span>
@@ -291,7 +291,7 @@
         </header>
         <!-- END Page Header -->
         <!-- Page Content -->
-        <main id="page-content" class="flex flex-auto flex-col bg-primary-100 bg-opacity-10 max-w-full pt-16">
+        <main id="page-content" class="flex flex-auto flex-col bg-grey-50 max-w-full pt-16">
             <!-- Page Section -->
             <div class="max-w-10xl mx-auto p-4 lg:p-8 w-full">
                 @include('partials.flasher')

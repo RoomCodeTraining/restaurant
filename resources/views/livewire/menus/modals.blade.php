@@ -14,7 +14,7 @@
                 {{ __('Annuler') }}
             </button>
 
-            <button class="btn btn-error" wire:click="deleteMenu" wire:target="deleteMenu"
+            <button class="btn-sm btn-error" wire:click="deleteMenu" wire:target="deleteMenu"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

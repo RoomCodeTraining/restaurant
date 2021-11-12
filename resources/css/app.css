@@ -3,7 +3,14 @@
 @import 'tailwindcss/utilities';
 
 @layer components {
-    .btn {
-      @apply  rounded-md text-xs;
-    }
-  }
+	.btn {
+		@apply rounded-md text-xs;
+	}
+
+	input[required]::after {
+		content: '*';
+		color: red;
+		font-size: 0.8em;
+		margin-left: 0.5em;
+	}
+}

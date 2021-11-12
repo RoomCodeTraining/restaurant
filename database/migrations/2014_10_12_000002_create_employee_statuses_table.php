@@ -16,7 +16,7 @@ class CreateEmployeeStatusesTable extends Migration
     {
         Schema::create('employee_statuses', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', EmployeeStatus::getAllStatuses());
+            $table->string('name');
             $table->timestamps();
         });
     }

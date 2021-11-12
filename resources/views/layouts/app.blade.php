@@ -16,16 +16,17 @@
         }
 
     </style>
-    <livewire:styles>
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-        @stack('styles')
+    <livewire:styles />
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+    @stack('styles')
 
-        <!-- Scripts -->
-        <livewire:scripts>
-            <script src="{{ mix('js/app.js') }}" defer></script>
-            @stack('scripts')
+    <!-- Scripts -->
+    <livewire:scripts />
+    <script src="{{ mix('js/app.js') }}" defer></script>
+    @stack('scripts')
 
-            <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
+    <title>{{ config('app.name', 'Ciprel Cantine') }}</title>
 </head>
 
 <body class="font-sans antialiased">
@@ -71,20 +72,26 @@
                             :active="request()->routeIs('dashboard')">
                             Tableau de bord
                         </x-nav-link>
-                        @can('create', \App\Models\User::class)
+                        @if (auth()->user()->can('manage', \App\Models\User::class) ||
+    auth()->user()->can('viewAny', \App\Models\User::class))
+
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>
-                            <x-nav-link href="{{ route('users.index') }}" icon="users"
-                                :active="request()->routeIs('users.*')">
-                                Utilisateurs
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('roles.index') }}" icon="cog"
-                                :active="request()->routeIs('roles.index')">
-                                Rôles et permissions
-                            </x-nav-link>
-                        @endcan
-                        @can('create', \App\Models\Menu::class)
+                            @can('viewAny', \App\Models\User::class)
+                                <x-nav-link href="{{ route('users.index') }}" icon="users"
+                                    :active="request()->routeIs('users.*')">
+                                    Utilisateurs
+                                </x-nav-link>
+                            @endcan
+                            @can('manage', \App\Models\User::class)
+                                <x-nav-link href="{{ route('roles.index') }}" icon="cog"
+                                    :active="request()->routeIs('roles.index')">
+                                    Rôles et permissions
+                                </x-nav-link>
+                            @endcan
+                        @endif
+                        @can('manage', \App\Models\Menu::class)
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des menus
                             </div>
@@ -97,26 +104,44 @@
                                 Menus
                             </x-nav-link>
                         @endcan
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                            Gestion des commandes
-                        </div>
-                        <x-nav-link href="{{ route('rechargement.index') }}" icon="card"
-                            :active="request()->routeIs('rechargement.index')">
-                            Rechargement et facturation
-                        </x-nav-link>
-                        <x-nav-link href="{{ route('commande.index') }}" icon="cde"
-                            :active="request()->routeIs('commande.index')">
-                            Commandes
-                        </x-nav-link>
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                            Autres
-                        </div>
-                        <x-nav-link href="{{ route('departments.index') }}" icon="grid"
-                            :active="request()->routeIs('departments.index')">Departements</x-nav-link>
-                        <x-nav-link href="{{ route('organizations.index') }}" icon="grid"
-                            :active="request()->routeIs('organizations.index')">
-                            Sociétés
-                        </x-nav-link>
+                        @if (auth()->user()->can('manage', App\Models\AccessCard::class) ||
+    auth()->user()->can('manage', App\Models\Order::class))
+                            @can('manage', \App\Models\Order::class)
+                                <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    Gestion des commandes
+                                </div>
+                                @can('manage', App\Models\AccessCard::class)
+                                    <x-nav-link href="{{ route('rechargement.index') }}" icon="card"
+                                        :active="request()->routeIs('rechargement.index')">
+                                        Rechargement et facturation
+                                    </x-nav-link>
+                                @endcan
+                                @can('manage', App\Models\Order::class)
+                                    <x-nav-link href="{{ route('commande.index') }}" icon="cde"
+                                        :active="request()->routeIs('commande.index')">
+                                        Commandes
+                                    </x-nav-link>
+                                @endcan
+                            @endcan
+                        @endif
+                        @if (auth()->user()->can('manage', App\Models\Department::class) ||
+    auth()->user()->can('manage', App\Models\Organization::class))
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Autres
+                            </div>
+                            @can('manage', App\Models\Department::class)
+                                <x-nav-link href="{{ route('departments.index') }}" icon="cube-transparent"
+                                    :active="request()->routeIs('departments.index')">
+                                    Départements
+                                </x-nav-link>
+                            @endcan
+                            @can('manage', App\Models\Organization::class)
+                                <x-nav-link href="{{ route('organizations.index') }}" icon="office-building"
+                                    :active="request()->routeIs('organizations.index')">
+                                    Sociétés
+                                </x-nav-link>
+                            @endcan
+                        @endif
                     </nav>
                 </div>
             </div>

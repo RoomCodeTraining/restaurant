@@ -1,12 +1,15 @@
 <div>
     <x-form-card submit="saveUser">
         <x-slot name="form">
-            <div class="grid grid-cols-8 gap-2 md:gap-4">
+            <div x-data="{ user_type: @entangle('state.user_type') }"
+                class="grid grid-cols-8 gap-2 md:gap-4">
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
                         <span class="label-text">Matricule</span>
+                        <span x-text="disableIdentifier"></span>
                     </label>
-                    <input class="input input-bordered" type="text" wire:model.defer="state.identifier">
+                    <input x-bind:disabled="user_type == '{{ \App\Enums\UserTypes::NON_CIPREL_AGENT }}'" class="input input-bordered" type="text"
+                        wire:model.defer="state.identifier">
                     @error('state.identifier')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -80,7 +83,6 @@
                             <span class="label-text">Profil</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="role">
-                            <option selected="selected">Veuillez choisir</option>
                             @foreach ($roles as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -96,15 +98,15 @@
                 <div class="col-span-8 md:col-span-4">
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">Type de Collaborateur</span>
+                            <span class="label-text">Société</span>
                         </label>
-                        <select class="select select-bordered w-full" wire:model.defer="state.is_external">
-                            <option selected="selected">Veuillez choisir</option>
-                            <option value="no">Collobarateur Ciprel</option>
-                            <option value="yes">Collobarateur externe</option>
+                        <select class="select select-bordered w-full" wire:model.defer="state.organization_id">
+                            @foreach ($organizations as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    @error('state.is_external')
+                    @error('state.organization_id')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>
@@ -148,6 +150,26 @@
                         </label>
                     @enderror
                 </div>
+
+                <div class="col-span-8 md:col-span-4">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Type de Collaborateur</span>
+                        </label>
+                        <select @cla class="select select-bordered w-full" wire:model="state.user_type">
+                            <option selected="selected">Veuillez choisir</option>
+                            @foreach ($userTypes as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('state.user_type')
+                        <label class="label">
+                            <span class="label-text-alt text-red-600">{{ $message }}</span>
+                        </label>
+                    @enderror
+                </div>
+
             </div>
         </x-slot>
 

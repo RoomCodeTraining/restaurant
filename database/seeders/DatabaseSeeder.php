@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
-use App\Models\User;
-use App\Models\EmployeeStatus;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MenuSeeder;
-use Database\Seeders\DishTypesAndDishesSeeder;
+use Database\Seeders\UserSeeder;
+use Database\Seeders\DishTypeSeeder;
+use Database\Seeders\DepartmentSeeder;
+use Database\Seeders\PermissionSeeder;
+use Database\Seeders\OrganizationSeeder;
+use Database\Seeders\EmployeeStatusSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,24 +20,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        foreach(EmployeeStatus::getAllStatuses() as $status) {
-            EmployeeStatus::create(['name' => $status]);
-        }
-
         $this->call([
-            PermissionsAndRolesSeeder::class,
-            DepartmentSeeder::class,
             OrganizationSeeder::class,
-            DishTypesAndDishesSeeder::class,
+            DepartmentSeeder::class,
+            EmployeeStatusSeeder::class,
+            PermissionSeeder::class,
             UserSeeder::class,
+            DishTypeSeeder::class,
             MenuSeeder::class
         ]);
-        
-
-        for($i=0; $i<20; $i++) {
-            $user = User::factory(1)->create();
-        }
-       
     }
 }

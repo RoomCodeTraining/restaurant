@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Dish;
+use App\Models\DishType;
 use App\Models\Menu;
 use Illuminate\Database\Seeder;
 
@@ -15,14 +16,14 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
-        for($i = 1; $i <= 30; $i++) {
-            Menu::create([
-                'starter_dish_id' =>  Dish::all()->random()->id,
-                'main_dish_id' =>  Dish::all()->random()->id,
-                'second_dish_id' =>  Dish::all()->random()->id,
-                'dessert_id' =>  Dish::all()->random()->id,
-                'served_at' => now()->addDays($i)
-            ]);
-        }
+        Menu::factory()
+            ->count(30)
+            ->sequence(fn ($sequence) => [
+                'starter_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
+                'main_dish_id' =>  Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
+                'second_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
+                'dessert_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
+            ])
+            ->create();
     }
 }

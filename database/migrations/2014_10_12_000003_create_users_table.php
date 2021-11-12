@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('username');
             $table->string('profile_photo_path')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_external')->default(false);
+            $table->tinyInteger('user_type');
             $table->string('email')->unique();
             $table->string('password')->nullable();
             $table->string('contact')->nullable();

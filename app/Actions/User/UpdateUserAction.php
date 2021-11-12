@@ -14,7 +14,7 @@ class UpdateUserAction
         DB::beginTransaction();
 
         $user->update([
-            'identifier' => $data['identifier'],
+            // 'identifier' => $data['identifier'],
             'username' => Str::slug(explode('@', $data['email'])[0]),
             'email' => $data['email'],
             'last_name' => $data['last_name'],
@@ -23,11 +23,10 @@ class UpdateUserAction
             'employee_status_id' => (int) $data['employee_status_id'],
             'organization_id' => (int) $data['organization_id'],
             'department_id' => (int) $data['department_id'],
-            'is_external' => (bool) $data['is_external'],
+            'user_type' => $data['user_type'],
         ]);
 
         $user->syncRoles($data['roles'] ?? []);
-        $user->syncPermissions($data['permissions'] ?? []);
 
         DB::commit();
 

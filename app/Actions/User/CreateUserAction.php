@@ -18,20 +18,18 @@ class CreateUserAction
             'identifier' => $data['identifier'],
             'username' => Str::slug(explode('@', $data['email'])[0]),
             'email' => $data['email'],
-            // 'password' => bcrypt(Str::random(8)),
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
             'contact' => $data['contact'],
             'employee_status_id' => (int) $data['employee_status_id'],
             'organization_id' => (int) $data['organization_id'],
             'department_id' => (int) $data['department_id'],
-            'is_external' => (bool) $data['is_external'],
+            'user_type' => $data['user_type'],
             'email_verified_at' => now(),
         ]);
 
 
         $user->syncRoles($data['roles'] ?? [Role::USER]);
-        $user->syncPermissions($data['permissions'] ?? []);
 
         DB::commit();
 

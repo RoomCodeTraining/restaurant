@@ -14,12 +14,8 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        Organization::create([
-            'name' => 'Ciprel',
-        ]);
-
-        Organization::create([
-            'name' => 'GS2E',
-        ]);
+        Organization::create(['name' => 'Ciprel']);
+        Organization::create(['name' => 'GS2E']);
+        Organization::create(['name' => 'ATINKOU']);
     }
 }

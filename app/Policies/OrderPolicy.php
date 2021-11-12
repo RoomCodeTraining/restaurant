@@ -10,18 +10,28 @@ class OrderPolicy
 {
     use HandlesAuthorization;
 
-     /**
-     * Determine whether the user can view any on the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
+    public const ORDER_MANAGE = 'order.*';
+    public const ORDER_LIST = 'order.list';
+    public const ORDER_CREATE = 'order.create';
+    public const ORDER_UPDATE = 'order.update';
 
-
-    public function viewAny(User $loggedInUser)
+    public function manage(User $user)
     {
-        if ($loggedInUser->can('order.list')) {
+        if ($user->can(self::ORDER_MANAGE)) {
+            return true;
+        }
+    }
+
+    /**
+    * Determine whether the user can view any on the model.
+    *
+    * @param  \App\Models\User  $user
+    * @param  \App\Models\Menu  $menu
+    * @return \Illuminate\Auth\Access\Response|bool
+    */
+    public function viewAny(User $user)
+    {
+        if ($user->can(self::ORDER_LIST)) {
             return true;
         }
     }
@@ -33,10 +43,9 @@ class OrderPolicy
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Auth\Access\Response|bool
      */
-
-    public function view(User $loggedInUser, Order $order)
+    public function view(User $user, Order $order)
     {
-        if ($loggedInUser->id == $order->user_id && $loggedInUser->can('order.list')) {
+        if ($user->id == $order->user_id && $user->can(self::ORDER_LIST)) {
             return true;
         }
     }
@@ -48,14 +57,12 @@ class OrderPolicy
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Auth\Access\Response|bool
      */
-
-    public function create(User $loggedInUser)
+    public function create(User $user)
     {
-        if ($loggedInUser->can('order.create')) {
+        if ($user->can(self::ORDER_CREATE)) {
             return true;
         }
     }
-
 
     /**
      * Determine whether the user can update the model.
@@ -64,54 +71,10 @@ class OrderPolicy
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Auth\Access\Response|bool
      */
-
-    public function update(User $loggedInUser, User $user)
+    public function update(User $user, Order $order)
     {
-        if ($order->user_id == $loggedInUser->id && $loggedInUser->can('order.update')) {
+        if ($order->user_id == $user->id && $user->can(self::ORDER_UPDATE)) {
             return true;
         }
     }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-
-    public function delete(User $loggedInUser, Order $order)
-    {
-        if ($order->user_id == $loggedInUser->id && $loggedInUser->can('order.delete')) {
-            return true;
-        }
-    }
-
-     /**
-     * Determine whether the user can confirm the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-
-    public function confirm(User $loggedInUser){
-        if($loggedInUser->can('order.confirm')){
-            return true;
-         }
-    }
-
-    /**
-     * Determine whether the user can validated order.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function validate(User $loggedInUser){
-        if($loggedInUser->can('order.validate')){
-            return true;
-        }
-    }
-
 }

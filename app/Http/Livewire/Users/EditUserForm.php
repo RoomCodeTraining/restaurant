@@ -21,9 +21,10 @@ class EditUserForm extends Component
 
     public $profile_photo = null;
 
+    public $confirmingUpdate = false;
+
     public $state = [
         'identifier' => null,
-        'username' => null,
         'first_name' => null,
         'last_name' => null,
         'email' => null,
@@ -31,15 +32,19 @@ class EditUserForm extends Component
         'employee_status_id' => null,
         'organization_id' => null,
         'department_id' => null,
-        'is_external' => null,
+        'user_type' => null,
     ];
 
     public function mount(User $user)
     {
         $this->user = $user;
         $this->state = $user->toArray();
-        $this->state['is_external'] = $user->is_external ? 'yes' : 'no';
         $this->role = $this->user->roles->first()->id ?? \App\Models\Role::USER;
+    }
+
+    public function confirmUpdate()
+    {
+        $this->confirmingUpdate = true;
     }
 
     public function saveUser(UpdateUserAction $updateUserAction)
@@ -47,14 +52,14 @@ class EditUserForm extends Component
         $this->authorize('create', User::class);
 
         $this->validate([
-            'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
+            // 'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
             'state.first_name' => ['required', 'string', 'max:50'],
             'state.last_name' => ['required', 'string', 'max:50'],
             'state.email' => ['required', 'email', Rule::unique('users', 'email')->ignoreModel($this->user)],
             'state.contact' => ['required', 'string', 'min:10', 'max:20'],
             'state.department_id' => ['nullable', Rule::exists('departments', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
-            'state.is_external' => ['required'],
+            'state.user_type' => ['required'],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);

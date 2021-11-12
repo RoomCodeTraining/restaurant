@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -14,20 +15,22 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $email = $this->faker->unique()->safeEmail;
+        $username = Str::slug(explode('@', $email)[0]);
+
         return [
-            'username' => $this->faker->unique()->userName,
-            'identifier' => Str::random(10),
-            'first_name' => $this->faker->name(),
-            'last_name' => $this->faker->name(),
-            'last_name' => $this->faker->name(),
-            'is_external' => rand(0, 1),
-            'is_active' => rand(0, 1),
+            'username' => $username,
+            'identifier' => Str::upper(Str::random(5)),
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'user_type' => $this->faker->randomElement(array_keys(UserTypes::getUserTypes())),
+            'is_active' => $this->faker->randomElement([0, 1]),
             'contact' => $this->faker->phoneNumber,
-            'email' => $this->faker->unique()->safeEmail(),
+            'email' => $email,
             'email_verified_at' => now(),
-            'department_id' => rand(1,2),
-            'organization_id' => rand(1,2),
-            'employee_status_id' => rand(1 ,2),
+            'department_id' => null,
+            'organization_id' => null,
+            'employee_status_id' => null,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ];

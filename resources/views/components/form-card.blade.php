@@ -1,7 +1,7 @@
 @props(['submit'])
 
 <div {{ $attributes->merge(['class' => 'w-full']) }}>
-    <form wire:submit.prevent="{{ $submit }}">
+    <form wire:submit.prevent="{{ $submit ?? '' }}">
         <div class="shadow overflow-hidden sm:rounded-md">
             <div class="px-4 py-5 bg-white sm:p-6">
                 <div class="">

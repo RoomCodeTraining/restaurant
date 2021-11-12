@@ -1,12 +1,12 @@
 <div>
-    <x-form-card submit="saveUser">
+    <x-form-card>
         <x-slot name="form">
-                        <div class="grid grid-cols-8 gap-2 md:gap-4">
+            <div class="grid grid-cols-8 gap-2 md:gap-4">
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
                         <span class="label-text">Matricule</span>
                     </label>
-                    <input class="input input-bordered" type="text" wire:model.defer="state.identifier">
+                    <input disabled="disabled" class="input input-bordered" type="text" wire:model.defer="state.identifier">
                     @error('state.identifier')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -156,10 +156,35 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled" wire:loading.class="loading">
+                <button class="btn btn-primary" wire:target="saveUser" wire:click="confirmUpdate()" wire:loading.attr="disabled"
+                    wire:loading.class="loading">
                     Enregistrer
                 </button>
             </div>
         </x-slot>
     </x-form-card>
+
+    <!-- Delete User Confirmation Modal -->
+    <x-dialog-modal wire:model="confirmingUpdate">
+        <x-slot name="title">
+            Désactiver l'utilisateur
+        </x-slot>
+
+        <x-slot name="content">
+            Etes vous sûr de vouloir appliquer ces modifications ?
+        </x-slot>
+
+        <x-slot name="footer">
+            <div class="inline-flex items-center space-x-2">
+                <button wire:click="$toggle('confirmingUpdate')" wire:loading.attr="disabled">
+                    {{ __('Annuler') }}
+                </button>
+
+                <button class="btn btn-error" wire:click="saveUser" wire:target="saveUser" wire:loading.attr="disabled"
+                    wire:loading.class="loading">
+                    {{ __('Confirmer') }}
+                </button>
+            </div>
+        </x-slot>
+    </x-dialog-modal>
 </div>

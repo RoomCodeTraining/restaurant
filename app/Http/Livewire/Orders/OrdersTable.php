@@ -16,16 +16,9 @@ class OrdersTable extends DataTableComponent
 
     public function columns(): array
     {
-        /**
-         *             $table->boolean('is_confirmed')->default(true);
-            $table->boolean('is_completed')->default(false);
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('dish_id')->constrained();
-            $table->foreignId('menu_id')->constrained();
-         */
         return [
             Column::make('Matricule', 'user.identifier')->sortable()->searchable(),
-            Column::make('Nom & Prénoms', 'full_name')->searchable(function ($builder, $term) {
+            Column::make('Nom & Prénoms', 'user.full_name')->searchable(function ($builder, $term) {
                 return $builder
                     ->orWhere('user.first_name', 'like', '%' . $term . '%')
                     ->orWhere('user.last_name', 'like', '%' . $term . '%');

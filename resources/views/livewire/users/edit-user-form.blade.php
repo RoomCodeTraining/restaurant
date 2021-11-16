@@ -96,15 +96,15 @@
                 <div class="col-span-8 md:col-span-4">
                     <div class="form-control w-full">
                         <label class="label">
-                            <span class="label-text">Type de Collaborateur</span>
+                            <span class="label-text">Société</span>
                         </label>
-                        <select class="select select-bordered w-full" wire:model.defer="state.is_external">
-                            <option selected="selected">Veuillez choisir</option>
-                            <option value="no">Collobarateur Ciprel</option>
-                            <option value="yes">Collobarateur externe</option>
+                        <select class="select select-bordered w-full" wire:model.defer="state.organization_id">
+                            @foreach ($organizations as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
                         </select>
                     </div>
-                    @error('state.is_external')
+                    @error('state.organization_id')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>
@@ -148,6 +148,26 @@
                         </label>
                     @enderror
                 </div>
+
+                <div class="col-span-8 md:col-span-4">
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text">Type de Collaborateur</span>
+                        </label>
+                        <select @cla class="select select-bordered w-full" wire:model="state.user_type">
+                            <option selected="selected">Veuillez choisir</option>
+                            @foreach ($userTypes as $id => $name)
+                                <option value="{{ $id }}">{{ $name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @error('state.user_type')
+                        <label class="label">
+                            <span class="label-text-alt text-red-600">{{ $message }}</span>
+                        </label>
+                    @enderror
+                </div>
+
             </div>
         </x-slot>
 

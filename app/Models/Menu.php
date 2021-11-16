@@ -18,12 +18,9 @@ class Menu extends Model
         'served_at'
     ];
 
-
-
     protected $dates = [
         'served_at' => 'Y-m-d',
     ];
-
 
     public function starterDish()
     {
@@ -40,12 +37,13 @@ class Menu extends Model
         return $this->belongsTo(Dish::class, 'second_dish_id');
     }
 
-    public function dessertDish(){
+    public function dessertDish()
+    {
         return $this->belongsTo(Dish::class, 'dessert_id');
     }
 
     public function getServedAtAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->toFormattedDateString();
+        return \Carbon\Carbon::parse($value)->format('d/m/Y');
     }
 }

@@ -16,6 +16,7 @@
             </x-slot>
         @endcan
     </x-section-header>
+
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
         <livewire:users.users-table />
     </div>

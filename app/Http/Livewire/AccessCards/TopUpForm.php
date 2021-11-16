@@ -10,8 +10,8 @@ class TopUpForm extends Component
     public $user;
 
     public $state = [
-        'quota_breakfast' => null,
-        'quota_lunch' => null,
+        'quota_breakfast' => 0,
+        'quota_lunch' => 0,
         'payment_method_id' => null,
     ];
 

@@ -72,8 +72,13 @@
                             :active="request()->routeIs('dashboard')">
                             Tableau de bord
                         </x-nav-link>
-                        @if (auth()->user()->can('manage', \App\Models\User::class) ||
-    auth()->user()->can('viewAny', \App\Models\User::class))
+                        @can('create', App\Models\Order::class)
+                            <x-nav-link href="{{ route('orders.create') }}" icon="home"
+                                :active="request()->routeIs('orders.create')">
+                                Passer sa commande
+                            </x-nav-link>
+                        @endcan
+                        @if (auth()->user()->can('manage', \App\Models\User::class) || auth()->user()->can('viewAny', \App\Models\User::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>
@@ -107,15 +112,9 @@
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des commandes
                             </div>
-                            {{-- @can('manage', App\Models\AccessCard::class)
-                                <x-nav-link href="{{ route('rechargement.index') }}" icon="card"
-                                    :active="request()->routeIs('rechargement.index')">
-                                    Rechargement et facturation
-                                </x-nav-link>
-                            @endcan --}}
                             @can('manage', App\Models\Order::class)
-                                <x-nav-link href="{{ route('commande.index') }}" icon="cde"
-                                    :active="request()->routeIs('commande.index')">
+                                <x-nav-link href="{{ route('orders.index') }}" icon="cde"
+                                    :active="request()->routeIs('orders.index')">
                                     Commandes
                                 </x-nav-link>
                             @endcan
@@ -123,7 +122,7 @@
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
     auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Autres
+                                Paramètrages
                             </div>
                             @can('manage', App\Models\Department::class)
                                 <x-nav-link href="{{ route('departments.index') }}" icon="cube-transparent"

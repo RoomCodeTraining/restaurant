@@ -5,10 +5,11 @@ namespace App\Http\Livewire\Users;
 use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
+use App\Enums\UserTypes;
+use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use App\Actions\User\UpdateUserAction;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Livewire\WithFileUploads;
 
 class EditUserForm extends Component
 {
@@ -52,7 +53,7 @@ class EditUserForm extends Component
         $this->authorize('create', User::class);
 
         $this->validate([
-            // 'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
+            'state.identifier' => ['required', 'max:5', Rule::unique('users', 'identifier')->ignoreModel($this->user)],
             'state.first_name' => ['required', 'string', 'max:50'],
             'state.last_name' => ['required', 'string', 'max:50'],
             'state.email' => ['required', 'email', Rule::unique('users', 'email')->ignoreModel($this->user)],
@@ -82,6 +83,7 @@ class EditUserForm extends Component
             'employeeStatuses' => \App\Models\EmployeeStatus::pluck('name', 'id'),
             'organizations' => \App\Models\Organization::pluck('name', 'id'),
             'roles' => \App\Models\Role::pluck('name', 'id'),
+            'userTypes' => UserTypes::getUserTypes(),
         ]);
     }
 }

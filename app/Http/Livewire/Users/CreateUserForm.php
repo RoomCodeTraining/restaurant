@@ -23,7 +23,7 @@ class CreateUserForm extends Component
     public $profile_photo = null;
 
     public $state = [
-        // 'identifier' => null,
+        'identifier' => null,
         'first_name' => null,
         'last_name' => null,
         'email' => null,
@@ -65,7 +65,7 @@ class CreateUserForm extends Component
             'state.organization_id' => ['required', Rule::exists('organizations', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
             'state.user_type' => ['required'],
-            'profile_photo' => ['required', 'image', 'max:1024'],
+            'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);
 
@@ -76,19 +76,6 @@ class CreateUserForm extends Component
         session()->flash('success', "L'utilisateur a été créé avec succès!");
 
         return redirect()->route('users.index');
-    }
-
-    public function messages()
-    {
-        return [
-            'required' => 'Ce champ est obligatoire',
-            'max' => 'Ce champ ne doit pas dépasser :max caractères',
-            'min' => 'Ce champ doit contenir au moins :min caractères',
-            'email' => 'Ce champ doit être un email valide',
-            'unique' => 'Ce champ doit être unique',
-            'exists' => 'Ce champ doit être un élément existant',
-            'image' => 'Ce champ doit être une image',
-        ];
     }
 
     public function render()

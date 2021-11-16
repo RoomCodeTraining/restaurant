@@ -2,7 +2,7 @@
 
 <div {{ $attributes->merge(['class' => 'inline-block min-w-full rounded-lg overflow-hidden']) }}>
     <table class="min-w-full bg-white">
-        <thead class="bg-secondary-900">
+        <thead class="bg-secondary-200">
             <tr>
                 @foreach ($columns as $column_name => $column_key)
                     <th

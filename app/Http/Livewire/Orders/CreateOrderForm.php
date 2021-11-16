@@ -13,9 +13,14 @@ class CreateOrderForm extends Component
 
     public $dishId;
 
-    public function getMenuProperty()
+    public $selectedMenu;
+
+
+    public function updated($field, $value)
     {
-        return Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->firstWhere('id', $this->selectedMenuId);
+        if ($field == "selectedMenuId") {
+            $this->selectedMenu = Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->firstWhere('id', $this->selectedMenuId);
+        }
     }
 
     public function saveOrder(CreateOrderAction $createOrderAction)

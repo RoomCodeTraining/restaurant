@@ -60,7 +60,8 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset class="mt-4" x-show="selectedMenuId">
+            @if ($selectedMenu)
+                <fieldset class="mt-4">
                 <legend class="text-lg font-medium text-gray-900">Choix du plat</legend>
                 <div class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
                     <div class="col-span-8 md:col-span-4">
@@ -70,8 +71,8 @@
                             </label>
                             <select class="select select-bordered w-full" wire:model.defer="dishId">
                                 <option selected="selected">Veuillez choisir</option>
-                                <option value="{{ $menu->mainDish->id }}">{{ $menu->mainDish->name }}</option>
-                                <option value="{{ $menu->secondDish->id }}">{{ $menu->secondDish->name }}</option>
+                                <option value="{{ $selectedMenu->mainDish->id }}">{{ $selectedMenu->mainDish->name }}</option>
+                                <option value="{{ $selectedMenu->secondDish->id }}">{{ $selectedMenu->secondDish->name }}</option>
                             </select>
                         </div>
                         @error('dishId')
@@ -82,6 +83,7 @@
                     </div>
                 </div>
             </fieldset>
+            @endif
         </x-slot>
         <x-slot name="actions">
             <div class="flex items-center space-x-2">

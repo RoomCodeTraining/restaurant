@@ -26,9 +26,11 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('contact')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('department_id')->index()->nullable();
             $table->foreignId('employee_status_id')->constrained();
-            $table->integer('organization_id')->index()->nullable();
+            $table->foreignId('department_id')->nullable();
+            $table->foreignId('organization_id')->nullable();
+            $table->unsignedBigInteger('current_role_id');
+            $table->unsignedBigInteger('current_access_card_id')->nullable();
             $table->timestamp('password_changed_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

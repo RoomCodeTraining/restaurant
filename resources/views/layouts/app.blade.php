@@ -38,7 +38,7 @@
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
             x-bind:class="{
-            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-900 border-r border-gray-100 z-50 transform transition-transform duration-500 ease-out': true,
+            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-500 ease-out': true,
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
             'lg:-translate-x-full': !desktopSidebarOpen,
@@ -103,24 +103,21 @@
                                 Menus
                             </x-nav-link>
                         @endcan
-                        @if (auth()->user()->can('manage', App\Models\AccessCard::class) ||
-    auth()->user()->can('manage', App\Models\Order::class))
-                            @can('manage', \App\Models\Order::class)
-                                <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                    Gestion des commandes
-                                </div>
-                                @can('manage', App\Models\AccessCard::class)
-                                    <x-nav-link href="{{ route('rechargement.index') }}" icon="card"
-                                        :active="request()->routeIs('rechargement.index')">
-                                        Rechargement et facturation
-                                    </x-nav-link>
-                                @endcan
-                                @can('manage', App\Models\Order::class)
-                                    <x-nav-link href="{{ route('commande.index') }}" icon="cde"
-                                        :active="request()->routeIs('commande.index')">
-                                        Commandes
-                                    </x-nav-link>
-                                @endcan
+                        @if (auth()->user()->can('manage', App\Models\Order::class))
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Gestion des commandes
+                            </div>
+                            {{-- @can('manage', App\Models\AccessCard::class)
+                                <x-nav-link href="{{ route('rechargement.index') }}" icon="card"
+                                    :active="request()->routeIs('rechargement.index')">
+                                    Rechargement et facturation
+                                </x-nav-link>
+                            @endcan --}}
+                            @can('manage', App\Models\Order::class)
+                                <x-nav-link href="{{ route('commande.index') }}" icon="cde"
+                                    :active="request()->routeIs('commande.index')">
+                                    Commandes
+                                </x-nav-link>
                             @endcan
                         @endif
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
@@ -151,7 +148,7 @@
         <!-- Page Header -->
         <header id="page-header"
             x-bind:class="{
-                'flex flex-none items-center h-16 bg-grey-600 shadow-sm fixed top-0 right-0 left-0 z-30': true,
+                'flex flex-none items-center h-16 bg-grey-600 shadow-sm fixed top-0 right-0 left-0': true,
                 'lg:pl-64': desktopSidebarOpen
             }">
             <div class="flex justify-between max-w-10xl mx-auto px-4 lg:px-8 w-full">
@@ -220,7 +217,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
-                   {{--      <span class="text-primary-500">•</span> --}}
+                        {{-- <span class="text-primary-500">•</span> --}}
                     </button>
                     <!-- END Notifications -->
 

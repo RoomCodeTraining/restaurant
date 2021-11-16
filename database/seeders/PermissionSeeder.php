@@ -174,7 +174,6 @@ class PermissionSeeder extends Seeder
             'name' => 'Admin fonctionnel',
         ])->givePermissionTo([
             UserPolicy::USER_MANAGE,
-            AccessCardPolicy::ACCESS_CARD_MANAGE,
             OrderPolicy::ORDER_MANAGE,
             OrganizationPolicy::ORGANIZATION_MANAGE,
             DepartmentPolicy::DEPARTMENT_MANAGE,

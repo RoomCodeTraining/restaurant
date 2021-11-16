@@ -32,12 +32,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function dish()
     {
         return $this->belongsTo(Dish::class);
     }
-
 
     public function menu()
     {

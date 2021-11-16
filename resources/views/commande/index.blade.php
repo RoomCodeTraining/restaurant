@@ -8,5 +8,5 @@
         </x-slot>
     </x-section-header>
 
-
+    <livewire:orders.orders-table />
 </x-app-layout>

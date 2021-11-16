@@ -167,7 +167,7 @@
     <!-- Delete User Confirmation Modal -->
     <x-dialog-modal wire:model="confirmingUpdate">
         <x-slot name="title">
-            Désactiver l'utilisateur
+            Modifier l'utilisateur
         </x-slot>
 
         <x-slot name="content">

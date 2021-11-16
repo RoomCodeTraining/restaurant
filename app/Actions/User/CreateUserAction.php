@@ -16,11 +16,12 @@ class CreateUserAction
 
         $user = User::create([
             'identifier' => $data['identifier'],
-            'username' => Str::slug(explode('@', $data['email'])[0]),
+            'username' => explode('@', $data['email'])[0],
             'email' => $data['email'],
             'last_name' => $data['last_name'],
             'first_name' => $data['first_name'],
             'contact' => $data['contact'],
+            'current_role_id' => $data['roles'][0] ?? Role::USER,
             'employee_status_id' => (int) $data['employee_status_id'],
             'organization_id' => (int) $data['organization_id'],
             'department_id' => (int) $data['department_id'],
@@ -28,8 +29,9 @@ class CreateUserAction
             'email_verified_at' => now(),
         ]);
 
-
         $user->syncRoles($data['roles'] ?? [Role::USER]);
+
+        $user->update(['current_role_id' => $user->roles()->first()->id]);
 
         DB::commit();
 

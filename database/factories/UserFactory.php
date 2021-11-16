@@ -16,7 +16,7 @@ class UserFactory extends Factory
     public function definition()
     {
         $email = $this->faker->unique()->safeEmail;
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         return [
             'username' => $username,

@@ -53,7 +53,6 @@ class UsersTable extends DataTableComponent
 
     public function filters(): array
     {
-        // dd(Role::pluck('name', 'name')->toArray());
         return [
             'type' => Filter::make('Profil')
                 ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'name')->toArray())),

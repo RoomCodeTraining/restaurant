@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,12 @@ class UsersController extends Controller
 
     public function show(Request $request, User $user)
     {
-        return view('users.show', compact('user'));
+        return view('users.show', [
+            'user' => $user->load('accessCards', 'roles', 'department', 'employeeStatus'),
+            'totalOrders' => Order::where('user_id', $user->id)->count(),
+            'totalOrdersCompleted' => Order::where(['user_id' => $user->id, 'is_completed' => true])->count(),
+            'latestOrders' => Order::where('user_id', $user->id)->latest()->limit(5)->get()
+        ]);
     }
 
     public function edit(User $user)

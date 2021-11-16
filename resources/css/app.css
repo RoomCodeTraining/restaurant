@@ -4,6 +4,6 @@
 
 @layer components {
     .btn-sm {
-      @apply  rounded-md font-semibold pb-4 pt-1 text-sm;
+      @apply rounded-md font-semibold pb-4 pt-1 text-sm;
     }
   }

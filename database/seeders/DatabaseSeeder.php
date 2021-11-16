@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             EmployeeStatusSeeder::class,
             PermissionSeeder::class,
             UserSeeder::class,
+            PaymentMethodSeeder::class,
             DishTypeSeeder::class,
             MenuSeeder::class
         ]);

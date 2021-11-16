@@ -36,6 +36,7 @@ class UserSeeder extends Seeder
             'department_id' => Organization::first()->id,
             'organization_id' => Organization::first()->id,
             'employee_status_id' => EmployeeStatus::first()->id,
+            'current_role_id' => Role::ADMIN,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ])->assignRole(Role::ADMIN);
@@ -44,13 +45,15 @@ class UserSeeder extends Seeder
             $roles = Role::pluck('id');
             $users = User::factory()
                 ->count(Role::count())
-                ->for(Organization::all()->random())
+                ->state(['current_role_id' => Role::USER, 'is_active' => true, 'user_type' => UserTypes::CIPREL_AGENT])
+                ->for(Organization::first())
                 ->for(Department::all()->random())
                 ->for(EmployeeStatus::all()->random())
                 ->create();
 
             $users->each(function ($user, $idx) use ($roles) {
                 $user->assignRole($roles[$idx]);
+                $user->update(['current_role_id' => $roles[$idx]]);
             });
         }
     }

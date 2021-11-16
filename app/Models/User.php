@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->attributes['identifier']  = strtoupper($value);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class);

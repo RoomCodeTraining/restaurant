@@ -150,7 +150,7 @@
                     @enderror
                 </div>
 
-                <div class="col-span-8 md:col-span-4">
+                <div class="col-span-8 md:col-span-4 items-center justify-center">
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text">Type de Collaborateur</span>
@@ -177,7 +177,7 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
+                <button class="btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
                     wire:loading.class="loading">
                     Enregistrer
                 </button>

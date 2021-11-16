@@ -3,7 +3,7 @@
         <!-- Card: User Profile -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: User Profile -->
-            <div class="py-4 px-5 lg:px-6 w-full bg-gray-50">
+            <div class="py-4 px-5 lg:px-6 w-full bg-grey-300">
                 <h3 class="flex items-center space-x-2">
                     <svg class="hi-solid hi-user-circle inline-block w-5 h-5 text-primary-500" fill="currentColor"
                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -147,7 +147,7 @@
         <!-- Card: Change Password -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: Change Password -->
-            <div class="py-4 px-5 lg:px-6 w-full bg-gray-50">
+            <div class="py-4 px-5 lg:px-6 w-full bg-grey-300">
                 <h3 class="flex items-center space-x-2">
                     <svg class="hi-solid hi-lock-open inline-block w-5 h-5 text-primary-500" fill="currentColor"
                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

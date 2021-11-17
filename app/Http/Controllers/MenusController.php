@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class MenusController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Menu::class, 'menu');
+    }
+
     public function index()
     {
         return view('menus.index');
@@ -33,5 +38,4 @@ class MenusController extends Controller
 
         return redirect()->route('menus.index');
     }
-
 }

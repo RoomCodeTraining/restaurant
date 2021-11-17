@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class DishesController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Dish::class, 'dish');
+    }
+
     public function index()
     {
         return view('dishes.index');

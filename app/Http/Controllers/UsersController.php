@@ -10,7 +10,7 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        // $this->authorizeResource(User::class, 'user');
+        $this->authorizeResource(User::class, 'user');
     }
 
     public function index()

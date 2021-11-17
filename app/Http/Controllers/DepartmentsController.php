@@ -10,7 +10,7 @@ class DepartmentsController extends Controller
 {
     public function __construct()
     {
-        // $this->authorizeResource(DepartmentPolicy::class, 'department');
+        $this->authorizeResource(Department::class, 'department');
     }
 
     public function index()

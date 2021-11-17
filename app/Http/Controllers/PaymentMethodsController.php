@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PaymentMethodsController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(PaymentMethod::class, 'paymentMethod');
+    }
+
     /**
      * Display a listing of the resource.
      *

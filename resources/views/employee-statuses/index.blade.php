@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-section-header title="Catégories professionnelle">
+    <x-section-header title="Catégories professionnelles">
         @can('manage', App\Models\EmployeeStatus::class)
             <x-slot name="actions">
                 <a href="{{ route('employeeStatuses.create') }}" class="btn btn-sm btn-secondary">

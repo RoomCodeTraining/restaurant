@@ -25,7 +25,7 @@ class RolesTable extends DataTableComponent
             Column::make('Rôle', 'name')->sortable()->searchable(),
             Column::make('Description'),
             Column::make("Nbr d'utilisateurs associés")->format(fn ($value, $column, Role $row) => $row->users_count),
-            Column::make('')->format(fn ($value, $column, Role $row) => view('livewire.roles.table-actions', ['role' => $row])),
+            Column::make('Actions')->format(fn ($value, $column, Role $row) => view('livewire.roles.table-actions', ['role' => $row])),
         ];
     }
 

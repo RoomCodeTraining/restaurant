@@ -10,7 +10,6 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class DepartmentsTable extends DataTableComponent
 {
-
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
     public string $defaultSortColumn = 'created_at';
@@ -29,7 +28,7 @@ class DepartmentsTable extends DataTableComponent
             Column::make('Date de création', 'created_at')->sortable()->searchable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
             Column::make("Nbr d'employé")->format(fn ($value, $column, Department $row) => $row->employees->count()),
-            Column::make('')->format(function ($value, $column, Department $row) {
+            Column::make('Actions')->format(function ($value, $column, Department $row) {
                 return view('livewire.departments.table-actions', ['department' => $row]);
             }),
         ];

@@ -2,7 +2,7 @@
     <section class="mb-4">
         <x-section-header title="Détails">
             <x-slot name="actions">
-                <a href="{{ route('users.index') }}" class="btn-sm btn-secondary">
+                <a href="{{ route('users.index') }}" class="btn btn-sm btn-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         class="inline-block font-bold w-4 h-4 mt-1 mr-1 stroke-current"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">

@@ -34,7 +34,7 @@
             </label>
         @enderror
     </div>
-    <button type="submit" class="btn-sm btn-primary">
+    <button type="submit" class="btn btn-sm btn-primary">
         Changer de mot de passe
     </button>
 </form>

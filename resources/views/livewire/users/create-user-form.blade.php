@@ -7,7 +7,7 @@
                     <label class="label">
                         <span class="label-text">Matricule</span>
                     </label>
-                    <input x-bind:disabled="user_type_id == '{{ \App\Enums\UserTypes::NON_CIPREL_AGENT }}'" class="input input-bordered" type="text"
+                    <input class="input input-bordered" type="text"
                         wire:model.defer="state.identifier">
                     @error('state.identifier')
                         <label class="label">
@@ -177,7 +177,7 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
+                <button class="btn btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
                     wire:loading.class="loading">
                     Enregistrer
                 </button>

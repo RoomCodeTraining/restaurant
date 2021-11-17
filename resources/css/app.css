@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @layer components {
-    .btn-sm {
-      @apply rounded-md font-semibold pb-4 pt-1 text-sm;
+    .btn {
+        @apply capitalize rounded-md font-semibold px-4 py-1 text-sm;
     }
   }

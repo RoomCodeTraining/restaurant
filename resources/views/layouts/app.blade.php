@@ -72,13 +72,14 @@
                             :active="request()->routeIs('dashboard')">
                             Tableau de bord
                         </x-nav-link>
-                        @can('create', App\Models\Order::class)
+                        @if (!auth()->user()->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
                             <x-nav-link href="{{ route('orders.create') }}" icon="plat"
                                 :active="request()->routeIs('orders.create')">
                                 Passer sa commande
                             </x-nav-link>
-                        @endcan
-                        @if (auth()->user()->can('manage', \App\Models\User::class) || auth()->user()->can('viewAny', \App\Models\User::class))
+                        @endif
+                        @if (auth()->user()->can('manage', \App\Models\User::class) ||
+    auth()->user()->can('viewAny', \App\Models\User::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>
@@ -145,7 +146,7 @@
                             @can('manage', App\Models\EmployeeStatus::class)
                                 <x-nav-link href="{{ route('employeeStatuses.index') }}" icon="users"
                                     :active="request()->routeIs('employeeStatuses.index')">
-                                    Catégories professionnelle
+                                    Catégories professionnelles
                                 </x-nav-link>
                             @endcan
                             {{-- @can('manage', App\Models\PaymentMethod::class)

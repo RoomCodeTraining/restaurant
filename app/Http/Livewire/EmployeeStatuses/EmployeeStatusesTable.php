@@ -28,7 +28,7 @@ class EmployeeStatusesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date de création', 'created_at')->sortable(),
+            Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
             Column::make("Nbr d'employés")->format(fn ($value, $column, $row) => $row->users_count),
             Column::make('Actions')->format(function ($value, $column, $row) {

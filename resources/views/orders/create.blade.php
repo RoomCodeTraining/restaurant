@@ -3,7 +3,7 @@
         <x-section-header title="Passer sa commande">
             @can('manage', App\Models\Order::class)
                 <x-slot name="actions">
-                    <a href="{{ route('orders.index') }}" class="btn-sm btn-secondary hidden md:flex">
+                    <a href="{{ route('orders.index') }}" class="btn btn-sm btn-secondary hidden md:flex">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="inline-block font-bold w-4 h-4 mt-1 mr-1 stroke-current"
                             xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">

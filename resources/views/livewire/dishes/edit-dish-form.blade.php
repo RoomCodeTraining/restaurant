@@ -47,10 +47,10 @@
         </x-slot>
         <x-slot name="actions">
             <div class="flex items-center space-x-2">
-                <button class="md:hidden btn-sm">
+                <button class="md:hidden btn-sm btn">
                     Retour
                 </button>
-                <button class="btn-sm btn-primary" wire:target="saveDish" type="submit" wire:loading.attr="disabled" wire:loading.class="loading">
+                <button class="btn btn-sm btn-primary" wire:target="saveDish" type="submit" wire:loading.attr="disabled" wire:loading.class="loading">
                     Enregistrer
                 </button>
             </div>

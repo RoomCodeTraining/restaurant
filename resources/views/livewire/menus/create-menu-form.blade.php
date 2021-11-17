@@ -93,7 +93,7 @@
                 <button class="md:hidden btn-sm">
                     Retour
                 </button>
-                <button class="btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
+                <button class="btn btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"
                     wire:loading.class="loading">
                     Enregistrer
                 </button>

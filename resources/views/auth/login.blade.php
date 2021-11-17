@@ -19,7 +19,7 @@
                             <div class="w-full mt-8 mb-4">
                                 <div class="flex items-center">
                                     <i class="ml-3 fill-current text-gray-400 text-xs z-10 fas fa-envelope-open-text"></i>
-                                    <input type="email" id="tk-pages-sign-in-email" placeholder="Entrez votre email" name="email" :value="old('email')" :value="old('email')" class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100" required autofocus  />
+                                    <input type="text" id="tk-pages-sign-in-email" placeholder="Entrez votre email" name="email" :value="old('email')" :value="old('email')" class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100" required autofocus  />
                                 </div>
                             </div>
 

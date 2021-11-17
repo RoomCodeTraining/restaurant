@@ -25,9 +25,9 @@ class OrganizationsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date de création', 'created_at')->sortable()->searchable(),
+            Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
-            Column::make("Nbr d'employé")->format(fn ($value, $column, Organization $row) => $row->employees->count()),
+            Column::make("Nbr d'employé")->format(fn ($value, $column, Organization $row) => $row->users_count),
             Column::make('Actions')->format(function ($value, $column, Organization $row) {
                 return view('livewire.organizations.table-actions', ['organization' => $row]);
             }),
@@ -40,16 +40,17 @@ class OrganizationsTable extends DataTableComponent
         $this->confirmingOrganizationDeletion = true;
     }
 
-
-
     public function deleteOrganization(DeleteOrganizationAction $action)
     {
         $menu = Organization::find($this->organizationIdBeingDeleted);
+
         $action->execute($menu);
+
         $this->confirmingOrganizationtDeletion = false;
         $this->organizationIdBeingDeleted = null;
 
         session()->flash('success', "La société a été supprimé avec succès !");
+
         return redirect()->route('organizations.index');
     }
 
@@ -58,9 +59,8 @@ class OrganizationsTable extends DataTableComponent
         return 'livewire.organizations.modals';
     }
 
-
     public function query(): Builder
     {
-        return Organization::query();
+        return Organization::query()->withCount('users');
     }
 }

@@ -146,7 +146,7 @@
                             @can('manage', App\Models\EmployeeStatus::class)
                                 <x-nav-link href="{{ route('employeeStatuses.index') }}" icon="users"
                                     :active="request()->routeIs('employeeStatuses.index')">
-                                    Catégories professionnelles
+                                    Catégories
                                 </x-nav-link>
                             @endcan
                             {{-- @can('manage', App\Models\PaymentMethod::class)

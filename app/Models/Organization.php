@@ -14,13 +14,8 @@ class Organization extends Model
     protected $fillable = ['name'];
 
 
-    protected function employees()
+    protected function users()
     {
         return $this->hasMany(User::class);
-    }
-
-    public function getCreatedAtAttribute()
-    {
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');
     }
 }

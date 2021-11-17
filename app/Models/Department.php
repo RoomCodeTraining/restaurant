@@ -15,18 +15,8 @@ class Department extends Model
     ];
 
 
-    public function employees()
+    public function users()
     {
         return $this->hasMany(User::class);
-    }
-
-
-    public function getEmployeeCountAttrinbue(){
-        return $this->employees->count();
-    }
-
-
-    public function getCreatedAtAttribute(){
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d-m-Y');
     }
 }

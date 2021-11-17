@@ -25,9 +25,9 @@ class DepartmentsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date de création', 'created_at')->sortable()->searchable(),
+            Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
-            Column::make("Nbr d'employé")->format(fn ($value, $column, Department $row) => $row->employees->count()),
+            Column::make("Nbr d'employé")->format(fn ($value, $column, Department $row) => $row->users_count),
             Column::make('Actions')->format(function ($value, $column, Department $row) {
                 return view('livewire.departments.table-actions', ['department' => $row]);
             }),
@@ -62,6 +62,6 @@ class DepartmentsTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Department::query();
+        return Department::query()->withCount('users');
     }
 }

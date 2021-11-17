@@ -9,6 +9,7 @@ use App\Models\Department;
 use Illuminate\Support\Str;
 use App\Models\Organization;
 use App\Models\EmployeeStatus;
+use App\Models\UserType;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -28,7 +29,7 @@ class UserSeeder extends Seeder
             'identifier' => Str::upper(Str::random(5)),
             'first_name' => 'Fonctionnel',
             'last_name' => 'Admin',
-            'user_type' => UserTypes::CIPREL_AGENT,
+            'user_type_id' => UserType::firstWhere('name', 'like', '%Agent CIPREL%')->id,
             'is_active' => true,
             'contact' => '+225 0102030405',
             'email' => $email,
@@ -45,10 +46,11 @@ class UserSeeder extends Seeder
             $roles = Role::pluck('id');
             $users = User::factory()
                 ->count(Role::count())
-                ->state(['current_role_id' => Role::USER, 'is_active' => true, 'user_type' => UserTypes::CIPREL_AGENT])
+                ->state(['current_role_id' => Role::USER, 'is_active' => true])
                 ->for(Organization::first())
                 ->for(Department::all()->random())
                 ->for(EmployeeStatus::all()->random())
+                ->for(UserType::firstWhere('name', 'like', '%Agent CIPREL%'))
                 ->create();
 
             $users->each(function ($user, $idx) use ($roles) {

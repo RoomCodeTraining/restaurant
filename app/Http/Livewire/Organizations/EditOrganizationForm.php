@@ -9,8 +9,8 @@ use App\Actions\Organization\UpdateOrganizationAction;
 
 class EditOrganizationForm extends Component
 {
-
     public $organization;
+
     public $state = [
         'name' => null,
     ];
@@ -28,9 +28,12 @@ class EditOrganizationForm extends Component
         ]);
 
         $action->execute($this->department, $this->state);
+
         session()->flash('success', 'La société a été modifié avec succès !');
+
         return redirect()->route('organizations.index');
     }
+
     public function render()
     {
         return view('livewire.organizations.edit-organization-form');

@@ -33,7 +33,7 @@ class EditUserForm extends Component
         'employee_status_id' => null,
         'organization_id' => null,
         'department_id' => null,
-        'user_type' => null,
+        'user_type_id' => null,
     ];
 
     public function mount(User $user)
@@ -60,7 +60,7 @@ class EditUserForm extends Component
             'state.contact' => ['required', 'string', 'min:10', 'max:20'],
             'state.department_id' => ['nullable', Rule::exists('departments', 'id')],
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
-            'state.user_type' => ['required'],
+            'state.user_type_id' => ['required'],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);

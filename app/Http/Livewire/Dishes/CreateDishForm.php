@@ -20,25 +20,12 @@ class CreateDishForm extends Component
         'dish_type_id' => null,
     ];
 
-
-    public function messages()
-    {
-        return [
-            'required' => 'Cette valeur est requise',
-            'string' => 'Cette valeur doit etre une chaine de caractere',
-            'email' => 'Cette valeur doit etre une adresse email',
-            'max' => 'Cette valeur est trop grande',
-            'min' => 'Cette valeur est trop petite',
-        ];
-    }
-
-
     public function saveDish(CreateDishAction $createDishAction)
     {
         //$this->authorize('create', Dish::class);
         $this->validate([
             'state.name' => ['required', 'string', 'max:255'],
-            'state.description' => ['required', 'string', 'max:255'],
+            'state.description' => ['nullable', 'string', 'max:255'],
             'state.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
         ]);
         $createDishAction->execute($this->state);

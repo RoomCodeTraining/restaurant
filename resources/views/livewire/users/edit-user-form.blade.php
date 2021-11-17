@@ -154,14 +154,14 @@
                         <label class="label">
                             <span class="label-text">Type de Collaborateur</span>
                         </label>
-                        <select @cla class="select select-bordered w-full" wire:model="state.user_type">
+                        <select @cla class="select select-bordered w-full" wire:model="state.user_type_id">
                             <option selected="selected">Veuillez choisir</option>
                             @foreach ($userTypes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    @error('state.user_type')
+                    @error('state.user_type_id')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>

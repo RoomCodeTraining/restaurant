@@ -3,9 +3,9 @@
         <x-slot name="form">
             <div class="col-span-8 md:col-span-12 form-control">
                 <label class="label">
-                    <span class="label-text">Nom</span>
+                    <span class="label-text">Nom </span>
                 </label>
-                <input class="input input-bordered" type="text" placeholder="Info..." wire:model.defer="state.name" />
+                <input class="input input-bordered" type="text" wire:model.defer="state.name" />
                 @error('state.name')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -20,8 +20,8 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn-sm btn-primary" wire:target="saveDepartment" type="submit" wire:loading.attr="disabled"
-                    wire:loading.class="loading">
+                <button class="btn btn-sm btn-primary" wire:target="saveDepartment" type="submit"
+                    wire:loading.attr="disabled" wire:loading.class="loading">
                     Enregistrer
                 </button>
             </div>

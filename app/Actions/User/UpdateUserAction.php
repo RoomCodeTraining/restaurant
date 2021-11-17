@@ -25,7 +25,7 @@ class UpdateUserAction
             'organization_id' => (int) $data['organization_id'],
             'department_id' => (int) $data['department_id'],
             'current_role_id' => $data['roles'][0] ?? Role::USER,
-            'user_type' => $data['user_type'],
+            'user_type_id' => $data['user_type_id'],
         ]);
 
         $user->syncRoles($data['roles'] ?? [Role::USER]);

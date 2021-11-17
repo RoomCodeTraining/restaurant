@@ -9,8 +9,10 @@ class EmployeeStatus extends Model
 {
     use HasFactory;
 
-    public function employees()
+    protected $guarded = [];
+
+    public function users()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(User::class);
     }
 }

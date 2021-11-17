@@ -15,8 +15,8 @@ class CreateDishesTable extends Migration
     {
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('name')->index();
+            $table->text('description')->nullable();
             $table->string('image')->nullable();
             $table->foreignId('dish_type_id')->constrained();
             $table->timestamps();

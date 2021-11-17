@@ -14,6 +14,7 @@ class OrderPolicy
     public const ORDER_LIST = 'order.list';
     public const ORDER_CREATE = 'order.create';
     public const ORDER_UPDATE = 'order.update';
+    public const ORDER_DELETE = 'order.delete';
 
     public function manage(User $user)
     {

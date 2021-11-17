@@ -18,7 +18,6 @@ class CreateMenuForm extends Component
         'served_at' => null,
     ];
 
-
     public function saveMenu(CreateMenuAction $action)
     {
         $this->validate([

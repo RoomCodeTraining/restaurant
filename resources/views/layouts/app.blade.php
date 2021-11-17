@@ -33,12 +33,12 @@
     <div x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true }"
         x-bind:class="{
         'flex flex-col mx-auto w-full min-h-screen bg-gray-100': true,
-        'lg:pl-64': desktopSidebarOpen
+        'lg:pl-72': desktopSidebarOpen
     }">
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
             x-bind:class="{
-            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-500 ease-out': true,
+            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10': true,
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
             'lg:-translate-x-full': !desktopSidebarOpen,
@@ -73,7 +73,7 @@
                             Tableau de bord
                         </x-nav-link>
                         @can('create', App\Models\Order::class)
-                            <x-nav-link href="{{ route('orders.create') }}" icon="home"
+                            <x-nav-link href="{{ route('orders.create') }}" icon="plat"
                                 :active="request()->routeIs('orders.create')">
                                 Passer sa commande
                             </x-nav-link>
@@ -136,6 +136,24 @@
                                     Sociétés
                                 </x-nav-link>
                             @endcan
+                            @can('manage', App\Models\UserType::class)
+                                <x-nav-link href="{{ route('userTypes.index') }}" icon="users"
+                                    :active="request()->routeIs('userTypes.index')">
+                                    Types d'utilisateurs
+                                </x-nav-link>
+                            @endcan
+                            @can('manage', App\Models\EmployeeStatus::class)
+                                <x-nav-link href="{{ route('employeeStatuses.index') }}" icon="users"
+                                    :active="request()->routeIs('employeeStatuses.index')">
+                                    Catégories professionnelle
+                                </x-nav-link>
+                            @endcan
+                            {{-- @can('manage', App\Models\PaymentMethod::class)
+                                <x-nav-link href="{{ route('paymentMethods.index') }}" icon="wallet"
+                                    :active="request()->routeIs('paymentMethods.index')">
+                                    Modes de paiement
+                                </x-nav-link>
+                            @endcan --}}
                         @endif
                     </nav>
                 </div>
@@ -148,7 +166,7 @@
         <header id="page-header"
             x-bind:class="{
                 'flex flex-none items-center h-16 bg-grey-600 shadow-sm fixed top-0 right-0 left-0': true,
-                'lg:pl-64': desktopSidebarOpen
+                'lg:pl-72': desktopSidebarOpen
             }">
             <div class="flex justify-between max-w-10xl mx-auto px-4 lg:px-8 w-full">
                 <!-- Left Section -->

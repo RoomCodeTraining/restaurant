@@ -15,7 +15,7 @@ class CreateAccessCardsTable extends Migration
     {
         Schema::create('access_cards', function (Blueprint $table) {
             $table->id();
-            $table->string('identifier');
+            $table->string('identifier')->index();
             $table->unsignedInteger('quota_breakfast');
             $table->unsignedInteger('quota_lunch');
             $table->foreignId('user_id')->constrained();

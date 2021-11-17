@@ -25,7 +25,7 @@ switch ($maxWidth ?? '2xl') {
 
 <div id="{{ $id }}" x-data="{ show: @entangle($attributes->wire('model')) }" x-show="show"
     x-on:close.stop="show = false" x-on:keydown.escape.window="show = false"
-    class="fixed top-0 inset-x-0 px-4 pt-6 sm:px-0 sm:flex sm:items-top sm:justify-center"
+    class="fixed top-0 inset-x-0 px-4 pt-6 sm:px-0 sm:flex sm:items-top sm:justify-center  z-50"
     style="display: none;">
     <div x-show="show" class="fixed inset-0 transform transition-all" x-on:click="show = false"
         x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"

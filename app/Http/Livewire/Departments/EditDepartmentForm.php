@@ -9,9 +9,8 @@ use App\Actions\Department\UpdateDepartmentAction;
 
 class EditDepartmentForm extends Component
 {
-
-
     public $department;
+
     public $state = [
         'name' => null,
     ];
@@ -25,11 +24,13 @@ class EditDepartmentForm extends Component
     public function saveDepartment(UpdateDepartmentAction $action)
     {
         $this->validate([
-            'state.name' => ['required', 'string',  Rule::unique('users', 'identifier')],
+            'state.name' => ['required', 'string'],
         ]);
 
         $action->execute($this->department, $this->state);
+
         session()->flash('success', 'Le departement a été modifié avec succès !');
+
         return redirect()->route('departments.index');
     }
 

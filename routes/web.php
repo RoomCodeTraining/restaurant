@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/orders', App\Http\Controllers\OrdersController::class);
     Route::resource('/departments', App\Http\Controllers\DepartmentsController::class);
     Route::resource('/organizations', App\Http\Controllers\OrganizationsController::class);
+    Route::resource('/userTypes', App\Http\Controllers\UserTypesController::class);
+    Route::resource('/paymentMethods', App\Http\Controllers\PaymentMethodsController::class);
+    Route::resource('/employeeStatuses', App\Http\Controllers\EmployeeStatusesController::class);
 });
 
 

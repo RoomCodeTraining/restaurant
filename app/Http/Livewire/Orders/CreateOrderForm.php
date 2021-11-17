@@ -25,6 +25,11 @@ class CreateOrderForm extends Component
 
     public function saveOrder(CreateOrderAction $createOrderAction)
     {
+        $this->validate([
+            'selectedMenuId' => ['required'],
+            'dishId' => ['required'],
+        ]);
+
         $createOrderAction->execute([
             'menu_id' => $this->selectedMenuId,
             'dish_id' => $this->dishId,

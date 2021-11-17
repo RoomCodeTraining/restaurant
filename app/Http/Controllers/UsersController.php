@@ -10,7 +10,7 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+        // $this->authorizeResource(User::class, 'user');
     }
 
     public function index()
@@ -26,7 +26,7 @@ class UsersController extends Controller
     public function show(Request $request, User $user)
     {
         return view('users.show', [
-            'user' => $user->load('accessCards', 'roles', 'department', 'employeeStatus'),
+            'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType'),
             'totalOrders' => Order::where('user_id', $user->id)->count(),
             'totalOrdersCompleted' => Order::where(['user_id' => $user->id, 'is_completed' => true])->count(),
             'latestOrders' => Order::where('user_id', $user->id)->latest()->limit(5)->get()

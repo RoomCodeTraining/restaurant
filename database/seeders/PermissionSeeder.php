@@ -6,10 +6,13 @@ use App\Models\Role;
 use App\Models\Permission;
 use App\Policies\AccessCardPolicy;
 use App\Policies\DepartmentPolicy;
+use App\Policies\EmployeeStatusPolicy;
 use App\Policies\MenuPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\OrganizationPolicy;
+use App\Policies\PaymentMethodPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\UserTypePolicy;
 use Illuminate\Database\Seeder;
 
 /**
@@ -114,7 +117,11 @@ class PermissionSeeder extends Seeder
             ]),
             new Permission([
                 'name' => OrderPolicy::ORDER_UPDATE,
-                'description' => 'Modifier les commandes'
+                'description' => 'Modifier une commande'
+            ]),
+            new Permission([
+                'name' => OrderPolicy::ORDER_DELETE,
+                'description' => 'Annuler une commande'
             ]),
         ]);
 
@@ -166,6 +173,78 @@ class PermissionSeeder extends Seeder
             ])
         ]);
 
+        $userTypes = Permission::create([
+            'name' => UserTypePolicy::USER_TYPE_MANAGE,
+            'description' => 'Toutes les permissions relatives à la gestion des types d\'utilisateur'
+        ]);
+
+        $userTypes->children()->saveMany([
+            new Permission([
+                'name' => UserTypePolicy::USER_TYPE_LIST,
+                'description' => "Voir la liste des types d'utilisateur",
+            ]),
+            new Permission([
+                'name' => UserTypePolicy::USER_TYPE_CREATE,
+                'description' => 'Ajouter un type d\'utilisateur'
+            ]),
+            new Permission([
+                'name' => UserTypePolicy::USER_TYPE_UPDATE,
+                'description' => 'Modifier un type d\'utilisateur'
+            ]),
+            new Permission([
+                'name' => UserTypePolicy::USER_TYPE_DELETE,
+                'description' => 'Supprimer un type d\'utilisateur'
+            ])
+        ]);
+
+        $employeeStatuses = Permission::create([
+            'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
+            'description' => 'Toutes les permissions relatives à la gestion des catégories d\'employés'
+        ]);
+
+        $employeeStatuses->children()->saveMany([
+            new Permission([
+                'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_LIST,
+                'description' => 'Voir la liste des catégories d\'employés',
+            ]),
+            new Permission([
+                'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_CREATE,
+                'description' => 'Ajouter un catégorie d\'employés'
+            ]),
+            new Permission([
+                'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_UPDATE,
+                'description' => 'Modifier un catégorie d\'employés'
+            ]),
+            new Permission([
+                'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_DELETE,
+                'description' => 'Supprimer un catégorie d\'employés'
+            ])
+        ]);
+
+        $paymentMethods = Permission::create([
+            'name' => PaymentMethodPolicy::PAYMENT_METHOD_MANAGE,
+            'description' => 'Toutes les permissions relatives à la gestion des méthodes de paiement'
+        ]);
+
+        $paymentMethods->children()->saveMany([
+            new Permission([
+                'name' => PaymentMethodPolicy::PAYMENT_METHOD_LIST,
+                'description' => 'Voir la liste des méthodes de paiement',
+            ]),
+            new Permission([
+                'name' => PaymentMethodPolicy::PAYMENT_METHOD_CREATE,
+                'description' => 'Ajouter une méthode de paiement'
+            ]),
+            new Permission([
+                'name' => PaymentMethodPolicy::PAYMENT_METHOD_UPDATE,
+                'description' => 'Modifier une méthode de paiement'
+            ]),
+            new Permission([
+                'name' => PaymentMethodPolicy::PAYMENT_METHOD_DELETE,
+                'description' => 'Supprimer une méthode de paiement'
+            ])
+        ]);
+
         /**
          * Attach permissions to roles
          */
@@ -177,6 +256,9 @@ class PermissionSeeder extends Seeder
             OrderPolicy::ORDER_MANAGE,
             OrganizationPolicy::ORGANIZATION_MANAGE,
             DepartmentPolicy::DEPARTMENT_MANAGE,
+            PaymentMethodPolicy::PAYMENT_METHOD_MANAGE,
+            EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
+            UserTypePolicy::USER_TYPE_MANAGE,
         ]);
 
         Role::create([

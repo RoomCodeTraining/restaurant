@@ -5,7 +5,7 @@
                 <label class="label">
                     <span class="label-text">Nom</span>
                 </label>
-                <input class="input input-bordered" type="text" placeholder="Info..." wire:model.defer="state.name" />
+                <input class="input input-bordered" type="text" wire:model.defer="state.name" />
                 @error('state.name')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -18,7 +18,7 @@
                 <button class="md:hidden btn-sm">
                     Retour
                 </button>
-                <button class="btn-sm btn-primary" wire:target="saveOrganization" type="submit" wire:loading.attr="disabled"
+                <button class="btn btn-sm btn-primary" wire:target="saveOrganization" type="submit" wire:loading.attr="disabled"
                     wire:loading.class="loading">
                     Enregistrer
                 </button>

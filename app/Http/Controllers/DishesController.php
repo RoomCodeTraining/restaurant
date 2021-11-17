@@ -28,11 +28,4 @@ class DishesController extends Controller
     {
         return view('dishes.edit', compact('dish'));
     }
-
-    public function destroy(Dish $dish)
-    {
-        $dish->delete();
-
-        return redirect()->route('dishes.index');
-    }
 }

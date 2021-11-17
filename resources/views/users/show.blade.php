@@ -1,5 +1,5 @@
 <x-app-layout>
-    <section>
+    <section class="mb-4">
         <x-section-header title="Détails">
             <x-slot name="actions">
                 <a href="{{ route('users.index') }}" class="btn-sm btn-secondary">
@@ -56,7 +56,7 @@
                             <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Profil</dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{ optional($user->roles()->first())->name ?? 'Utilisateur' }}</dd>
+                                    {{ $user->role->name }}</dd>
                             </div>
                             <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Société</dt>
@@ -79,7 +79,7 @@
                                     Catégorie socio-professionnelle
                                 </dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{ optional($user->employeeStatus)->name ?? 'Aucun' }}
+                                    {{ $user->employeeStatus->name }}
                                 </dd>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                             <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Type de collaborateur</dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{ App\Enums\UserTypes::getUserType($user->user_type) }}
+                                    {{ $user->userType->name }}
                                 </dd>
                             </div>
                             <div class="w-full md:w-1/2">
@@ -108,13 +108,13 @@
                             <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Quota petit déjeuner</dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{-- {{ $user->accessCards->first()->quota_breakfast }} --}}
+                                    {{ optional($user->accessCard)->quota_breakfast ?? 0 }}
                                 </dd>
                             </div>
                             <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Quota déjeuner</dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{-- {{ $user->accessCards->first()->quota_lunch }} --}}
+                                    {{ optional($user->accessCard)->quota_lunch ?? 0 }}
                                 </dd>
                             </div>
                         </div>
@@ -122,9 +122,15 @@
                     <div class="col-span-8">
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                             <div class="w-full md:w-1/2">
+                                <dt class="text-sm font-medium text-gray-500">Numéro de la carte</dt>
+                                <dd class="text-sm font-normal text-gray-900">
+                                    {{ optional($user->accessCard)->identifier ?? 'Non défini' }}
+                                </dd>
+                            </div>
+                            <div class="w-full md:w-1/2">
                                 <dt class="text-sm font-medium text-gray-500">Mode de paiement</dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                    {{ $user->accessCards->first()->paymentMethod->name ?? 'Non defini' }}
+                                    {{ optional($user->accessCard)->paymentMethod->name ?? 'Non défini' }}
                                 </dd>
                             </div>
                         </div>
@@ -133,7 +139,7 @@
             </x-slot>
         </x-action-section>
 
-        @if ($user->hasRole(App\Models\Role::USER))
+        @if ($user->can('create', App\Models\Order::class))
 
             <x-section-border></x-section-border>
 
@@ -176,7 +182,7 @@
                             </div>
                             <div>
                                 <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                    Commandes consommees
+                                    Commandes consommées
                                 </p>
                                 <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                     {{ $totalOrdersCompleted }}

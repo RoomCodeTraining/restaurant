@@ -91,4 +91,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(AccessCard::class);
     }
+
+    public function userType()
+    {
+        return $this->belongsTo(UserType::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'current_role_id');
+    }
+
+    public function accessCard()
+    {
+        return $this->belongsTo(Role::class, 'current_access_card_id');
+    }
 }

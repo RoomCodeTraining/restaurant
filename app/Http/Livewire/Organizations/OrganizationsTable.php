@@ -11,12 +11,10 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class OrganizationsTable extends DataTableComponent
 {
-
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
-
 
     public $organizationIdBeingDeleted;
     public $confirmingOrganizationDeletion = false;
@@ -35,7 +33,6 @@ class OrganizationsTable extends DataTableComponent
             }),
         ];
     }
-
 
     public function confirmOrganizationDeletion($organizationId)
     {

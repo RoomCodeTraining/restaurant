@@ -1,13 +1,13 @@
 <div>
     <x-form-card submit="saveUser">
         <x-slot name="form">
-            <div x-data="{ user_type: @entangle('state.user_type') }"
+            <div x-data="{ user_type_id: @entangle('state.user_type_id') }"
                 class="grid grid-cols-8 gap-2 md:gap-4">
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
                         <span class="label-text">Matricule</span>
                     </label>
-                    <input x-bind:disabled="user_type == '{{ \App\Enums\UserTypes::NON_CIPREL_AGENT }}'" class="input input-bordered" type="text"
+                    <input x-bind:disabled="user_type_id == '{{ \App\Enums\UserTypes::NON_CIPREL_AGENT }}'" class="input input-bordered" type="text"
                         wire:model.defer="state.identifier">
                     @error('state.identifier')
                         <label class="label">
@@ -155,14 +155,14 @@
                         <label class="label">
                             <span class="label-text">Type de Collaborateur</span>
                         </label>
-                        <select @cla class="select select-bordered w-full" wire:model="state.user_type">
+                        <select @cla class="select select-bordered w-full" wire:model="state.user_type_id">
                             <option selected="selected">Veuillez choisir</option>
                             @foreach ($userTypes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    @error('state.user_type')
+                    @error('state.user_type_id')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>

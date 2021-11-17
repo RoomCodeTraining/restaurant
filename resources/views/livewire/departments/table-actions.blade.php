@@ -1,13 +1,11 @@
 <div class="flex items-center space-x-2">
-    <a href="{{ route('departments.show', $department) }}">
-        <x-icon name="eye" class="h-4 w-4 text-secondary-800" />
+    <a href="{{ route('departments.edit', $department) }}" title="Editer">
+        <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
     </a>
-        <a href="{{ route('departments.edit', $department) }}" title="Editer">
-            <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
-        </a>
-    @if($department->employees->count() == 0)
-        <button wire:click="confirmDepartmentDeletion({{ $department->id }})" wire:loading.attr="disabled" title="Supprimer">
-            <x-icon name="trash" class="h-4 w-4 text-red-700"/>
+    @if ($department->employees->count() == 0)
+        <button wire:click="confirmDepartmentDeletion({{ $department->id }})" wire:loading.attr="disabled"
+            title="Supprimer">
+            <x-icon name="trash" class="h-4 w-4 text-red-700" />
         </button>
     @endif
 </div>

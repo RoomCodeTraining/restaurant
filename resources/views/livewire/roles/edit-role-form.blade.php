@@ -76,9 +76,9 @@
         </x-slot>
 
         <x-slot name="actions">
-            <button class="btn btn-primary" wire:target="saveRole" wire:loading.attr="disabled"
+            <button class="btn btn-sm btn-primary" wire:target="saveRole" wire:loading.attr="disabled"
                 wire:loading.class="loading" type="submit">
-                Soumettre
+                Enregistrer
             </button>
         </x-slot>
     </x-form-card>

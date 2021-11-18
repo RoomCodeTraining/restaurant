@@ -56,7 +56,7 @@
                 Enregistré.
             </x-action-message>
 
-            <button class="btn btn-primary" type="submit" wire:loading.class="opacity-25"
+            <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 Enregistrer
             </button>

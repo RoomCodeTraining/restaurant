@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\AccessCards;
 
-use App\Models\PaymentMethod;
+use App\Models\User;
 use Livewire\Component;
+use App\Models\PaymentMethod;
 
 class TopUpForm extends Component
 {
@@ -15,10 +16,11 @@ class TopUpForm extends Component
         'payment_method_id' => null,
     ];
 
-    public function mount($user)
+    public function mount(User $user)
     {
-        $this->user = $user;
-        $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', PaymentMethod::getPaymentMethodForUser($user))->id;
+        $this->user = $user->load('userType.paymentMethod', 'accessCard.paymentMethod');
+        $paymentMethod = optional($this->user->accessCard)->paymentMethod->name ?? $this->user->userType->paymentMethod->name;
+        $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', $paymentMethod)->id;
     }
 
     public function topUp()

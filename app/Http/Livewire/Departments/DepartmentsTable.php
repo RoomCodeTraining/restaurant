@@ -15,7 +15,6 @@ class DepartmentsTable extends DataTableComponent
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
 
-
     public $departmentIdBeingDeleted;
     public $confirmingDepartmentDeletion = false;
 
@@ -27,13 +26,12 @@ class DepartmentsTable extends DataTableComponent
         return [
             Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
-            Column::make("Nbr d'employé")->format(fn ($value, $column, Department $row) => $row->users_count),
+            Column::make("Nbr d'employés")->format(fn ($value, $column, Department $row) => $row->users_count),
             Column::make('Actions')->format(function ($value, $column, Department $row) {
                 return view('livewire.departments.table-actions', ['department' => $row]);
             }),
         ];
     }
-
 
     public function confirmDepartmentDeletion($departmentId)
     {
@@ -41,16 +39,17 @@ class DepartmentsTable extends DataTableComponent
         $this->confirmingDepartmentDeletion = true;
     }
 
-
-
     public function deleteDepartment(DeleteDepartmentAction $action)
     {
         $department = Department::find($this->departmentIdBeingDeleted);
+
         $action->execute($department);
+
         $this->confirmingDepartmentDeletion = false;
         $this->departmentIdBeingDeleted = null;
 
         session()->flash('success', "Le department a été supprimé avec succès !");
+
         return redirect()->route('departments.index');
     }
 
@@ -58,7 +57,6 @@ class DepartmentsTable extends DataTableComponent
     {
         return 'livewire.departments.modals';
     }
-
 
     public function query(): Builder
     {

@@ -27,7 +27,7 @@ class OrganizationsTable extends DataTableComponent
         return [
             Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->sortable()->searchable(),
-            Column::make("Nbr d'employé")->format(fn ($value, $column, Organization $row) => $row->users_count),
+            Column::make("Nbr d'employés")->format(fn ($value, $column, Organization $row) => $row->users_count),
             Column::make('Actions')->format(function ($value, $column, Organization $row) {
                 return view('livewire.organizations.table-actions', ['organization' => $row]);
             }),

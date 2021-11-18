@@ -166,7 +166,7 @@
         <!-- Page Header -->
         <header id="page-header"
             x-bind:class="{
-                'flex flex-none items-center h-16 bg-grey-600 shadow-sm fixed top-0 right-0 left-0': true,
+                'flex flex-none items-center h-16 bg-grey-300 shadow-sm fixed top-0 right-0 left-0': true,
                 'lg:pl-72': desktopSidebarOpen
             }">
             <div class="flex justify-between max-w-10xl mx-auto px-4 lg:px-8 w-full">

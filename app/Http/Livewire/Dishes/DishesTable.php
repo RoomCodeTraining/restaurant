@@ -10,10 +10,8 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class DishesTable extends DataTableComponent
 {
-
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
-
 
     public $dishIdBeingDeleted;
     public $confirmingDishDeletion = false;
@@ -27,22 +25,18 @@ class DishesTable extends DataTableComponent
             Column::make('Date création', 'created_at')->sortable()->searchable(),
             Column::make('Libellé', 'name')->sortable()->searchable(),
             Column::make('Type plat', 'dishType.name')->sortable()->searchable(),
-            Column::make('')->format(function ($value, $column, Dish $row) {
+            Column::make('Actions')->format(function ($value, $column, Dish $row) {
                 return view('livewire.dishes.table-actions', ['dish' => $row]);
             }),
 
         ];
     }
 
-
-
     public function confirmDishDeletion($dishId)
     {
         $this->dishIdBeingDeleted = $dishId;
         $this->confirmingDishDeletion = true;
     }
-
-
 
     public function deleteDish(DeleteDishAction $action)
     {
@@ -60,7 +54,6 @@ class DishesTable extends DataTableComponent
     {
         return 'livewire.dishes.modals';
     }
-
 
     public function query(): Builder
     {

@@ -139,7 +139,7 @@
             </x-slot>
         </x-action-section>
 
-        @if ($user->can('create', App\Models\Order::class))
+        @if ($user->can('create', App\Models\Order::class) && ! $user->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
 
             <x-section-border></x-section-border>
 

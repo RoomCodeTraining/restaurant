@@ -5,7 +5,7 @@
         </a>
     </div>
     @hasrole(App\Models\Role::ADMIN)
-        <div x-data="{ tooltip: 'Editer' }">
+        <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('users.edit', $user) }}" x-tooltip="tooltip">
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
             </a>

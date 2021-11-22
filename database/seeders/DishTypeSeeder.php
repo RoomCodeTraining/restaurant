@@ -22,11 +22,13 @@ class DishTypeSeeder extends Seeder
             ['id' => DishType::MAIN, 'name' => 'Plat principal']
         ]);
 
-        if (app()->environment('local')) {
-            Dish::factory()
-                ->count(10)
-                ->sequence(fn ($sequence) => ['dish_type_id' => DishType::all()->random()->id, 'name' => 'Plat '.$sequence->count])
-                ->create();
+        if (app()->environment('production')) {
+            return;
         }
+
+        Dish::factory()
+            ->count(10)
+            ->sequence(fn ($sequence) => ['dish_type_id' => DishType::all()->random()->id, 'name' => 'Plat '.$sequence->count])
+            ->create();
     }
 }

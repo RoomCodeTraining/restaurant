@@ -17,8 +17,10 @@ class DepartmentSeeder extends Seeder
         Department::create(['name' => 'Informatique']);
         Department::create(['name' => 'Comptabilité']);
 
-        if (app()->environment('local')) {
-            Department::factory()->count(10)->create();
+        if (app()->environment('production')) {
+            return;
         }
+
+        Department::factory()->count(10)->create();
     }
 }

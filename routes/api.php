@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\MenuController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\AccessCardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('orders', OrderController::class);
+    Route::apiResource('menus', MenuController::class);
+    Route::apiResource('access-cards', AccessCardController::class);
+    Route::post('reload/access-card', [AccessCardController::class, 'reloadAccessCard']);
 });
+
+
+Route::post('/login', [AuthController::class, 'login']);

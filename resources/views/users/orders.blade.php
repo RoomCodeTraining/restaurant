@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-section-header title="Commandes">
+    <x-section-header title="Mes Commandes">
         @if (!auth()->user()->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
             <x-slot name="actions">
                 <a href="{{ route('orders.create') }}" class="btn btn-sm btn-secondary">

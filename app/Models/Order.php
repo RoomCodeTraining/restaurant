@@ -4,7 +4,10 @@ namespace App\Models;
 
 use App\Models\Dish;
 use App\Models\Menu;
+use App\Models\Role;
 use App\Models\User;
+use App\States\Order\OrderState;
+use Spatie\ModelStates\HasStates;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,20 +15,15 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'is_confirmed',
-        'is_completed',
-        'dish_id',
-        'menu_id',
-    ];
+    use HasStates;
 
+    protected $guarded = [];
 
     protected $casts = [
-        'is_confirmed' => 'boolean',
-        'is_completed' => 'boolean',
+        'state' => OrderState::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
-
 
     public function user()
     {

@@ -35,7 +35,9 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        return view('users.edit', [
+            'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType')
+        ]);
     }
 
     public function update(Request $request, User $user)

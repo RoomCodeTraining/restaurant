@@ -52,10 +52,9 @@
         </x-slot>
 
         <x-slot name="actions">
-            <x-action-message class="mr-3" on="authorizationSaved">
+            <x-action-message class="mr-3" on="topUpSuccess">
                 Enregistré.
             </x-action-message>
-
             <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 Enregistrer

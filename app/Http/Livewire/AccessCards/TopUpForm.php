@@ -30,6 +30,18 @@ class TopUpForm extends Component
             'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
             'state.payment_method_id' => ['required'],
         ]);
+
+        $selectedPaymentMethod = $this->state['payment_method_id'];
+        $this->user->accessCard->quota_breakfast = $this->user->accessCard->quota_breakfast + (int) $this->state['quota_breakfast'];
+        $this->user->accessCard->quota_lunch = $this->user->accessCard->quota_lunch + (int) $this->state['quota_lunch'];
+        $this->user->accessCard->payment_method_id = $this->state['payment_method_id'];
+        $this->user->accessCard->save();
+
+        $this->reset(['state']);
+
+        $this->state['payment_method_id'] = $selectedPaymentMethod;
+
+        $this->emit('topUpSuccess');
     }
 
     public function render()

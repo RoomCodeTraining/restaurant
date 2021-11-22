@@ -46,6 +46,10 @@ class OrderPolicy
      */
     public function view(User $user, Order $order)
     {
+        if ($user->isFromLunchroom() && $user->can(self::ORDER_LIST)) {
+            return true;
+        }
+
         if ($user->id == $order->user_id && $user->can(self::ORDER_LIST)) {
             return true;
         }
@@ -74,6 +78,10 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
+        if ($user->isFromLunchroom() && $user->can(self::ORDER_UPDATE)) {
+            return true;
+        }
+
         if ($order->user_id == $user->id && $user->can(self::ORDER_UPDATE)) {
             return true;
         }

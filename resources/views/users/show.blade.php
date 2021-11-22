@@ -97,8 +97,8 @@
                                     Etat du compte
                                 </dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                <dd class="badge badge-primary badge-outline">
-                                    {{ $user->is_active ? 'Actif' : 'Inactif' }}
+                                <dd class="badge {{ $user->is_active ? 'badge-success' : 'badge-error' }}">
+                                    {{ $user->is_active ? 'Actif' : 'Non actif' }}
                                 </dd>
                             </div>
                         </div>

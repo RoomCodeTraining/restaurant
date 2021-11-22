@@ -20,6 +20,10 @@ class MenuController extends Controller
         return MenuResource::collection(Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->orderByDesc('created_at')->take(6)->get());
     }
 
+
+
+    
+
   
 
     /**

@@ -12,7 +12,7 @@ class AccessCard extends Model
     use HasFactory;
 
 
-    protected $fillaable = [
+    protected $fillable = [
         'identifier',
         'quota_breakfast',
         'quota_lunch',

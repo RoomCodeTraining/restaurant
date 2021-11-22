@@ -21,7 +21,7 @@ class PaymentMethod extends Model
 
     public static function getPaymentMethodForUser(User $user)
     {
-        switch ($user->user_type) {
+        switch ($user->user_type_id) {
             case UserTypes::CIPREL_AGENT:
                 return 'Postpaid';
             case UserTypes::NON_CIPREL_AGENT:

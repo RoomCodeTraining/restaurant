@@ -67,11 +67,6 @@ class User extends Authenticatable
         return $this->attributes['identifier']  = strtoupper($value);
     }
 
-    public function isFromLunchroom(): bool
-    {
-        return $this->hasRole([Role::ADMIN_LUNCHROOM, Role::OPERATOR_LUNCHROOM]);
-    }
-
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -109,6 +104,6 @@ class User extends Authenticatable
 
     public function accessCard()
     {
-        return $this->belongsTo(AccessCard::class, 'current_access_card_id');
+        return $this->belongsTo(Role::class, 'current_access_card_id');
     }
 }

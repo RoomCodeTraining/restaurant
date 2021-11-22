@@ -15,7 +15,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('state');
+            $table->boolean('is_confirmed')->default(true);
+            $table->boolean('is_completed')->default(false);
             $table->foreignId('user_id')->constrained();
             $table->foreignId('dish_id')->constrained();
             $table->foreignId('menu_id')->constrained();

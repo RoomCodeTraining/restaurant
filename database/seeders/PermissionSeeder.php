@@ -265,7 +265,8 @@ class PermissionSeeder extends Seeder
             'id' => Role::USER,
             'name' => 'Utilisateur',
         ])->givePermissionTo([
-            OrderPolicy::ORDER_MANAGE,
+            OrderPolicy::ORDER_CREATE,
+            OrderPolicy::ORDER_LIST,
         ]);
 
         Role::create([
@@ -273,7 +274,8 @@ class PermissionSeeder extends Seeder
             'name' => 'Administrateur Ressources Humaines',
         ])->givePermissionTo([
             UserPolicy::USER_LIST,
-            OrderPolicy::ORDER_MANAGE,
+            OrderPolicy::ORDER_CREATE,
+            OrderPolicy::ORDER_LIST,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
         ]);
 

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Menu;
-use App\Models\Order;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
 
@@ -17,14 +15,12 @@ class MenuController extends Controller
      */
     public function index()
     {
-        return MenuResource::collection(Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->orderByDesc('created_at')->take(6)->get());
+        $menus = Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')
+            ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->get();
+
+        return MenuResource::collection($menus);
     }
-
-
-
-    
-
-  
 
     /**
      * Display the specified resource.
@@ -34,11 +30,6 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        $menu = Menu::whereId($menu->id)->with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->first();
-        return new MenuResource($menu);
+        return new MenuResource($menu->load('starterDish', 'mainDish', 'secondDish', 'dessertDish'));
     }
-
- 
-
- 
 }

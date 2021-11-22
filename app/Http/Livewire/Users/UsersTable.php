@@ -14,6 +14,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 class UsersTable extends DataTableComponent
 {
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
+
     public array $filterNames = [
         'type' => 'Profil',
         'active' => 'Etat du compte',

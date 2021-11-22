@@ -55,7 +55,7 @@ module.exports = {
 					800: '#35567f',
 					900: '#1e4371'
 				},
-                grey: {
+				grey: {
 					50: '#f7f7f8',
 					100: '#eff0f0',
 					200: '#e8e8e9',
@@ -67,7 +67,6 @@ module.exports = {
 					800: '#b9bbbc',
 					900: '#b1b3b4'
 				}
-
 			}
 		}
 	},
@@ -94,7 +93,7 @@ module.exports = {
 					'accent-content': '#ffffff',
 					neutral: '#b9bbbe',
 					'neutral-focus': '#b1b3b7',
-					'neutral-content': colors.gray[100],
+					'neutral-content': colors.gray[700],
 					'base-100': '#ffffff',
 					'base-200': '#f9fafb',
 					'base-300': '#d1d5db',

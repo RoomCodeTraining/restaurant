@@ -27,8 +27,8 @@ class OrdersController extends Controller
         return view('orders.show');
     }
 
-    public function edit()
+    public function edit(Order $order)
     {
-        return view('orders.edit');
+        return view('orders.edit', compact('order'));
     }
 }

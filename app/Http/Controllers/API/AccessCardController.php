@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
-use App\Enums\UserTypes;
 use App\Models\AccessCard;
 use Illuminate\Http\Request;
 use App\Models\PaymentMethod;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AccessCardResource;
+use Illuminate\Support\Facades\DB;
 
 class AccessCardController extends Controller
 {
@@ -20,7 +20,7 @@ class AccessCardController extends Controller
      */
     public function index()
     {
-        return AccessCardResource::collection(AccessCard::with('user', 'paymentMethod')->orderByDesc('created_at')->get());
+        return AccessCardResource::collection(AccessCard::with('user', 'paymentMethod')->latest()->paginate());
     }
 
     /**
@@ -33,20 +33,25 @@ class AccessCardController extends Controller
     {
         $request->validate([
             'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
-            'user_id' => ['required', Rule::exists('users', 'id')]
+            'user_id' => ['required', Rule::exists('users', 'identifier')]
         ]);
 
-        $user = User::findOrFail($request->user_id);
-        $paymentMethod = PaymentMethod::getPaymentMethodForUser($user);
-        $paymentMethodId = PaymentMethod::whereName($paymentMethod)->first()->id;
+        // TODO: Support user id and user identifier
+        $user = User::with('userType.paymentMethod')->firstWhere('identifier', $request->user_id);
+        $paymentMethod = PaymentMethod::firstWhere('name', $user->userType->paymentMethod->name);
 
-        $accessCard = AccessCard::create([
+        DB::beginTransaction();
+
+        $accessCard = $user->accessCards()->create([
             'identifier' => $request->identifier,
-            'user_id' => $request->user_id,
             'quota_breakfast' => 0,
             'quota_lunch' => 0,
-            'payment_method_id' => $paymentMethodId,
+            'payment_method_id' => $paymentMethod->id,
         ]);
+
+        $user->update([ 'current_access_card_id' => $accessCard->id ]);
+
+        DB::commit();
 
         return new AccessCardResource($accessCard);
     }
@@ -62,7 +67,6 @@ class AccessCardController extends Controller
         return new AccessCardResource($accessCard);
     }
 
-
     public function reloadAccessCard(Request $request)
     {
         $request->validate([
@@ -70,13 +74,13 @@ class AccessCardController extends Controller
         ]);
 
         $accessCard = AccessCard::whereIdentifier($request->identifier)->first();
-        if($accessCard->quota_lunch == 0 && $accessCard->quota_breakfast == 0){
+        if ($accessCard->quota_lunch == 0 && $accessCard->quota_breakfast == 0) {
             $accessCard->update(['quota_lunch' => 25, 'quota_breakfast' => 25]);
-        }elseif($accessCard->quota_lunch == 0){
+        } elseif ($accessCard->quota_lunch == 0) {
             $accessCard->update(['quota_lunch' => 25]);
-        }elseif($accessCard->quota_breakfast == 0){
+        } elseif ($accessCard->quota_breakfast == 0) {
             $accessCard->update(['quota_breakfast' => 25]);
-        }else{
+        } else {
             return response()->json(['msg' => 'Cette carte a toujours des cota de petit déjeuner et déjeuner']);
         }
 
@@ -92,6 +96,7 @@ class AccessCardController extends Controller
     public function destroy(AccessCard $accessCard)
     {
         $accessCard->delete();
+
         return response()->json(['success' => 'La carte RFID a été supprimé']);
     }
 }

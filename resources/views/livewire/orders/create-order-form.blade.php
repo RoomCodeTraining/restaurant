@@ -113,7 +113,10 @@
             <aside class="hidden xl:block xl:col-span-3">
                 <div class="sticky top-4 space-y-4">
                     <div class="bg-white shadow p-4 flex flex-col space-y-2">
-                        <h3 class="font-semibold text-lg">Mon panier</h3>
+                        <h3 class="font-semibold text-lg flex items-center justify-between">
+                            <span>Mon panier</span>
+                            <span class="text-sm">{{ $total }} €</span>
+                        </h3>
                         <div>
                             <ul class="list-disc ml-4">
                                 @forelse ($selectedDishes as $menuId => $item)

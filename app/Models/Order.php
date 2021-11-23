@@ -6,6 +6,7 @@ use App\States\Order\Cancelled;
 use App\States\Order\OrderState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStates\HasStates;
 
 class Order extends Model
@@ -13,6 +14,8 @@ class Order extends Model
     use HasFactory;
 
     use HasStates;
+
+    // use SoftDeletes;
 
     protected $guarded = [];
 

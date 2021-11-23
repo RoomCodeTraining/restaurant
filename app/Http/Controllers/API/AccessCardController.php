@@ -34,7 +34,7 @@ class AccessCardController extends Controller
         $this->authorize('create', AccessCard::class);
 
         $request->validate([
-            'user_id' => ['required', Rule::exists('users', 'identifier')],
+            'user_id' => ['required'],
             'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
             'quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
             'quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
@@ -43,6 +43,12 @@ class AccessCardController extends Controller
 
         // TODO: Support user id and user identifier
         $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
+
+        if (! $user) {
+            throw ValidationException::withMessages([
+                'user_id' => ['Cet utilisateur n\'existe pas'],
+            ]);
+        }
 
         if ($user->isFromlunchroom()) {
             throw ValidationException::withMessages([

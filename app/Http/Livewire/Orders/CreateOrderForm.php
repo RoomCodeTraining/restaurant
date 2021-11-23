@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Orders;
 
 use App\Actions\Order\CreateOrderAction;
 use App\Models\Menu;
+use App\States\Order\Cancelled;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
@@ -33,7 +34,10 @@ class CreateOrderForm extends Component
             ]);
         }
 
-        $previousOrders = Auth::user()->orders()->whereIn('menu_id', array_keys($this->selectedDishes))->get();
+        $previousOrders = Auth::user()->orders()
+            ->whereIn('menu_id', array_keys($this->selectedDishes))
+            ->whereNotState('state', Cancelled::class)
+            ->get();
 
         if ($previousOrders->count() > 0) {
             throw ValidationException::withMessages([

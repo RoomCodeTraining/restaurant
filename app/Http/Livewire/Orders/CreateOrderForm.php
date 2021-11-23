@@ -9,12 +9,11 @@ use Livewire\Component;
 
 class CreateOrderForm extends Component
 {
-    public $selectedMenuId;
+    public $dishes = [];
 
-    public $dishId;
+    public $menus = [];
 
-    public $selectedMenu;
-
+    public $selectedDishes = [];
 
     public function updated($field, $value)
     {
@@ -25,30 +24,48 @@ class CreateOrderForm extends Component
 
     public function saveOrder(CreateOrderAction $createOrderAction)
     {
-        $this->validate([
-            'selectedMenuId' => ['required'],
-            'dishId' => ['required'],
-        ]);
+        $this->validate([ 'selectedDishes' => ['required'] ]);
 
-        $createOrderAction->execute([
-            'menu_id' => $this->selectedMenuId,
-            'dish_id' => $this->dishId,
-            'user_id' => Auth::id()
-        ]);
+        foreach ($this->selectedDishes as $menuId => $dish) {
+            $createOrderAction->execute([
+                'dish_id' => $dish['id'],
+                'menu_id' => $menuId,
+                'user_id' => Auth::id()
+            ]);
+        }
 
         $this->reset();
 
-        $this->emit('orderSaved');
-
         session()->flash('success', 'La commande a été effectuée avec succès !');
 
-        return redirect()->route('orders.create');
+        return redirect()->route('orders.index');
+    }
+
+    public function messages()
+    {
+        return [
+            'dishes.required' => 'Vous devez choisir au moins un plat',
+        ];
     }
 
     public function render()
     {
+        $this->menus = Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')
+            ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->get();
+
         return view('livewire.orders.create-order-form', [
-            'menus' => Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])->get(),
+            'menus' => $this->menus,
         ]);
+    }
+
+    public function addDish($menuId, $dish)
+    {
+        $this->selectedDishes[$menuId] = $dish;
+    }
+
+    public function removeDish($menuId)
+    {
+        unset($this->selectedDishes[$menuId]);
     }
 }

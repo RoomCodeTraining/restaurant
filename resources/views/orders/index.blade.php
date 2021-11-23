@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-section-header title="Commandes">
-        @if (!auth()->user()->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
+        @if (! auth()->user()->isFromLunchroom())
             <x-slot name="actions">
                 <a href="{{ route('orders.create') }}" class="btn btn-sm btn-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="inline-block font-bold w-4 h-4 mr-1 stroke-current"
@@ -11,7 +11,7 @@
                                 fill="currentColor"></path>
                         </g>
                     </svg>
-                    Nouveau
+                    Passer une commande
                 </a>
             </x-slot>
         @endif

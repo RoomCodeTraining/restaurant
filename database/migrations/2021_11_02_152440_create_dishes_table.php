@@ -20,6 +20,9 @@ class CreateDishesTable extends Migration
             $table->string('image')->nullable();
             $table->foreignId('dish_type_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

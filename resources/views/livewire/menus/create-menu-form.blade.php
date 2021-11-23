@@ -1,18 +1,18 @@
 <div>
     <x-form-card submit="saveMenu">
         <x-slot name="form">
-            <div class="col-span-8 md:col-span-12 form-control">
-                <label class="label">
-                    <span class="label-text">Date</span>
-                </label>
-                <input class="input input-bordered" type="date" wire:model.defer="state.served_at" />
-                @error('state.served_at')
-                    <label class="label">
-                        <span class="label-text-alt text-red-600">{{ $message }}</span>
-                    </label>
-                @enderror
-            </div>
             <div class="grid grid-cols-8 gap-2 md:gap-4">
+                <div class="col-span-8 md:col-span-8 form-control">
+                    <label class="label">
+                        <span class="label-text">Date</span>
+                    </label>
+                    <input class="input input-bordered" type="date" wire:model.defer="state.served_at" />
+                    @error('state.served_at')
+                        <label class="label">
+                            <span class="label-text-alt text-red-600">{{ $message }}</span>
+                        </label>
+                    @enderror
+                </div>
                 <div class="col-span-8 md:col-span-4">
                     <div class="form-control w-full">
                         <label class="label">

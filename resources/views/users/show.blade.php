@@ -193,7 +193,7 @@
                     <div class="py-4">
                         <span class="font-bold">Dernières commandes</span>
                     </div>
-                    <x-table hover no-shadow class="shadow bg-white" :columns="[
+                    <x-table hover class="shadow bg-white" :columns="[
                     'Menu du' => fn ($order) => $order->menu->created_at->format('d/m/Y'),
                     'Plat' => 'dish.name',
                 ]" :rows="$latestOrders">

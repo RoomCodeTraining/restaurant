@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\User;
+use App\States\Order\Completed;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -28,7 +29,7 @@ class UsersController extends Controller
         return view('users.show', [
             'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType'),
             'totalOrders' => Order::where('user_id', $user->id)->count(),
-            'totalOrdersCompleted' => Order::where(['user_id' => $user->id, 'is_completed' => true])->count(),
+            'totalOrdersCompleted' => Order::where(['user_id' => $user->id])->whereState('state', Completed::class)->count(),
             'latestOrders' => Order::where('user_id', $user->id)->latest()->limit(5)->get()
         ]);
     }

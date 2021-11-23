@@ -77,7 +77,7 @@
                                 :active="request()->routeIs('orders.create')">
                                 Passer sa commande
                             </x-nav-link>
-                            <x-nav-link href="{{ route('orders.index') }}" icon="plat"
+                            <x-nav-link href="{{ route('orders.index') }}" icon="cde"
                                 :active="request()->routeIs('orders.index')">
                                 Mes commandes
                             </x-nav-link>
@@ -118,8 +118,8 @@
                                 Gestion des commandes
                             </div>
                             @can('manage', App\Models\Order::class)
-                                <x-nav-link href="{{ route('orders.users.index') }}" icon="cde"
-                                    :active="request()->routeIs('orders.users.index')">
+                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
+                                    :active="request()->routeIs('orders.summary')">
                                     Commandes
                                 </x-nav-link>
                             @endcan

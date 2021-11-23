@@ -6,6 +6,7 @@ use App\Models\Dish;
 use App\Models\Menu;
 use App\Models\Role;
 use App\Models\User;
+use App\States\Order\Cancelled;
 use App\States\Order\OrderState;
 use Spatie\ModelStates\HasStates;
 use Illuminate\Database\Eloquent\Model;
@@ -24,6 +25,16 @@ class Order extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function canBeCancelled()
+    {
+        return $this->state->canTransitionTo(Cancelled::class);
+    }
+
+    public function canBeUpdated()
+    {
+        return $this->canBeCancelled();
+    }
 
     public function user()
     {

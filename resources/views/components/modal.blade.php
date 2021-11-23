@@ -16,6 +16,9 @@ switch ($maxWidth ?? '2xl') {
     case 'xl':
         $maxWidth = 'sm:max-w-xl';
         break;
+    case '3xl':
+        $maxWidth = 'sm:max-w-3xl';
+        break;
     case '2xl':
     default:
         $maxWidth = 'max-w-2xl';
@@ -35,7 +38,7 @@ switch ($maxWidth ?? '2xl') {
     </div>
 
     <div x-show="show"
-        class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full mt-36 {{ $maxWidth }}"
+        class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all w-full mt-36 {{ $maxWidth }}"
         x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"

@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Menus;
 
-use App\Models\Menu;
 use App\Actions\Menu\DeleteMenuAction;
+use App\Models\Menu;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class MenusTable extends DataTableComponent
 {
@@ -14,7 +14,6 @@ class MenusTable extends DataTableComponent
 
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
-
 
     public $menuIdBeingDeleted;
     public $confirmingMenuDeletion = false;
@@ -53,6 +52,7 @@ class MenusTable extends DataTableComponent
         $this->menuIdBeingDeleted = null;
 
         session()->flash('success', "Le menu a été supprimé avec succès !");
+
         return redirect()->route('menus.index');
     }
 

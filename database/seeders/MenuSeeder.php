@@ -21,7 +21,7 @@ class MenuSeeder extends Seeder
         }
 
         Menu::factory()
-            ->count(30)
+            ->count(20)
             ->sequence(fn ($sequence) => [
                 'starter_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
                 'main_dish_id' =>  Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,

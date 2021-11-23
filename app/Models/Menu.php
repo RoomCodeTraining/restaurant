@@ -2,25 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Dish;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'starter_dish_id',
-        'main_dish_id',
-        'second_dish_id',
-        'dessert_id',
-        'served_at'
+    protected $guarded = [];
+
+    protected $casts = [
+        'served_at' => 'date',
     ];
 
     protected $dates = [
         'served_at' => 'Y-m-d',
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function starterDish()
     {
@@ -40,10 +42,5 @@ class Menu extends Model
     public function dessertDish()
     {
         return $this->belongsTo(Dish::class, 'dessert_id');
-    }
-
-    public function getServedAtAttribute($value)
-    {
-        return \Carbon\Carbon::parse($value)->format('d/m/Y');
     }
 }

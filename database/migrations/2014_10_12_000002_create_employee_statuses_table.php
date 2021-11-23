@@ -19,6 +19,9 @@ class CreateEmployeeStatusesTable extends Migration
             $table->string('name')->index();
             $table->string('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

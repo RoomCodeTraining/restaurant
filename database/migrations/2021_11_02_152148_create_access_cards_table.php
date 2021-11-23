@@ -21,6 +21,9 @@ class CreateAccessCardsTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('payment_method_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

@@ -16,11 +16,9 @@ class DishTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('dish_types')->insert([
-            ['id' => DishType::DESSERT, 'name' => 'Dessert'],
-            ['id' => DishType::STARTER, 'name' => 'Entrée'],
-            ['id' => DishType::MAIN, 'name' => 'Plat principal']
-        ]);
+        DishType::create(['id' => DishType::STARTER, 'name' => 'Entrée']);
+        DishType::create(['id' => DishType::MAIN, 'name' => 'Plat principal']);
+        DishType::create(['id' => DishType::DESSERT, 'name' => 'Dessert']);
 
         if (app()->environment('production')) {
             return;
@@ -28,7 +26,8 @@ class DishTypeSeeder extends Seeder
 
         Dish::factory()
             ->count(10)
-            ->sequence(fn ($sequence) => ['dish_type_id' => DishType::all()->random()->id, 'name' => 'Plat '.$sequence->count])
+            ->for(DishType::all()->random())
+            ->sequence(fn ($sequence) => ['name' => 'Plat '.$sequence->index + 1])
             ->create();
     }
 }

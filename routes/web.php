@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
+use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 /*
@@ -30,8 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/roles', App\Http\Controllers\RolesController::class);
     Route::resource('/dishes', App\Http\Controllers\DishesController::class);
     Route::resource('/menus', App\Http\Controllers\MenusController::class);
+    Route::get('/orders/summary', App\Http\Controllers\OrdersSummaryController::class)->name('orders.summary');
     Route::resource('/orders', App\Http\Controllers\OrdersController::class);
-    Route::get('/users/orders', App\Http\Controllers\UsersOrdersController::class)->name('orders.users.index');
     Route::resource('/departments', App\Http\Controllers\DepartmentsController::class);
     Route::resource('/organizations', App\Http\Controllers\OrganizationsController::class);
     Route::resource('/userTypes', App\Http\Controllers\UserTypesController::class);

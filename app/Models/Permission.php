@@ -6,20 +6,6 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
 
 class Permission extends SpatiePermission
 {
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::created(function ($permission) {
-            if (str_contains($permission->name, '*')) {
-                // dd($permission);
-            }
-        });
-    }
-
     public function scopeIsMaster($query)
     {
         return $query->whereDoesntHave('parent')->whereHas('children');

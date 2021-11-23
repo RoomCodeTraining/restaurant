@@ -20,6 +20,9 @@ class CreateOrdersTable extends Migration
             $table->foreignId('dish_id')->constrained();
             $table->foreignId('menu_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

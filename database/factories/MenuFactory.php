@@ -18,7 +18,7 @@ class MenuFactory extends Factory
             'main_dish_id' => null,
             'second_dish_id' => null,
             'dessert_id' => null,
-            'served_at' => \Carbon\Carbon::now()->addDays(rand(0, 5)),
+            'served_at' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
         ];
     }
 }

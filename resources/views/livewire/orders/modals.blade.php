@@ -5,14 +5,58 @@
     </x-slot>
 
     <x-slot name="content">
-        Etes vous sûr de vouloir votre commande ?
+        Etes vous sûr de annuler vouloir votre commande ?
     </x-slot>
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
-            <button class="btn btn-sm" wire:click="$toggle('confirmingOrderCancellation')" wire:loading.attr="disabled">
+            <button class="btn btn-sm" wire:click="$toggle('confirmingOrderCancellation')"
+                wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
             <button class="btn btn-sm btn-error" wire:click="cancelOrder" wire:target="cancelOrder"
+                wire:loading.attr="disabled" wire:loading.class="loading">
+                {{ __('Confirmer') }}
+            </button>
+        </div>
+    </x-slot>
+</x-dialog-modal>
+
+<!-- Delete User Confirmation Modal -->
+<x-dialog-modal wire:model="confirmingOrderUpdate">
+    <x-slot name="title">
+        Modifier la commande
+    </x-slot>
+    <x-slot name="content">
+        <div class="col-span-8 md:col-span-4">
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text">Plat principal</span>
+                </label>
+                @if ($selectedOrder)
+                    <select class="select select-bordered w-full" wire:model.defer="dishId">
+                        <option selected="selected">Veuillez choisir</option>
+                        <option value="{{ $selectedOrder->menu->mainDish->id }}">
+                            {{ $selectedOrder->menu->mainDish->name }}
+                        </option>
+                        <option value="{{ $selectedOrder->menu->secondDish->id }}">
+                            {{ $selectedOrder->menu->secondDish->name }}
+                        </option>
+                    </select>
+                @endif
+            </div>
+            @error('dishId')
+                <label class="label">
+                    <span class="label-text-alt text-red-600">{{ $message }}</span>
+                </label>
+            @enderror
+        </div>
+    </x-slot>
+    <x-slot name="footer">
+        <div class="inline-flex items-center space-x-2">
+            <button class="btn btn-sm" wire:click="$toggle('confirmingOrderUpdate')" wire:loading.attr="disabled">
+                {{ __('Annuler') }}
+            </button>
+            <button class="btn btn-sm btn-error" wire:click="updateOrder" wire:target="updateOrder"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

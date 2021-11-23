@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Dish;
 use App\Models\DishType;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DishTypeSeeder extends Seeder
 {
@@ -16,17 +16,22 @@ class DishTypeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('dish_types')->insert([
-            ['id' => DishType::DESSERT, 'name' => 'Dessert'],
-            ['id' => DishType::STARTER, 'name' => 'Entrée'],
-            ['id' => DishType::MAIN, 'name' => 'Plat principal']
-        ]);
+        DishType::create(['id' => DishType::STARTER, 'name' => 'Entrée']);
+        DishType::create(['id' => DishType::MAIN, 'name' => 'Plat principal']);
+        DishType::create(['id' => DishType::DESSERT, 'name' => 'Dessert']);
 
-        if (app()->environment('local')) {
-            Dish::factory()
-                ->count(10)
-                ->sequence(fn ($sequence) => ['dish_type_id' => DishType::all()->random()->id, 'name' => 'Plat '.$sequence->count])
-                ->create();
+        if (app()->environment('production')) {
+            return;
         }
+
+        $faker = \Faker\Factory::create();
+
+        Dish::factory()
+            ->count(10)
+            ->sequence(fn (Sequence $sequence) => [
+                'name' => 'Plat ' . $sequence->index + 1,
+                'dish_type_id' => $faker->randomElement([DishType::STARTER, DishType::MAIN, DishType::DESSERT]),
+            ])
+            ->create();
     }
 }

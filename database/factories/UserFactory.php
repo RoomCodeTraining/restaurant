@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\UserTypes;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

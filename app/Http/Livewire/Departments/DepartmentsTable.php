@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Departments;
 
+use App\Actions\Department\DeleteDepartmentAction;
 use App\Models\Department;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Actions\Department\DeleteDepartmentAction;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class DepartmentsTable extends DataTableComponent
 {

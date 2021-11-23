@@ -2,16 +2,14 @@
 
 namespace App\Http\Livewire\Dishes;
 
+use App\Actions\Dish\UpdateDishAction;
 use App\Models\Dish;
-use Livewire\Component;
 use App\Models\DishType;
 use Illuminate\Validation\Rule;
-use App\Actions\Dish\UpdateDishAction;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Component;
 
 class EditDishForm extends Component
 {
-
     public $state = [
         'name' => null,
         'description' => null,
@@ -27,31 +25,19 @@ class EditDishForm extends Component
         $this->state = $dish->toArray();
     }
 
-      public function messages()
-    {
-        return [
-            'required' => 'Cette valeur est requise',
-            'string' => 'Cette valeur doit etre une chaine de caractere',
-            'email' => 'Cette valeur doit etre une adresse email',
-            'max' => 'Cette valeur est trop grande',
-            'min' => 'Cette valeur est trop petite',
-        ];
-    }
-
-
     public function saveDish(UpdateDishAction $updateDishAction)
     {
-
-       $this->validate([
+        $this->validate([
             'state.name' => ['required', 'string', 'max:255'],
-            'state.description' => ['required', 'string', 'max:255'],
             'state.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
+            'state.description' => ['nullable', 'string', 'max:255'],
         ]);
+
         $updateDishAction->execute($this->dish, $this->state);
+
         session()->flash('success', "Le plat a été modifié avec succès!");
+
         return redirect()->route('dishes.index');
-
-
     }
 
 

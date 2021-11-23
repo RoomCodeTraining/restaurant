@@ -3,8 +3,6 @@
 namespace App\Actions\Dish;
 
 use App\Models\Dish;
-use App\Models\User;
-use App\Events\UserDeleted;
 use Illuminate\Validation\ValidationException;
 
 final class DeleteDishAction
@@ -19,7 +17,7 @@ final class DeleteDishAction
 
         $dish->delete();
 
-       // dishDeleted::dispatch($dish);
+        // dishDeleted::dispatch($dish);
 
         return $dish;
     }

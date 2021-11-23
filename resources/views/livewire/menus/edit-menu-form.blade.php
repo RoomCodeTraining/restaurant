@@ -63,7 +63,7 @@
                             <span class="label-text">Choississez le plat 2</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.second_dish_id">
-                            <option disabled="disabled" selected="selected">Veuillez choisir</option>
+                            <option selected="selected">Veuillez choisir</option>
                             @foreach ($main_dishes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -80,7 +80,7 @@
 
         <x-slot name="actions">
             <div class="flex items-center space-x-2">
-                <button class="md:hidden btn-sm">
+                <button class="md:hidden btn btn-sm">
                     Retour
                 </button>
                 <button class="btn btn-sm btn-primary" wire:target="saveUser" type="submit" wire:loading.attr="disabled"

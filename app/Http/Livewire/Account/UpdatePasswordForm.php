@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\Account;
 
-use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
 use App\Actions\User\UpdateUserPassword;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class UpdatePasswordForm extends Component
 {

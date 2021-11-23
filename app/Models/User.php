@@ -2,17 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Department;
-use App\Models\Organization;
-use App\Models\EmployeeStatus;
 use App\Support\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasPermissions;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
@@ -64,7 +60,12 @@ class User extends Authenticatable
 
     public function setIdentifierAttribute($value)
     {
-        return $this->attributes['identifier']  = strtoupper($value);
+        return $this->attributes['identifier'] = strtoupper($value);
+    }
+
+    public function isFromLunchroom(): bool
+    {
+        return $this->hasRole([Role::ADMIN_LUNCHROOM, Role::OPERATOR_LUNCHROOM]);
     }
 
     public function orders()
@@ -104,6 +105,6 @@ class User extends Authenticatable
 
     public function accessCard()
     {
-        return $this->belongsTo(Role::class, 'current_access_card_id');
+        return $this->belongsTo(AccessCard::class, 'current_access_card_id');
     }
 }

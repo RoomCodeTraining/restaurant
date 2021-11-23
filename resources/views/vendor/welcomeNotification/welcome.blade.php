@@ -1,16 +1,16 @@
 <x-guest-layout>
-    <div id="page-container" class="flex flex-col mx-auto w-full min-h-screen bg-gray-100">
-        <!-- Page Content -->
+{{--     <div id="page-container" class="flex flex-col mx-auto w-full min-h-screen bg-gray-100">
+
         <main id="page-content" class="flex flex-auto flex-col max-w-full">
             <div class="min-h-screen flex flex-col bg-cover bg-bottom"
                 style="background-image: url('/images/loginimg.jpg'); background-size: cover; background-position: center center;">
-                <!-- Sign In Section -->
+
                 <div class="flex flex-grow md:w-8/12 lg:w-5/12 xl:w-4/12 bg-white shadow-xl">
                     <div class="flex flex-col p-8 lg:p-16 xl:p-20 w-full">
-                        <!-- Sign In Content -->
+
                         <div class="flex-grow flex items-center">
                             <div class="w-full max-w-lg mx-auto space-y-10">
-                                <!-- Header -->
+
                                 <div>
                                     <h1 class="text-4xl font-bold inline-flex items-center mb-1 h-32 justify-center">
                                         <img class="h-full" src="{{ asset('images/logo-ciprel-vf.png') }}">
@@ -18,7 +18,7 @@
                                     <p class="text-gray-500">
                                         Bienvenue, veuillez vous connectez à votre plateforme
                                     </p>
-                                </div>
+                                </div> --}}
                                 <!-- END Header -->
 
                                 <!-- Sign In Form -->
@@ -58,7 +58,7 @@
                                         </button>
                                     </div>
                                 </form> --}}
-                                <form method="POST" class="space-y-6">
+                               {{--  <form method="POST" class="space-y-6">
                                     @csrf
                                     <input type="hidden" name="email" value="{{ $user->email }}" />
 
@@ -91,15 +91,54 @@
                                         </button>
                                     </div>
                                 </form>
-                                <!-- END Sign In Form -->
+
                             </div>
                         </div>
-                        <!-- END Sign In Content -->
+
                     </div>
                 </div>
-                <!-- END Sign In Section -->
+
             </div>
         </main>
-        <!-- END Page Content -->
+
+    </div> --}}
+    <div id="page-container" class="flex flex-col mx-auto w-full min-h-screen bg-gray-100">
+        <!-- Page Content -->
+        <div class="w-full h-screen  md:flex lg:flex xl:flex">
+            <div class="bg-white flex justify-center flex-col lg:w-5/12 xl:w-5/12 md:w-6/12 w-full shadow-lg">
+                <div class="flex font-bold justify-center mb-6 mt-2">
+                    <img class="h-auto w-1/3" src="{{ asset('images/logo-ciprel-vf.png') }}">
+                </div>
+                <div class="w-full text-center px-16">
+                    <form class="w-full bg-white rounded-lg" method="POST">
+                        @csrf
+                        <h2 class="text-xl text-center text-gray-700 my-4 mb-8 px-18">
+                            Bienvenue, Veuillez crééer un nouveau mot de passe.
+                        </h2>
+                        <div class="px-2 pb-4">
+                            <div class="w-full mt-8 mb-4">
+                                <div class="flex items-center">
+                                    <input type="hidden" name="email" value="{{ $user->email }}" />
+                                    <i class="ml-3 fill-current text-gray-400 text-xs z-10 fas fa-envelope-open-text"></i>
+                                    <input type="password" id="tk-pages-sign-in-password" name="password"  placeholder="Entrez votre mot de passe" class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100" required autocomplete="new-password"   />
+                                </div>
+                            </div>
+
+                            <div class="w-full mt-4">
+                                <div class="flex items-center">
+                                    <i class='ml-3 fill-current text-gray-400 text-xs z-10 fas fa-lock'></i>
+                                    <input type="password" id="tk-pages-sign-in-password" name="password_confirmation" placeholder="Entrez à nouveau votre mot de passe" class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100" required autocomplete="current-password" />
+                                </div>
+                            </div>
+
+
+                            <button type="submit" class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none">CCréer un nouveau mot de passe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <img src="{{ asset('images/loginimg.jpg') }}" alt="background"
+                class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
+        </div>
     </div>
 </x-guest-layout>

@@ -2,19 +2,18 @@
 
 namespace App\Http\Livewire\Menus;
 
-use App\Models\Menu;
 use App\Actions\Menu\DeleteMenuAction;
+use App\Models\Menu;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class MenusTable extends DataTableComponent
 {
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
-    public string $defaultSortColumn = 'created_at';
+    public string $defaultSortColumn = 'served_at';
     public string $defaultSortDirection = 'desc';
-
 
     public $menuIdBeingDeleted;
     public $confirmingMenuDeletion = false;
@@ -25,8 +24,9 @@ class MenusTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date', 'served_at')->sortable()->searchable(),
-            Column::make('Entré', 'starterDish.name')->sortable()->searchable(),
+            Column::make('Date', 'served_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
+            Column::make('Entrées', 'starterDish.name')->sortable()->searchable(),
+            Column::make('Desserts', 'dessertDish.name')->sortable()->searchable(),
             Column::make('Plat 1', 'mainDish.name')->sortable()->searchable(),
             Column::make('Plat 2', 'secondDish.name')->sortable()->searchable(),
             Column::make('Actions')->format(function ($value, $column, Menu $row) {
@@ -36,14 +36,11 @@ class MenusTable extends DataTableComponent
         ];
     }
 
-
     public function confirmMenuDeletion($dishId)
     {
         $this->menuIdBeingDeleted = $dishId;
         $this->confirmingMenuDeletion = true;
     }
-
-
 
     public function deleteMenu(DeleteMenuAction $action)
     {
@@ -53,6 +50,7 @@ class MenusTable extends DataTableComponent
         $this->menuIdBeingDeleted = null;
 
         session()->flash('success', "Le menu a été supprimé avec succès !");
+
         return redirect()->route('menus.index');
     }
 
@@ -60,7 +58,6 @@ class MenusTable extends DataTableComponent
     {
         return 'livewire.menus.modals';
     }
-
 
     public function query(): Builder
     {

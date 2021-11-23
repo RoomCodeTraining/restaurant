@@ -97,8 +97,8 @@
                                     Etat du compte
                                 </dt>
                                 <dd class="text-sm font-normal text-gray-900">
-                                <dd class="badge badge-primary badge-outline">
-                                    {{ $user->is_active ? 'Actif' : 'Inactif' }}
+                                <dd class="badge {{ $user->is_active ? 'badge-success' : 'badge-error' }}">
+                                    {{ $user->is_active ? 'Actif' : 'Non actif' }}
                                 </dd>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                     <div class="py-4">
                         <span class="font-bold">Dernières commandes</span>
                     </div>
-                    <x-table hover no-shadow class="shadow bg-white" :columns="[
+                    <x-table hover class="shadow bg-white" :columns="[
                     'Menu du' => fn ($order) => $order->menu->created_at->format('d/m/Y'),
                     'Plat' => 'dish.name',
                 ]" :rows="$latestOrders">

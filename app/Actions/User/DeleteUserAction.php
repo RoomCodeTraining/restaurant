@@ -2,8 +2,8 @@
 
 namespace App\Actions\User;
 
-use App\Models\User;
 use App\Events\UserDeleted;
+use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
 final class DeleteUserAction

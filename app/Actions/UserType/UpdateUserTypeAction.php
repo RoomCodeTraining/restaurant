@@ -2,7 +2,6 @@
 
 namespace App\Actions\UserType;
 
-use App\Events\UserTypeCreated;
 use App\Models\UserType;
 
 class UpdateUserTypeAction

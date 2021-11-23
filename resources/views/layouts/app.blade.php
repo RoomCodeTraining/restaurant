@@ -77,6 +77,10 @@
                                 :active="request()->routeIs('orders.create')">
                                 Passer sa commande
                             </x-nav-link>
+                            <x-nav-link href="{{ route('orders.index') }}" icon="cde"
+                                :active="request()->routeIs('orders.index')">
+                                Mes commandes
+                            </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||
     auth()->user()->can('viewAny', \App\Models\User::class))
@@ -109,13 +113,13 @@
                                 Menus
                             </x-nav-link>
                         @endcan
-                        @if (auth()->user()->can('manage', App\Models\Order::class))
+                        @if (auth()->user()->isFromLunchroom() || auth()->user()->hasRole([App\Models\Role::ADMIN]))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des commandes
                             </div>
                             @can('manage', App\Models\Order::class)
-                                <x-nav-link href="{{ route('orders.index') }}" icon="cde"
-                                    :active="request()->routeIs('orders.index')">
+                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
+                                    :active="request()->routeIs('orders.summary')">
                                     Commandes
                                 </x-nav-link>
                             @endcan

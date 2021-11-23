@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
-use App\Policies\DepartmentPolicy;
-use Illuminate\Http\Request;
 
 class DepartmentsController extends Controller
 {

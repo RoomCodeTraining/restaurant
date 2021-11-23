@@ -2,30 +2,38 @@
 
 namespace App\Models;
 
-use App\Models\Dish;
-use App\Models\Menu;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
+use App\States\Order\Cancelled;
+use App\States\Order\OrderState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\ModelStates\HasStates;
 
 class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'is_confirmed',
-        'is_completed',
-        'dish_id',
-        'menu_id',
-    ];
+    use HasStates;
 
+    // use SoftDeletes;
+
+    protected $guarded = [];
 
     protected $casts = [
-        'is_confirmed' => 'boolean',
-        'is_completed' => 'boolean',
+        'state' => OrderState::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
+    public function canBeCancelled()
+    {
+        return $this->state->canTransitionTo(Cancelled::class);
+    }
+
+    public function canBeUpdated()
+    {
+        return $this->canBeCancelled();
+    }
 
     public function user()
     {

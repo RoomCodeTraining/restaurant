@@ -2,26 +2,26 @@
 
 namespace App\Models;
 
-use App\Models\DishType;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Dish extends Model
 {
     use HasFactory;
 
-
     protected $fillable = [
         'name', 'description', 'dish_type_id', 'image'
     ];
 
+    public function scopeSearch($query, $term)
+    {
+        return $query->where(
+            fn ($query) => $query->where('name', 'like', '%'.$term.'%')
+        );
+    }
+
     public function dishType()
     {
         return $this->belongsTo(DishType::class);
-    }
-
-    public function getCreatedAtAttribute()
-    {
-        return \Carbon\Carbon::parse($this->attributes['created_at'])->format('d/m/Y');
     }
 }

@@ -20,6 +20,9 @@ class CreateUserTypesTable extends Migration
             $table->boolean('auto_identifier')->default(false);
             $table->foreignId('payment_method_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

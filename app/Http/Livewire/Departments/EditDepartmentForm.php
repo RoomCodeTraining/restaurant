@@ -2,10 +2,9 @@
 
 namespace App\Http\Livewire\Departments;
 
-use Livewire\Component;
-use App\Models\Department;
-use Illuminate\Validation\Rule;
 use App\Actions\Department\UpdateDepartmentAction;
+use App\Models\Department;
+use Livewire\Component;
 
 class EditDepartmentForm extends Component
 {

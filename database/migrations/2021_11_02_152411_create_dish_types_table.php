@@ -18,6 +18,9 @@ class CreateDishTypesTable extends Migration
             $table->string('name')->index();
             $table->text('description')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

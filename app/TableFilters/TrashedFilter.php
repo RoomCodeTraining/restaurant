@@ -4,7 +4,6 @@ namespace App\TableFilters;
 
 use Rappasoft\LaravelLivewireTables\Views\Filter;
 
-
 class TrashedFilter
 {
     public static $title = "Statut";

@@ -3,7 +3,6 @@
 namespace App\Actions\Organization;
 
 use App\Models\Organization;
-use App\Events\UserUpdated;
 use Illuminate\Support\Facades\DB;
 
 class UpdateOrganizationAction
@@ -19,6 +18,7 @@ class UpdateOrganizationAction
       
 
         DB::commit();
+
         return $organization->fresh();
     }
 }

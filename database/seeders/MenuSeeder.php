@@ -16,16 +16,18 @@ class MenuSeeder extends Seeder
      */
     public function run()
     {
-        if (app()->environment('local')) {
-            Menu::factory()
-            ->count(30)
+        if (app()->environment('production')) {
+            return;
+        }
+
+        Menu::factory()
+            ->count(20)
             ->sequence(fn ($sequence) => [
                 'starter_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
-                'main_dish_id' =>  Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
-                'second_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
-                'dessert_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
+                'main_dish_id' => Dish::where('dish_type_id', DishType::MAIN)->get()->random()->id,
+                'second_dish_id' => Dish::where('dish_type_id', DishType::MAIN)->get()->random()->id,
+                'dessert_id' => Dish::where('dish_type_id', DishType::DESSERT)->get()->random()->id,
             ])
             ->create();
-        }
     }
 }

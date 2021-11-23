@@ -2,8 +2,6 @@
 
 namespace App\Actions\Department;
 
-use App\Models\Menu;
-use App\Events\UserUpdated;
 use App\Models\Department;
 use Illuminate\Support\Facades\DB;
 

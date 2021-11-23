@@ -2,17 +2,15 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\PaymentMethod;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class AccessCard extends Model
 {
     use HasFactory;
 
 
-    protected $fillaable = [
+    protected $fillable = [
         'identifier',
         'quota_breakfast',
         'quota_lunch',

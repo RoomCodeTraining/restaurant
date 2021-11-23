@@ -3,7 +3,6 @@
 namespace App\Actions\Department;
 
 use App\Models\Department;
-use App\Events\UserCreated;
 use Illuminate\Support\Facades\DB;
 
 class CreateDepartmentAction
@@ -17,6 +16,7 @@ class CreateDepartmentAction
         ]);
 
         DB::commit();
+
         return $menu;
     }
 }

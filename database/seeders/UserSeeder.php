@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
+use App\Models\EmployeeStatus;
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Department;
-use Illuminate\Support\Str;
-use App\Models\Organization;
-use App\Models\EmployeeStatus;
 use App\Models\UserType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -41,9 +41,12 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ])->assignRole(Role::ADMIN);
 
-        if (app()->environment('local')) {
-            $roles = Role::pluck('id');
-            $users = User::factory()
+        if (app()->environment('production')) {
+            return;
+        }
+
+        $roles = Role::pluck('id');
+        $users = User::factory()
                 ->count(Role::count())
                 ->state(['current_role_id' => Role::USER, 'is_active' => true])
                 ->for(Organization::first())
@@ -52,10 +55,9 @@ class UserSeeder extends Seeder
                 ->for(UserType::firstWhere('name', 'like', '%Agent CIPREL%'))
                 ->create();
 
-            $users->each(function ($user, $idx) use ($roles) {
-                $user->assignRole($roles[$idx]);
-                $user->update(['current_role_id' => $roles[$idx]]);
-            });
-        }
+        $users->each(function ($user, $idx) use ($roles) {
+            $user->assignRole($roles[$idx]);
+            $user->update(['current_role_id' => $roles[$idx]]);
+        });
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Actions\Menu;
 
 use App\Models\Menu;
-use App\Events\UserCreated;
 use Illuminate\Support\Facades\DB;
 
 class CreateMenuAction
@@ -21,6 +20,7 @@ class CreateMenuAction
         ]);
 
         DB::commit();
+
         return $menu;
     }
 }

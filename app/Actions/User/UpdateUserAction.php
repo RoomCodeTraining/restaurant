@@ -2,10 +2,9 @@
 
 namespace App\Actions\User;
 
-use App\Models\User;
 use App\Events\UserUpdated;
 use App\Models\Role;
-use Illuminate\Support\Str;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class UpdateUserAction

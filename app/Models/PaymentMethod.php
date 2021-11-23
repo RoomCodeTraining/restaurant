@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use App\Enums\UserTypes;
-use App\Models\User;
-use App\Models\Order;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class PaymentMethod extends Model
 {
@@ -21,7 +19,7 @@ class PaymentMethod extends Model
 
     public static function getPaymentMethodForUser(User $user)
     {
-        switch ($user->user_type) {
+        switch ($user->user_type_id) {
             case UserTypes::CIPREL_AGENT:
                 return 'Postpaid';
             case UserTypes::NON_CIPREL_AGENT:

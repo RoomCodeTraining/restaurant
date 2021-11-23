@@ -19,8 +19,11 @@ class CreateMenusTable extends Migration
             $table->foreignId('main_dish_id')->constrained()->references('id')->on('dishes');
             $table->foreignId('second_dish_id')->nullable()->references('id')->on('dishes');
             $table->foreignId('dessert_id')->constrained()->references('id')->on('dishes');
-            $table->dateTime('served_at');
+            $table->dateTime('served_at')->unique()->index();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->index(['deleted_at']);
         });
     }
 

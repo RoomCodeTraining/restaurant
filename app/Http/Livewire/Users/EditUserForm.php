@@ -2,14 +2,13 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Models\Role;
-use App\Models\User;
-use Livewire\Component;
-use App\Enums\UserTypes;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
 use App\Actions\User\UpdateUserAction;
+use App\Enums\UserTypes;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditUserForm extends Component
 {

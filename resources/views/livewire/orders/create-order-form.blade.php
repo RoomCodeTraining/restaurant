@@ -36,21 +36,23 @@
                                                 Plat principal
                                             </span>
                                         </div>
-                                        @if (in_array($menu->id, array_keys($selectedDishes)))
-                                            <div x-data="{ tooltip: 'Rétirer de votre commande' }">
-                                                <button wire:click="removeDish({{ $menu->id }})" x-tooltip="tooltip"
-                                                    class="p-2 text-error">
-                                                    <x-icon-minus class="inline-block w-6 h-6 stroke-current" />
-                                                </button>
-                                            </div>
-                                        @else
-                                            <div x-data="{ tooltip: 'Ajouter à votre commande' }">
-                                                <button
-                                                    wire:click="addDish({{ $menu->id }}, {{ $menu->mainDish }})"
-                                                    x-tooltip="tooltip" class="p-2 text-primary-800">
-                                                    <x-icon-add class="inline-block w-6 h-6 stroke-current" />
-                                                </button>
-                                            </div>
+                                        @if (now()->lessThanOrEqualTo($menu->served_at))
+                                            @if (in_array($menu->id, array_keys($selectedDishes)))
+                                                <div x-data="{ tooltip: 'Rétirer de votre commande' }">
+                                                    <button wire:click="removeDish({{ $menu->id }})"
+                                                        x-tooltip="tooltip" class="p-2 text-error">
+                                                        <x-icon-minus class="inline-block w-6 h-6 stroke-current" />
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <div x-data="{ tooltip: 'Ajouter à votre commande' }">
+                                                    <button
+                                                        wire:click="addDish({{ $menu->id }}, {{ $menu->mainDish }})"
+                                                        x-tooltip="tooltip" class="p-2 text-primary-800">
+                                                        <x-icon-add class="inline-block w-6 h-6 stroke-current" />
+                                                    </button>
+                                                </div>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -67,21 +69,23 @@
                                                 Plat principal
                                             </span>
                                         </div>
-                                        @if (in_array($menu->id, array_keys($selectedDishes)))
-                                            <div x-data="{ tooltip: 'Rétirer de votre commande' }">
-                                                <button wire:click="removeDish({{ $menu->id }})"
-                                                    x-tooltip="tooltip" class="p-2 text-error">
-                                                    <x-icon-minus class="inline-block w-6 h-6 stroke-current" />
-                                                </button>
-                                            </div>
-                                        @else
-                                            <div x-data="{ tooltip: 'Ajouter à votre commande' }">
-                                                <button
-                                                    wire:click="addDish({{ $menu->id }}, {{ $menu->secondDish }})"
-                                                    x-tooltip="tooltip" class="p-2 text-primary-800">
-                                                    <x-icon-add class="inline-block w-6 h-6 stroke-current" />
-                                                </button>
-                                            </div>
+                                        @if (now()->lessThanOrEqualTo($menu->served_at))
+                                            @if (in_array($menu->id, array_keys($selectedDishes)))
+                                                <div x-data="{ tooltip: 'Rétirer de votre commande' }">
+                                                    <button wire:click="removeDish({{ $menu->id }})"
+                                                        x-tooltip="tooltip" class="p-2 text-error">
+                                                        <x-icon-minus class="inline-block w-6 h-6 stroke-current" />
+                                                    </button>
+                                                </div>
+                                            @else
+                                                <div x-data="{ tooltip: 'Ajouter à votre commande' }">
+                                                    <button
+                                                        wire:click="addDish({{ $menu->id }}, {{ $menu->secondDish }})"
+                                                        x-tooltip="tooltip" class="p-2 text-primary-800">
+                                                        <x-icon-add class="inline-block w-6 h-6 stroke-current" />
+                                                    </button>
+                                                </div>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -118,13 +122,17 @@
                                         {{ $menu->where('id', $menuId)->first()->served_at->format('d/m/Y') }}
                                     </li>
                                 @empty
-                                    <p class="text-center">Votre panier est vide</p>
+                                    <p class="text-center">
+                                        Votre panier est vide
+                                    </p>
                                 @endforelse
                             </ul>
                         </div>
-                        <div class="">
-                            <button class="btn btn-sm btn-primary" wire:click="saveOrder">Commander</button>
-                        </div>
+                        @if ($userAccessCard && $userAccessCard->quota_lunch > 0)
+                            <div class="">
+                                <button class="btn btn-sm btn-primary" wire:click="saveOrder">Commander</button>
+                            </div>
+                        @endif
                         @error('selectedDishes')
                             <label class="label">
                                 <span class="label-text-alt text-red-600">{{ $message }}</span>

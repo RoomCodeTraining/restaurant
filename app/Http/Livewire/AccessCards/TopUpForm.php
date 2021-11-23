@@ -4,6 +4,7 @@ namespace App\Http\Livewire\AccessCards;
 
 use App\Models\PaymentMethod;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class TopUpForm extends Component
@@ -30,6 +31,12 @@ class TopUpForm extends Component
             'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
             'state.payment_method_id' => ['required'],
         ]);
+
+        if (! $this->user->accessCard) {
+            throw ValidationException::withMessages([
+                'state.payment_method_id' => ['Ce utilisateur n\'a pas de carte d\'accès'],
+            ]);
+        }
 
         $selectedPaymentMethod = $this->state['payment_method_id'];
         $this->user->accessCard->quota_breakfast = $this->user->accessCard->quota_breakfast + (int) $this->state['quota_breakfast'];

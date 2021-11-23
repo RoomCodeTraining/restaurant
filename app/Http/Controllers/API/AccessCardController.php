@@ -5,11 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AccessCardResource;
 use App\Models\AccessCard;
-use App\Models\PaymentMethod;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class AccessCardController extends Controller
 {
@@ -31,22 +31,32 @@ class AccessCardController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', AccessCard::class);
+
         $request->validate([
+            'user_id' => ['required', Rule::exists('users', 'identifier')],
             'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
-            'user_id' => ['required', Rule::exists('users', 'identifier')]
+            'quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
+            'quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
+            'payment_method_id' => ['nullable', 'integer', Rule::exists('payment_methods', 'id')],
         ]);
 
         // TODO: Support user id and user identifier
-        $user = User::with('userType.paymentMethod')->firstWhere('identifier', $request->user_id);
-        $paymentMethod = PaymentMethod::firstWhere('name', $user->userType->paymentMethod->name);
+        $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
+
+        if ($user->isFromlunchroom()) {
+            throw ValidationException::withMessages([
+                'user_id' => ['Ce utilisateur est un personnel de la cantine'],
+            ]);
+        }
 
         DB::beginTransaction();
 
         $accessCard = $user->accessCards()->create([
             'identifier' => $request->identifier,
-            'quota_breakfast' => 0,
-            'quota_lunch' => 0,
-            'payment_method_id' => $paymentMethod->id,
+            'quota_breakfast' => $request->get('quota_breakfast', 0),
+            'quota_lunch' => $request->get('quota_lunch', 0),
+            'payment_method_id' => $request->get('payment_method_id', $user->userType->paymentMethod->id),
         ]);
 
         $user->update([ 'current_access_card_id' => $accessCard->id ]);

@@ -33,9 +33,6 @@ class OrdersSummaryTable extends DataTableComponent
         return Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            // ->when($this->getFilter('search'), function ($query, $term) {
-            //     $query->whereHas('dish', fn ($query) => $query->search($term));
-            // })
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('
@@ -58,7 +55,9 @@ class OrdersSummaryTable extends DataTableComponent
         /**
          * @var $menu \App\Models\Menu
          */
-        $menu = Menu::with('orders.user')->firstWhere('served_at', Carbon::createFromFormat('d/m/Y', $row['menu_served_at'])->format('Y-m-d'));
+        $menu = Menu::with('orders.user')
+            ->whereDate('served_at', Carbon::createFromFormat('d/m/Y', $row['menu_served_at'])->format('Y-m-d'))
+            ->first();
         $this->users = $menu->orders->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
         $this->showingUsers = true;
     }

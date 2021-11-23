@@ -48,7 +48,7 @@
                                                 <div x-data="{ tooltip: 'Ajouter à votre commande' }">
                                                     <button
                                                         wire:click="addDish({{ $menu->id }}, {{ $menu->mainDish }})"
-                                                        x-tooltip="tooltip" class="p-2 text-primary-800">
+                                                        x-tooltip="tooltip" class="p-2 text-secondary-700">
                                                         <x-icon-add class="inline-block w-6 h-6 stroke-current" />
                                                     </button>
                                                 </div>
@@ -81,7 +81,7 @@
                                                 <div x-data="{ tooltip: 'Ajouter à votre commande' }">
                                                     <button
                                                         wire:click="addDish({{ $menu->id }}, {{ $menu->secondDish }})"
-                                                        x-tooltip="tooltip" class="p-2 text-primary-800">
+                                                        x-tooltip="tooltip" class="p-2 text-secondary-700">
                                                         <x-icon-add class="inline-block w-6 h-6 stroke-current" />
                                                     </button>
                                                 </div>
@@ -115,7 +115,9 @@
                     <div class="bg-white shadow p-4 flex flex-col space-y-2">
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>
-                            <span class="text-sm">{{ $total }} €</span>
+                            <span class="text-sm">
+                                <x-icon-cde class="inline-block w-6 h-6" />
+                            </span>
                         </h3>
                         <div>
                             <ul class="list-disc ml-4">
@@ -133,7 +135,7 @@
                         </div>
                         @if ($userAccessCard && $userAccessCard->quota_lunch > 0)
                             <div class="">
-                                <button class="btn btn-sm btn-primary" wire:click="saveOrder">Commander</button>
+                                <button class="btn btn-sm btn-primary w-full my-2" wire:click="saveOrder">Commander</button>
                             </div>
                         @endif
                         @error('selectedDishes')

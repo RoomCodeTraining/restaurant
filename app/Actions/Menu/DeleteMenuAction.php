@@ -3,8 +3,6 @@
 namespace App\Actions\Menu;
 
 use App\Models\Menu;
-use App\Models\User;
-use App\Events\UserDeleted;
 use Illuminate\Validation\ValidationException;
 
 final class DeleteMenuAction
@@ -19,7 +17,7 @@ final class DeleteMenuAction
 
         $menu->delete();
 
-       // dishDeleted::dispatch($dish);
+        // dishDeleted::dispatch($dish);
 
         return $menu;
     }

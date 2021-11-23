@@ -2,16 +2,16 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Actions\User\CreateUserAction;
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use Livewire\Component;
-use Illuminate\Support\Str;
-use App\Models\Organization;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use App\Actions\User\CreateUserAction;
 use App\Models\UserType;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateUserForm extends Component
 {

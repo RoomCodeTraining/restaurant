@@ -2,14 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
+use App\Models\EmployeeStatus;
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\Department;
-use Illuminate\Support\Str;
-use App\Models\Organization;
-use App\Models\EmployeeStatus;
 use App\Models\UserType;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {

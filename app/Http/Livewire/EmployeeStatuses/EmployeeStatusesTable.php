@@ -4,8 +4,8 @@ namespace App\Http\Livewire\EmployeeStatuses;
 
 use App\Models\EmployeeStatus;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class EmployeeStatusesTable extends DataTableComponent
 {

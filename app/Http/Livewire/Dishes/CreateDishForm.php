@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Models\Dish;
-use Livewire\Component;
-use App\Models\DishType;
-use Illuminate\Validation\Rule;
 use App\Actions\Dish\CreateDishAction;
+use App\Models\Dish;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class CreateDishForm extends Component
 {
@@ -30,6 +29,7 @@ class CreateDishForm extends Component
         ]);
         $createDishAction->execute($this->state);
         session()->flash('success', "Le plat a été créé avec succès!");
+
         return redirect()->route('dishes.index');
     }
 

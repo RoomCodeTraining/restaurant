@@ -2,8 +2,6 @@
 
 namespace App\Actions\Organization;
 
-use App\Models\Dish;
-use App\Events\UserCreated;
 use App\Models\Organization;
 use Illuminate\Support\Facades\DB;
 
@@ -18,6 +16,7 @@ class CreateOrganizationAction
         ]);
 
         DB::commit();
+
         return $dish;
     }
 }

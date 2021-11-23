@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Dish;
 use App\Models\DishType;
-use App\Models\Menu;
-use Illuminate\Http\Request;
 
 class DishesController extends Controller
 {
@@ -22,6 +20,7 @@ class DishesController extends Controller
     public function create()
     {
         $dishesTypes = DishType::all();
+
         return view('dishes.create');
     }
 

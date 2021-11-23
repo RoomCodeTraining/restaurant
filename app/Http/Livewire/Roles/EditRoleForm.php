@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Roles;
 
-use App\Models\Role;
-use Livewire\Component;
-use App\Models\Permission;
-use Illuminate\Validation\Rule;
 use App\Actions\Role\UpdateRoleAction;
-use App\Models\User;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class EditRoleForm extends Component
 {

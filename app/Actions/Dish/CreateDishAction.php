@@ -3,7 +3,6 @@
 namespace App\Actions\Dish;
 
 use App\Models\Dish;
-use App\Events\UserCreated;
 use Illuminate\Support\Facades\DB;
 
 class CreateDishAction
@@ -19,6 +18,7 @@ class CreateDishAction
         ]);
 
         DB::commit();
+
         return $dish;
     }
 }

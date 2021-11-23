@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Menus;
 
-use App\Models\Dish;
-use Livewire\Component;
 use App\Actions\Menu\CreateMenuAction;
+use App\Models\Dish;
 use App\Models\DishType;
 use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class CreateMenuForm extends Component
 {
@@ -21,9 +21,9 @@ class CreateMenuForm extends Component
     public function saveMenu(CreateMenuAction $action)
     {
         $this->validate([
-            'state.main_dish_id' =>  ['required', Rule::exists('dishes', 'id')],
-            'state.starter_dish_id' =>  ['required', Rule::exists('dishes', 'id')],
-            'state.second_dish_id' =>  ['required', Rule::exists('dishes', 'id')],
+            'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
+            'state.starter_dish_id' => ['required', Rule::exists('dishes', 'id')],
+            'state.second_dish_id' => ['required', Rule::exists('dishes', 'id')],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
             'state.served_at' => ['required', 'date', Rule::unique('menus', 'served_at')],
         ]);

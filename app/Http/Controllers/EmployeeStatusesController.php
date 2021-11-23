@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmployeeStatus;
-use Illuminate\Http\Request;
 
 class EmployeeStatusesController extends Controller
 {

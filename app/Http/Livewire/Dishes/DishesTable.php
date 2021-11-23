@@ -2,11 +2,11 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Models\Dish;
 use App\Actions\Dish\DeleteDishAction;
+use App\Models\Dish;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class DishesTable extends DataTableComponent
 {

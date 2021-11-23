@@ -2,14 +2,14 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Models\User;
 use App\Events\UserLocked;
 use App\Events\UserUnlocked;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class UsersTable extends DataTableComponent
 {

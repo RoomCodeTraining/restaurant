@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\AccessCards;
 
+use App\Models\PaymentMethod;
 use App\Models\User;
 use Livewire\Component;
-use App\Models\PaymentMethod;
 
 class TopUpForm extends Component
 {

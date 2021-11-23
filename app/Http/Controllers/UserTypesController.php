@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserType;
-use Illuminate\Http\Request;
 
 class UserTypesController extends Controller
 {

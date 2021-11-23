@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Dish;
 use App\Models\DishType;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DishTypeSeeder extends Seeder
 {
@@ -24,10 +24,14 @@ class DishTypeSeeder extends Seeder
             return;
         }
 
+        $faker = \Faker\Factory::create();
+
         Dish::factory()
             ->count(10)
-            ->for(DishType::all()->random())
-            ->sequence(fn ($sequence) => ['name' => 'Plat '.$sequence->index + 1])
+            ->sequence(fn (Sequence $sequence) => [
+                'name' => 'Plat ' . $sequence->index + 1,
+                'dish_type_id' => $faker->randomElement([DishType::STARTER, DishType::MAIN, DishType::DESSERT]),
+            ])
             ->create();
     }
 }

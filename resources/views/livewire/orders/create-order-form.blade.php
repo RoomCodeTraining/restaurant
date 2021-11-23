@@ -1,5 +1,5 @@
 <div x-data="{selectedMenuId: @entangle('selectedMenuId')}">
-{{--     <x-form-card submit="saveOrder">
+    {{-- <x-form-card submit="saveOrder">
         <x-slot name="form">
             <fieldset>
                 <legend class="text-lg font-medium text-gray-900">Menu de la semaine (cliquez sur un menu)</legend>
@@ -105,98 +105,109 @@
     </x-form-card> --}}
 
     @foreach ($menus as $menu)
-    <div class="border border-gray-300 py-3 my-5 mx-auto rounded-md bg-grey-200">
-        <div class="flex items-center space-x-2 w-full px-2 mb-2">
-            <x-icon-calendar class="h-6 w-6 text-primary-900" />
-            <span class="font-medium text-lg text-primary-900">Menu du {{ $menu->served_at }}</span>
-            <hr class="bg-primary-900">
-        </div>
+        <div class="border border-gray-300 py-3 my-5 mx-auto rounded-md bg-grey-200">
+            <div class="flex items-center space-x-2 w-full px-2 mb-2">
+                <x-icon-calendar class="h-6 w-6 text-primary-900" />
+                <span class="font-medium text-lg text-primary-900">
+                    Menu du {{ $menu->served_at->format('d/m/Y') }}
+                </span>
+                <hr class="bg-primary-900">
+            </div>
 
-        <div class="px-2 py-3 grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-1">
+            <div class="px-2 py-3 grid grid-cols-1  sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-1">
+                <!--Card 1-->
+                <div class="w-full lg:max-w-full lg:flex cursor-pointer">
+                    <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                        style="background-image: url({{ asset('images/entree1.png') }}" ) title="Woman holding a mug">
+                    </div>
+                    <div
+                        class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r leading-normal">
+                        <div class="mb-4 grid grid-cols-2 gap-2 lg:block xl:block">
+                            <div class="text-sm text-gray-600 flex items-center">
+                                <h4 class="flex items-center space-x-2 px-4 py-1 text-secondary-900 font-bold text-xl">
+                                    Entrée
+                                </h4>
+                            </div>
+                            <div class="text-gray-900 font-bold text-xl mb-2">
+                                <ul class="list-none px-4 text-gray-50 font-semibold">
+                                    <li>{{ $menu->starterDish->name }}</li>
+                                </ul>
+                            </div>
 
-            <!--Card 1-->
-            <div class="w-full lg:max-w-full lg:flex cursor-pointer">
-                <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url({{asset('images/entree1.png')}}") title="Woman holding a mug"></div>
-                <div class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r leading-normal">
-                    <div class="mb-4 grid grid-cols-2 gap-2 lg:block xl:block">
-                        <div class="text-sm text-gray-600 flex items-center">
-                            <h4 class="flex items-center space-x-2 px-4 py-1 text-secondary-900 font-bold text-xl">
-                               Entrée
-                            </h4>
                         </div>
-                        <div class="text-gray-900 font-bold text-xl mb-2">
-                            <ul class="list-none px-4 text-gray-50 font-semibold">
-                                <li>{{  $menu->starterDish->name  }}</li>
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-            <!--Card 2-->
-            <div class="w-full lg:max-w-full lg:flex cursor-pointer">
-                <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url({{asset('images/plat2.png')}}") title="Woman holding a mug"></div>
-                <div class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col  leading-normal">
-                    <div class="mb-8 justify-between grid grid-cols-2 gap-2 lg:block xl:block ">
-                        <div class="text-sm w-full text-gray-600 flex items-center mx-2">
-                            <h4 class="font-medium flex items-center space-x-2">
-                                <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Plats</span>
-                            </h4>
-                        </div>
-                        <div class="text-gray-900 w-full font-bold text-xl mb-2">
-                            <ul class="list-none px-4 text-gray-50 font-semibold">
-
+                <!--Card 2-->
+                <div class="w-full lg:max-w-full lg:flex cursor-pointer">
+                    <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                        style="background-image: url({{ asset('images/plat2.png') }}" ) title="Woman holding a mug">
+                    </div>
+                    <div
+                        class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col  leading-normal">
+                        <div class="mb-8 justify-between grid grid-cols-2 gap-2 lg:block xl:block ">
+                            <div class="text-sm w-full text-gray-600 flex items-center mx-2">
+                                <h4 class="font-medium flex items-center space-x-2">
+                                    <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Plats</span>
+                                </h4>
+                            </div>
+                            <div class="text-gray-900 w-full font-bold text-xl mb-2">
+                                <ul class="list-none px-4 text-gray-50 font-semibold">
                                     <li>{{ $menu->mainDish->name }}</li>
+                                </ul>
+                            </div>
 
-
-                            </ul>
                         </div>
-
                     </div>
                 </div>
-            </div>
-            <div class="w-full lg:max-w-full lg:flex cursor-pointer">
-                <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url({{asset('images/plat1.png')}}") title="Woman holding a mug"></div>
-                <div class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-                    <div class="mb-8  grid grid-cols-2 gap-2 lg:block xl:block">
-                        <div class="text-sm text-gray-600 flex items-center">
-                            <h4 class="font-medium flex items-center space-x-2">
-                                <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Plats</span>
-                            </h4>
-                        </div>
-                        <div class="text-gray-900 font-bold text-xl mb-2">
-                            <ul class="list-none px-4 text-gray-50 font-semibold">
+                <div class="w-full lg:max-w-full lg:flex cursor-pointer">
+                    <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                        style="background-image: url({{ '/images/plat1.png' }}" ) title="Woman holding a mug">
+                    </div>
+                    <div
+                        class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                        <div class="mb-8  grid grid-cols-2 gap-2 lg:block xl:block">
+                            <div class="text-sm text-gray-600 flex items-center">
+                                <h4 class="font-medium flex items-center space-x-2">
+                                    <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Plats</span>
+                                </h4>
+                            </div>
+                            <div class="text-gray-900 font-bold text-xl mb-2">
+                                <ul class="list-none px-4 text-gray-50 font-semibold">
 
                                     <li>{{ $menu->secondDish->name }}</li>
 
-                            </ul>
-                        </div>
+                                </ul>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!--Card 3-->
-            <div class="w-full lg:flex cursor-pointer">
-                <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden" style="background-image: url({{asset('images/dessert1.png')}}") title="Woman holding a mug"></div>
-                <div class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-                    <div class="mb-8  grid grid-cols-2 gap-2 lg:block xl:block">
-                        <div class="text-sm text-gray-600 flex items-center">
-                            <h4 class="font-medium flex items-center space-x-2">
-                                <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Dessert</span>
-                            </h4>
-                        </div>
-                        <div class="text-gray-900 font-bold text-xl mb-2 ">
-                            <ul class="list-none px-4 text-gray-50 font-semibold">
-                                <li>{{ $menu->dessertDish->name }}</li>
-                            </ul>
-                        </div>
+                <!--Card 3-->
+                <div class="w-full lg:flex cursor-pointer">
+                    <div class="h-auto lg:h-auto lg:w-32 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
+                        style="background-image: url({{ asset('images/dessert1.png') }}" )
+                        title="Woman holding a mug">
+                    </div>
+                    <div
+                        class="border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-gray-500 rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+                        <div class="mb-8  grid grid-cols-2 gap-2 lg:block xl:block">
+                            <div class="text-sm text-gray-600 flex items-center">
+                                <h4 class="font-medium flex items-center space-x-2">
+                                    <span class="px-4 py-1 text-secondary-900 font-bold text-xl">Dessert</span>
+                                </h4>
+                            </div>
+                            <div class="text-gray-900 font-bold text-xl mb-2 ">
+                                <ul class="list-none px-4 text-gray-50 font-semibold">
+                                    <li>{{ $menu->dessertDish->name }}</li>
+                                </ul>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     @endforeach
-    </div>
+</div>
 
 </div>

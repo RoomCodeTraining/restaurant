@@ -24,8 +24,9 @@ class MenusTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date', 'served_at')->sortable()->searchable(),
-            Column::make('Entré', 'starterDish.name')->sortable()->searchable(),
+            Column::make('Date', 'served_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
+            Column::make('Entrées', 'starterDish.name')->sortable()->searchable(),
+            Column::make('Desserts', 'dessertDish.name')->sortable()->searchable(),
             Column::make('Plat 1', 'mainDish.name')->sortable()->searchable(),
             Column::make('Plat 2', 'secondDish.name')->sortable()->searchable(),
             Column::make('Actions')->format(function ($value, $column, Menu $row) {
@@ -35,14 +36,11 @@ class MenusTable extends DataTableComponent
         ];
     }
 
-
     public function confirmMenuDeletion($dishId)
     {
         $this->menuIdBeingDeleted = $dishId;
         $this->confirmingMenuDeletion = true;
     }
-
-
 
     public function deleteMenu(DeleteMenuAction $action)
     {
@@ -60,7 +58,6 @@ class MenusTable extends DataTableComponent
     {
         return 'livewire.menus.modals';
     }
-
 
     public function query(): Builder
     {

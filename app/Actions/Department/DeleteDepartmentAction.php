@@ -2,9 +2,6 @@
 
 namespace App\Actions\Department;
 
-use App\Models\Menu;
-use App\Models\User;
-use App\Events\UserDeleted;
 use App\Models\Department;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +17,7 @@ final class DeleteDepartmentAction
 
         $department->delete();
 
-       // dishDeleted::dispatch($dish);
+        // dishDeleted::dispatch($dish);
 
         return $department;
     }

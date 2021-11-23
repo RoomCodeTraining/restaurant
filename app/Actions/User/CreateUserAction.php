@@ -2,9 +2,9 @@
 
 namespace App\Actions\User;
 
+use App\Events\UserCreated;
 use App\Models\Role;
 use App\Models\User;
-use App\Events\UserCreated;
 use Illuminate\Support\Facades\DB;
 
 class CreateUserAction

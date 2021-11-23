@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Menu;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
+use App\Models\Menu;
 
 class MenuController extends Controller
 {

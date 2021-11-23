@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\User;
-use App\Models\AccessCard;
-use Illuminate\Http\Request;
-use App\Models\PaymentMethod;
-use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AccessCardResource;
+use App\Models\AccessCard;
+use App\Models\PaymentMethod;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class AccessCardController extends Controller
 {

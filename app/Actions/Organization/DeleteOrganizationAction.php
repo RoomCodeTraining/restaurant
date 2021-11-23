@@ -4,7 +4,6 @@ namespace App\Actions\Organization;
 use App\Models\Organization;
 use League\Config\Exception\ValidationException;
 
-
 final class DeleteOrganizationAction
 {
     public function execute(Organization $organization): Organization

@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
+use App\Models\AccessCard;
 use App\Models\Menu;
 use App\Models\Order;
-use App\Models\AccessCard;
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -31,7 +29,7 @@ class OrderController extends Controller
 
         $accessCard = AccessCard::with('user')->whereIdentifier($request->identifier)->first();
 
-        if (!$accessCard->quota_breakfast > 0) {
+        if (! $accessCard->quota_breakfast > 0) {
             return response()->json(['msg' => 'Veuillez recharger votre cota de déjeuner']);
         }
 
@@ -49,7 +47,7 @@ class OrderController extends Controller
                     return $order;
                 }
             });
-            if (!$result->isEmpty()) {
+            if (! $result->isEmpty()) {
                 return response()->json(['msg' => 'Vous avez deja une commande pour ce jour!']);
             }
         }
@@ -80,6 +78,7 @@ class OrderController extends Controller
         }
 
         $todayOrder[0]->update(['is_completed' => true]);
+
         return response()->json(['msg' => "Le plat commandé par Mr/Mme ". $todayOrder[0]->user->full_name." est ". $todayOrder[0]->dish->name]);
     }
 }

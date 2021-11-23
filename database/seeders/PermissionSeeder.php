@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Policies\AccessCardPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeeStatusPolicy;

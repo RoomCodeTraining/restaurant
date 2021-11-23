@@ -2,12 +2,11 @@
 
 namespace App\Http\Livewire\Organizations;
 
+use App\Actions\Organization\DeleteOrganizationAction;
 use App\Models\Organization;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Actions\Department\DeleteDepartmentAction;
-use App\Actions\Organization\DeleteOrganizationAction;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class OrganizationsTable extends DataTableComponent
 {

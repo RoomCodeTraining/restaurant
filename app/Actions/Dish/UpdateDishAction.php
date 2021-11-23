@@ -3,7 +3,6 @@
 namespace App\Actions\Dish;
 
 use App\Models\Dish;
-use App\Events\UserUpdated;
 use Illuminate\Support\Facades\DB;
 
 class UpdateDishAction
@@ -21,6 +20,7 @@ class UpdateDishAction
       
 
         DB::commit();
+
         return $dish->fresh();
     }
 }

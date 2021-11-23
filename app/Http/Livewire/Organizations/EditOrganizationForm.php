@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Organizations;
 
-use Livewire\Component;
+use App\Actions\Organization\UpdateOrganizationAction;
 use App\Models\Organization;
 use Illuminate\Validation\Rule;
-use App\Actions\Organization\UpdateOrganizationAction;
+use Livewire\Component;
 
 class EditOrganizationForm extends Component
 {

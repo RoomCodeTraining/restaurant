@@ -4,8 +4,8 @@ namespace App\Http\Livewire\UserTypes;
 
 use App\Models\UserType;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class UserTypesTable extends DataTableComponent
 {

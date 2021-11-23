@@ -22,7 +22,7 @@ class DishesTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date création', 'created_at')->sortable()->searchable(),
+            Column::make('Date création', 'created_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
             Column::make('Libellé', 'name')->sortable()->searchable(),
             Column::make('Type plat', 'dishType.name')->sortable()->searchable(),
             Column::make('Actions')->format(function ($value, $column, Dish $row) {

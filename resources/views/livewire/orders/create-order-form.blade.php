@@ -110,8 +110,8 @@
                 </div>
                 <!-- End of Main Content -->
             </main>
-            <aside class="hidden xl:block xl:col-span-3">
-                <div class="sticky top-4 space-y-4">
+            <aside class=" xl:block xl:col-span-3">
+                <div class="sticky top-4 mt-10 space-y-4">
                     <div class="bg-white shadow p-4 flex flex-col space-y-2">
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>

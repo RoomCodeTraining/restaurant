@@ -12,7 +12,7 @@ class MenusTable extends DataTableComponent
 {
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
-    public string $defaultSortColumn = 'created_at';
+    public string $defaultSortColumn = 'served_at';
     public string $defaultSortDirection = 'desc';
 
     public $menuIdBeingDeleted;

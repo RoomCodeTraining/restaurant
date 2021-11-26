@@ -273,7 +273,7 @@
                             <div class="bg-white ring-1 ring-black ring-opacity-5 rounded divide-y divide-gray-100">
                                 <div class="p-2 space-y-1">
                                     <a role="menuitem" href="{{ route('profile') }}"
-                                        class="flex items-center space-x-2 rounded py-2 px-3 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:bg-gray-100 focus:text-gray-700">
+                                        class="flex items-center space-x-2 rounded py-2 px-3 text-sm font-medium text-gray-600 hover:bg-primary-900 hover:text-gray-50 focus:outline-none focus:bg-gray-100 focus:text-gray-700">
                                         <svg class="hi-solid hi-user-circle inline-block w-5 h-5 opacity-50"
                                             fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -287,7 +287,7 @@
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit" role="menuitem"
-                                            class="w-full text-left flex items-center space-x-2 rounded py-2 px-3 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 focus:outline-none focus:bg-gray-100 focus:text-gray-700">
+                                            class="w-full text-left flex items-center space-x-2 rounded py-2 px-3 text-sm font-medium text-gray-600 hover:bg-primary-900 hover:text-gray-50 focus:outline-none focus:bg-gray-100 focus:text-gray-700">
                                             <svg class="hi-solid hi-lock-closed inline-block w-5 h-5 opacity-50"
                                                 fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">

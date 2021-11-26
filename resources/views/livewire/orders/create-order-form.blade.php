@@ -5,10 +5,10 @@
                 <!-- Beginnig of Main Content -->
                 <div class="relative flex flex-col space-y-4 w-full">
                     @foreach ($menus as $menu)
-                        <div class="flex flex-col space-y-2">
+                        <div class="flex flex-col space-y-2 z-9999">
                             <h3 class="text-lg font-semibold">Menu du {{ $menu->served_at->format('d/m/Y') }}</h3>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                                <div class="bg-white shadow p-4 flex flex-col space-y-2">
+                                <div class="bg-white shadow p-4 flex flex-col space-y-2 items-center justify-center">
                                     <img src="{{ asset('images/entree1.png') }}" class="w-24">
                                     <div class="product__info">
                                         <p class="font-medium text-primary-800">
@@ -16,14 +16,14 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center justify-between">
-                                        <div class="product-price layout-vertical-tablet">
+                                        <div class="product-price layout-vertical-tablet text-center items-center">
                                             <span class="text-sm">
                                                 Entrée
                                             </span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white shadow p-4 flex flex-col space-y-2">
+                                <div class="bg-white shadow p-4 flex flex-col space-y-2 items-center justify-center">
                                     <img src="{{ asset('images/plat1.png') }}" class="w-24">
                                     <div class="product__info">
                                         <p class="font-medium text-primary-800">
@@ -56,7 +56,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="bg-white shadow p-4 flex flex-col space-y-2">
+                                <div class="bg-white shadow p-4 flex flex-col space-y-2 items-center justify-center">
                                     <img src="{{ asset('images/plat2.png') }}" class="w-24">
                                     <div class="product__info">
                                         <p class="font-medium text-primary-800">
@@ -89,7 +89,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="bg-white shadow p-4 flex flex-col space-y-2">
+                                <div class="bg-white shadow p-4 flex flex-col space-y-2 items-center justify-center">
                                     <img src="{{ asset('images/dessert1.png') }}" class="w-24">
                                     <div class="product__info">
                                         <p class="font-medium text-primary-800">
@@ -97,7 +97,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-center justify-between">
-                                        <div class="product-price layout-vertical-tablet">
+                                        <div class="product-price layout-vertical-tablet text-center items-center">
                                             <span class="text-sm">
                                                 Déssert
                                             </span>
@@ -116,7 +116,7 @@
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>
                             <span class="text-sm">
-                                <x-icon-cde class="inline-block w-6 h-6" />
+                                <x-icon-cde class="inline-block w-6 h-6 text-primary-900 hover:opacity-50 border-b border-primary-900" />
                             </span>
                         </h3>
                         <div>

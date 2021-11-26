@@ -3,15 +3,15 @@
         <!-- Card: User Profile -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: User Profile -->
-            <div class="py-4 px-5 lg:px-6 w-full bg-grey-300">
+            <div class="py-4 px-5 lg:px-6 w-full bg-secondary-700">
                 <h3 class="flex items-center space-x-2">
-                    <svg class="hi-solid hi-user-circle inline-block w-5 h-5 text-primary-500" fill="currentColor"
+                    <svg class="hi-solid hi-user-circle inline-block w-5 h-5 text-gray-50" fill="currentColor"
                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
                             clip-rule="evenodd" />
                     </svg>
-                    <span>Profil utilisateur</span>
+                    <span class="text-gray-50">Profil utilisateur</span>
                 </h3>
             </div>
             <!-- END Card Header: User Profile -->
@@ -147,14 +147,14 @@
         <!-- Card: Change Password -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: Change Password -->
-            <div class="py-4 px-5 lg:px-6 w-full bg-grey-300">
+            <div class="py-4 px-5 lg:px-6 w-full bg-secondary-700">
                 <h3 class="flex items-center space-x-2">
-                    <svg class="hi-solid hi-lock-open inline-block w-5 h-5 text-primary-500" fill="currentColor"
+                    <svg class="hi-solid hi-lock-open inline-block w-5 h-5 text-gray-50" fill="currentColor"
                         viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
                     </svg>
-                    <span>Changement du mot de passe</span>
+                    <span class="text-gray-50">Changement du mot de passe</span>
                 </h3>
             </div>
             <!-- END Card Header: Change Password -->

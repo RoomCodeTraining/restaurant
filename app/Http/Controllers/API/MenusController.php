@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
 use App\Models\Menu;
 
-class MenuController extends Controller
+class MenusController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')
+        $menus = Menu::query()
+            ->with('dishes')
             ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->get();
 
@@ -30,6 +31,6 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        return new MenuResource($menu->load('starterDish', 'mainDish', 'secondDish', 'dessertDish'));
+        return new MenuResource($menu->load('dishes'));
     }
 }

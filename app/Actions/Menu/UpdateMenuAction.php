@@ -7,16 +7,18 @@ use Illuminate\Support\Facades\DB;
 
 class UpdateMenuAction
 {
-    public function execute(Menu $menu, array $data)
+    public function execute(Menu $menu, array $input)
     {
         DB::beginTransaction();
 
-        $menu->update([
-            'main_dish_id' => $data['main_dish_id'],
-            'dessert_id' => $data['dessert_id'],
-            'starter_dish_id' => $data['starter_dish_id'],
-            'second_dish_id' => $data['second_dish_id'],
-        ]);
+        $dishes = [
+            $input['starter_id'],
+            $input['main_dish_id'],
+            $input['second_dish_id'],
+            $input['dessert_id'],
+        ];
+
+        $menu->dishes()->sync($dishes);
 
         DB::commit();
 

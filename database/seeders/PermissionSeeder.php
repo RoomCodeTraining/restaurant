@@ -14,6 +14,8 @@ use App\Policies\PaymentMethodPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\UserTypePolicy;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\PermissionRegistrar;
 
 /**
  * Class PermissionRoleTableSeeder.
@@ -25,6 +27,10 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
+        // Reset cached roles and permissions
+        Artisan::call('cache:clear');
+        resolve(PermissionRegistrar::class)->forgetCachedPermissions();
+
         $users = Permission::create([
             'name' => UserPolicy::USER_MANAGE,
             'description' => 'Toutes les permissions relatives à la gestion des utilisateurs',
@@ -291,7 +297,6 @@ class PermissionSeeder extends Seeder
             'name' => 'Comptable',
         ])->givePermissionTo([
             OrderPolicy::ORDER_MANAGE,
-            MenuPolicy::MENU_MANAGE,
         ]);
 
         Role::create([
@@ -299,7 +304,6 @@ class PermissionSeeder extends Seeder
             'name' => 'Agent Cantine',
         ])->givePermissionTo([
             OrderPolicy::ORDER_MANAGE,
-            MenuPolicy::MENU_MANAGE,
         ]);
     }
 }

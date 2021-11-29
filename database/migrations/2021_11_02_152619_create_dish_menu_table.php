@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDishTypesTable extends Migration
+class CreateDishMenuTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateDishTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('dish_types', function (Blueprint $table) {
+        Schema::create('dish_menu', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->index();
-            $table->text('description')->nullable();
-            $table->boolean('is_orderable')->default(true);
+            $table->foreignId('dish_id')->constrained();
+            $table->foreignId('menu_id')->constrained();
             $table->timestamps();
-            $table->softDeletes();
 
-            $table->index(['deleted_at']);
+            $table->unique(['dish_id', 'menu_id']);
         });
     }
 
@@ -32,6 +30,6 @@ class CreateDishTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dish_types');
+        Schema::dropIfExists('dish_menu');
     }
 }

@@ -18,7 +18,7 @@
                                 <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                     <div class="w-full md:w-1/2">
                                         <dt class="text-sm font-medium text-gray-500">Entrée</dt></dt>
-                                        <dd class="text-sm font-normal text-gray-900">{{ $menu->starterDish->name }}</dd>
+                                        <dd class="text-sm font-normal text-gray-900">{{ $menu->starter->name }}</dd>
                                     </div>
                                     <div class="w-full md:w-1/2">
                                         <dt class="text-sm font-medium text-gray-500">Plat 1</dt>
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="w-full md:w-1/2">
                                         <dt class="text-sm font-medium text-gray-500">Dessert</dt>
-                                        <dd class="text-sm font-normal text-gray-900">{{ $menu->dessertDish->name }}</dd>
+                                        <dd class="text-sm font-normal text-gray-900">{{ $menu->dessert->name }}</dd>
                                     </div>
                                 </div>
                             </div>

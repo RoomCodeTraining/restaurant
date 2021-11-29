@@ -24,15 +24,22 @@ class MenusTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date', 'served_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
-            Column::make('Entrées', 'starterDish.name')->sortable()->searchable(),
-            Column::make('Desserts', 'dessertDish.name')->sortable()->searchable(),
-            Column::make('Plat 1', 'mainDish.name')->sortable()->searchable(),
-            Column::make('Plat 2', 'secondDish.name')->sortable()->searchable(),
-            Column::make('Actions')->format(function ($value, $column, Menu $row) {
-                return view('livewire.menus.table-actions', ['menu' => $row]);
-            }),
-
+            Column::make('Menu du', 'served_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
+            Column::make('Entrées')->format(
+                fn ($value, $column, Menu $menu) => $menu->starter->name
+            )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
+            Column::make('Plat 1')->format(
+                fn ($value, $column, Menu $menu) => $menu->main_dish->name
+            )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
+            Column::make('Plat 2')->format(
+                fn ($value, $column, Menu $menu) => $menu->second_dish->name
+            )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
+            Column::make('Déssert')->format(
+                fn ($value, $column, Menu $menu) => $menu->dessert->name
+            )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
+            Column::make('Action')->format(fn ($value, $column, Menu $menu) => view('livewire.menus.table-actions')->with([
+                'menu' => $menu,
+            ])),
         ];
     }
 
@@ -45,8 +52,11 @@ class MenusTable extends DataTableComponent
     public function deleteMenu(DeleteMenuAction $action)
     {
         $menu = Menu::find($this->menuIdBeingDeleted);
+
         $action->execute($menu);
+
         $this->confirmingMenuDeletion = false;
+
         $this->menuIdBeingDeleted = null;
 
         session()->flash('success', "Le menu a été supprimé avec succès !");
@@ -61,6 +71,6 @@ class MenusTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Menu::query();
+        return Menu::query()->with('dishes');
     }
 }

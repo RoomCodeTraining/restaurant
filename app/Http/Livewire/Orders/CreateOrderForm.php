@@ -9,14 +9,32 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
+/**
+ * Formulaire de création d'une commande.
+ *
+ * @package App\Http\Livewire\Orders
+ */
 class CreateOrderForm extends Component
 {
-    public $dishes = [];
+    /**
+     * Les menus de la semaine.
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    public $menus;
 
-    public $menus = [];
-
+    /**
+     * Les plats choisis par l'utilisateur.
+     *
+     * @var array
+     */
     public $selectedDishes = [];
 
+    /**
+     * La carte de l'utilisateur qui sera utilisée pour la commande.
+     *
+     * @var \App\Models\AccessCard
+     */
     public $userAccessCard;
 
     public function mount()
@@ -24,29 +42,59 @@ class CreateOrderForm extends Component
         $this->userAccessCard = Auth::user()->accessCard;
     }
 
+    /**
+     * Une fois que le formulaire est soumis, on crée la commande.
+     *
+     * @return void
+     */
     public function saveOrder(CreateOrderAction $createOrderAction)
     {
-        $this->validate([ 'selectedDishes' => ['required'] ]);
+        $this->resetErrorBag();
 
+        $this->validate([ 'selectedDishes' => ['required', 'array'] ]);
+
+        /**
+         * S'assure que le quota de commande de l'utilisateur est suffisant.
+         */
         if ($this->userAccessCard->quota_lunch === 0) {
             throw ValidationException::withMessages([
-                'selectedDishes' => ['Vous quota de est bas.']
+                'selectedDishes' => ['Vous quota est insuffisant.']
             ]);
         }
 
+        /**
+         * S'assure qu'aucune commande n'est passée après une certaine heure.
+         */
+        $todayMenu = $this->menus
+            ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
+            ->first();
+
+        if ($todayMenu && now()->hour >= config('cantine.order.order_before')) {
+            throw ValidationException::withMessages([
+                'selectedDishes' => [sprintf('Vous ne pouvez commander le menu du jour après %s heures.', config('cantine.order.order_before'))]
+            ]);
+        }
+
+        /**
+         * S'assure que les plats sélectionnés n'ont pas déjà été commandé par l'utilisateur.
+         */
         $previousOrders = Auth::user()->orders()
+            ->with('menu')
             ->whereIn('menu_id', array_keys($this->selectedDishes))
             ->whereNotState('state', Cancelled::class)
             ->get();
 
-        if ($previousOrders->count() > 0) {
+        if (! $previousOrders->isEmpty()) {
             throw ValidationException::withMessages([
-                'selectedDishes' => ['Votre panier contient un menu que vous avez déjà commandé.']
+                'selectedDishes' => [
+                    sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
+                ]
             ]);
         }
 
-        // now()->lessThanOrEqualTo()
-
+        /**
+         * Crée une commande pour chacun des plats sélectionnés.
+         */
         foreach ($this->selectedDishes as $menuId => $dish) {
             $createOrderAction->execute([
                 'dish_id' => $dish['id'],
@@ -55,11 +103,27 @@ class CreateOrderForm extends Component
             ]);
         }
 
-        $this->reset();
-
         session()->flash('success', 'La commande a été effectuée avec succès !');
 
         return redirect()->route('orders.index');
+    }
+
+    /**
+     * Permet d'ajouter un plat à la commande.
+     */
+    public function addDish($menuId, $dishId)
+    {
+        $this->selectedDishes[$menuId] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
+        $this->resetValidation();
+    }
+
+    /**
+     * Permet de supprimer un plat de la commande.
+     */
+    public function removeDish($menuId)
+    {
+        unset($this->selectedDishes[$menuId]);
+        $this->resetValidation();
     }
 
     public function messages()
@@ -71,22 +135,10 @@ class CreateOrderForm extends Component
 
     public function render()
     {
-        $this->menus = Menu::with('starterDish', 'mainDish', 'secondDish', 'dessertDish')
+        $this->menus = Menu::with('dishes.dishType')
             ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->get();
 
-        return view('livewire.orders.create-order-form', [
-            'menus' => $this->menus,
-        ]);
-    }
-
-    public function addDish($menuId, $dish)
-    {
-        $this->selectedDishes[$menuId] = $dish;
-    }
-
-    public function removeDish($menuId)
-    {
-        unset($this->selectedDishes[$menuId]);
+        return view('livewire.orders.create-order-form', [ 'menus' => $this->menus, ]);
     }
 }

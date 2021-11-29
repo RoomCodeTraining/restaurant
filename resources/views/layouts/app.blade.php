@@ -31,14 +31,14 @@
 
 <body class="font-sans antialiased">
     <div x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true }"
+        class="flex flex-col mx-auto w-full min-h-screen bg-gray-100"
         x-bind:class="{
-        'flex flex-col mx-auto w-full min-h-screen bg-gray-100': true,
         'lg:pl-72': desktopSidebarOpen
     }">
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
+            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
             x-bind:class="{
-            'flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10': true,
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
             'lg:-translate-x-full': !desktopSidebarOpen,
@@ -113,7 +113,8 @@
                                 Menus
                             </x-nav-link>
                         @endcan
-                        @if (auth()->user()->isFromLunchroom() || auth()->user()->hasRole([App\Models\Role::ADMIN]))
+                        @if (auth()->user()->isFromLunchroom() ||
+    auth()->user()->hasRole([App\Models\Role::ADMIN]))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des commandes
                             </div>
@@ -169,8 +170,8 @@
 
         <!-- Page Header -->
         <header id="page-header"
+            class="flex flex-none items-center h-16 bg-grey-300 shadow-sm fixed top-0 right-0 left-0"
             x-bind:class="{
-                'flex flex-none items-center h-16 bg-grey-300 shadow-sm fixed top-0 right-0 left-0': true,
                 'lg:pl-72': desktopSidebarOpen
             }">
             <div class="flex justify-between max-w-10xl mx-auto px-4 lg:px-8 w-full">

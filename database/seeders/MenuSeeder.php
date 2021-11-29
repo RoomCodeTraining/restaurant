@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Dish;
 use App\Models\DishType;
 use App\Models\Menu;
+use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class MenuSeeder extends Seeder
@@ -20,14 +21,20 @@ class MenuSeeder extends Seeder
             return;
         }
 
+        $faker = \Faker\Factory::create();
+
         Menu::factory()
-            ->count(20)
-            ->sequence(fn ($sequence) => [
-                'starter_dish_id' => Dish::where('dish_type_id', DishType::STARTER)->get()->random()->id,
-                'main_dish_id' => Dish::where('dish_type_id', DishType::MAIN)->get()->random()->id,
-                'second_dish_id' => Dish::where('dish_type_id', DishType::MAIN)->get()->random()->id,
-                'dessert_id' => Dish::where('dish_type_id', DishType::DESSERT)->get()->random()->id,
-            ])
+            ->count(5)
+            ->hasAttached(
+                Dish::factory()
+                    ->count(4)
+                    ->state(new Sequence(
+                        [ 'name' => $faker->sentence(2), 'dish_type_id' => DishType::STARTER ],
+                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
+                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
+                        [ 'name' => $faker->sentence(2), 'dish_type_id' => DishType::DESSERT ],
+                    ))
+            )
             ->create();
     }
 }

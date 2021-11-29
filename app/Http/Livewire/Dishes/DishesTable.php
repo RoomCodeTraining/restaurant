@@ -4,9 +4,11 @@ namespace App\Http\Livewire\Dishes;
 
 use App\Actions\Dish\DeleteDishAction;
 use App\Models\Dish;
+use App\Models\DishType;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filter;
 
 class DishesTable extends DataTableComponent
 {
@@ -24,10 +26,8 @@ class DishesTable extends DataTableComponent
         return [
             Column::make('Date création', 'created_at')->format(fn ($value) => $value->format('d/m/Y'))->sortable()->searchable(),
             Column::make('Libellé', 'name')->sortable()->searchable(),
-            Column::make('Type plat', 'dishType.name')->sortable()->searchable(),
-            Column::make('Actions')->format(function ($value, $column, Dish $row) {
-                return view('livewire.dishes.table-actions', ['dish' => $row]);
-            }),
+            Column::make('Type plat', 'dishType.name'),
+            Column::make('Actions')->format(fn ($value, $column, Dish $row) => view('livewire.dishes.table-actions', ['dish' => $row])),
 
         ];
     }
@@ -50,6 +50,17 @@ class DishesTable extends DataTableComponent
         return redirect()->route('dishes.index');
     }
 
+    public function filters(): array
+    {
+        return [
+            'type' => Filter::make('Type de plat')->multiSelect([
+                DishType::STARTER => 'Entrée',
+                DishType::MAIN => 'Plat principal',
+                DishType::DESSERT => 'Déssert',
+            ])
+        ];
+    }
+
     public function modalsView(): string
     {
         return 'livewire.dishes.modals';
@@ -57,6 +68,8 @@ class DishesTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Dish::query();
+        return Dish::query()
+            ->with('dishType')
+            ->when($this->getFilter('type'), fn ($query, $type) => $query->WhereIn('dish_type_id', $type));
     }
 }

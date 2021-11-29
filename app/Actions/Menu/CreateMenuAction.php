@@ -7,17 +7,22 @@ use Illuminate\Support\Facades\DB;
 
 class CreateMenuAction
 {
-    public function execute(array $data): Menu
+    public function execute(array $input): Menu
     {
         DB::beginTransaction();
 
         $menu = Menu::create([
-            'main_dish_id' => $data['main_dish_id'],
-            'starter_dish_id' => $data['starter_dish_id'],
-            'dessert_id' => $data['dessert_id'],
-            'second_dish_id' => $data['second_dish_id'] ?? null,
-            'served_at' => $data['served_at'],
+            'served_at' => $input['served_at'],
         ]);
+
+        $dishes = [
+            $input['starter_id'],
+            $input['main_dish_id'],
+            $input['second_dish_id'],
+            $input['dessert_id'],
+        ];
+
+        $menu->dishes()->attach($dishes);
 
         DB::commit();
 

@@ -14,11 +14,7 @@ class MenuFactory extends Factory
     public function definition()
     {
         return [
-            'starter_dish_id' => null,
-            'main_dish_id' => null,
-            'second_dish_id' => null,
-            'dessert_id' => null,
-            'served_at' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
+            'served_at' => $this->faker->dateTimeBetween('now', '+1 week'),
         ];
     }
 }

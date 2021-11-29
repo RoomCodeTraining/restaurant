@@ -4,15 +4,17 @@ namespace App\Http\Livewire\Menus;
 
 use App\Actions\Menu\CreateMenuAction;
 use App\Models\Dish;
-use App\Models\DishType;
+use App\Models\User;
+use App\Notifications\MenuAdded;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class CreateMenuForm extends Component
 {
     public $state = [
+        'starter_id' => null,
         'main_dish_id' => null,
-        'starter_dish_id' => null,
         'second_dish_id' => null,
         'dessert_id' => null,
         'served_at' => null,
@@ -21,14 +23,14 @@ class CreateMenuForm extends Component
     public function saveMenu(CreateMenuAction $action)
     {
         $this->validate([
+            'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.starter_dish_id' => ['required', Rule::exists('dishes', 'id')],
             'state.second_dish_id' => ['nullable', 'integer', Rule::exists('dishes', 'id')],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.served_at' => ['required', 'date', Rule::unique('menus', 'served_at')],
+            'state.served_at' => ['required', 'date', Rule::unique('menus', 'served_at'), 'after:yesterday'],
         ]);
 
-        $action->execute($this->state);
+        Notification::send(User::whereHas('accessCard')->get(), new MenuAdded($action->execute($this->state)));
 
         session()->flash('success', "Le menu a été créé avec succès!");
 
@@ -38,9 +40,9 @@ class CreateMenuForm extends Component
     public function render()
     {
         return view('livewire.menus.create-menu-form', [
-            'starter_dishes' => Dish::where('dish_type_id', DishType::STARTER)->pluck('name', 'id'),
-            'main_dishes' => Dish::where('dish_type_id', DishType::MAIN)->pluck('name', 'id'),
-            'dessert_dishes' => Dish::where('dish_type_id', DishType::DESSERT)->pluck('name', 'id'),
+            'starter_dishes' => Dish::starter()->pluck('name', 'id'),
+            'main_dishes' => Dish::main()->pluck('name', 'id'),
+            'dessert_dishes' => Dish::dessert()->pluck('name', 'id'),
         ]);
     }
 }

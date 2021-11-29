@@ -15,10 +15,6 @@ class CreateMenusTable extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('starter_dish_id')->constrained()->references('id')->on('dishes');
-            $table->foreignId('main_dish_id')->constrained()->references('id')->on('dishes');
-            $table->foreignId('second_dish_id')->nullable()->references('id')->on('dishes');
-            $table->foreignId('dessert_id')->constrained()->references('id')->on('dishes');
             $table->dateTime('served_at')->unique()->index();
             $table->timestamps();
             $table->softDeletes();

@@ -18,14 +18,14 @@
                         <label class="label">
                             <span class="label-text">Choississez l'entrée</span>
                         </label>
-                        <select class="select select-bordered w-full" wire:model.defer="state.starter_dish_id">
+                        <select class="select select-bordered w-full" wire:model.defer="state.starter_id">
                             <option selected="selected">Veuillez choisir</option>
                             @foreach ($starter_dishes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    @error('state.starter_dish_id')
+                    @error('state.starter_id')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>

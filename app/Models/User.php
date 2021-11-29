@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Support\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -20,6 +21,8 @@ class User extends Authenticatable
         HasPermissions,
         ReceivesWelcomeNotification,
         HasProfilePhoto;
+
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +58,7 @@ class User extends Authenticatable
 
     public function getFullNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        return "{$this->last_name} {$this->first_name}";
     }
 
     public function setIdentifierAttribute($value)
@@ -106,5 +109,10 @@ class User extends Authenticatable
     public function accessCard()
     {
         return $this->belongsTo(AccessCard::class, 'current_access_card_id');
+    }
+
+    public function passwordHistories()
+    {
+        return $this->morphMany(PasswordHistory::class, 'model');
     }
 }

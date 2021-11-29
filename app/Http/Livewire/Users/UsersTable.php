@@ -29,26 +29,28 @@ class UsersTable extends DataTableComponent
     public $userIdBeingUnlocked;
     public $confirmingUserUnlocking = false;
 
+    public function query(): Builder
+    {
+        return User::query()
+            ->with('role')
+            ->when($this->getFilter('type'), fn ($query, $type) => $query->whereRelation('roles', 'name', $type))
+            ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
+    }
+
     public function columns(): array
     {
         return [
-            Column::make('Matricule', 'identifier')->sortable()->searchable(),
+            Column::make('Matricule', 'identifier')->searchable(),
             Column::make('Nom & Prénoms', 'full_name')->searchable(function ($builder, $term) {
                 return $builder
                     ->orWhere('first_name', 'like', '%' . $term . '%')
                     ->orWhere('last_name', 'like', '%' . $term . '%');
             }),
-            Column::make('Email', 'email')->sortable()->searchable(),
-            Column::make('Contact', 'contact')->sortable()->searchable(),
-            Column::make('Profil')->format(function ($val, $col, User $user) {
-                return optional($user->roles()->first())->name;
-            }),
-            Column::make('Etat du compte')->format(function ($val, $col, User $user) {
-                return view('livewire.users.status', ['user' => $user]);
-            }),
-            Column::make('Actions')->format(function ($value, $column, User $row) {
-                return view('livewire.users.table-actions', ['user' => $row]);
-            }),
+            Column::make('Email', 'email')->searchable(),
+            Column::make('Contact', 'contact')->searchable(),
+            Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
+            Column::make('Etat du compte')->format(fn ($val, $col, User $user) => view('livewire.users.status', ['user' => $user])),
+            Column::make('Actions')->format(fn ($val, $col, User $user) => view('livewire.users.table-actions', ['user' => $user])),
         ];
     }
 
@@ -58,10 +60,7 @@ class UsersTable extends DataTableComponent
             'type' => Filter::make('Profil')
                 ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'name')->toArray())),
             'active' => Filter::make('Etat du compte')
-                ->select(array_merge(['' => 'Tous les états'], [
-                    'yes' => 'Actif',
-                    'no' => 'Inactif',
-                ])),
+                ->select(array_merge(['' => 'Tous les états'], [ 'yes' => 'Actif', 'no' => 'Inactif', ])),
         ];
     }
 
@@ -80,6 +79,7 @@ class UsersTable extends DataTableComponent
         UserLocked::dispatch($user);
 
         $this->confirmingUserLocking = false;
+
         $this->userIdBeingLocked = null;
 
         session()->flash('success', "L'utilisateur a été désactivé avec succès !");
@@ -102,6 +102,7 @@ class UsersTable extends DataTableComponent
         UserUnlocked::dispatch($user);
 
         $this->confirmingUserUnlocking = false;
+
         $this->userIdBeingUnlocked = null;
 
         session()->flash('success', "L'utilisateur a été activé avec succès !");
@@ -112,16 +113,5 @@ class UsersTable extends DataTableComponent
     public function modalsView(): string
     {
         return 'livewire.users.modals';
-    }
-
-    public function query(): Builder
-    {
-        return User::query()
-        ->when($this->getFilter('type'), function ($query, $type) {
-            return $query->whereHas('roles', function ($query) use ($type) {
-                return $query->where('name', $type);
-            });
-        })
-        ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
     }
 }

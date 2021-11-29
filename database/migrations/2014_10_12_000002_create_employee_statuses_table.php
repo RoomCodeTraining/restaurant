@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\EmployeeStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +16,7 @@ class CreateEmployeeStatusesTable extends Migration
         Schema::create('employee_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('name')->index();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -17,7 +17,7 @@ class DishFactory extends Factory
         return [
             'name' => '',
             'description' => $this->faker->text,
-            'image' => $this->faker->imageUrl(400, 300),
+            'image_path' => $this->faker->imageUrl(400, 300),
             'dish_type_id' => $this->faker->randomElement([DishType::DESSERT, DishType::MAIN, DishType::STARTER]),
         ];
     }

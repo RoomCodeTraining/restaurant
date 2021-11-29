@@ -19,28 +19,38 @@ class Menu extends Model
         'served_at' => 'Y-m-d',
     ];
 
+    public function getStarterAttribute()
+    {
+        return $this->dishes()->starter()->first();
+    }
+
+    public function getMainDishAttribute()
+    {
+        return $this->dishes()->main()->orderBy('id', 'asc')->first();
+    }
+
+    public function getSecondDishAttribute()
+    {
+        return $this->dishes()->main()->orderBy('id', 'desc')->first();
+    }
+
+    public function getDessertAttribute()
+    {
+        return $this->dishes()->dessert()->first();
+    }
+
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
-    public function starterDish()
+    public function dishes()
     {
-        return $this->belongsTo(Dish::class, 'starter_dish_id');
+        return $this->belongsToMany(Dish::class);
     }
 
-    public function mainDish()
+    public function canBeOrdered()
     {
-        return $this->belongsTo(Dish::class, 'main_dish_id');
-    }
-
-    public function secondDish()
-    {
-        return $this->belongsTo(Dish::class, 'second_dish_id');
-    }
-
-    public function dessertDish()
-    {
-        return $this->belongsTo(Dish::class, 'dessert_id');
+        return $this->served_at->greaterThanOrEqualTo(\Illuminate\Support\Carbon::today());
     }
 }

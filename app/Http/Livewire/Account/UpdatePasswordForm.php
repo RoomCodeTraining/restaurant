@@ -23,7 +23,9 @@ class UpdatePasswordForm extends Component
     {
         $this->resetErrorBag();
 
-        $updater->update(Auth::user(), $this->state);
+        $passwordExpired = session()->pull('password_expired', false);
+
+        $updater->update(Auth::user(), $this->state, $passwordExpired);
 
         $this->state = [
             'current_password' => '',
@@ -32,6 +34,10 @@ class UpdatePasswordForm extends Component
         ];
 
         $this->emit('saved');
+
+        if ($passwordExpired) {
+            return redirect()->intended(route('dashboard'));
+        }
     }
 
     /**

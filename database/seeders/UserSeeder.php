@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $email = 'admin@ciprel.com';
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         User::create([
             'username' => $username,
@@ -41,8 +41,12 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ])->assignRole(Role::ADMIN);
 
+        if (app()->environment('production')) {
+            return;
+        }
+
         $email = 'admin-rh@ciprel.com';
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         User::create([
             'username' => $username,
@@ -63,7 +67,7 @@ class UserSeeder extends Seeder
         ])->assignRole(Role::ADMIN_RH);
 
         $email = 'comptable@ciprel.com';
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         User::create([
             'username' => $username,
@@ -84,7 +88,7 @@ class UserSeeder extends Seeder
         ])->assignRole(Role::ACCOUNTANT);
 
         $email = 'operateur-cantine@ciprel.com';
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         User::create([
             'username' => $username,
@@ -110,7 +114,7 @@ class UserSeeder extends Seeder
         User::create([
             'username' => $username,
             'identifier' => Str::upper(Str::random(5)),
-            'first_name' => 'Operateur',
+            'first_name' => 'Admin',
             'last_name' => 'Cantine',
             'user_type_id' => UserType::firstWhere('name', 'like', '%Agent CIPREL%')->id,
             'is_active' => true,
@@ -126,7 +130,7 @@ class UserSeeder extends Seeder
         ])->assignRole(Role::ADMIN_LUNCHROOM);
 
         $email = 'utilisateur@ciprel.com';
-        $username = Str::slug(explode('@', $email)[0]);
+        $username = explode('@', $email)[0];
 
         User::create([
             'username' => $username,

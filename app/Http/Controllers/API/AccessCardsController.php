@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-class AccessCardController extends Controller
+class AccessCardsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -52,7 +52,7 @@ class AccessCardController extends Controller
 
         if ($user->isFromlunchroom()) {
             throw ValidationException::withMessages([
-                'user_id' => ['Ce utilisateur est un personnel de la cantine'],
+                'user_id' => ['Ce utilisateur ne peut disposer d\'une carte RFID'],
             ]);
         }
 

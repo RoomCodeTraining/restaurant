@@ -28,9 +28,18 @@
                 <div class="grid grid-cols-8 gap-6">
                     <div class="col-span-8">
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                            <div class="w-full">
+                                <dt class="text-sm font-medium text-gray-500">Photo</dt>
+                                <img src="{{ $user->profile_photo_url }}" class="rounded" alt="{{ $user->username }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-span-8">
+                        <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                             <div class="w-full md:w-1/2">
-                                <dt class="text-sm font-medium text-gray-500">Matricule</dt>
-                                <dd class="text-sm font-normal text-gray-900">{{ $user->identifier }}
+                                <dt class="text-sm font-medium text-gray-500">Matricule/Identifiant</dt>
+                                <dd class="text-sm font-normal text-gray-900">
+                                    {{ $user->identifier }}
                                 </dd>
                             </div>
                             <div class="w-full md:w-1/2">
@@ -139,7 +148,7 @@
             </x-slot>
         </x-action-section>
 
-        @if ($user->can('create', App\Models\Order::class) && ! $user->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
+        @if ($user->can('create', App\Models\Order::class) && !$user->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
 
             <x-section-border></x-section-border>
 

@@ -23,7 +23,7 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('password.expires');
     Route::get('profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
 
     Route::resource('/users', App\Http\Controllers\UsersController::class);

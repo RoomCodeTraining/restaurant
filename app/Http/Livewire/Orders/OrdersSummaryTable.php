@@ -15,6 +15,8 @@ class OrdersSummaryTable extends DataTableComponent
 
     public bool $showSearch = false;
 
+    public $refresh = 1000 * 60;
+
     public $showingUsers = false;
     public $users = [];
 

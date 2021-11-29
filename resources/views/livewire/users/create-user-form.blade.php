@@ -5,7 +5,7 @@
                 class="grid grid-cols-8 gap-2 md:gap-4">
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
-                        <span class="label-text">Matricule</span>
+                        <span class="label-text">Matricule/Identifiant</span>
                     </label>
                     <input class="input input-bordered" type="text"
                         wire:model.defer="state.identifier">

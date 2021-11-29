@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class OrderController extends Controller
+class OrdersController extends Controller
 {
     /**
      * Store a newly created resource in storage.

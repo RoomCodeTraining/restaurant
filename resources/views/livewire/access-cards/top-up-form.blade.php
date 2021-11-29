@@ -10,6 +10,20 @@
 
         <x-slot name="form">
             <div class="col-span-6 sm:col-span-8 form-control">
+                @if (!$user->accessCard)
+                    <div class="alert alert-error">
+                        <div class="flex-1">
+                            <svg viewBox="0 0 20 20" class="h-6 w-6 fill-current">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                            <label>Ce utilisateur ne dispose pas de carte RFID associé à son compte.</label>
+                        </div>
+                    </div>
+                @endif
+            </div>
+            <div class="col-span-6 sm:col-span-8 form-control">
                 <label class="label">
                     <span class="label-text">Mode de paiement</span>
                 </label>
@@ -52,9 +66,6 @@
         </x-slot>
 
         <x-slot name="actions">
-            <x-action-message class="mr-3" on="topUpSuccess">
-                Enregistré.
-            </x-action-message>
             <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 Enregistrer

@@ -11,6 +11,7 @@ use App\Policies\MenuPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\OrganizationPolicy;
 use App\Policies\PaymentMethodPolicy;
+use App\Policies\ReportingPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\UserTypePolicy;
 use Illuminate\Database\Seeder;
@@ -249,6 +250,18 @@ class PermissionSeeder extends Seeder
                 'name' => PaymentMethodPolicy::PAYMENT_METHOD_DELETE,
                 'description' => 'Supprimer une méthode de paiement'
             ])
+        ]);
+
+        $reporting = Permission::create([
+            'name' => ReportingPolicy::REPORTING_MANAGE,
+            'description' => 'Toutes les permissions relatives au reporting'
+        ]);
+
+        $reporting->children()->saveMany([
+            new Permission([
+            'name' => ReportingPolicy::REPORTING_LIST,
+            'description' => 'Accéder au reporting',
+            ]),
         ]);
 
         /**

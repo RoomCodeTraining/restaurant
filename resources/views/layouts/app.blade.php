@@ -161,6 +161,17 @@
                                 </x-nav-link>
                             @endcan --}}
                         @endif
+                        {{-- @if (auth()->user()->can('manage', App\Models\Role::class))
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Reporting
+                            </div>
+                            @can('manage', App\Models\Order::class)
+                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
+                                    :active="request()->routeIs('orders.summary')">
+                                    Commandes
+                                </x-nav-link>
+                            @endcan
+                        @endif --}}
                     </nav>
                 </div>
             </div>
@@ -262,7 +273,7 @@
                         <!-- END Dropdown Toggle Button -->
 
                         <!-- Dropdown -->
-                        <div x-show="userDropdownOpen" x-transition:enter="transition ease-out duration-150"
+                        <div x-cloak x-show="userDropdownOpen" x-transition:enter="transition ease-out duration-150"
                             x-transition:enter-start="transform opacity-0 scale-75"
                             x-transition:enter-end="transform opacity-100 scale-100"
                             x-transition:leave="transition ease-in duration-100"

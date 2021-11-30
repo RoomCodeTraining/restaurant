@@ -25,9 +25,9 @@ class CreateMenuForm extends Component
         $this->validate([
             'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.second_dish_id' => ['nullable', 'integer', Rule::exists('dishes', 'id'), 'different:state.second_dish_id'],
+            'state.second_dish_id' => ['nullable', 'integer', 'different:state.main_dish_id', Rule::exists('dishes', 'id')],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.served_at' => ['required', 'date', Rule::unique('menus', 'served_at'), 'after:yesterday'],
+            'state.served_at' => ['required', 'after:yesterday', Rule::unique('menus', 'served_at')],
         ]);
 
         Notification::send(User::whereHas('accessCard')->get(), new MenuAdded($action->execute($this->state)));
@@ -41,7 +41,8 @@ class CreateMenuForm extends Component
     {
         return [
             'state.served_at.after' => "Vous ne pouvez pas créer de menu pour une date antérieure.",
-            'state.second_dish_id.different' => "Le second plat doit plat doit être différent du premier plat."
+            'state.served_at.unique' => "Un menu existe déjà pour cette date.",
+            'state.second_dish_id.different' => "Le second plat doit être différent du premier plat."
         ];
     }
 

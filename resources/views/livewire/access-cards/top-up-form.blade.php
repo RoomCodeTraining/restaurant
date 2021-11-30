@@ -43,7 +43,7 @@
                 <label class="label">
                     <span class="label-text">Quota petit-dejeuner</span>
                 </label>
-                <input class="input input-bordered" type="text" wire:model.defer="state.quota_breakfast">
+                <input class="input input-bordered" type="text" wire:model.lazy="state.quota_breakfast">
                 @error('state.quota_breakfast')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -55,7 +55,7 @@
                 <label class="label">
                     <span class="label-text">Quota dejeuner</span>
                 </label>
-                <input class="input input-bordered" type="text" wire:model.defer="state.quota_lunch">
+                <input class="input input-bordered" type="text" wire:model.lazy="state.quota_lunch">
                 @error('state.quota_lunch')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>

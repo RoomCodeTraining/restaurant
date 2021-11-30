@@ -24,6 +24,22 @@ class TopUpForm extends Component
         $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', $paymentMethod)->id;
     }
 
+    public function updated($field, $value)
+    {
+        $this->validate([
+            'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
+                if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
+                    $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
+                }
+            }],
+            'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
+                if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
+                    $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
+                }
+            }],
+        ]);
+    }
+
     public function topUp()
     {
         $this->resetErrorBag();
@@ -37,18 +53,6 @@ class TopUpForm extends Component
         if (! $this->user->accessCard) {
             throw ValidationException::withMessages([
                 'state.payment_method_id' => ["Cet utilisateur ne dispose pas de carte RFID associée à son compte."],
-            ]);
-        }
-
-        if ($this->user->accessCard->quota_breakfast >= 0 && $this->state['quota_breakfast'] !== 0) {
-            throw ValidationException::withMessages([
-                'state.quota_breakfast' => ["Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte."],
-            ]);
-        }
-
-        if ($this->user->accessCard->quota_lunch !== 0 && $this->state['quota_lunch'] !== 0) {
-            throw ValidationException::withMessages([
-                'state.quota_lunch' => ["Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte."],
             ]);
         }
 

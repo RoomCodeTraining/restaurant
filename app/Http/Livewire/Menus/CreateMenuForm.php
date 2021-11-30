@@ -25,7 +25,7 @@ class CreateMenuForm extends Component
         $this->validate([
             'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.second_dish_id' => ['nullable', 'integer', Rule::exists('dishes', 'id')],
+            'state.second_dish_id' => ['nullable', 'integer', Rule::exists('dishes', 'id'), 'different:state.second_dish_id'],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
             'state.served_at' => ['required', 'date', Rule::unique('menus', 'served_at'), 'after:yesterday'],
         ]);
@@ -35,6 +35,15 @@ class CreateMenuForm extends Component
         session()->flash('success', "Le menu a été créé avec succès!");
 
         return redirect()->route('menus.index');
+    }
+
+    public function messages()
+    {
+        return [
+            'state.served_at' => [
+                'after:yesterday' => "Vous ne pouvez pas créer de menu pour une date antérieure",
+            ],
+        ];
     }
 
     public function render()

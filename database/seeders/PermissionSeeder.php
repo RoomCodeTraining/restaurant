@@ -252,7 +252,7 @@ class PermissionSeeder extends Seeder
             ])
         ]);
 
-        $reporting = Permission::create([
+       /*  $reporting = Permission::create([
             'name' => ReportingPolicy::REPORTING_MANAGE,
             'description' => 'Toutes les permissions relatives au reporting'
         ]);
@@ -262,7 +262,7 @@ class PermissionSeeder extends Seeder
             'name' => ReportingPolicy::REPORTING_LIST,
             'description' => 'Accéder au reporting',
             ]),
-        ]);
+        ]); */
 
         /**
          * Attach permissions to roles

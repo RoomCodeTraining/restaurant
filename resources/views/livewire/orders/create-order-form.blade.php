@@ -2,9 +2,9 @@
     <div>
         <div class="lg:grid lg:grid-cols-12 lg:gap-8">
             <main class="lg:col-span-9 xl:col-span-9">
-                <div class="relative flex flex-col space-y-8 w-full">
+                <div class="flex flex-col space-y-8 w-full">
                     @foreach ($menus as $menu)
-                        <div class="flex flex-col space-y-2 z-9999">
+                        <div class="flex flex-col space-y-2">
                             <h3 class="text-lg md:text-xl font-semibold">
                                 Menu du {{ $menu->served_at->format('d/m/Y') }}
                             </h3>
@@ -26,8 +26,8 @@
                     @endforeach
                 </div>
             </main>
-            <aside class=" xl:block xl:col-span-3">
-                <div class="sticky top-4 mt-10 space-y-4">
+            <aside class="xl:block xl:col-span-3">
+                <div class="sticky top-64 mt-10 space-y-8">
                     <div class="bg-white shadow py-2 px-4 flex flex-col space-y-4">
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>

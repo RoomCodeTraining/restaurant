@@ -3,7 +3,7 @@
         x-data="{ open: false }"
         x-on:keydown.escape.stop="open = false"
         x-on:mousedown.away="open = false"
-        class="relative block md:inline-block text-left"
+        class="relative block md:inline-block text-left z-10"
     >
         <div>
             <button

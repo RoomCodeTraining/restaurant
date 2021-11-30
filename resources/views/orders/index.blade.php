@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-section-header title="Commandes">
+    <x-section-header title="Mes commandes">
         @if (! auth()->user()->isFromLunchroom())
             <x-slot name="actions">
                 <a href="{{ route('orders.create') }}" class="btn btn-sm btn-secondary">

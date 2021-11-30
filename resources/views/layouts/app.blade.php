@@ -33,11 +33,11 @@
     <div x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true }"
         class="flex flex-col mx-auto w-full min-h-screen bg-gray-100"
         x-bind:class="{
-        'lg:pl-72': desktopSidebarOpen
+        'lg:pl-64': desktopSidebarOpen
     }">
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
-            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
+            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-64 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
             x-bind:class="{
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,

@@ -113,7 +113,7 @@
                     <form class="w-full bg-white rounded-lg" method="POST">
                         @csrf
                         <h2 class="text-xl text-center text-gray-700 my-4 mb-8 px-18">
-                            Bienvenue, Veuillez crééer un nouveau mot de passe.
+                            Bienvenue, Veuillez créer un nouveau mot de passe.
                         </h2>
                         <div class="px-2 pb-4">
                             <div class="w-full mt-8 mb-4">
@@ -131,8 +131,9 @@
                                 </div>
                             </div>
 
-
-                            <button type="submit" class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none">CCréer un nouveau mot de passe</button>
+                            <div class="w-full my-4">
+                                <button type="submit" class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none">Créer un nouveau mot de passe</button>
+                            </div>
                         </div>
                     </form>
                 </div>

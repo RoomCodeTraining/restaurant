@@ -203,9 +203,9 @@
                         <span class="font-bold">Dernières commandes</span>
                     </div>
                     <x-table hover class="shadow bg-white" :columns="[
-                    'Menu du' => fn ($order) => $order->menu->created_at->format('d/m/Y'),
-                    'Plat' => 'dish.name',
-                ]" :rows="$latestOrders">
+                        'Menu du' => fn ($order) => $order->menu->served_at->format('d/m/Y'),
+                        'Plat' => 'dish.name',
+                    ]" :rows="$latestOrders">
                     </x-table>
                 </div>
             </div>

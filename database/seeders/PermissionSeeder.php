@@ -303,7 +303,7 @@ class PermissionSeeder extends Seeder
             'id' => Role::OPERATOR_LUNCHROOM,
             'name' => 'Agent Cantine',
         ])->givePermissionTo([
-            OrderPolicy::ORDER_MANAGE,
+            AccessCardPolicy::ACCESS_CARD_LIST,
         ]);
     }
 }

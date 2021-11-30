@@ -14,6 +14,13 @@ class AccessCardResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'identifier' => $this->identifier,
+            'quota_breakfast' => $this->quota_breakfast,
+            'quota_lunch' => $this->quota_lunch,
+            'payment_method' => new PaymentMethodResource($this->paymentMethod),
+            'user' => new UserResource($this->user),
+        ];
     }
 }

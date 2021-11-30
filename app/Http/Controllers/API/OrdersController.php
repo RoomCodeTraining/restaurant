@@ -7,7 +7,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\AccessCard;
 use App\Models\Menu;
 use App\Models\Order;
-use Carbon\Carbon;
+use App\States\Order\Completed;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -23,13 +23,13 @@ class OrdersController extends Controller
     {
         $request->validate([
             'identifier' => ['required'],
-            'menuId' => ['required', Rule::exists('menus', 'id')],
-            'dishId' => ['required', Rule::exists('dishes', 'id')],
+            'menu_id' => ['required', Rule::exists('menus', 'id')],
+            'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
-        $accessCard = AccessCard::with('user')->whereIdentifier($request->identifier)->first();
+        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
-        if (! $accessCard->quota_breakfast > 0) {
+        if ($accessCard->quota_lunch <= 0) {
             return response()->json(['msg' => 'Veuillez recharger votre cota de déjeuner']);
         }
 
@@ -55,30 +55,24 @@ class OrdersController extends Controller
         return new OrderResource($order);
     }
 
-    public function update(Request $request)
+    public function confirm(Request $request)
     {
         $request->validate([
-            'identifier' => ['required']
+            'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
+            'access_card_identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ]);
 
-        $today = Carbon::parse(now())->format('d/m/Y');
-        $accessCard = AccessCard::with('user')->whereIdentifier($request->identifier)->first();
-        $orders = $accessCard->user->orders;
+        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
+        $order = Order::today()->whereBelongsTo($accessCard->user)->first();
 
-        $todayOrder = $orders->map(function ($order) use ($today) {
-            if ($order->menu->served_at == $today) {
-                return $order;
-            }
-        });
-
-        if ($todayOrder->isEmpty()) {
-            return response()->json(['msg' => "Desolé vous n'avez pas une commande du jour!"]);
-        } elseif ($todayOrder[0]->is_completed) {
-            return response()->json(['msg' => 'Oups le plat a été retiré']);
+        if ($request->order_type == 'breakfast') {
+            $accessCard->decrement('quota_breakfast');
         }
 
-        $todayOrder[0]->update(['is_completed' => true]);
+        if ($request->order_type == 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
+            $order->state->transitionTo(Completed::class);
+        }
 
-        return response()->json(['msg' => "Le plat commandé par Mr/Mme ". $todayOrder[0]->user->full_name." est ". $todayOrder[0]->dish->name]);
+        return response()->json(['message' => "Commande confirmée"]);
     }
 }

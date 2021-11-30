@@ -65,11 +65,11 @@ class CreateOrderForm extends Component
         /**
          * S'assure qu'aucune commande n'est passée après une certaine heure.
          */
-        $todayMenu = $this->menus
+        $todayOrder = $this->menus
             ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
             ->first();
 
-        if ($todayMenu && now()->hour >= config('cantine.order.order_before')) {
+        if ($todayOrder && now()->hour >= config('cantine.order.order_before')) {
             throw ValidationException::withMessages([
                 'selectedDishes' => [sprintf('Vous ne pouvez commander le menu du jour après %s heures.', config('cantine.order.order_before'))]
             ]);

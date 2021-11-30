@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/orders/confirm-order', [OrdersController::class, 'confirm']);
     Route::apiResource('orders', OrdersController::class);
     Route::apiResource('menus', MenusController::class);
-    Route::apiResource('access-cards', AccessCardsController::class);
-    Route::post('reload/access-card', [AccessCardsController::class, 'reloadAccessCard']);
+    Route::apiResource('cards', AccessCardsController::class);
 });
 
 

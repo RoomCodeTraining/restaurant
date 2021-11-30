@@ -42,11 +42,11 @@ class DebitUserAccount extends Command
         /**
          * Débiter le quota lunch des utilisateurs qui ont une commande pour le jour en cours.
          */
-        Order::with('user.accessCard', 'menu')->whereHas('menu', function ($query) {
-            $query->whereDate('served_at', now());
-        })->each(function (Order $order) {
-            $order->state->transitionTo(Completed::class);
-            $order->user->accessCard->decrement('quota_lunch');
+        Order::today()->each(function (Order $order) {
+            if ($order->state->canTransitionTo(Completed::class)) {
+                $order->state->transitionTo(Completed::class);
+                $order->user->accessCard->decrement('quota_lunch');
+            }
         });
     }
 }

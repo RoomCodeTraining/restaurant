@@ -13,6 +13,11 @@ use Illuminate\Validation\ValidationException;
 
 class AccessCardsController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(AccessCard::class, 'card');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -31,8 +36,6 @@ class AccessCardsController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create', AccessCard::class);
-
         $request->validate([
             'user_id' => ['required'],
             'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
@@ -52,7 +55,7 @@ class AccessCardsController extends Controller
 
         if ($user->isFromlunchroom()) {
             throw ValidationException::withMessages([
-                'user_id' => ['Ce utilisateur ne peut disposer d\'une carte RFID'],
+                'user_id' => ['Cet utilisateur ne peut disposer d\'une carte RFID'],
             ]);
         }
 
@@ -75,44 +78,11 @@ class AccessCardsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AccessCard  $accessCard
+     * @param  \App\Models\AccessCard  $card
      * @return \Illuminate\Http\Response
      */
-    public function show(AccessCard $accessCard)
+    public function show(AccessCard $card)
     {
-        return new AccessCardResource($accessCard);
-    }
-
-    public function reloadAccessCard(Request $request)
-    {
-        $request->validate([
-            'identifier' => ['required', 'string', Rule::exists('access_cards', 'identifier')]
-        ]);
-
-        $accessCard = AccessCard::whereIdentifier($request->identifier)->first();
-        if ($accessCard->quota_lunch == 0 && $accessCard->quota_breakfast == 0) {
-            $accessCard->update(['quota_lunch' => 25, 'quota_breakfast' => 25]);
-        } elseif ($accessCard->quota_lunch == 0) {
-            $accessCard->update(['quota_lunch' => 25]);
-        } elseif ($accessCard->quota_breakfast == 0) {
-            $accessCard->update(['quota_breakfast' => 25]);
-        } else {
-            return response()->json(['msg' => 'Cette carte a toujours des cota de petit déjeuner et déjeuner']);
-        }
-
-        return new AccessCardResource($accessCard);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\AccessCard  $accessCard
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(AccessCard $accessCard)
-    {
-        $accessCard->delete();
-
-        return response()->json(['success' => 'La carte RFID a été supprimé']);
+        return new AccessCardResource($card->load('user', 'paymentMethod'));
     }
 }

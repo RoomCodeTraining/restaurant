@@ -7,6 +7,7 @@ use App\States\Order\OrderState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
 
 class Order extends Model
@@ -15,7 +16,7 @@ class Order extends Model
 
     use HasStates;
 
-    // use SoftDeletes;
+    use SoftDeletes;
 
     protected $guarded = [];
 
@@ -24,6 +25,11 @@ class Order extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function scopeToday($query)
+    {
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', Carbon::today()));
+    }
 
     public function canBeCancelled()
     {

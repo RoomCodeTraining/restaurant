@@ -22,25 +22,23 @@
                     Les informations de votre profil.
                 </p>
                 <form onsubmit="return false;" class="space-y-6 md:w-1/2">
-                    <div class="space-y-1">
-                        <label class="font-medium">Photo</label>
-                        <div class="flex items-center space-x-4">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 text-gray-300">
-
-                                <img src="{{ $loggedInUser->profile_photo_url }}"
-                                    alt="{{ $loggedInUser->full_name }}"
-                                    class="rounded-full h-full w-full object-cover">
-
+                    <div class="grid grid-cols-8 gap-6">
+                        <div class="col-span-8">
+                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                                <div class="w-full">
+                                    <dt class="text-sm font-medium text-gray-500">Photo</dt>
+                                    <img src="{{ $loggedInUser->profile_photo_url }}" class="rounded"
+                                        alt="{{ $loggedInUser->username }}">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-8 gap-2 md:gap-6">
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Matricule</dt>
-                                    <dd class="text-sm font-normal text-gray-900">{{ $loggedInUser->identifier }}</dd>
+                                    <dt class="text-sm font-medium text-gray-500">Matricule/Identifiant</dt>
+                                    <dd class="text-sm font-normal text-gray-900">
+                                        {{ $loggedInUser->identifier }}
+                                    </dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Nom et prénoms</dt>
@@ -65,7 +63,7 @@
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Profil</dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->roles()->first())->name ?? 'Utilisateur' }}</dd>
+                                        {{ $loggedInUser->role->name }}</dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Société</dt>
@@ -84,10 +82,11 @@
                                     </dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Catégorie socio-professionnelle
+                                    <dt class="text-sm font-medium text-gray-500">
+                                        Catégorie socio-professionnelle
                                     </dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->employeeStatus)->name ?? 'Aucun' }}
+                                        {{ $loggedInUser->employeeStatus->name }}
                                     </dd>
                                 </div>
                             </div>
@@ -97,7 +96,7 @@
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Type de collaborateur</dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        {{ $loggedInUser->is_external ? 'Collobarateur Externe' : 'Collobarateur Ciprel' }}
+                                        {{ $loggedInUser->userType->name }}
                                     </dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
@@ -105,8 +104,8 @@
                                         Etat du compte
                                     </dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                    <dd class="badge badge-primary badge-outline">
-                                        {{ $loggedInUser->is_active ? 'Actif' : 'Inactif' }}
+                                    <dd class="badge {{ $loggedInUser->is_active ? 'badge-success' : 'badge-error' }}">
+                                        {{ $loggedInUser->is_active ? 'Actif' : 'Non actif' }}
                                     </dd>
                                 </div>
                             </div>
@@ -116,13 +115,13 @@
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Quota petit déjeuner</dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        0
+                                        {{ optional($loggedInUser->accessCard)->quota_breakfast ?? 0 }}
                                     </dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Quota déjeuner</dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        0
+                                        {{ optional($loggedInUser->accessCard)->quota_lunch ?? 0 }}
                                     </dd>
                                 </div>
                             </div>
@@ -130,9 +129,15 @@
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
+                                    <dt class="text-sm font-medium text-gray-500">Numéro de la carte</dt>
+                                    <dd class="text-sm font-normal text-gray-900">
+                                        {{ optional($loggedInUser->accessCard)->identifier ?? 'Non défini' }}
+                                    </dd>
+                                </div>
+                                <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">Mode de paiement</dt>
                                     <dd class="text-sm font-normal text-gray-900">
-                                        {{ $loggedInUser->accessCards->first()->paymentMethod->name ?? 'Aucun' }}
+                                        {{ optional($loggedInUser->accessCard)->paymentMethod->name ?? 'Non défini' }}
                                     </dd>
                                 </div>
                             </div>

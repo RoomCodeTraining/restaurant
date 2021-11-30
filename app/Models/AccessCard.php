@@ -18,7 +18,15 @@ class AccessCard extends Model
         'payment_method_id',
     ];
 
+    public function getRouteKey()
+    {
+        return $this->identifier;
+    }
 
+    public function getRouteKeyName()
+    {
+        return 'identifier';
+    }
 
     public function user()
     {

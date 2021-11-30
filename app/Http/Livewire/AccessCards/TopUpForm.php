@@ -26,18 +26,20 @@ class TopUpForm extends Component
 
     public function updated($field, $value)
     {
-        $this->validate([
-            'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
-                if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
-                    $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
-                }
-            }],
-            'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
-                if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
-                    $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
-                }
-            }],
-        ]);
+        if ($this->user->accessCard) {
+            $this->validate([
+                'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
+                    if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
+                        $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
+                    }
+                }],
+                'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
+                    if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
+                        $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
+                    }
+                }],
+            ]);
+        }
     }
 
     public function topUp()

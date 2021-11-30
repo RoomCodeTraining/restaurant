@@ -40,9 +40,8 @@ class CreateMenuForm extends Component
     public function messages()
     {
         return [
-            'state.served_at' => [
-                'after:yesterday' => "Vous ne pouvez pas créer de menu pour une date antérieure",
-            ],
+            'state.served_at.after' => "Vous ne pouvez pas créer de menu pour une date antérieure.",
+            'state.second_dish_id.different' => "Le second plat doit plat doit être différent du premier plat."
         ];
     }
 

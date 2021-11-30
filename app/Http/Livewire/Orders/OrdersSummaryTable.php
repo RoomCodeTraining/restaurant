@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Orders;
 
 use App\Models\Menu;
 use App\Models\Order;
+use App\States\Order\Confirmed;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -35,6 +36,7 @@ class OrdersSummaryTable extends DataTableComponent
         return Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereState('state', Confirmed::class)
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('

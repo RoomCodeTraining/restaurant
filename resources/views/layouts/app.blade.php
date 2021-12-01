@@ -148,6 +148,12 @@
                                     Types d'utilisateurs
                                 </x-nav-link>
                             @endcan
+                            @can('manage', App\Models\PaymentMethod::class)
+                                <x-nav-link href="{{ route('paymentMethods.index') }}" icon="wallet"
+                                    :active="request()->routeIs('paymentMethods.index')">
+                                    Methodes de paiement
+                                </x-nav-link>
+                            @endcan
                             @can('manage', App\Models\EmployeeStatus::class)
                                 <x-nav-link href="{{ route('employeeStatuses.index') }}" icon="users"
                                     :active="request()->routeIs('employeeStatuses.index')">

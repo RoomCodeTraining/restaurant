@@ -19,7 +19,7 @@ class PaymentMethodsController extends Controller
      */
     public function index()
     {
-        //
+        return view('payment-methods.index');
     }
 
     /**
@@ -29,7 +29,8 @@ class PaymentMethodsController extends Controller
      */
     public function create()
     {
-        //
+        return view('payment-methods.create');
+
     }
 
     /**
@@ -62,7 +63,7 @@ class PaymentMethodsController extends Controller
      */
     public function edit(PaymentMethod $paymentMethod)
     {
-        //
+        return view('payment-methods.edit', compact('paymentMethod'));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Controllers\WelcomeMessageController;
 use App\Support\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -114,5 +115,10 @@ class User extends Authenticatable
     public function passwordHistories()
     {
         return $this->morphMany(PasswordHistory::class, 'model');
+    }
+
+    public function sendWelcomeNotification(\Carbon\Carbon $validUntil)
+    {
+        $this->notify(new WelcomeMessageController($validUntil));
     }
 }

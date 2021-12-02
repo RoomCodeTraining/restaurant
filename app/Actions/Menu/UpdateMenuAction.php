@@ -3,6 +3,8 @@
 namespace App\Actions\Menu;
 
 use App\Models\Menu;
+use App\States\Order\Confirmed;
+use App\States\Order\Suspended;
 use Illuminate\Support\Facades\DB;
 
 class UpdateMenuAction
@@ -19,6 +21,12 @@ class UpdateMenuAction
         ];
 
         $menu->dishes()->sync($dishes);
+
+        // Move to a new action
+        $menu->orders()
+            ->whereState('state', Confirmed::class)
+            ->get()
+            ->each(fn ($order) => $order->state->transitionTo(Suspended::class));
 
         DB::commit();
 

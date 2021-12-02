@@ -42,12 +42,18 @@ class EditMenuForm extends Component
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
-        Notification::send(User::whereHas('accessCard')->get(), new MenuChanged($action->execute($this->menu, $this->state)));
+        $menu = $action->execute($this->menu, $this->state);
+
+        Notification::send(
+            User::query()->whereRelation('orders', 'menu_id', $menu->id)->get(),
+            new MenuChanged($action->execute($this->menu, $this->state))
+        );
 
         session()->flash('success', "Le menu a été modifié avec succès!");
 
         return redirect()->route('menus.index');
     }
+
     public function render()
     {
         return view('livewire.menus.edit-menu-form', [

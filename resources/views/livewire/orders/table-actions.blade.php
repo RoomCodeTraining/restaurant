@@ -5,8 +5,6 @@
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
             </button>
         </div>
-    @endif
-    @if ($order->canBeCancelled())
         <div class="flex flex-col" x-data="{ tooltip: 'Annuler' }">
             <button wire:click="confirmOrderCancellation({{ $order->id }})" wire:loading.attr="disabled"
                 x-tooltip="tooltip">

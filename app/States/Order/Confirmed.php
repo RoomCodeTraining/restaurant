@@ -10,9 +10,4 @@ class Confirmed extends OrderState
     {
         return 'Confirmée';
     }
-
-    public static function color(): string
-    {
-        return 'badge badge-warning';
-    }
 }

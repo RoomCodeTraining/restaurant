@@ -107,7 +107,7 @@ class OrdersTable extends DataTableComponent
     public function confirmOrderUpdate($orderId)
     {
         $this->orderIdBeingUpdated = $orderId;
-        $this->selectedOrder = Order::with('user', 'menu.mainDish', 'menu.secondDish', 'dish')->find($orderId);
+        $this->selectedOrder = Order::with('user')->find($orderId);
         $this->dishId = $this->selectedOrder->dish_id;
         $this->confirmingOrderUpdate = true;
     }
@@ -117,6 +117,10 @@ class OrdersTable extends DataTableComponent
         $order = Order::find($this->orderIdBeingUpdated);
 
         $order->update([ 'dish_id' => $this->dishId ]);
+
+        if ($order->state->canTransitionTo(Confirmed::class)) {
+            $order->state->transitionTo(Confirmed::class);
+        }
 
         $this->confirmingOrderUpdate = false;
 

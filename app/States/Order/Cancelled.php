@@ -10,9 +10,4 @@ class Cancelled extends OrderState
     {
         return 'Annulée';
     }
-
-    public static function color(): string
-    {
-        return 'badge-error';
-    }
 }

@@ -71,6 +71,6 @@ class MenusTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Menu::query()->with('dishes');
+        return Menu::query()->with('dishes')->withCount('orders');
     }
 }

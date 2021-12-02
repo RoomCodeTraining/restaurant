@@ -10,9 +10,4 @@ class Completed extends OrderState
     {
         return 'Consommée';
     }
-
-    public static function color(): string
-    {
-        return 'badge badge-success';
-    }
 }

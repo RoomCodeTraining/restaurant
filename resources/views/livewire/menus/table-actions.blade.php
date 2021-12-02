@@ -4,18 +4,19 @@
             <x-icon name="eye" class="h-4 w-4 text-secondary-800" />
         </a>
     </div>
-    @can('update', $menu)
+    @if (auth()->user()->can('manage', \App\Models\Menu::class))
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('menus.edit', $menu) }}" x-tooltip="tooltip">
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
             </a>
         </div>
-    @endcan
-    @can('delete', $menu)
-        <div x-data="{ tooltip: 'Supprimer' }">
-            <button wire:click="confirmMenuDeletion({{ $menu->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
-                <x-icon name="trash" class="h-4 w-4 text-red-700" />
-            </button>
-        </div>
-    @endcan
+        @if ($menu->orders_count === 0)
+            <div x-data="{ tooltip: 'Supprimer' }">
+                <button wire:click="confirmMenuDeletion({{ $menu->id }})" wire:loading.attr="disabled"
+                    x-tooltip="tooltip">
+                    <x-icon name="trash" class="h-4 w-4 text-red-700" />
+                </button>
+            </div>
+        @endif
+    @endif
 </div>

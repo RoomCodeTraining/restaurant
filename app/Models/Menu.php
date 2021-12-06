@@ -24,6 +24,11 @@ class Menu extends Model
         return $this->dishes()->starter()->first();
     }
 
+    public function scopeToday($query)
+    {
+        return $query->whereDate('served_at', today());
+    }
+
     public function getMainDishAttribute()
     {
         return $this->dishes()->main()->orderBy('id', 'asc')->first();

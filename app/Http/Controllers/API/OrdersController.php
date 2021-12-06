@@ -42,11 +42,13 @@ class OrdersController extends Controller
         } else {
             $orders = $accessCard->user->orders;
             $menu = Menu::whereId($request->menuId)->first();
+            
             $result = $orders->map(function ($order) use ($menu) {
                 if ($order->menu->served_at == $menu->served_at) {
                     return $order;
                 }
             });
+
             if (! $result->isEmpty()) {
                 return response()->json(['msg' => 'Vous avez deja une commande pour ce jour!']);
             }

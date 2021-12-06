@@ -72,6 +72,9 @@ class User extends Authenticatable
         return $this->hasRole([Role::ADMIN_LUNCHROOM, Role::OPERATOR_LUNCHROOM]);
     }
 
+
+
+
     public function orders()
     {
         return $this->hasMany(Order::class);

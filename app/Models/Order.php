@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
+use App\States\Order\Confirmed;
 
 class Order extends Model
 {
@@ -29,6 +30,18 @@ class Order extends Model
     public function scopeToday($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', Carbon::today()));
+    }
+
+    public function scopeWeekly($query)
+    {
+        return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()]));
+    }
+
+ 
+ 
+    public function scopeMonthly($query)
+    {
+        return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
     }
 
     public function canBeCancelled()

@@ -11,11 +11,14 @@
             </a>
         </div>
     @endcan
-    @can('menu.delete')
-        <div x-data="{ tooltip: 'Supprimer' }">
-            <button wire:click="confirmDishDeletion({{ $dish->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
-                <x-icon name="trash" class="h-4 w-4 text-red-700" />
-            </button>
-        </div>
-    @endcan
+    @if ($dish->dishMenu->count() == 0)
+        @can('menu.delete')
+            <div x-data="{ tooltip: 'Supprimer' }">
+                <button wire:click="confirmDishDeletion({{ $dish->id }})" wire:loading.attr="disabled"
+                    x-tooltip="tooltip">
+                    <x-icon name="trash" class="h-4 w-4 text-red-700" />
+                </button>
+            </div>
+        @endcan
+    @endif
 </div>

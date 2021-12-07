@@ -6,7 +6,7 @@
                     <label class="label">
                         <span class="label-text">Matricule/Identifiant</span>
                     </label>
-                    <input disabled="disabled" class="input input-bordered" type="text" wire:model.defer="state.identifier">
+                    <input class="input input-bordered" type="text" wire:model.defer="state.identifier">
                     @error('state.identifier')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>

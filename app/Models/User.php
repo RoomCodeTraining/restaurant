@@ -112,6 +112,11 @@ class User extends Authenticatable
         return $this->belongsTo(AccessCard::class, 'current_access_card_id');
     }
 
+    public function currentAccessCard()
+    {
+        return $this->belongsTo(AccessCard::class, 'current_access_card_id');
+    }
+
     public function passwordHistories()
     {
         return $this->morphMany(PasswordHistory::class, 'model');

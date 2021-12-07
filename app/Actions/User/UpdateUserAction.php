@@ -15,6 +15,7 @@ class UpdateUserAction
 
         $user->update([
             // 'identifier' => $data['identifier'],
+            'identifier' => $data['identifier'],
             'username' => explode('@', $data['email'])[0],
             'email' => $data['email'],
             'last_name' => $data['last_name'],

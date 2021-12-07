@@ -17,6 +17,12 @@ class PaymentMethod extends Model
         return $this->hasMany(Order::class);
     }
 
+
+    public function accessCards()
+    {
+        return $this->hasMany(AccessCard::class);
+    }
+
     public static function getPaymentMethodForUser(User $user)
     {
         switch ($user->user_type_id) {

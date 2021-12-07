@@ -5,11 +5,13 @@
         </a>
     </div>
     @if (auth()->user()->can('manage', \App\Models\Menu::class))
+       @if(!$menu->isOldMenu())
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('menus.edit', $menu) }}" x-tooltip="tooltip">
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />
             </a>
         </div>
+        @endif
         @if ($menu->orders_count === 0)
             <div x-data="{ tooltip: 'Supprimer' }">
                 <button wire:click="confirmMenuDeletion({{ $menu->id }})" wire:loading.attr="disabled"

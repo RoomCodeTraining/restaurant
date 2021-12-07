@@ -37,7 +37,7 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()]));
     }
 
- 
+
  
     public function scopeMonthly($query)
     {

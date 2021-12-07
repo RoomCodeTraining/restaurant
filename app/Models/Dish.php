@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Menu;
 use App\Support\HasImage;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Dish extends Model
 {
@@ -27,6 +28,11 @@ class Dish extends Model
     {
         return $query->where('dish_type_id', DishType::STARTER);
     }
+
+    public function dishMenu(){
+        return $this->belongsToMany(Menu::class);
+    }
+
 
     public function scopeMain($query)
     {

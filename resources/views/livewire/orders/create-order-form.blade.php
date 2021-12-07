@@ -10,7 +10,7 @@
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                                 @foreach ($menu->dishes as $dish)
-                                    <x-dish-card :dish="$dish">
+                                    <x-dish-card :dish="$dish" :menu="$menu">
                                         @if ($menu->canBeOrdered() && $dish->dishType->is_orderable && !in_array($menu->id, array_keys($selectedDishes)))
                                             <div x-data="{ tooltip: 'Ajouter au panier' }">
                                                 <button x-on:click="$wire.addDish(@js($menu->id), @js($dish->id))"

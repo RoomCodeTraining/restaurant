@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Dashboards;
 
 use App\States\Order\Confirmed;
-use App\States\Order\Suspended;
 use Livewire\Component;
 
 class AdminRhDashboard extends Component

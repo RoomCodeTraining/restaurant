@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Controllers\WelcomeMessageController;
+use App\Notifications\WelcomeNotification;
 use App\Support\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -124,6 +124,6 @@ class User extends Authenticatable
 
     public function sendWelcomeNotification(\Carbon\Carbon $validUntil)
     {
-        $this->notify(new WelcomeMessageController($validUntil));
+        $this->notify(new WelcomeNotification($validUntil));
     }
 }

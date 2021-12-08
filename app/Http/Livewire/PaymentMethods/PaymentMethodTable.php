@@ -22,9 +22,9 @@ class PaymentMethodTable extends DataTableComponent
     public function columns(): array
     {
         return [
+            Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Nom', 'name')->searchable(),
             Column::make('Description', 'description')->searchable(),
-            Column::make('Date de création', 'created_at')->format(fn ($row) => $row->format('d/m/Y'))->sortable(),
             Column::make('Actions')->format(fn ($value, $column, paymentMethod $paymentMethod) => view('livewire.payment-methods.table-actions')->with([
                 'paymentMethod' => $paymentMethod,
             ])),

@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\PaymentMethods;
 
-use Livewire\Component;
-use Illuminate\Validation\Rule;
 use App\Actions\PaymentMethods\CreatePaymentMethodAction;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class CreatePaymentMethodForm extends Component
 {
@@ -15,12 +15,14 @@ class CreatePaymentMethodForm extends Component
 
 
 
-    public function savePaymentMethod(CreatePaymentMethodAction $action){
+    public function savePaymentMethod(CreatePaymentMethodAction $action)
+    {
         $this->validate([
             'state.name' => ['required', Rule::unique('payment_methods', 'name'), Rule::unique('payment_methods', 'id')]
         ]);
         $action->execute($this->state);
         session()->flash('success', 'La méthode de paiement a été créee !');
+
         return redirect()->route('paymentMethods.index');
     }
 

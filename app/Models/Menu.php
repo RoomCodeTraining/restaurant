@@ -29,7 +29,7 @@ class Menu extends Model
         return $query->whereDate('served_at', today());
     }
 
-    public function  isOldMenu() : bool
+    public function isOldMenu() : bool
     {
         return $this->served_at->lessThan(today()) ? true : false;
     }

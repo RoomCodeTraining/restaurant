@@ -2,14 +2,12 @@
 
 namespace App\Http\Livewire\PaymentMethods;
 
-use Livewire\Component;
 use App\Actions\PaymentMethods\UpdatePaymentMethodAction;
 use App\Models\PaymentMethod;
-use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class EditPaymentMethodForm extends Component
 {
-
     public $state = [
         'name' => null,
         'description' => null,
@@ -26,13 +24,15 @@ class EditPaymentMethodForm extends Component
         ];
     }
 
-    public function savePaymentMethod(UpdatePaymentMethodAction $action){
+    public function savePaymentMethod(UpdatePaymentMethodAction $action)
+    {
         $this->validate([
             'state.name' => ['required']
         ]);
 
         $action->execute($this->paymentMethod, $this->state);
         session()->flash('success', 'La méthode de paiement a été modifiée !');
+
         return redirect()->route('paymentMethods.index');
     }
 

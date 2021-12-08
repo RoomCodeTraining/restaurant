@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Notifications;
 
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
-use Spatie\WelcomeNotification\WelcomeNotification;
+use Spatie\WelcomeNotification\WelcomeNotification as BaseWelcomeNotification;
 
-class WelcomeMessageController extends WelcomeNotification
+class WelcomeNotification extends BaseWelcomeNotification
 {
     public function buildWelcomeNotificationMessage(): MailMessage
     {

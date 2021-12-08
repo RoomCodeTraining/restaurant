@@ -2,8 +2,8 @@
 
 namespace App\Actions\PaymentMethods;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\PaymentMethod;
+use Illuminate\Support\Facades\DB;
 
 class UpdatePaymentMethodAction
 {

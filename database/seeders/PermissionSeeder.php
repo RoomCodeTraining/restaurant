@@ -252,17 +252,17 @@ class PermissionSeeder extends Seeder
             ])
         ]);
 
-       /*  $reporting = Permission::create([
-            'name' => ReportingPolicy::REPORTING_MANAGE,
-            'description' => 'Toutes les permissions relatives au reporting'
-        ]);
+        /*  $reporting = Permission::create([
+             'name' => ReportingPolicy::REPORTING_MANAGE,
+             'description' => 'Toutes les permissions relatives au reporting'
+         ]);
 
-        $reporting->children()->saveMany([
-            new Permission([
-            'name' => ReportingPolicy::REPORTING_LIST,
-            'description' => 'Accéder au reporting',
-            ]),
-        ]); */
+         $reporting->children()->saveMany([
+             new Permission([
+             'name' => ReportingPolicy::REPORTING_LIST,
+             'description' => 'Accéder au reporting',
+             ]),
+         ]); */
 
         /**
          * Attach permissions to roles

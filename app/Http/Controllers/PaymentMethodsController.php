@@ -30,7 +30,6 @@ class PaymentMethodsController extends Controller
     public function create()
     {
         return view('payment-methods.create');
-
     }
 
     /**

@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\PaymentMethods;
 
+use App\Actions\PaymentMethods\DeletePaymentMethodAction;
+use App\Models\PaymentMethod;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
-use App\Models\PaymentMethod;
-use App\Actions\PaymentMethods\DeletePaymentMethodAction;
 
 class PaymentMethodTable extends DataTableComponent
 {
-
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
     public string $defaultSortColumn = 'created_at';
@@ -43,8 +42,8 @@ class PaymentMethodTable extends DataTableComponent
         $this->confirmingPaymentMethodDeletion = true;
     }
 
-    public function deletePaymentMethod(DeletePaymentMethodAction $action){
-
+    public function deletePaymentMethod(DeletePaymentMethodAction $action)
+    {
         $paymentMethod = PaymentMethod::find($this->paymentMethodIdBeingDeleted);
 
         $action->execute($paymentMethod);

@@ -38,7 +38,7 @@ class EditMenuForm extends Component
         $this->validate([
             'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.second_dish_id' => ['nullable', 'required', Rule::exists('dishes', 'id')],
+            'state.second_dish_id' => ['nullable', 'integer', 'different:state.main_dish_id', Rule::exists('dishes', 'id')],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
@@ -52,6 +52,13 @@ class EditMenuForm extends Component
         session()->flash('success', "Le menu a été modifié avec succès!");
 
         return redirect()->route('menus.index');
+    }
+
+    public function messages()
+    {
+        return [
+            'state.second_dish_id.different' => "Le second plat doit être différent du premier plat."
+        ];
     }
 
     public function render()

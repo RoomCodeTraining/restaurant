@@ -6,7 +6,7 @@ use App\Models\Order;
 use App\States\Order\Completed;
 use Illuminate\Console\Command;
 
-class DebitUserAccount extends Command
+class ChargeUser extends Command
 {
     /**
      * The name and signature of the console command.

@@ -30,9 +30,9 @@ class MenuSeeder extends Seeder
                     ->count(4)
                     ->state(new Sequence(
                         [ 'name' => $faker->sentence(2), 'dish_type_id' => DishType::STARTER ],
-                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
-                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
                         [ 'name' => $faker->sentence(2), 'dish_type_id' => DishType::DESSERT ],
+                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
+                        [ 'name' => $faker->sentence(3), 'dish_type_id' => DishType::MAIN ],
                     ))
             )
             ->create();

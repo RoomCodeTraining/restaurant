@@ -63,8 +63,8 @@ class AccessCardsController extends Controller
 
         $accessCard = $user->accessCards()->create([
             'identifier' => $request->identifier,
-            'quota_breakfast' => $request->get('quota_breakfast', 0),
-            'quota_lunch' => $request->get('quota_lunch', 0),
+            'quota_breakfast' => $request->get('quota_breakfast', 25),
+            'quota_lunch' => $request->get('quota_lunch', 25),
             'payment_method_id' => $request->get('payment_method_id', $user->userType->paymentMethod->id),
         ]);
 

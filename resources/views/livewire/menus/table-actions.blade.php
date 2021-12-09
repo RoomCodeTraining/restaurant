@@ -5,7 +5,7 @@
         </a>
     </div>
     @if (auth()->user()->can('manage', \App\Models\Menu::class))
-       @if(!$menu->isOldMenu())
+       @if($menu->canBeUpdated())
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('menus.edit', $menu) }}" x-tooltip="tooltip">
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />

@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Menu;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Carbon;
 
 class MenuPolicy
 {
@@ -73,14 +72,8 @@ class MenuPolicy
      */
     public function update(User $user, Menu $menu)
     {
-        if ($user->can(self::MENU_UPDATE)) {
-            if ($menu->served_at->isCurrentDay() && now()->hour < config('cantine.menu.update_before')) {
-                return true;
-            }
-
-            if ($menu->served_at->greaterThan(Carbon::today())) {
-                return true;
-            }
+        if ($user->can(self::MENU_UPDATE) && $menu->canBeUpdated()) {
+            return true;
         }
     }
 

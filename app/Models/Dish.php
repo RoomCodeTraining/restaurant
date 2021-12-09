@@ -16,6 +16,20 @@ class Dish extends Model
         'name', 'description', 'dish_type_id', 'image'
     ];
 
+    public function getPositionAttribute()
+    {
+        switch ($this->dish_type_id) {
+            case DishType::STARTER:
+                return 1;
+            case DishType::MAIN:
+                return 2;
+            case DishType::DESSERT:
+                return 3;
+            default:
+                return 1;
+        };
+    }
+
     public function scopeSearch($query, $term)
     {
         return $query->where(

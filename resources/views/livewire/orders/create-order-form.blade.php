@@ -5,11 +5,11 @@
                 <div class="flex flex-col space-y-8 w-full">
                     @foreach ($menus as $menu)
                         <div class="flex flex-col space-y-2">
-                            <h3 class="text-lg md:text-xl font-semibold">
+                            <h3 class="text-lg md:text-xl font-semibold {{ $menu->served_at->isCurrentDay() ? 'text-primary-800' : '' }}">
                                 Menu du {{ $menu->served_at->format('d/m/Y') }}
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-                                @foreach ($menu->dishes as $dish)
+                                @foreach ($menu->dishes->sortBy('position') as $dish)
                                     <x-dish-card :dish="$dish" :menu="$menu">
                                         @if ($menu->canBeOrdered() && $dish->dishType->is_orderable && !in_array($menu->id, array_keys($selectedDishes)))
                                             <div x-data="{ tooltip: 'Ajouter au panier' }">
@@ -27,7 +27,7 @@
                 </div>
             </main>
             <aside class="xl:block xl:col-span-3">
-                <div class="sticky top-64 mt-10 space-y-8">
+                <div class="sticky mt-10 space-y-8">
                     <div class="bg-white shadow py-2 px-4 flex flex-col space-y-4">
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>
@@ -47,7 +47,7 @@
                                         <div x-data="{ tooltip: 'Rétirer du panier'}">
                                             <button x-on:click="$wire.removeDish(@js($menuId))" x-tooltip="tooltip"
                                                 class="text-error">
-                                                <x-icon-minus class="inline-block w-6 h-6 stroke-current" />
+                                                <x-icon name="trash" class="inline-block w-6 h-6 stroke-current" />
                                             </button>
                                         </div>
                                     </li>

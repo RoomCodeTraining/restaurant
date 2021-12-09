@@ -28,7 +28,7 @@ class EditMenuForm extends Component
         $this->state = [
             'starter_id' => $menu->starter->id,
             'main_dish_id' => $menu->main_dish->id,
-            'second_dish_id' => $menu->second_dish->id,
+            'second_dish_id' => $menu->second_dish?->id,
             'dessert_id' => $menu->dessert->id,
         ];
     }

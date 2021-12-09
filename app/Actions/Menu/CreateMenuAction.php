@@ -22,7 +22,7 @@ class CreateMenuAction
             $input['dessert_id'],
         ];
 
-        $menu->dishes()->attach($dishes);
+        $menu->dishes()->attach(collect($dishes)->filter(fn ($dish) => $dish));
 
         DB::commit();
 

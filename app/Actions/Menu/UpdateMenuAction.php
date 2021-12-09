@@ -20,7 +20,7 @@ class UpdateMenuAction
             $input['dessert_id'],
         ];
 
-        $menu->dishes()->sync($dishes);
+        $menu->dishes()->sync(collect($dishes)->filter(fn ($dish) => $dish));
 
         // Move to a new action
         $menu->orders()

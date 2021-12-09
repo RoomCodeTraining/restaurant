@@ -149,5 +149,18 @@ class UserSeeder extends Seeder
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
         ])->assignRole(Role::USER);
+
+        $users = User::all()->filter(fn ($user) => ! $user->isFromLunchroom());
+
+        foreach ($users as $key => $user) {
+            $accessCard = $user->accessCards()->create([
+                'identifier' => 'CARD00' . $key,
+                'quota_breakfast' => 25,
+                'quota_lunch' => 25,
+                'payment_method_id' => 1,
+            ]);
+
+            $user->update([ 'current_access_card_id' => $accessCard->id ]);
+        }
     }
 }

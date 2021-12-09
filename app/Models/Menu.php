@@ -29,11 +29,6 @@ class Menu extends Model
         return $query->whereDate('served_at', today());
     }
 
-    public function isOldMenu() : bool
-    {
-        return $this->served_at->lessThan(today()) ? true : false;
-    }
-
     public function getMainDishAttribute()
     {
         return $this->dishes()->main()->orderBy('id', 'asc')->first();
@@ -59,8 +54,21 @@ class Menu extends Model
         return $this->belongsToMany(Dish::class);
     }
 
-    public function canBeOrdered()
+    public function canBeOrdered(): bool
     {
         return $this->served_at->greaterThanOrEqualTo(\Illuminate\Support\Carbon::today());
+    }
+
+    public function canBeUpdated(): bool
+    {
+        if ($this->served_at->greaterThan(today())) {
+            return true;
+        }
+
+        if ($this->served_at->isCurrentDay() && now()->hour < config('cantine.menu.locked_at')) {
+            return true;
+        }
+
+        return false;
     }
 }

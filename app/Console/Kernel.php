@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\DebitUserAccount;
+use App\Console\Commands\ChargeUser;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(new DebitUserAccount())->dailyAt(config('cantine.order.debit_at'));
+        $schedule->call(new ChargeUser())->dailyAt(config('cantine.order.charge_at'));
     }
 
     /**

@@ -34,12 +34,12 @@
                 </label>
                 @if ($selectedOrder)
                     <select class="select select-bordered w-full" wire:model.defer="dishId">
-                        <option selected="selected">Veuillez choisir</option>
+                        <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                         <option value="{{ $selectedOrder->menu->main_dish->id }}">
                             {{ $selectedOrder->menu->main_dish->name }}
                         </option>
-                        <option value="{{ $selectedOrder->menu->second_dish->id }}">
-                            {{ $selectedOrder->menu->second_dish->name }}
+                        <option value="{{ $selectedOrder->menu->second_dish?->id }}">
+                            {{ $selectedOrder->menu->second_dish?->name }}
                         </option>
                     </select>
                 @endif

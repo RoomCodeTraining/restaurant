@@ -8,7 +8,7 @@
                             <span class="label-text">Choississez l'entrée</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.starter_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($starter_dishes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -26,7 +26,7 @@
                             <span class="label-text">Choississez un dessert</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.dessert_id">
-                            <option disabled="disabled" selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($dessert_dishes as $id => $name)
                                 <option  value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -44,7 +44,7 @@
                             <span class="label-text">Plat 1</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.main_dish_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($main_dishes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -63,7 +63,7 @@
                             <span class="label-text">Choississez le plat 2</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.second_dish_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($main_dishes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach

@@ -80,7 +80,7 @@
                             <span class="label-text">Profil</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="role">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($roles as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -117,7 +117,7 @@
                             <span class="label-text">Département</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.department_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($departments as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -136,7 +136,7 @@
                             <span class="label-text">Catégorie professionnelle</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.employee_status_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($employeeStatuses as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -155,7 +155,7 @@
                             <span class="label-text">Type de Collaborateur</span>
                         </label>
                         <select @cla class="select select-bordered w-full" wire:model="state.user_type_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($userTypes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach

@@ -32,7 +32,7 @@ class MenusTable extends DataTableComponent
                 fn ($value, $column, Menu $menu) => $menu->main_dish->name
             )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
             Column::make('Plat 2')->format(
-                fn ($value, $column, Menu $menu) => $menu->second_dish->name
+                fn ($value, $column, Menu $menu) => $menu->second_dish?->name
             )->searchable(fn ($query, $searchTerm) => $query->orWhereRelation('dishes', 'name', 'like', "%{$searchTerm}%")),
             Column::make('Déssert')->format(
                 fn ($value, $column, Menu $menu) => $menu->dessert->name

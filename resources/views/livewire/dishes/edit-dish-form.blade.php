@@ -19,7 +19,7 @@
                             <span class="label-text">Choississez un type de plat</span>
                         </label>
                         <select class="select select-bordered w-full" wire:model.defer="state.dish_type_id">
-                            <option selected="selected">Veuillez choisir</option>
+                            <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($dishTypes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach

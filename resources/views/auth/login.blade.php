@@ -11,15 +11,19 @@
                     <form class="w-full bg-white rounded-lg" method="POST" action="{{ route('login') }}">
                         @csrf
                         <h2 class="text-xl text-center text-gray-700 my-4 mb-8 px-18">
-                            Bienvenue, Veuillez-vous connecter à votre compte
+                            Bienvenue, veuillez-vous connecter à votre compte
                         </h2>
                         <x-auth-validation-errors />
                         @include('partials.flasher')
                         <div class="px-2 pb-4">
                             <div class="w-full mt-8 mb-4">
                                 <div class="flex items-center">
-                                    <i class="ml-3 fill-current text-gray-400 text-xs z-10 fas fa-envelope-open-text"></i>
-                                    <input type="text" id="tk-pages-sign-in-email" placeholder="Entrez votre email" name="email" :value="old('email')" :value="old('email')" class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100" required autofocus  />
+                                    <i
+                                        class="ml-3 fill-current text-gray-400 text-xs z-10 fas fa-envelope-open-text"></i>
+                                    <input type="text" id="tk-pages-sign-in-email" placeholder="Entrez votre email"
+                                        name="email" :value="old('email')" :value="old('email')"
+                                        class="-mx-6 px-8 w-full rounded py-2 bg-opacity-25 text-gray-600 focus:outline-none bg-gray-100"
+                                        required autofocus />
                                 </div>
                             </div>
 
@@ -32,25 +36,30 @@
                                         required autocomplete="current-password" />
                                 </div>
                             </div>
-                            <div class="flex items-center mt-2 mb-12">
-                                <div class="w-1/2">
+                            <div class="flex w-full items-center justify-between mt-4 mb-12">
+                                <div class="">
                                     <label for="remember_me" class="inline-flex items-center">
                                         <input id="remember_me" type="checkbox"
+                                        checked
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             name="remember">
-                                        <span class="ml-2 text-xs text-gray-600">{{ __(' Resté connecté ?') }}</span>
+                                        <span class="ml-2 text-sm text-gray-600">{{ __(' Resté connecté ?') }}</span>
                                     </label>
                                 </div>
-                                <div class="w-1/2">
+                                <div class="">
                                     @if (Route::has('password.request'))
                                         <a href="{{ route('password.request') }}"
-                                            class="text-xs text-gray-500 bg-opacity-25">Mot de passe oublié?</a>
+                                            class="text-sm text-gray-500 bg-opacity-25">
+                                            Mot de passe oublié?
+                                        </a>
                                     @endif
                                 </div>
                             </div>
 
                             <button type="submit"
-                                class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none">Connectez-vous</button>
+                                class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none">
+                                Connectez-vous
+                            </button>
                         </div>
                     </form>
                 </div>

@@ -36,6 +36,7 @@
                             required autocomplete="current-password" />
                     </div>
                 </div>
+
                 <!-- Confirm Password -->
                 <div class="w-full mt-4">
                     <div class="flex items-center">

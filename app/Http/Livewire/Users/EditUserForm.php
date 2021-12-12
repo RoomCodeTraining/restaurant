@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Users;
 
 use App\Actions\User\UpdateUserAction;
-use App\Enums\UserTypes;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
@@ -82,7 +81,7 @@ class EditUserForm extends Component
             'employeeStatuses' => \App\Models\EmployeeStatus::pluck('name', 'id'),
             'organizations' => \App\Models\Organization::pluck('name', 'id'),
             'roles' => \App\Models\Role::pluck('name', 'id'),
-            'userTypes' => UserTypes::getUserTypes(),
+            'userTypes' => \App\Models\UserType::pluck('name', 'id'),
         ]);
     }
 }

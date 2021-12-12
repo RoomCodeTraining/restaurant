@@ -1,5 +1,5 @@
 <div class="flex items-center space-x-2">
-    @if ($order->canBeCancelled())
+    @if ($order->canBeUpdated())
         <div class="flex flex-col" x-data="{ tooltip: 'Modifier' }">
             <button wire:click="confirmOrderUpdate({{ $order->id }})" x-tooltip="tooltip">
                 <x-icon name="pencil" class="h-4 w-4 text-accent-800" />

@@ -76,8 +76,8 @@ class OrdersTable extends DataTableComponent
         return Order::with('user', 'menu', 'dish')
             ->where('user_id', auth()->id())
             ->when($this->getFilter('state'), fn ($query, $state) => $query->where('state', $state))
-            ->when($this->getFilter('start_date'), fn ($query, $startDate) => $query->where('created_at', '>=', $startDate))
-            ->when($this->getFilter('end_date'), fn ($query, $endDate) => $query->where('created_at', '<=', $endDate));
+            ->when($this->getFilter('start_date'), fn ($query, $startDate) => $query->whereDate('created_at', '>=', $startDate))
+            ->when($this->getFilter('end_date'), fn ($query, $endDate) => $query->whereDate('created_at', '<=', $endDate));
     }
 
     public function modalsView(): string

@@ -48,7 +48,15 @@ class Order extends Model
 
     public function canBeUpdated()
     {
-        return $this->canBeCancelled();
+        if ($this->created_at->greaterThan(today())) {
+            return true;
+        }
+
+        if ($this->created_at->isCurrentDay() && now()->hour < config('cantine.order.locked_at') && $this->canBeCancelled()) {
+            return true;
+        }
+
+        return false;
     }
 
     public function user()

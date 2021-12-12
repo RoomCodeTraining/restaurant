@@ -40,6 +40,7 @@ class MenuAdded extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Un menu a été ajouté.')
                     ->greeting(sprintf('Bonjour Mr/Mme %s', $notifiable->full_name))
                     ->line('Un nouveau menu à été ajouté.')
                     ->action('Passer ma commande', route('orders.create'));

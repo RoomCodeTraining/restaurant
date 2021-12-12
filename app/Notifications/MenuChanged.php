@@ -42,6 +42,7 @@ class MenuChanged extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Un menu a été changé.')
                     ->line(sprintf('Le menu du %s a été changé.', $this->menu->served_at->format('d/m/Y')))
                     ->line('Veuillez vous connecter pour mettre à jour votre commande.')
                     ->action('Modifier ma commande', route('orders.index'));

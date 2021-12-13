@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->attributes['identifier'] = strtoupper($value);
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function isFromLunchroom(): bool
     {
         return $this->hasRole([Role::ADMIN_LUNCHROOM, Role::OPERATOR_LUNCHROOM]);

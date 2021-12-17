@@ -62,6 +62,8 @@ class OrdersController extends Controller
         $request->validate([
             'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
             'access_card_identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+        ], [
+            'access_card_identifier.exists' => "Ce utilisateur n'a pas de carte associée à son compte."
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);

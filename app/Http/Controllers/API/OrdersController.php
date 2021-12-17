@@ -72,6 +72,10 @@ class OrdersController extends Controller
          */
         if ($request->order_type === 'breakfast') {
             $accessCard->decrement('quota_breakfast');
+
+            return response()->json([
+                'message' => "Mr/Mme {$accessCard->user->full_name} a recupéré son petit déjeuner."
+            ]);
         }
 
         /**

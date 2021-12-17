@@ -42,7 +42,7 @@ class OrdersController extends Controller
         } else {
             $orders = $accessCard->user->orders;
             $menu = Menu::whereId($request->menuId)->first();
-            
+
             $result = $orders->map(function ($order) use ($menu) {
                 if ($order->menu->served_at == $menu->served_at) {
                     return $order;
@@ -65,16 +65,28 @@ class OrdersController extends Controller
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
-        $order = Order::today()->whereBelongsTo($accessCard->user)->first();
+        $order = Order::with('dish')->today()->whereBelongsTo($accessCard->user)->first();
+
+        if (! $order && $request->order_type == 'lunch') {
+            return response()->json([
+                "message" => "Vous n'avez pas de commande pour ce jour."
+            ]);
+        }
 
         if ($request->order_type == 'breakfast') {
             $accessCard->decrement('quota_breakfast');
+        }
+
+        if ($order && ! $order->state->canTransitionTo(Completed::class)) {
+            return response()->json([
+                "message" => "Vous avez déjà recupérer votre plat."
+            ]);
         }
 
         if ($request->order_type == 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
             $order->state->transitionTo(Completed::class);
         }
 
-        return response()->json(['message' => "Commande confirmée"]);
+        return response()->json(['message' => "Commande confirmée", "details" => $order->dish->name ]);
     }
 }

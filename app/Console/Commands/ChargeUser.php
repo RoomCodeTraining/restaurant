@@ -44,7 +44,6 @@ class ChargeUser extends Command
          */
         Order::today()->each(function (Order $order) {
             if ($order->state->canTransitionTo(Completed::class)) {
-                $order->state->transitionTo(Completed::class);
                 $order->user->accessCard->decrement('quota_lunch');
             }
         });

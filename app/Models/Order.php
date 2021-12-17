@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\States\Order\Cancelled;
+use App\States\Order\Completed;
 use App\States\Order\OrderState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -56,6 +57,12 @@ class Order extends Model
         }
 
         return false;
+    }
+
+    public function markAsCompleted()
+    {
+        $this->state->transitionTo(Completed::class);
+        $this->user->accessCard->decrement('quota_lunch');
     }
 
     public function user()

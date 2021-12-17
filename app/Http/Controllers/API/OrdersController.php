@@ -22,7 +22,7 @@ class OrdersController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'identifier' => ['required'],
+            'identifier' => ['required', Rule::exists('users', 'identifier')],
             'menu_id' => ['required', Rule::exists('menus', 'id')],
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
@@ -67,26 +67,41 @@ class OrdersController extends Controller
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
         $order = Order::with('dish')->today()->whereBelongsTo($accessCard->user)->first();
 
-        if (! $order && $request->order_type == 'lunch') {
-            return response()->json([
-                "message" => "Vous n'avez pas de commande pour ce jour."
-            ]);
-        }
-
-        if ($request->order_type == 'breakfast') {
+        /**
+         * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit déjeuner.
+         */
+        if ($request->order_type === 'breakfast') {
             $accessCard->decrement('quota_breakfast');
         }
 
-        if ($order && ! $order->state->canTransitionTo(Completed::class)) {
+        /**
+         * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
+         */
+        if ($request->order_type === 'lunch' && ! $order) {
             return response()->json([
-                "message" => "Vous avez déjà recupérer votre plat."
+                "message" => "Vous n'avez pas de commande pour ce jour.",
+                "user" => $accessCard->user
             ]);
         }
 
-        if ($request->order_type == 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
-            $order->state->transitionTo(Completed::class);
+        /**
+         * Lorsque l'utilisateur a déjà récupéré son plat, applicable seulement au déjeuner.
+         */
+        if ($request->order_type === 'lunch' && $order && ! $order->state->canTransitionTo(Completed::class)) {
+            return response()->json([
+                "message" => "Le plat a déjà été recupéré ou annulé."
+            ]);
         }
 
-        return response()->json(['message' => "Votre commande de " . $order->dish->name . " a été confirmée." ]);
+        /**
+         * Lorsque l'utilisateur récupères sont plat, applicable seulement au déjeuner.
+         */
+        if ($request->order_type === 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
+            $order->markAsCompleted();
+        }
+
+        return response()->json([
+            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été confirmée."
+        ]);
     }
 }

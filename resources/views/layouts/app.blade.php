@@ -121,7 +121,7 @@
                             @can('manage', App\Models\Order::class)
                                 <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
                                     :active="request()->routeIs('orders.summary')">
-                                    Commandes
+                                    Commandes en cours
                                 </x-nav-link>
                             @endcan
                         @endif

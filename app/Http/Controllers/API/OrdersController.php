@@ -76,7 +76,8 @@ class OrdersController extends Controller
             $accessCard->decrement('quota_breakfast');
 
             return response()->json([
-                'message' => "Mr/Mme {$accessCard->user->full_name} a recupéré son petit déjeuner."
+                'message' => "Mr/Mme {$accessCard->user->full_name} a recupéré son petit déjeuner.",
+                "success" => true,
             ]);
         }
 
@@ -86,6 +87,7 @@ class OrdersController extends Controller
         if ($request->order_type === 'lunch' && ! $order) {
             return response()->json([
                 "message" => "Vous n'avez pas de commande pour ce jour.",
+                "success" => false,
                 "user" => $accessCard->user
             ]);
         }
@@ -95,7 +97,8 @@ class OrdersController extends Controller
          */
         if ($request->order_type === 'lunch' && $order && ! $order->state->canTransitionTo(Completed::class)) {
             return response()->json([
-                "message" => "Le plat a déjà été recupéré ou annulé."
+                "message" => "Le plat a déjà été recupéré ou annulé.",
+                "success" => false,
             ]);
         }
 
@@ -107,7 +110,8 @@ class OrdersController extends Controller
         }
 
         return response()->json([
-            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée."
+            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
+            "success" => true,
         ]);
     }
 }

@@ -7,7 +7,6 @@ use App\States\Order\OrderState;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Carbon;
 use Spatie\ModelStates\HasStates;
 
 class Order extends Model
@@ -28,7 +27,7 @@ class Order extends Model
 
     public function scopeToday($query)
     {
-        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', Carbon::today()));
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', today()));
     }
 
     public function scopeWeekly($query)
@@ -48,11 +47,11 @@ class Order extends Model
 
     public function canBeUpdated()
     {
-        if ($this->created_at->greaterThan(today())) {
+        if ($this->menu->served_at->greaterThan(today())) {
             return true;
         }
 
-        if ($this->created_at->isCurrentDay() && now()->hour < config('cantine.order.locked_at') && $this->canBeCancelled()) {
+        if ($this->menu->served_at->isCurrentDay() && now()->hour < config('cantine.order.locked_at') && $this->canBeCancelled()) {
             return true;
         }
 

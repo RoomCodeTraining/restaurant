@@ -125,6 +125,15 @@
                                 </x-nav-link>
                             @endcan
                         @endif
+                        @if(Gate::any(['reporting-orders', 'reporting-account']))
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Reporting
+                            </div>
+                            <x-nav-link href="{{ route('reporting.orders') }}" icon="chart"
+                                :active="request()->routeIs('reporting.orders')">
+                                Commandes
+                            </x-nav-link>
+                        @endif
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
     auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -160,24 +169,10 @@
                                     Catégories
                                 </x-nav-link>
                             @endcan
-                            {{-- @can('manage', App\Models\PaymentMethod::class)
-                                <x-nav-link href="{{ route('paymentMethods.index') }}" icon="wallet"
-                                    :active="request()->routeIs('paymentMethods.index')">
-                                    Modes de paiement
-                                </x-nav-link>
-                            @endcan --}}
                         @endif
-                        {{-- @if (auth()->user()->can('manage', App\Models\Role::class))
-                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Reporting
-                            </div>
-                            @can('manage', App\Models\Order::class)
-                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
-                                    :active="request()->routeIs('orders.summary')">
-                                    Commandes
-                                </x-nav-link>
-                            @endcan
-                        @endif --}}
+                        {{-- <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Reporting
+                        </div> --}}
                     </nav>
                 </div>
             </div>

@@ -252,17 +252,21 @@ class PermissionSeeder extends Seeder
             ])
         ]);
 
-        /*  $reporting = Permission::create([
-             'name' => ReportingPolicy::REPORTING_MANAGE,
+        $reporting = Permission::create([
+             'name' => 'reporting.manage',
              'description' => 'Toutes les permissions relatives au reporting'
          ]);
 
-         $reporting->children()->saveMany([
+        $reporting->children()->saveMany([
              new Permission([
-             'name' => ReportingPolicy::REPORTING_LIST,
-             'description' => 'Accéder au reporting',
+             'name' => ReportingPolicy::REPORTING_ORDERS,
+             'description' => 'Accéder au reporting des commandes',
              ]),
-         ]); */
+             new Permission([
+                'name' => ReportingPolicy::REPORTING_ACCOUNT,
+                'description' => 'Accéder au reporting des comptes crées',
+            ]),
+         ]);
 
         /**
          * Attach permissions to roles
@@ -278,6 +282,7 @@ class PermissionSeeder extends Seeder
             PaymentMethodPolicy::PAYMENT_METHOD_MANAGE,
             EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
             UserTypePolicy::USER_TYPE_MANAGE,
+            ReportingPolicy::REPORTING_ORDERS,
         ]);
 
         Role::create([
@@ -294,6 +299,7 @@ class PermissionSeeder extends Seeder
             UserPolicy::USER_LIST,
             OrderPolicy::ORDER_MANAGE,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
+            ReportingPolicy::REPORTING_ORDERS,
         ]);
 
         Role::create([
@@ -309,6 +315,7 @@ class PermissionSeeder extends Seeder
             'id' => Role::ACCOUNTANT,
             'name' => 'Comptable',
         ])->givePermissionTo([
+            ReportingPolicy::REPORTING_ORDERS,
             OrderPolicy::ORDER_MANAGE,
         ]);
 

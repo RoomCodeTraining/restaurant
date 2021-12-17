@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Policies\ReportingPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('reporting-orders', [ReportingPolicy::class, 'viewOrders']);
+        Gate::define('reporting-account', [ReportingPolicy::class, 'viewAccount']);
     }
 }

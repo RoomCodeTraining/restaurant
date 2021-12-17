@@ -8,6 +8,6 @@ class Completed extends OrderState
 
     public static function title(): string
     {
-        return 'Consommée';
+        return 'Commande consommée';
     }
 }

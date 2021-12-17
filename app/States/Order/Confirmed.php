@@ -8,6 +8,6 @@ class Confirmed extends OrderState
 
     public static function title(): string
     {
-        return 'Confirmée';
+        return 'Commande effectuée';
     }
 }

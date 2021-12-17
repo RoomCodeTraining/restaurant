@@ -87,6 +87,6 @@ class OrdersController extends Controller
             $order->state->transitionTo(Completed::class);
         }
 
-        return response()->json(['message' => "Commande confirmée", "details" => $order->dish->name ]);
+        return response()->json(['message' => "Votre commande de " . $order->dish->name . " a été confirmée." ]);
     }
 }

@@ -12,7 +12,7 @@
             </a>
         </div>
         @endif
-        @if ($menu->orders_count === 0)
+        @if ($menu->canBeUpdated() && $menu->orders_count === 0)
             <div x-data="{ tooltip: 'Supprimer' }">
                 <button wire:click="confirmMenuDeletion({{ $menu->id }})" wire:loading.attr="disabled"
                     x-tooltip="tooltip">

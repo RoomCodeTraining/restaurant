@@ -70,7 +70,7 @@ class OrdersController extends Controller
         $order = Order::with('dish')->today()->whereBelongsTo($accessCard->user)->first();
 
         /**
-         * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit déjeuner.
+         * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit https://ionicframework.com/docs/native/text-to-speechdéjeuner.
          */
         if ($request->order_type === 'breakfast') {
             $accessCard->decrement('quota_breakfast');
@@ -100,14 +100,14 @@ class OrdersController extends Controller
         }
 
         /**
-         * Lorsque l'utilisateur récupères sont plat, applicable seulement au déjeuner.
+         * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
          */
         if ($request->order_type === 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
             $order->markAsCompleted();
         }
 
         return response()->json([
-            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été confirmée."
+            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée."
         ]);
     }
 }

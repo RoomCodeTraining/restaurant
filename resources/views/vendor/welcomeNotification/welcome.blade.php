@@ -48,7 +48,7 @@
                     </form>
                 </div>
             </div>
-            <img src="{{ asset('images/loginimg.jpg') }}" alt="background"
+            <img src="{{ asset('images/login_image.jpg') }}" alt="background"
                 class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
         </div>
     </div>

@@ -54,12 +54,12 @@ class ReportingTable extends DataTableComponent
     public function query(): Builder
     {
         return Order::query()
-            ->join('users', 'orders.user_id', 'users.id')
-            ->join('user_types', 'users.user_type_id', 'user_types.id')
-            ->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
             ->whereBetween('orders.created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
+            ->join('users', 'orders.user_id', 'users.id')
+            ->join('user_types', 'users.user_type_id', 'user_types.id')
+            ->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
             ->orderBy('users.last_name', 'desc')
             ->groupBy('user_id')
             ->selectRaw('
@@ -103,9 +103,14 @@ class ReportingTable extends DataTableComponent
 
     public function exportToExcel()
     {
-        if ($this->rowsQuery()->count() > 0) {
-            return (new OrdersSummaryExport($this->rowsQuery()))->download('commandes.xlsx');
-        }
+        $orderQuery = Order::query()
+            ->with('menu', 'dish', 'user')
+            ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
+            ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
+            ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
+            ->get();
+
+        return (new OrdersSummaryExport($orderQuery))->download('reporting_commandes.xlsx');
     }
 
     public function showDetails($row)
@@ -113,6 +118,8 @@ class ReportingTable extends DataTableComponent
         $this->orders = Order::query()
             ->with('menu', 'dish')
             ->where('user_id', $row['user_id'])
+            ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
+            ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
             ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
             ->get();
 

@@ -16,6 +16,7 @@
         "maatwebsite/excel": "^3.1",
         "rappasoft/laravel-livewire-tables": "^1.20",
         "spatie/browsershot": "^3.52",
+        "spatie/laravel-activitylog": "^4.3",
         "spatie/laravel-model-states": "^2.1",
         "spatie/laravel-permission": "^5.3",
         "spatie/laravel-welcome-notification": "^2.2"

@@ -216,15 +216,15 @@ class PermissionSeeder extends Seeder
             ]),
             new Permission([
                 'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_CREATE,
-                'description' => 'Ajouter un catégorie d\'employés'
+                'description' => 'Ajouter une catégorie d\'employés'
             ]),
             new Permission([
                 'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_UPDATE,
-                'description' => 'Modifier un catégorie d\'employés'
+                'description' => 'Modifier une catégorie d\'employés'
             ]),
             new Permission([
                 'name' => EmployeeStatusPolicy::EMPLOYEE_STATUS_DELETE,
-                'description' => 'Supprimer un catégorie d\'employés'
+                'description' => 'Supprimer une catégorie d\'employés'
             ])
         ]);
 
@@ -309,6 +309,7 @@ class PermissionSeeder extends Seeder
             OrderPolicy::ORDER_MANAGE,
             MenuPolicy::MENU_MANAGE,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
+            ReportingPolicy::REPORTING_ORDERS,
         ]);
 
         Role::create([

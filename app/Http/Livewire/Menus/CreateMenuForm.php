@@ -30,7 +30,7 @@ class CreateMenuForm extends Component
             'state.served_at' => ['required', 'after:yesterday', Rule::unique('menus', 'served_at')],
         ]);
 
-        Notification::send(User::whereHas('accessCard')->get(), new MenuAdded($action->execute($this->state)));
+        // Notification::send(User::whereHas('accessCard')->get(), new MenuAdded($action->execute($this->state)));
 
         session()->flash('success', "Le menu a été créé avec succès!");
 

@@ -9,6 +9,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Completed;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class OrdersController extends Controller
@@ -69,15 +70,33 @@ class OrdersController extends Controller
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
         $order = Order::with('dish')->today()->whereBelongsTo($accessCard->user)->first();
 
+        if ($accessCard->quota_breakfast <= 0 && $request->order_type == 'breakfast' || $accessCard->quota_lunch <= 0 && $request->order_type == 'lunch') {
+            return response()->json([
+                'message' => "Votre quota est insuffisant.",
+                "success" => false,
+                "user" => $accessCard->user,
+            ]);
+        }
+
         /**
-         * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit https://ionicframework.com/docs/native/text-to-speechdéjeuner.
+         * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit déjeuner.
          */
         if ($request->order_type === 'breakfast') {
-            $accessCard->decrement('quota_breakfast');
+            DB::transaction(function () use ($request, $accessCard) {
+                $accessCard->decrement('quota_breakfast');
+
+                activity()
+                    ->event('decrement_quota_breakfast')
+                    ->causedBy($accessCard->user)
+                    ->performedOn($accessCard)
+                    ->withProperties(['quota_breakfast' => $accessCard->fresh()->quota_breakfast])
+                    ->log($request->order_type);
+            });
 
             return response()->json([
                 'message' => "Mr/Mme {$accessCard->user->full_name} a recupéré son petit déjeuner.",
                 "success" => true,
+                "user" => $accessCard->user,
             ]);
         }
 
@@ -99,6 +118,7 @@ class OrdersController extends Controller
             return response()->json([
                 "message" => "Le plat a déjà été recupéré ou annulé.",
                 "success" => false,
+                "user" => $accessCard->user
             ]);
         }
 
@@ -112,6 +132,7 @@ class OrdersController extends Controller
         return response()->json([
             'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
             "success" => true,
+            "user" => $accessCard->user
         ]);
     }
 }

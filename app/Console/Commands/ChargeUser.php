@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Order;
 use App\States\Order\Completed;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ChargeUser extends Command
 {
@@ -44,7 +45,16 @@ class ChargeUser extends Command
          */
         Order::today()->each(function (Order $order) {
             if ($order->state->canTransitionTo(Completed::class)) {
-                $order->user->accessCard->decrement('quota_lunch');
+                DB::transaction(function () use ($order) {
+                    $order->user->accessCard->decrement('quota_lunch');
+
+                    activity()
+                        ->event('decrement_quota_lunch')
+                        ->causedBy($order->user->accessCard->user)
+                        ->performedOn($order->user->accessCard)
+                        ->withProperties(['quota_lunch' => $order->user->accessCard->fresh()->quota_lunch])
+                        ->log('lunch');
+                });
             }
         });
     }

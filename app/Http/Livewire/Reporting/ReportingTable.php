@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Reporting;
 
-use App\Exports\OrdersSummaryExport;
+use App\Exports\OrdersExport;
 use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
@@ -35,8 +35,8 @@ class ReportingTable extends DataTableComponent
 
     public function mount()
     {
-        $this->filters['in_the_period'] = 'this_month';
-        $this->filters['state'] = Completed::$name;
+        $this->filters['in_the_period'] = $this->getFilter('in_the_period') ?? 'this_month';
+        $this->filters['state'] = $this->getFilter('state') ?? Completed::$name;
     }
 
     public function columns(): array
@@ -86,16 +86,15 @@ class ReportingTable extends DataTableComponent
                 Completed::$name => 'Consommées',
             ]),
             'in_the_period' => Filter::make('Dans la période')->select([
-                '' => 'Tous',
                 'today' => "Aujourd'hui",
                 'yesterday' => 'Hier',
                 'this_week' => "Cette semaine",
                 'last_week' => 'La semaine dernière',
                 'this_month' => 'Ce mois',
                 'last_month' => 'Le mois dernier',
-                'this_month' => 'Ce mois',
                 'this_quarter' => 'Ce trimestre',
                 'last_quarter' => 'Le trimestre dernier',
+                'this_year' => "Cette année",
                 'last_year' => "L'année dernière",
             ]),
         ];
@@ -103,14 +102,7 @@ class ReportingTable extends DataTableComponent
 
     public function exportToExcel()
     {
-        $orderQuery = Order::query()
-            ->with('menu', 'dish', 'user')
-            ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
-            ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
-            ->get();
-
-        return (new OrdersSummaryExport($orderQuery))->download('reporting_commandes.xlsx');
+        return (new OrdersExport($this->getFilter('in_the_period'), $this->getFilter('state')))->download('reporting_commandes.xlsx');
     }
 
     public function showDetails($row)

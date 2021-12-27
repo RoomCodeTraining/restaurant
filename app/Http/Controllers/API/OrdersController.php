@@ -68,13 +68,34 @@ class OrdersController extends Controller
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
-        $order = Order::with('dish')->today()->whereBelongsTo($accessCard->user)->first();
+        $order = Order::with('dish', 'menu')->today()->whereBelongsTo($accessCard->user)->first();
 
-        if ($accessCard->quota_breakfast <= 0 && $request->order_type == 'breakfast' || $accessCard->quota_lunch <= 0 && $request->order_type == 'lunch') {
+        /**
+         * Lorsque le quota de l'utilisateur est insuffisant.
+         */
+        if ($accessCard->{'quota_' . $request->order_type} <= 0) {
             return response()->json([
                 'message' => "Votre quota est insuffisant.",
                 "success" => false,
                 "user" => $accessCard->user,
+            ]);
+        }
+
+        /**
+         * Lorsque l'utilisateur a déjà récupéré son plat.
+         */
+        $hasAlreadyEaten = $accessCard->user->actions()
+            ->where('event', 'decrement_quota_'.$request->order_type)
+            ->whereDate('created_at', now())
+            ->exists();
+
+        if ($hasAlreadyEaten) {
+            $item = $request->order_type === 'lunch' ? 'déjeuner' : 'petit déjeuner';
+
+            return response()->json([
+                "message" => "Mr/Mme {$accessCard->user->full_name} a déjà recupéré son {$item}.",
+                "success" => false,
+                "user" => $accessCard->user
             ]);
         }
 
@@ -112,27 +133,25 @@ class OrdersController extends Controller
         }
 
         /**
-         * Lorsque l'utilisateur a déjà récupéré son plat, applicable seulement au déjeuner.
+         * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
          */
-        if ($request->order_type === 'lunch' && $order && ! $order->state->canTransitionTo(Completed::class)) {
+        if ($request->order_type === 'lunch' && $order->state->canTransitionTo(Completed::class)) {
+            $order->markAsCompleted();
+
+            activity()
+                ->event('decrement_quota_lunch')
+                ->causedBy($order->user->accessCard->user)
+                ->performedOn($order->user->accessCard)
+                ->withProperties(['quota_lunch' => $order->user->accessCard->fresh()->quota_lunch, 'menu_id' => $order->menu->id])
+                ->log('lunch');
+
             return response()->json([
-                "message" => "Le plat a déjà été recupéré ou annulé.",
-                "success" => false,
+                'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
+                "success" => true,
                 "user" => $accessCard->user
             ]);
         }
 
-        /**
-         * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
-         */
-        if ($request->order_type === 'lunch' && $order && $order->state->canTransitionTo(Completed::class)) {
-            $order->markAsCompleted();
-        }
-
-        return response()->json([
-            'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
-            "success" => true,
-            "user" => $accessCard->user
-        ]);
+        return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ]);
     }
 }

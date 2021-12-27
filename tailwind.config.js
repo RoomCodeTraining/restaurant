@@ -2,17 +2,15 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	mode: 'jit',
-	purge: {
-		content: [
-			'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-			'./vendor/rappasoft/laravel-livewire-tables/resources/views/tailwind/**/*.blade.php',
-			'./app/**/*.php',
-			'./resources/**/*.html',
-			'./resources/**/*.js',
-			'./resources/**/*.php'
-		]
-	},
+	content: [
+		'./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+		'./vendor/rappasoft/laravel-livewire-tables/resources/views/tailwind/**/*.blade.php',
+		'./vendor/filament/**/*.blade.php',
+		'./app/**/*.php',
+		'./resources/**/*.html',
+		'./resources/**/*.js',
+		'./resources/**/*.php'
+	],
 	theme: {
 		extend: {
 			fontFamily: {
@@ -66,13 +64,11 @@ module.exports = {
 					700: '#c1c2c3',
 					800: '#b9bbbc',
 					900: '#b1b3b4'
-				}
+				},
+				danger: colors.rose,
+				success: colors.emerald,
+				warning: colors.amber
 			}
-		}
-	},
-	variants: {
-		extend: {
-			opacity: ['disabled']
 		}
 	},
 	daisyui: {

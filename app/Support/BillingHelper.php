@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class BillingHelper
 {
@@ -131,26 +132,30 @@ class BillingHelper
         ];
     }
 
-    public static function getUserBill(User $user, $period): array
+    public static function getUserBill(User $user, $date): Collection
     {
         $billingHelper = new self();
 
-        $lunchCount = $user->actions()
-            ->where('event', 'decrement_quota_lunch')
-            ->whereBetween('created_at', DateTimeHelper::inThePeriod($period))
-            ->count();
+        if (! isset($billingHelper->billMap[$user->user_type_id]) || ! isset($billingHelper->billMap[$user->user_type_id][$user->employee_status_id])) {
+            throw new \Exception("User type or employee status not found");
+        }
 
-        $breakfastCount = $user->actions()
-            ->where('event', 'decrement_quota_breakfast')
-            ->whereBetween('created_at', DateTimeHelper::inThePeriod($period))
-            ->count();
+        $result = [ 'lunch' => [ 'contribution' => 0, 'subvention' => 0 ], 'breakfast' => [ 'contribution' => 0, 'subvention' => 0 ] ];
 
-        $lunchBill = max($billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['lunch'], 1) * $lunchCount;
-        $breakfastBill = max($billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['breakfast'], 1) * $breakfastCount;
+        if ($user->actions()->where('event', 'decrement_quota_lunch')->whereDate('created_at', $date)->first()) {
+            $result['lunch'] = [
+                'contribution' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['lunch'],
+                'subvention' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['lunch'],
+            ];
+        }
 
-        $subventionLunchBill = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['lunch'] * $lunchCount;
-        $subventionBreakfastBill = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['breakfast'] * $breakfastCount;
+        if ($user->actions()->where('event', 'decrement_quota_breakfast')->whereDate('created_at', $date)->first()) {
+            $result['breakfast'] = [
+                'contribution' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['breakfast'],
+                'subvention' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['breakfast'],
+            ];
+        }
 
-        return ['contribution' => $lunchBill + $breakfastBill, 'subvention' => $subventionLunchBill + $subventionBreakfastBill];
+        return collect($result);
     }
 }

@@ -43,17 +43,10 @@ class ChargeUser extends Command
         /**
          * Débiter le quota lunch des utilisateurs qui ont une commande pour le jour en cours.
          */
-        Order::today()->each(function (Order $order) {
+        Order::with('user.accessCard')->today()->each(function (Order $order) {
             if ($order->state->canTransitionTo(Completed::class)) {
                 DB::transaction(function () use ($order) {
                     $order->user->accessCard->decrement('quota_lunch');
-
-                    activity()
-                        ->event('decrement_quota_lunch')
-                        ->causedBy($order->user->accessCard->user)
-                        ->performedOn($order->user->accessCard)
-                        ->withProperties(['quota_lunch' => $order->user->accessCard->fresh()->quota_lunch])
-                        ->log('lunch');
                 });
             }
         });

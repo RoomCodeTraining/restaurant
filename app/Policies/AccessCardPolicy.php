@@ -64,6 +64,19 @@ class AccessCardPolicy
     }
 
     /**
+     * Determine whether the user can update models.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function update(User $user, AccessCard $card)
+    {
+        if ($user->can(self::ACCESS_CARD_CREATE)) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user

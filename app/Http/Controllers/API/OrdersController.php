@@ -154,4 +154,10 @@ class OrdersController extends Controller
 
         return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ]);
     }
+
+
+    
+
+
+
 }

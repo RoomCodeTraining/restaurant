@@ -14,4 +14,31 @@ class Role extends SpatieRole
     public const OPERATOR_LUNCHROOM = 5;
     public const ACCOUNTANT = 4;
     public const USER = 6;
+
+
+
+    public static function getRole(string $role)
+    {
+
+        switch ($role) {
+            case 'utilisateur':
+                return Role::USER;
+                break;
+            case 'admin':
+                return Role::ADMIN;
+                break;
+            case 'admin_rh':
+                return Role::ADMIN_RH;
+                break;
+            case 'admin_cantine':
+                return Role::ADMIN_LUNCHROOM;
+                break;
+            case 'operator_cantine':
+                return Role::OPERATOR_LUNCHROOM;
+                break;
+            default:
+                return Role::ACCOUNTANT;
+                break;
+        }
+    }
 }

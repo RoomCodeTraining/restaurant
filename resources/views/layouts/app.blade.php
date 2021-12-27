@@ -30,7 +30,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true }"
+    <div @keydown.escape="showModal = false" x-cloak x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true, 'showModal': false }"
         class="flex flex-col mx-auto w-full min-h-screen bg-stone-100"
         x-bind:class="{
         'lg:pl-72': desktopSidebarOpen

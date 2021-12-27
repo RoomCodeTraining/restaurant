@@ -20,4 +20,9 @@ class UserType extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }

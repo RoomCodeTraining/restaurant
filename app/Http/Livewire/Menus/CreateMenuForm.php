@@ -4,9 +4,6 @@ namespace App\Http\Livewire\Menus;
 
 use App\Actions\Menu\CreateMenuAction;
 use App\Models\Dish;
-use App\Models\User;
-use App\Notifications\MenuAdded;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -30,7 +27,7 @@ class CreateMenuForm extends Component
             'state.served_at' => ['required', 'after:yesterday', Rule::unique('menus', 'served_at')],
         ]);
 
-        // Notification::send(User::whereHas('accessCard')->get(), new MenuAdded($action->execute($this->state)));
+        $action->execute($this->state);
 
         session()->flash('success', "Le menu a été créé avec succès!");
 

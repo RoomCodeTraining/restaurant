@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -132,7 +133,7 @@ class BillingHelper
         ];
     }
 
-    public static function getUserBill(User $user, $date): Collection
+    public static function getUserBill(User $user, $orders): Collection
     {
         $billingHelper = new self();
 
@@ -140,21 +141,16 @@ class BillingHelper
             throw new \Exception("User type or employee status not found");
         }
 
-        $result = [ 'lunch' => [ 'contribution' => 0, 'subvention' => 0 ], 'breakfast' => [ 'contribution' => 0, 'subvention' => 0 ] ];
+        $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
 
-        if ($user->actions()->where('event', 'decrement_quota_lunch')->whereDate('created_at', $date)->first()) {
-            $result['lunch'] = [
-                'contribution' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['lunch'],
-                'subvention' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['lunch'],
-            ];
-        }
+        $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
 
-        if ($user->actions()->where('event', 'decrement_quota_breakfast')->whereDate('created_at', $date)->first()) {
-            $result['breakfast'] = [
-                'contribution' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['contribution']['breakfast'],
-                'subvention' => $billingHelper->billMap[$user->user_type_id][$user->employee_status_id]['subvention']['breakfast'],
-            ];
-        }
+        $orders->each(function (Order $order) use (&$result, $billMap) {
+            $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
+            $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
+            $result['contribution']['breakfast'] = $billMap['contribution']['breakfast'];
+            $result['subvention']['breakfast'] = $billMap['subvention']['breakfast'];
+        });
 
         return collect($result);
     }

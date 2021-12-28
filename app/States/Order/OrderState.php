@@ -9,6 +9,8 @@ abstract class OrderState extends State
 {
     abstract public static function title(): string;
 
+    abstract public static function description(): string;
+
     public static function config(): StateConfig
     {
         return parent::config()

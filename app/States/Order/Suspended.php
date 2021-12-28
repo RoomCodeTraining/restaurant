@@ -8,6 +8,11 @@ class Suspended extends OrderState
 
     public static function title(): string
     {
-        return 'Suspendu';
+        return 'Suspendue';
+    }
+
+    public static function description(): string
+    {
+        return 'Suspendue';
     }
 }

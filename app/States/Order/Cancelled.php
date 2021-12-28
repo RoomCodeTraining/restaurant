@@ -10,4 +10,9 @@ class Cancelled extends OrderState
     {
         return 'Annulée';
     }
+
+    public static function description(): string
+    {
+        return 'Annulée';
+    }
 }

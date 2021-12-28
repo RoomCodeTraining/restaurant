@@ -10,4 +10,9 @@ class Completed extends OrderState
     {
         return 'Commande consommée';
     }
+
+    public static function description(): string
+    {
+        return 'Consommée';
+    }
 }

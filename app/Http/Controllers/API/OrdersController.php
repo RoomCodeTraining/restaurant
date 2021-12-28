@@ -8,6 +8,7 @@ use App\Models\AccessCard;
 use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Completed;
+use App\States\Order\Confirmed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
@@ -68,7 +69,6 @@ class OrdersController extends Controller
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
-        $order = Order::with('dish', 'menu')->today()->whereBelongsTo($accessCard->user)->first();
 
         /**
          * Lorsque le quota de l'utilisateur est insuffisant.
@@ -84,9 +84,15 @@ class OrdersController extends Controller
         /**
          * Lorsque l'utilisateur a déjà récupéré son plat.
          */
-        $hasAlreadyEaten = $accessCard->user->actions()
-            ->where('event', 'decrement_quota_'.$request->order_type)
-            ->whereDate('created_at', now())
+        $hasAlreadyEaten = Order::query()
+            ->withoutGlobalScopes()
+            ->when($request->order_type == 'lunch', function ($query) {
+                return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', today()));
+            })
+            ->when($request->order_type == 'breakfast', fn ($query) => $query->whereDate('created_at', today()))
+            ->whereBelongsTo($accessCard->user)
+            ->where('type', $request->order_type)
+            ->whereState('state', Completed::class)
             ->exists();
 
         if ($hasAlreadyEaten) {
@@ -99,19 +105,38 @@ class OrdersController extends Controller
             ]);
         }
 
+        $order = Order::query()
+            ->withoutGlobalScopes()
+            ->when($request->order_type == 'lunch', function ($query) {
+                return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', today()));
+            })
+            ->when($request->order_type == 'breakfast', fn ($query) => $query->whereDate('created_at', today()))
+            ->whereBelongsTo($accessCard->user)
+            ->where('type', $request->order_type)
+            ->whereState('state', Confirmed::class)
+            ->first();
+
+        /**
+         * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
+         */
+        if (! $order) {
+            return response()->json([
+                "message" => "Vous n'avez pas de commande pour ce jour.",
+                "success" => false,
+                "user" => $accessCard->user
+            ]);
+        }
+
         /**
          * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit déjeuner.
          */
         if ($request->order_type === 'breakfast') {
-            DB::transaction(function () use ($request, $accessCard) {
-                $accessCard->decrement('quota_breakfast');
+            DB::transaction(function () use ($accessCard, $order) {
+                $order->markAsCompleted();
 
-                activity()
-                    ->event('decrement_quota_breakfast')
-                    ->causedBy($accessCard->user)
-                    ->performedOn($accessCard)
-                    ->withProperties(['quota_breakfast' => $accessCard->fresh()->quota_breakfast])
-                    ->log($request->order_type);
+                $order->update(['payment_method_id' => $accessCard->payment_method_id]);
+
+                $accessCard->decrement('quota_breakfast');
             });
 
             return response()->json([
@@ -122,28 +147,10 @@ class OrdersController extends Controller
         }
 
         /**
-         * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
-         */
-        if ($request->order_type === 'lunch' && ! $order) {
-            return response()->json([
-                "message" => "Vous n'avez pas de commande pour ce jour.",
-                "success" => false,
-                "user" => $accessCard->user
-            ]);
-        }
-
-        /**
          * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
          */
-        if ($request->order_type === 'lunch' && $order->state->canTransitionTo(Completed::class)) {
+        if ($request->order_type === 'lunch') {
             $order->markAsCompleted();
-
-            activity()
-                ->event('decrement_quota_lunch')
-                ->causedBy($order->user->accessCard->user)
-                ->performedOn($order->user->accessCard)
-                ->withProperties(['quota_lunch' => $order->user->accessCard->fresh()->quota_lunch, 'menu_id' => $order->menu->id])
-                ->log('lunch');
 
             return response()->json([
                 'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
@@ -154,10 +161,4 @@ class OrdersController extends Controller
 
         return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ]);
     }
-
-
-    
-
-
-
 }

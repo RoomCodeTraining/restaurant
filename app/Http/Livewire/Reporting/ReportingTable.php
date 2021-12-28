@@ -36,7 +36,6 @@ class ReportingTable extends DataTableComponent
     public function mount()
     {
         $this->filters['in_the_period'] = $this->getFilter('in_the_period') ?? 'this_month';
-        $this->filters['state'] = $this->getFilter('state') ?? Completed::$name;
     }
 
     public function columns(): array

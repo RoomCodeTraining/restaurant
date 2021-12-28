@@ -10,4 +10,9 @@ class Confirmed extends OrderState
     {
         return 'Commande effectuée';
     }
+
+    public static function description(): string
+    {
+        return 'Non consommée';
+    }
 }

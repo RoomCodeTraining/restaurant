@@ -5,6 +5,7 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\OrderState;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,6 +26,13 @@ class Order extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope('lunch', function (Builder $builder) {
+            $builder->where('type', 'lunch');
+        });
+    }
 
     public function scopeToday($query)
     {
@@ -62,7 +70,6 @@ class Order extends Model
     public function markAsCompleted()
     {
         $this->state->transitionTo(Completed::class);
-        $this->user->accessCard->decrement('quota_lunch');
     }
 
     public function user()
@@ -78,5 +85,10 @@ class Order extends Model
     public function menu()
     {
         return $this->belongsTo(Menu::class);
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }

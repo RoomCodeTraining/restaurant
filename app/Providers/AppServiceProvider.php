@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Studio\Totem\Totem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Totem::auth(function ($request) {
+            return Auth::check() && Auth::user()->hasRole(Role::ADMIN);
+        });
+
         RedirectResponse::macro('banner', function ($message) {
             return $this->with('flash', [
                 'bannerStyle' => 'success',

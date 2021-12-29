@@ -33,7 +33,10 @@ class ChargeUsers extends Command
         Order::with('user.accessCard')->today()->whereState('state', Confirmed::class)->each(function (Order $order) {
             DB::transaction(function () use ($order) {
                 $order->user->accessCard->decrement('quota_lunch');
-                $order->update(['payment_method_id' => $order->user->accessCard->payment_method_id]);
+                $order->update([
+                    'payment_method_id' => $order->user->accessCard->payment_method_id,
+                    'access_card_id' => $order->user->accessCard->id,
+                ]);
             });
         });
 

@@ -146,10 +146,15 @@ class BillingHelper
         $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
 
         $orders->each(function (Order $order) use (&$result, $billMap) {
-            $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
-            $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
-            $result['contribution']['breakfast'] = $billMap['contribution']['breakfast'];
-            $result['subvention']['breakfast'] = $billMap['subvention']['breakfast'];
+            if ($order->type == 'lunch') {
+                $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
+                $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
+            }
+
+            if ($order->type == 'breakfast') {
+                $result['contribution']['breakfast'] = $billMap['contribution']['breakfast'];
+                $result['subvention']['breakfast'] = $billMap['subvention']['breakfast'];
+            }
         });
 
         return collect($result);

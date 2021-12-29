@@ -1,10 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\AccessCardsController;
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\MenusController;
-use App\Http\Controllers\API\OrdersController;
-use App\Http\Controllers\API\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,11 +14,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/orders/confirm-order', [OrdersController::class, 'confirm']);
-    Route::apiResource('orders', OrdersController::class);
-    Route::apiResource('menus', MenusController::class);
-    Route::apiResource('cards', AccessCardsController::class);
-    Route::apiResource('users', UsersController::class);
+    Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
+    Route::post('/orders/complete-order', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'update']);
+    Route::apiResource('orders', App\Http\Controllers\API\OrdersController::class);
+    Route::apiResource('menus', App\Http\Controllers\API\MenusController::class);
+    Route::post('/cards/link-temporary-card', App\Http\Controllers\API\LinkTemporaryCard::class);
+    Route::apiResource('cards', App\Http\Controllers\API\AccessCardsController::class);
+    Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
+    Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
 });
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);

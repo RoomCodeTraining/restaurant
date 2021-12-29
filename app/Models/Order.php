@@ -91,4 +91,9 @@ class Order extends Model
     {
         return $this->belongsTo(PaymentMethod::class);
     }
+
+    public function accessCard()
+    {
+        return $this->belongsTo(AccessCard::class);
+    }
 }

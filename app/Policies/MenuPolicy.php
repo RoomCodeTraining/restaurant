@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Menu;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -31,7 +32,7 @@ class MenuPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->can(self::MENU_LIST)) {
+        if ($user->can(self::MENU_LIST) || $user->hasRole(Role::OPERATOR_LUNCHROOM)) {
             return true;
         }
     }

@@ -40,8 +40,9 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             ->unless($this->state, fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->state, fn ($query) => $query->whereState('state', $this->state))
             ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))
-            ->get()
-            ->groupBy(fn ($row) => $row->type == 'lunch' ? $row->menu->served_at->format('Y-m-d') : $row->created_at->format('Y-m-d'));
+            ->get()->groupBy('user_id')
+            ->map(fn ($row) => $row->groupBy(fn ($item) => $item->type == 'lunch' ? $item->menu->served_at->format('Y-m-d') : $item->created_at->format('Y-m-d')))
+            ->flatten(1);
     }
 
     public function title(): string

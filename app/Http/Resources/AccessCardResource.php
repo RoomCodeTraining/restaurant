@@ -19,6 +19,8 @@ class AccessCardResource extends JsonResource
             'identifier' => $this->identifier,
             'quota_breakfast' => $this->quota_breakfast,
             'quota_lunch' => $this->quota_lunch,
+            'type' => $this->type,
+            'expires_at' => $this->expires_at,
             'payment_method' => new PaymentMethodResource($this->paymentMethod),
             'user' => new UserResource($this->user),
         ];

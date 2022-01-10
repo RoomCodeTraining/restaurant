@@ -86,23 +86,23 @@ class AccessCardsController extends Controller
         return new AccessCardResource($card->load('user', 'paymentMethod'));
     }
 
-    public function update(Request $request, AccessCard $card)
+    public function reloadAccessCard(Request $request)
     {
+      
+ 
         $request->validate([
+            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
             'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
-            'quota' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) use ($card, $request) {
-                if ($card->{$request->quota_type} > 0) {
-                    $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
-                }
-            }],
+            'quota' => ['required', 'integer', 'min:0', 'max:25'],
         ]);
 
+        $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
         $card->update([ $request->quota_type => $request->quota ]);
 
         return response()->json([
             'message' => "Le quota a été rechargé avec succès.",
             "success" => true,
-            "data" => new AccessCardResource($card->load('user', 'paymentMethod')),
+            "data" => new AccessCardResource($card),
         ]);
     }
 }

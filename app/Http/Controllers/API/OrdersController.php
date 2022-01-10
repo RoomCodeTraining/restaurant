@@ -76,4 +76,21 @@ class OrdersController extends Controller
 
         return new OrderResource($order);
     }
+
+
+
+    /**
+     * Show completed orders for the authenticated user.
+     * @return \Illuminate\Http\Response
+     */
+
+    public function orderCompleted(){
+        $orders = Order::with('user', 'dish')->today()->whereState('state', completed::class)->get();
+   
+        return response()->json([
+            'orders' => $orders,
+            'success' => true,
+            'message' => 'Commandes récupérées avec succès.'
+        ]);
+    }
 }

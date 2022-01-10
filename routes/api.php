@@ -17,11 +17,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
     Route::post('/orders/complete-order', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'update']);
     Route::apiResource('orders', App\Http\Controllers\API\OrdersController::class);
+    Route::get('completed/orders', [App\Http\Controllers\API\OrdersController::class, 'orderCompleted']);
     Route::apiResource('menus', App\Http\Controllers\API\MenusController::class);
     Route::post('/cards/link-temporary-card', App\Http\Controllers\API\LinkTemporaryCard::class);
     Route::apiResource('cards', App\Http\Controllers\API\AccessCardsController::class);
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
     Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
+    Route::post('reload/cards', [App\Http\Controllers\API\AccessCardsController::class, 'reloadAccessCard']);
 });
 
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);

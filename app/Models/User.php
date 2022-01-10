@@ -131,4 +131,10 @@ class User extends Authenticatable
     {
         $this->notify(new WelcomeNotification($validUntil));
     }
+
+    public function useCard(AccessCard $accessCard)
+    {
+        $this->current_access_card_id = $accessCard->id;
+        $this->save();
+    }
 }

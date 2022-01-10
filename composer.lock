@@ -1289,16 +1289,18 @@
         },
         {
             "name": "filament/forms",
-            "version": "v2.8.3",
+
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-filament/forms.git",
-                "reference": "25947c2c88fa0c86198fa5de68c5fababc7c583c"
+                "reference": "3a7f74959aa30c21692c11f42f040433bd81e816"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-filament/forms/zipball/25947c2c88fa0c86198fa5de68c5fababc7c583c",
-                "reference": "25947c2c88fa0c86198fa5de68c5fababc7c583c",
+                "url": "https://api.github.com/repos/laravel-filament/forms/zipball/3a7f74959aa30c21692c11f42f040433bd81e816",
+                "reference": "3a7f74959aa30c21692c11f42f040433bd81e816",
+
                 "shasum": ""
             },
             "require": {
@@ -1341,20 +1343,22 @@
                 "issues": "https://github.com/laravel-filament/filament/issues",
                 "source": "https://github.com/laravel-filament/filament"
             },
-            "time": "2022-01-05T08:53:47+00:00"
+
+            "time": "2022-01-02T23:51:18+00:00"
         },
         {
             "name": "filament/tables",
-            "version": "v2.8.3",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel-filament/tables.git",
-                "reference": "8dee21f819bf9c9bc9da76bf5122af0796f000db"
+                "reference": "21de31cbaae103b93e9830b8734a930aed454a54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-filament/tables/zipball/8dee21f819bf9c9bc9da76bf5122af0796f000db",
-                "reference": "8dee21f819bf9c9bc9da76bf5122af0796f000db",
+                "url": "https://api.github.com/repos/laravel-filament/tables/zipball/21de31cbaae103b93e9830b8734a930aed454a54",
+                "reference": "21de31cbaae103b93e9830b8734a930aed454a54",
+
                 "shasum": ""
             },
             "require": {
@@ -1394,7 +1398,9 @@
                 "issues": "https://github.com/laravel-filament/filament/issues",
                 "source": "https://github.com/laravel-filament/filament"
             },
+
             "time": "2022-01-05T08:53:42+00:00"
+
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -1948,16 +1954,18 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.78.1",
+
+            "version": "v8.77.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "16359b5ebafba6579b397d7505b082a6d1bb2e31"
+                "reference": "994dbac5c6da856c77c81a411cff5b7d31519ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/16359b5ebafba6579b397d7505b082a6d1bb2e31",
-                "reference": "16359b5ebafba6579b397d7505b082a6d1bb2e31",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/994dbac5c6da856c77c81a411cff5b7d31519ca8",
+                "reference": "994dbac5c6da856c77c81a411cff5b7d31519ca8",
+
                 "shasum": ""
             },
             "require": {
@@ -2116,7 +2124,9 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+
             "time": "2022-01-05T14:52:50+00:00"
+
         },
         {
             "name": "laravel/sanctum",
@@ -4908,16 +4918,18 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "5.4.2",
+
+            "version": "5.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "6f4764c0cafe1cf508b7b9801a81b2caa858150a"
+                "reference": "79f7dbf2b6b21d81209774f5726a0e9f4222dd92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/6f4764c0cafe1cf508b7b9801a81b2caa858150a",
-                "reference": "6f4764c0cafe1cf508b7b9801a81b2caa858150a",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/79f7dbf2b6b21d81209774f5726a0e9f4222dd92",
+                "reference": "79f7dbf2b6b21d81209774f5726a0e9f4222dd92",
+
                 "shasum": ""
             },
             "require": {
@@ -4978,7 +4990,9 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/5.4.2"
+
+                "source": "https://github.com/spatie/laravel-permission/tree/5.4.1"
+
             },
             "funding": [
                 {
@@ -4986,7 +5000,9 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-01-03T11:29:06+00:00"
+
+            "time": "2021-12-17T10:18:05+00:00"
+
         },
         {
             "name": "spatie/laravel-welcome-notification",
@@ -7885,16 +7901,18 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "2.0.4",
+
+            "version": "2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "0c1a3925ec58a4ec98e992b9c7d171e9e184be0a"
+                "reference": "6555461e76962fd0379c444c46fd558a0fcfb65e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/0c1a3925ec58a4ec98e992b9c7d171e9e184be0a",
-                "reference": "0c1a3925ec58a4ec98e992b9c7d171e9e184be0a",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/6555461e76962fd0379c444c46fd558a0fcfb65e",
+                "reference": "6555461e76962fd0379c444c46fd558a0fcfb65e",
+
                 "shasum": ""
             },
             "require": {
@@ -7931,7 +7949,9 @@
             "support": {
                 "irc": "irc://irc.freenode.org/composer",
                 "issues": "https://github.com/composer/xdebug-handler/issues",
-                "source": "https://github.com/composer/xdebug-handler/tree/2.0.4"
+
+                "source": "https://github.com/composer/xdebug-handler/tree/2.0.3"
+
             },
             "funding": [
                 {
@@ -7947,7 +7967,9 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-01-04T17:06:45+00:00"
+
+            "time": "2021-12-08T13:07:32+00:00"
+
         },
         {
             "name": "doctrine/annotations",
@@ -8511,16 +8533,18 @@
         },
         {
             "name": "laravel/breeze",
-            "version": "v1.6.1",
+
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/breeze.git",
-                "reference": "516b5377a27b9cc3efbdffdba42cef74987ee53a"
+                "reference": "7679e20052efc63e253a7655da14afd8a42af47d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/breeze/zipball/516b5377a27b9cc3efbdffdba42cef74987ee53a",
-                "reference": "516b5377a27b9cc3efbdffdba42cef74987ee53a",
+                "url": "https://api.github.com/repos/laravel/breeze/zipball/7679e20052efc63e253a7655da14afd8a42af47d",
+                "reference": "7679e20052efc63e253a7655da14afd8a42af47d",
+
                 "shasum": ""
             },
             "require": {
@@ -8564,7 +8588,9 @@
                 "issues": "https://github.com/laravel/breeze/issues",
                 "source": "https://github.com/laravel/breeze"
             },
-            "time": "2022-01-02T21:46:28+00:00"
+
+            "time": "2021-12-14T17:27:21+00:00"
+
         },
         {
             "name": "laravel/sail",

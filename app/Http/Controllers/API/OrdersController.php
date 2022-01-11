@@ -48,7 +48,7 @@ class OrdersController extends Controller
 
         if ($accessCard->quota_lunch <= 0) {
             throw ValidationException::withMessages([
-                'message' => 'Le quota de ce utilisateur est insuffisant quota est insuffisant.',
+                'message' => 'Le quota de ce utilisateur est insuffisant.',
                 'success' => false,
                 'user' => $accessCard->user,
             ]);

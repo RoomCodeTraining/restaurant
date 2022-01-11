@@ -90,7 +90,11 @@ class AccessCardsController extends Controller
       
  
         $request->validate([
-            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+            'identifier' => ['required', function($attrubute, $value, $fail){
+                 if(AccessCard::whereIdentifier($value)){
+                     $fail("Cette Carte RFID n'existe pas. Veuillez verifier l'identifiant entré");
+                 }
+            }],
             'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
             'quota' => ['required', 'integer', 'min:0', 'max:25'],
         ]);

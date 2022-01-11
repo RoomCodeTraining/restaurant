@@ -13,10 +13,10 @@ use Illuminate\Validation\ValidationException;
 
 class AccessCardsController extends Controller
 {
-    public function __construct()
+    /*public function __construct()
     {
         $this->authorizeResource(AccessCard::class, 'card');
-    }
+    }*/
 
     /**
      * Display a listing of the resource.
@@ -98,9 +98,16 @@ class AccessCardsController extends Controller
             'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
             'quota' => ['required', 'integer', 'min:0', 'max:25'],
         ]);
-
+       
         $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
-        $card->update([ $request->quota_type => $request->quota ]);
+        $old_quota = $card[$request->quota_type];
+
+        // Lorque le quota de recharge est supérieur au quota defini
+        if ($request->quota + $old_quota > 25) {
+            return response()->json(['error' => 'Le cota ne doit pas depasser 25'], 422);
+        }
+
+        $card->update([ $request->quota_type => $request->quota + $old_quota ]);
 
         return response()->json([
             'message' => "Le quota a été rechargé avec succès.",

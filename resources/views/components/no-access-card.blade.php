@@ -7,7 +7,7 @@
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
         <label class='font-semibold'>
-            Bonjour Mr/Mme {{ auth()->user()->full_name }} vous n'avez pas une Carte RFID associé a votre compte cantine. Veuillez contactez le responsable pour avoir une carte.
+            Bonjour Mr/Mme {{ auth()->user()->full_name }} vous n'avez pas une Carte RFID associée à votre compte cantine. Veuillez contactez le responsable pour l'association.
         </label>
     </div>
 </div>

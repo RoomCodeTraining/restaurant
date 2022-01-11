@@ -1,14 +1,15 @@
 <x-app-layout>
+    <x-order-suspended />
     @hasrole(\App\Models\Role::ADMIN)
         <livewire:dashboards.admin-dashboard>
-        {{-- @elseif(auth()->user()->hasRole(\App\Models\Role::USER))
+         @elseif(auth()->user()->hasRole(\App\Models\Role::USER))
             <livewire:dashboards.user-dashboard>
         @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_RH))
             <livewire:dashboards.admin-rh-dashboard />
         @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_LUNCHROOM) || auth()->user()->hasRole(\App\Models\Role::OPERATOR_LUNCHROOM))
             <livewire:dashboards.admin-cantine-dashboard />
         @elseif(auth()->user()->hasRole(\App\Models\Role::ACCOUNTANT))
-            <livewire:dashboards.admin-accountant-dashboard /> --}}
+            <livewire:dashboards.admin-accountant-dashboard /> 
         @else
             <div class="alert">
                 <div class="flex-1">
@@ -20,5 +21,8 @@
                     <label>Bienvenue {{ Auth::user()->full_name }}!</label>
                 </div>
             </div>
+       
+           
         @endhasrole
+     
 </x-app-layout>

@@ -39,9 +39,11 @@ class AdminAccountantDashboard extends Component
         $monthly_orders_completed = \App\Models\Order::monthly()->whereState('state', Completed::class)->count();
         $monthly_orders_cancelled = \App\Models\Order::monthly()->whereState('state', Cancelled::class)->count();
         $monthly_orders_suspended = \App\Models\Order::monthly()->whereState('state', Suspended::class)->count();
+        $today_order = \App\Models\Order::today()->with('dish')->where('user_id', auth()->id())->first();
 
 
-        $data = compact('others_monthly_orders_count', 'intern_monthly_orders_count', 'guest_monthly_orders_count', 'ciprel_agent_monthly_orders_count', 'monthly_orders_completed', 'monthly_orders_cancelled', 'monthly_orders_suspended');
+
+        $data = compact('today_order', 'others_monthly_orders_count', 'intern_monthly_orders_count', 'guest_monthly_orders_count', 'ciprel_agent_monthly_orders_count', 'monthly_orders_completed', 'monthly_orders_cancelled', 'monthly_orders_suspended');
 
 
         return view('livewire.dashboards.admin-accountant-dashboard', $data);

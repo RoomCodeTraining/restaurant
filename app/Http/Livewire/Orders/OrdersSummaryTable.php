@@ -31,20 +31,22 @@ class OrdersSummaryTable extends DataTableComponent
         ];
     }
 
-    public function query(): Builder
+    public function query()
     {
-        return Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        $orders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->whereState('state', Confirmed::class)
-            ->groupBy('dish_id', 'menu_served_at')
-            ->orderBy('menu_served_at', 'DESC')
-            ->selectRaw('
+            ->groupBy('dish_id', 'served_at')
+            ->orderBy('served_at', 'DESC')->get();
+
+            dd($orders);
+           /*->selectRaw('
                 DATE_FORMAT(menus.served_at, "%d/%m/%Y") as menu_served_at,
                 dishes.id AS dish_id,
                 dishes.name AS dish_name,
                 COUNT(orders.id) AS total_orders
-            ');
+            ');*/
     }
 
     public function modalsView(): string

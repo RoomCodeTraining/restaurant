@@ -6,7 +6,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Confirmed;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
@@ -24,29 +24,22 @@ class OrdersSummaryTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Menu du', 'menu_served_at'),
-            Column::make('Plat', 'dish_name'),
+            Column::make('Menu du', 'menu_served_at')->format(fn($row) => Carbon::parse($row)->format('d/m/Y')),
+            Column::make('Plat', 'dish_id')->format(fn($row) => dishName($row)),
             Column::make('Nbr. de commandes', 'total_orders'),
             Column::make('Actions')->format(fn ($val, $col, $row) => view('orders.summary.table-actions', ['row' => $row]))
         ];
     }
 
-    public function query()
+    public function query(): Builder
     {
-        $orders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        return Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->whereState('state', Confirmed::class)
-            ->groupBy('dish_id', 'served_at')
-            ->orderBy('served_at', 'DESC')->get();
-
-            dd($orders);
-           /*->selectRaw('
-                DATE_FORMAT(menus.served_at, "%d/%m/%Y") as menu_served_at,
-                dishes.id AS dish_id,
-                dishes.name AS dish_name,
-                COUNT(orders.id) AS total_orders
-            ');*/
+            ->groupBy('dish_id', 'menu_served_at')
+            ->orderBy('menu_served_at', 'DESC')
+            ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
     }
 
     public function modalsView(): string

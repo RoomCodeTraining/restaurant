@@ -92,7 +92,7 @@ class AccessCardsController extends Controller
  
         $request->validate([
             'identifier' => ['required', function($attrubute, $value, $fail){
-                 if(AccessCard::whereIdentifier($value)){
+                 if(!AccessCard::whereIdentifier($value)){
                      $fail("Cette Carte RFID n'existe pas. Veuillez verifier l'identifiant entré");
                  }
             }],

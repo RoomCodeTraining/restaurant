@@ -49,17 +49,18 @@ class OrdersSummaryTable extends DataTableComponent
 
     public function showUsers($row)
     {
+       
+        $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
-            ->whereDate('served_at', Carbon::createFromFormat('d/m/Y', $row['menu_served_at']))
+            ->whereDate('served_at', $date)
             ->first();
-
+    
         $this->users = $menu->orders()
             ->with('user')
             ->whereState('state', Confirmed::class)
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);
-
         $this->showingUsers = true;
     }
 }

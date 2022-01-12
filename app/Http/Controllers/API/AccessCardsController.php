@@ -43,7 +43,7 @@ class AccessCardsController extends Controller
             'quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
             'quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
             'is_temporary' => ['required', 'boolean'],
-            'expires_at' => ['nullable', 'required_if:is_temporary', 'date', 'after_or_equal:today'],
+            'expires_at' => ['nullable', Rule::requiredIf($request->is_temporary), 'date', 'after_or_equal:today'],
             'payment_method_id' => ['nullable', 'integer', Rule::exists('payment_methods', 'id')],
         ]);
 

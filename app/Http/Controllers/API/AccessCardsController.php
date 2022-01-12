@@ -35,7 +35,7 @@ class AccessCardsController extends Controller
      */
     public function store(Request $request, CreateAccessCardAction $createAccessCardAction)
     {
-       // $this->authorize('create', AccessCard::class);
+        $this->authorize('create', AccessCard::class);
 
     
 

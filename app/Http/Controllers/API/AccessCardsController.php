@@ -35,17 +35,9 @@ class AccessCardsController extends Controller
      */
     public function store(Request $request, CreateAccessCardAction $createAccessCardAction)
     {
-        $this->authorize('create', AccessCard::class);
+       // $this->authorize('create', AccessCard::class);
 
-        $validated = $request->validate([
-            'user_id' => ['required'],
-            'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
-            'quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
-            'quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
-            'is_temporary' => ['required', 'boolean'],
-            'expires_at' => ['nullable', 'required_if:is_temporary', 'date', 'after_or_equal:today'],
-            'payment_method_id' => ['nullable', 'integer', Rule::exists('payment_methods', 'id')],
-        ]);
+    
 
         $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
 

@@ -6,7 +6,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Confirmed;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 
@@ -24,8 +24,8 @@ class OrdersSummaryTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Menu du', 'menu_served_at'),
-            Column::make('Plat', 'dish_name'),
+            Column::make('Menu du', 'menu_served_at')->format(fn($row) => Carbon::parse($row)->format('d/m/Y')),
+            Column::make('Plat', 'dish_id')->format(fn($row) => dishName($row)),
             Column::make('Nbr. de commandes', 'total_orders'),
             Column::make('Actions')->format(fn ($val, $col, $row) => view('orders.summary.table-actions', ['row' => $row]))
         ];
@@ -39,12 +39,7 @@ class OrdersSummaryTable extends DataTableComponent
             ->whereState('state', Confirmed::class)
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
-            ->selectRaw('
-                DATE_FORMAT(menus.served_at, "%d/%m/%Y") as menu_served_at,
-                dishes.id AS dish_id,
-                dishes.name AS dish_name,
-                COUNT(orders.id) AS total_orders
-            ');
+            ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
     }
 
     public function modalsView(): string
@@ -54,17 +49,18 @@ class OrdersSummaryTable extends DataTableComponent
 
     public function showUsers($row)
     {
+       
+        $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
-            ->whereDate('served_at', Carbon::createFromFormat('d/m/Y', $row['menu_served_at']))
+            ->whereDate('served_at', $date)
             ->first();
-
+    
         $this->users = $menu->orders()
             ->with('user')
             ->whereState('state', Confirmed::class)
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);
-
         $this->showingUsers = true;
     }
 }

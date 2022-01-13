@@ -51,6 +51,7 @@ class DeleteTemporaryCards extends Command
 
                 $orders = Order::query()
                     ->withoutGlobalScopes()
+                    ->whereNotNull('payment_method_id')
                     ->whereBelongsTo($card)
                     ->whereState('state', [Confirmed::class, Completed::class])
                     ->get()

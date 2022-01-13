@@ -15,8 +15,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::active()->get();
-
+        $users = User::with('accessCard')->active()->get();
         return UserResource::collection($users);
     }
 

@@ -30,4 +30,5 @@ class OrdersController extends Controller
     {
         return view('orders.edit', compact('order'));
     }
+
 }

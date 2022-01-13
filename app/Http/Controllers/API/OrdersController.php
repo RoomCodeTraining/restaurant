@@ -48,7 +48,7 @@ class OrdersController extends Controller
 
         if ($accessCard->quota_lunch <= 0) {
             throw ValidationException::withMessages([
-                'message' => 'Le quota de ce utilisateur est insuffisant quota est insuffisant.',
+                'message' => 'Le quota de ce utilisateur est insuffisant.',
                 'success' => false,
                 'user' => $accessCard->user,
             ]);
@@ -75,5 +75,22 @@ class OrdersController extends Controller
         ]);
 
         return new OrderResource($order);
+    }
+
+
+
+    /**
+     * Show completed orders for the authenticated user.
+     * @return \Illuminate\Http\Response
+     */
+
+    public function orderCompleted(){
+        $orders = Order::with('user', 'dish')->today()->whereState('state', completed::class)->get();
+   
+        return response()->json([
+            'orders' => $orders,
+            'success' => true,
+            'message' => 'Commandes récupérées avec succès.'
+        ]);
     }
 }

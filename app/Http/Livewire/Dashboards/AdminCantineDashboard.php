@@ -13,9 +13,12 @@ class AdminCantineDashboard extends Component
 
     public function mount()
     {
-        // $this->menu = \App\Models\Menu::today()->first();
-        // $this->main_dish_count = \App\Models\Order::today()->whereState('state', Confirmed::class)->where(['dish_id' => $this->menu->main_dish->id, 'menu_id' => $this->menu->id])->count();
-        // $this->second_dish_count = \App\Models\Order::today()->whereState('state', Confirmed::class)->where(['dish_id' => $this->menu->second_dish->id, 'menu_id' => $this->menu->id])->count();
+
+        $this->menu = \App\Models\Menu::today()->first();
+        if ($this->menu) {
+            $this->main_dish_count = \App\Models\Order::today()->where(['dish_id' => $this->menu->main_dish->id, 'menu_id' => $this->menu->id])->count();
+            $this->second_dish_count = \App\Models\Order::today()->where(['dish_id' => $this->menu->second_dish->id, 'menu_id' => $this->menu->id])->count();
+        }
     }
 
     public function render()

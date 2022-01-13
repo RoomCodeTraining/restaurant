@@ -19,8 +19,8 @@ class MarkOrderAsCompleted extends Controller
 
     public function update(Request $request)
     {
-        $this->authorize('viewAny', Menu::class);
-
+        //$this->authorize('viewAny', Menu::class);
+     
         $request->validate([
             'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
             'access_card_identifier' => ['required', Rule::exists('access_cards', 'identifier')],

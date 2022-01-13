@@ -83,8 +83,8 @@ class CreateOrderForm extends Component
             ->whereIn('menu_id', array_keys($this->selectedDishes))
             ->whereNotState('state', Cancelled::class)
             ->get();
-
-        if (! $previousOrders->isEmpty()) {
+      
+        if (! $previousOrders->isEmpty() && $previousOrders[0]->state->title() != 'Suspendue') {
             throw ValidationException::withMessages([
                 'selectedDishes' => [
                     sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))

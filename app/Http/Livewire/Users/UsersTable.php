@@ -2,14 +2,16 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Events\UserLocked;
-use App\Events\UserUnlocked;
 use App\Models\Role;
 use App\Models\User;
+use App\Events\UserLocked;
+use App\Exports\UserExport;
+use App\Events\UserUnlocked;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class UsersTable extends DataTableComponent
 {
@@ -18,6 +20,10 @@ class UsersTable extends DataTableComponent
     public array $filterNames = [
         'type' => 'Profil',
         'active' => 'Etat du compte',
+    ];
+
+     public array $bulkActions = [
+        'exportToUser' => 'Export au format Excel',
     ];
 
     public string $defaultSortColumn = 'created_at';
@@ -109,6 +115,13 @@ class UsersTable extends DataTableComponent
 
         return redirect()->route('users.index');
     }
+
+
+    public function exportToUser()
+    {
+        return Excel::download(new UserExport(), 'users-list.xlsx');
+    }
+
 
     public function modalsView(): string
     {

@@ -52,7 +52,8 @@ class CreateUserForm extends Component
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));
             } else {
-                $this->state['identifier'] = $this->state['identifier'] ?? null;
+                dd($value);
+                $this->state['identifier'] = null;
             }
         }
     }

@@ -1,4 +1,4 @@
-@if($hasAnOrderSuspended)
+@if($order_is_suspended)
     <div class="alert mb-3">
         <div class="flex-1">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#2196f3"

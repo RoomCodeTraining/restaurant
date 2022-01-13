@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\States\Order\Completed;
 use App\States\Order\Suspended;
 use Illuminate\View\Component;
 
@@ -24,7 +25,14 @@ class OrderSuspended extends Component
      */
     public function render()
     {
-        $hasAnOrderSuspended = \App\Models\Order::today()->whereState('state', Suspended::class)->first();
-        return view('components.order-suspended', compact('hasAnOrderSuspended'));
+        $order_is_suspended = false;
+        $hasAnOrderSuspended = \App\Models\Order::orderByDesc('created_at')->withTrashed()->whereUserId(auth()->user()->id)->today()->first();
+       // $hasAnOrderConfirmed = \App\Models\Order::whereUserId(auth()->user()->id)->today()->whereState('state', Confirmed::class)->first();
+
+
+       if ($hasAnOrderSuspended->state == Suspended::class) {
+           $order_is_suspended = true;
+       }
+        return view('components.order-suspended', compact('order_is_suspended'));
     }
 }

@@ -54,6 +54,8 @@ class UsersImport implements ToModel, WithHeadingRow
 
            UserCreated::dispatch($user);
 
+           session()->flash('success', 'Les utilisateurs ont été importés!');
+
        }
 
         //$user->sendWelcomeNotification(now()->addWeek());

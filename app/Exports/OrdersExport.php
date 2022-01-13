@@ -66,7 +66,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             "Catégorie professionnelle",
             "Date",
             "Méthode de paiement",
-            "Statut",
+            "Statut du plat",
             "Type du plat",
             "A payer",
             "Subvention",

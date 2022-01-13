@@ -47,9 +47,6 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Rôle",
             "Société",
             "Département",
-            "Type de collaborateur",
-            "Catégorie professionnelle",
-            "Statut",
         ];
     }
 
@@ -57,16 +54,13 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
     {
     
         return [
-            $row->created_at,
+            $row->created_at->format('d/m/Y'),
             $row->last_name,
             $row->first_name,
             $row->email,
             $row->contact,
             $row->role->name,
             $row->organization->name,
-            $row->department->name,
-            $row->userType->name,
-            $row->employeeStatus->name,
         ];
     }
 

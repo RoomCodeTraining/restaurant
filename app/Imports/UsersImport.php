@@ -26,13 +26,13 @@ class UsersImport implements ToModel, WithHeadingRow
   
         DB::beginTransaction();
        //$employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
-        $users_exist = User::whereIdentifier($row['matricule'])->exists() ? true : false;
-        
+        $users_exist = User::where(['identifier' => $row['matricule']])->orWhere('email', $row['email'])->exists() ? true : false;
+   
         if ($users_exist) {
             session()->flash('error', 'Il existe des utilisateurs du fichier qui existent déjà dans le système!');
         }
 
-        if (! User::whereIdentifier($row['matricule'])->exists()) {
+        if (! $users_exist) {
             $user = User::create([
                 'identifier' => $row['matricule'],
                 'username' => explode('@', $row['email'])[0],

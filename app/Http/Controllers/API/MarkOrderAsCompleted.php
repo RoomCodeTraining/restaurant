@@ -25,7 +25,7 @@ class MarkOrderAsCompleted extends Controller
             'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
             'access_card_identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ], [
-            'access_card_identifier.exists' => "Ce utilisateur n'a pas de carte associée à son compte."
+            'access_card_identifier.exists' => "Cet utilisateur n'a pas de carte associée à son compte."
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
@@ -68,7 +68,7 @@ class MarkOrderAsCompleted extends Controller
                 "message" => "Mr/Mme {$accessCard->user->full_name} a déjà recupéré son {$item}.",
                 "success" => false,
                 "user" => $accessCard->user
-            ], Response::HTTP_FORBIDDEN);
+            ], 201);
         }
 
         $order = Order::query()

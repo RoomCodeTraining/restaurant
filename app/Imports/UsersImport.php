@@ -22,7 +22,7 @@ class UsersImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         DB::beginTransaction();
-        $employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
+       //$employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
         $user = User::create([
             'identifier' => $row['matricule'],
             'username' => explode('@', $row['email'])[0],

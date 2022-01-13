@@ -27,10 +27,9 @@ class OrderSuspended extends Component
     {
         $order_is_suspended = false;
         $hasAnOrderSuspended = \App\Models\Order::orderByDesc('created_at')->withTrashed()->whereUserId(auth()->user()->id)->today()->first();
-       // $hasAnOrderConfirmed = \App\Models\Order::whereUserId(auth()->user()->id)->today()->whereState('state', Confirmed::class)->first();
 
 
-       if ($hasAnOrderSuspended->state == Suspended::class) {
+       if ($hasAnOrderSuspended && $hasAnOrderSuspended->state == Suspended::class) {
            $order_is_suspended = true;
        }
         return view('components.order-suspended', compact('order_is_suspended'));

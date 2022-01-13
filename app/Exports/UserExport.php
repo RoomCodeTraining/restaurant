@@ -48,6 +48,8 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Rôle",
             "Société",
             "Département",
+            "Status professionnel",
+            "Etat du compte"
         ];
     }
 
@@ -63,6 +65,10 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             $row->contact,
             $row->role->name,
             $row->organization->name,
+            $row->department->name,
+            $row->employeeStatus->name,
+            $row->is_active ? "Actif" : "Inactif" 
+
         ];
     }
 

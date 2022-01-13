@@ -48,7 +48,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Rôle",
             "Société",
             "Département",
-            "Status professionnel",
+            "Statut professionnel",
             "Etat du compte"
         ];
     }

@@ -7,6 +7,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TodayOrdersExport;
+use App\States\Order\Cancelled;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -37,11 +38,9 @@ class TodayOrders extends DataTableComponent
 
     public function query(): Builder
     {
-
-       
         $orders =  Order::today()->join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->where('state', 'confirmed')
+            ->whereNotState('state', Cancelled::class)
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');

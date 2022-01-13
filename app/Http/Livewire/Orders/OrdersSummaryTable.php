@@ -36,7 +36,7 @@ class OrdersSummaryTable extends DataTableComponent
         return Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->whereState('state', Confirmed::class)
+            ->whereNotState('state', Cancelled::class)
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');

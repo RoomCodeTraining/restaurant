@@ -76,16 +76,16 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:O' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:K' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:O1')->applyFromArray([
+        $sheet->getStyle('A1:K1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:O' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:K' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

@@ -121,7 +121,7 @@
                             @can('manage', App\Models\Order::class)
                                 <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
                                     :active="request()->routeIs('today.orders.summary')">
-                                    Journalière
+                                    Journalières
                                 </x-nav-link>
                                 <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
                                 :active="request()->routeIs('orders.summary')">

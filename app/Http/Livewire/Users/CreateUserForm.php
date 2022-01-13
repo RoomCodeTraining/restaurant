@@ -41,6 +41,8 @@ class CreateUserForm extends Component
         $this->role = Role::USER;
         $this->state['organization_id'] = Organization::firstWhere('name', 'Ciprel')->id;
         $this->generateIdentifierFor = UserType::where('auto_identifier', true)->pluck('id')->toArray();
+
+ 
     }
 
  
@@ -48,11 +50,11 @@ class CreateUserForm extends Component
     public function updated($field, $value)
     {
         
-        if ((int)$value != 1) {
+        if ($field === "state.user_type_id") {
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));
             } else {
-                $this->state['identifier'] = null;
+                $this->state['identifier'] = $this->state['identifier'] ?? null;
             }
         }
     }

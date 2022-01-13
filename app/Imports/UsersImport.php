@@ -21,9 +21,13 @@ class UsersImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+
+
+  
         DB::beginTransaction();
        //$employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
-        $user = User::create([
+       if (! User::whereIdentifier($row['matricule'])->exists()) {
+           $user = User::create([
             'identifier' => $row['matricule'],
             'username' => explode('@', $row['email'])[0],
             'email' => $row['email'],
@@ -38,11 +42,12 @@ class UsersImport implements ToModel, WithHeadingRow
             'email_verified_at' => now(),
         ]);
 
-        $user->syncRoles(Role::getRole($row['profil']) ?? [Role::USER]);
+           $user->syncRoles(Role::getRole($row['profil']) ?? [Role::USER]);
 
-        DB::commit();
+           DB::commit();
 
-        UserCreated::dispatch($user);
+           UserCreated::dispatch($user);
+       }
 
         //$user->sendWelcomeNotification(now()->addWeek());
     }

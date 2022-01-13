@@ -121,11 +121,11 @@
                             @can('manage', App\Models\Order::class)
                                 <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
                                     :active="request()->routeIs('today.orders.summary')">
-                                    Commandes du jour en cours
+                                    Commandes du jour
                                 </x-nav-link>
                                 <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
                                 :active="request()->routeIs('orders.summary')">
-                                Commandes de la semaine en cours
+                                Commandes de la semaine
                             </x-nav-link>
                             @endcan
                         @endif

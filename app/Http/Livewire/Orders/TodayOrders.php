@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Orders;
 
 use Carbon\Carbon;
+use App\Models\Menu;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -39,5 +40,28 @@ class TodayOrders extends DataTableComponent
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+    }
+
+
+    public function modalsView(): string
+    {
+        return 'orders.summary.modals';
+    }
+
+    public function showUsers($row)
+    {
+       
+        $date = Carbon::parse($row['menu_served_at']);
+        $menu = Menu::query()
+            ->whereDate('served_at', $date)
+            ->first();
+    
+        $this->users = $menu->orders()
+            ->with('user')
+            ->whereState('state', Confirmed::class)
+            ->get()
+            ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
+            ->map(fn ($order) => $order->user);
+        $this->showingUsers = true;
     }
 }

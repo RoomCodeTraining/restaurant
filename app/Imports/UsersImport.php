@@ -29,7 +29,7 @@ class UsersImport implements ToModel, WithHeadingRow
         $users_exist = User::whereIdentifier($row['matricule'])->exists() ? true : false;
         
         if ($users_exist) {
-            session()->flash('error', 'Il existe des utilisatuers du fichier qui existe déjà!');
+            session()->flash('error', 'Il existe des utilisateurs du fichier qui existent déjà dans le système!');
         }
 
         if (! User::whereIdentifier($row['matricule'])->exists()) {

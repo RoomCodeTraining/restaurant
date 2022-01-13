@@ -12,25 +12,25 @@ class AdminAccountantDashboard extends Component
         $orders = \App\Models\Order::monthly()->whereState('state', Completed::class)->get();
 
         $guest_monthly_orders_count = $orders->map(function ($order) {
-            if ($order->user->user_type_id == \App\Enums\UserTypes::GUEST) {
+            if ($order->user->user_type_id == 3) {
                 return $order;
             }
         });
 
         $ciprel_agent_monthly_orders_count = $orders->map(function ($order) {
-            if ($order->user->user_type_id === \App\Enums\UserTypes::CIPREL_AGENT) {
+            if ($order->user->user_type_id === 1) {
                 return $order;
             }
         });
 
         $intern_monthly_orders_count = $orders->map(function ($order) {
-            if ($order->user->user_type_id == \App\Enums\UserTypes::INTERN) {
+            if ($order->user->user_type_id == 4) {
                 return $order;
             }
         });
 
         $others_monthly_orders_count = $orders->map(function ($order) {
-            if ($order->user->user_type_id == \App\Enums\UserTypes::NON_CIPREL_AGENT) {
+            if ($order->user->user_type_id ==  2) {
                 return $order;
             }
         });

@@ -40,6 +40,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
     {
         return [
             "Date de création",
+            "Matricule",
             "Nom",
             "Prénom",
             "Email",
@@ -55,6 +56,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
     
         return [
             $row->created_at->format('d/m/Y'),
+            $row->identifier,
             $row->last_name,
             $row->first_name,
             $row->email,

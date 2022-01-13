@@ -23,7 +23,7 @@ return [
         /**
          * L'heure avant laquelle le menu du jour peut être commandé.
          */
-        'locked_at' => env('ORDER_LOCKED_AT', 14),
+        'locked_at' => env('ORDER_LOCKED_AT', 10),
         'charge_at' => env('CHARGE_USER_AT', env('ORDER_LOCKED_AT').':00')
     ]
 ];

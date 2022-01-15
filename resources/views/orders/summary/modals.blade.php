@@ -13,6 +13,9 @@
 
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
+            <button class="btn btn-sm btn-secondary" wire:click="exportOrders()" wire:loading.attr="disabled">
+                {{ __('Exporter') }}
+            </button>
             <button class="btn btn-sm" wire:click="$toggle('showingUsers')" wire:loading.attr="disabled">
                 {{ __('Fermer') }}
             </button>

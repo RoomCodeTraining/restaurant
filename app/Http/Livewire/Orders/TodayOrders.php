@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Orders;
 use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\Order;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TodayOrdersExport;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -21,6 +23,8 @@ class TodayOrders extends DataTableComponent
     public $showingUsers = false;
     public $users = [];
 
+    public $dish_name;
+
     public function columns(): array
     {
         return [
@@ -33,13 +37,15 @@ class TodayOrders extends DataTableComponent
 
     public function query(): Builder
     {
-        return Order::join('dishes', 'orders.dish_id', 'dishes.id')
+
+       
+        $orders =  Order::today()->join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->today()
-            ->whereState('state', Confirmed::class)
+            ->where('state', 'confirmed')
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+            return $orders;
     }
 
 
@@ -50,18 +56,28 @@ class TodayOrders extends DataTableComponent
 
     public function showUsers($row)
     {
-       
+        $this->dish_name = \App\Models\Dish::find($row['dish_id'])->name;
+
         $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
             ->whereDate('served_at', $date)
             ->first();
-    
+       
         $this->users = $menu->orders()
             ->with('user')
-            ->whereState('state', Confirmed::class)
+            ->where('state', 'confirmed')
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);
+
+
         $this->showingUsers = true;
+    }
+
+
+
+    public function exportOrders(){
+        $file_name = "Les commandes  du plat $this->dish_name du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY').' non traitées';
+        return Excel::download(new TodayOrdersExport($this->users), $file_name.'.xlsx');
     }
 }

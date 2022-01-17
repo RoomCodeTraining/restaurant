@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Dashboards;
 
 use App\States\Order\Cancelled;
 use App\States\Order\Confirmed;
+use App\States\Order\Completed;
+
 use Livewire\Component;
 
 class AdminCantineDashboard extends Component

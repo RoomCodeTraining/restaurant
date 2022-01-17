@@ -6,7 +6,7 @@
 <div
     x-data="{ isOpen: false }"
     x-cloak
-    {{ $attributes->class(['relative inline-block']) }}
+    {{ $attributes->class(['relative inline-block z-9999']) }}
 >
     <x-tables::filters.trigger />
 

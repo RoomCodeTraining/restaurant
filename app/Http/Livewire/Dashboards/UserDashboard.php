@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Dashboards;
 
 use App\Models\Order;
 use Livewire\Component;
+use App\States\Order\Cancelled;
+use App\States\Order\Confirmed;
+use App\States\Order\Completed;
 
 class UserDashboard extends Component
 {

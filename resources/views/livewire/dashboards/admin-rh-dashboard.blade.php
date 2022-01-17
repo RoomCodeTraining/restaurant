@@ -4,10 +4,10 @@
         @if (auth()->user()->current_access_card_id)
             <x-statistic label="Commande du jour" value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}"
                 icon="plat" />
-                <x-statistic label="quota dejeuner" value="{{ auth()->user()->currentAccessCard->quota_lunch }}"
-                    icon="card" />
-                <x-statistic label="quota petit dejeuner" value="{{ auth()->user()->currentAccessCard->quota_breakfast }}"
-                    icon="card" />
+            <x-statistic label="quota petit dejeuner" value="{{ auth()->user()->currentAccessCard->quota_breakfast }}"
+                icon="card" />
+            <x-statistic label="quota dejeuner" value="{{ auth()->user()->currentAccessCard->quota_lunch }}"
+                icon="card" />
         @endif
         <x-statistic label="Commande total du jour" value="{{ $orders_confirmed_count + $orders_completed_count }}"
             icon="plat" />

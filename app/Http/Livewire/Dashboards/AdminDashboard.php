@@ -8,11 +8,14 @@ class AdminDashboard extends Component
 {
     public function render()
     {
+
+
+
         return view('livewire.dashboards.admin-dashboard', [
             'users_count' => \App\Models\User::count(),
             'active_users_count' => \App\Models\User::where('is_active', true)->count(),
             'inactive_users_count' => \App\Models\User::where('is_active', false)->count(),
-            "today_order" => \App\Models\Order::whereState('state', Confirmed::class)->today()->with('dish')->where('user_id', auth()->id())->first(),
+            "today_order" => \App\Models\Order::where('state', 'confirmed')->today()->with('dish')->where('user_id', auth()->id())->first(),
         ]);
     }
 }

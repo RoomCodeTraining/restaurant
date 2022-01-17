@@ -81,7 +81,7 @@ class TodayOrders extends DataTableComponent
 
 
     public function exportOrders(){
-        $file_name = "Les commandes du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY').' non traitées';
+        $file_name = "Les commandes du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY');
         return Excel::download(new TodayOrdersExport(), $file_name.'.xlsx');
     }
 

@@ -33,7 +33,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
 
     public function title(): string
     {
-        return "Reporting des utilisateurs de l'application config('app.name')";
+        return "Liste des utilisateurs";
     }
 
     public function headings(): array

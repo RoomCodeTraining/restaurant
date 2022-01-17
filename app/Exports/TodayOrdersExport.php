@@ -36,14 +36,14 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function title(): string
     {
-        return "Liste des commandes du jour non traitées";
+        return "Liste des commandes du jour";
     }
 
     public function headings(): array
     {
         
         $heading = [
-            'Matricule',
+          
             'Nom & Prénoms',
             'Plat commandé',
         ];
@@ -53,9 +53,9 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function map($row): array
     {
-  
+        
         return [
-            $row->user->identifier,
+            
             $row->user->full_name,
             $row->dish->name,
         ];

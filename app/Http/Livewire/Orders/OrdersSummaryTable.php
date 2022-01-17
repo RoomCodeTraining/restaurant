@@ -54,7 +54,7 @@ class OrdersSummaryTable extends DataTableComponent
         $menu = Menu::query()
             ->whereDate('served_at', $date)
             ->first();
-
+            
         $this->users = $menu->orders()
             ->with('user')
             ->whereState('state', [Confirmed::class, Suspended::class, Confirmed::class])

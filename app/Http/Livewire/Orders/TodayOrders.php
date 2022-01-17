@@ -45,7 +45,7 @@ class TodayOrders extends DataTableComponent
     {
         $orders =  Order::today()->join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->whereNotState('state', Cancelled::class)
+            ->whereState('state', [Confirmed::class, Suspended::class, Confirmed::class])
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
@@ -69,7 +69,7 @@ class TodayOrders extends DataTableComponent
        
         $this->users = $menu->orders()
             ->with('user')
-            ->whereNotState('state', Cancelled::class)
+            ->whereState('state', [Confirmed::class, Suspended::class, Confirmed::class])
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);

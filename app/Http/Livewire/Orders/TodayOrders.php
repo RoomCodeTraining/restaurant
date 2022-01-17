@@ -67,13 +67,10 @@ class TodayOrders extends DataTableComponent
             ->whereDate('served_at', $date)
             ->first();
        
-        $this->users = $menu->orders()
-            ->with('user')
-            ->whereNotState('state', Cancelled::class)
-            ->get()
-            ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
-            ->map(fn ($order) => $order->user);
-
+      
+        $data = $menu->orders()->whereNotState('state', Cancelled::class)->with('user')->get();
+        $this->users = $data->filter(fn($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
+        $this->showingUsers = true;
 
         $this->showingUsers = true;
     }

@@ -26,12 +26,15 @@ class OrderSuspended extends Component
     public function render()
     {
         $order_is_suspended = false;
-        $hasAnOrderSuspended = \App\Models\Order::orderByDesc('created_at')->withTrashed()->whereUserId(auth()->user()->id)->today()->first();
 
+        // Recuperation des commandes de la semaine qui on été suspendues
+        $count_orders_suspended = \App\Models\Order::join('menus', 'orders.menu_id', 'menus.id')
+            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereState('state', Suspended::class)->whereUserId(auth()->id())->count();
 
-       if ($hasAnOrderSuspended && $hasAnOrderSuspended->state == Suspended::class) {
-           $order_is_suspended = true;
-       }
+        $order_is_suspended = $count_orders_suspended > 0 ? true : false; // $order_is_suspended -> true si les commandes suspendues sont superieurs a 0
+
+      
         return view('components.order-suspended', compact('order_is_suspended'));
     }
 }

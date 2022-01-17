@@ -14,7 +14,7 @@
     </div>
 
     @isset($footer)
-        <div class="px-6 py-4 bg-gray-100 text-right flex justify-end">
+        <div class="px-6 py-4 bg-grey-800 text-right flex justify-end">
             {{ $footer }}
         </div>
     @endif

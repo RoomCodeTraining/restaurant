@@ -119,7 +119,7 @@ class UsersTable extends DataTableComponent
 
     public function exportToUser()
     {
-        return Excel::download(new UserExport(), 'users-list.xlsx');
+        return Excel::download(new UserExport(), 'utilisateurs.xlsx');
     }
 
 

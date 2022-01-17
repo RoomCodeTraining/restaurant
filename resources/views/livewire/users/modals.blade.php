@@ -10,11 +10,11 @@
 
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
-            <button wire:click="$toggle('confirmingUserLocking')" wire:loading.attr="disabled">
+            <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingUserLocking')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
 
-            <button class="btn btn-error" wire:click="lockUser" wire:target="lockUser"
+            <button class="btn btn-sm bg-red-500" wire:click="lockUser" wire:target="lockUser"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>
@@ -34,10 +34,10 @@
 
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
-            <button wire:click="$toggle('confirmingUserUnlocking')" wire:loading.attr="disabled">
+            <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingUserUnlocking')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
-            <button class="btn btn-warning" wire:click="unlockUser" wire:target="unlockUser"
+            <button class="btn btn-sm bg-secondary-900" wire:click="unlockUser" wire:target="unlockUser"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

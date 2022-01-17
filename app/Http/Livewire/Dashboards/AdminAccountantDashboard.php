@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Dashboards;
 
+use App\States\Order\Cancelled;
+use App\States\Order\Confirmed;
 use App\States\Order\Completed;
 use Livewire\Component;
 
@@ -39,7 +41,7 @@ class AdminAccountantDashboard extends Component
         $monthly_orders_completed = \App\Models\Order::monthly()->whereState('state', Completed::class)->count();
         $monthly_orders_cancelled = \App\Models\Order::monthly()->whereState('state', Cancelled::class)->count();
         $monthly_orders_suspended = \App\Models\Order::monthly()->whereState('state', Suspended::class)->count();
-        $today_order = \App\Models\Order::today()->with('dish')->where('user_id', auth()->id())->first();
+        $today_order = \App\Models\Order::whereState('state', Confirmed::class)->today()->with('dish')->where('user_id', auth()->id())->first();
 
 
 

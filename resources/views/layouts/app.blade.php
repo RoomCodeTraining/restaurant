@@ -125,7 +125,7 @@
                                 </x-nav-link>
                                 <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
                                 :active="request()->routeIs('orders.summary')">
-                                Hedomadaires
+                                Hebdomadaires
                             </x-nav-link>
                             @endcan
                         @endif

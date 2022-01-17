@@ -5,6 +5,9 @@ namespace App\Http\Livewire\Orders;
 use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\Order;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TodayOrdersExport;
+use App\States\Order\Cancelled;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -21,6 +24,13 @@ class TodayOrders extends DataTableComponent
     public $showingUsers = false;
     public $users = [];
 
+    public $dish_name;
+
+
+    public array $bulkActions = [
+        'exportOrders' => 'Export au format Excel',
+    ];
+
     public function columns(): array
     {
         return [
@@ -33,13 +43,13 @@ class TodayOrders extends DataTableComponent
 
     public function query(): Builder
     {
-        return Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        $orders =  Order::today()->join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->today()
-            ->whereState('state', Confirmed::class)
+            ->whereNotState('state', Cancelled::class)
             ->groupBy('dish_id', 'menu_served_at')
             ->orderBy('menu_served_at', 'DESC')
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+            return $orders;
     }
 
 
@@ -50,18 +60,27 @@ class TodayOrders extends DataTableComponent
 
     public function showUsers($row)
     {
-       
+        $this->dish_name = \App\Models\Dish::find($row['dish_id'])->name;
+
         $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
             ->whereDate('served_at', $date)
             ->first();
-    
-        $this->users = $menu->orders()
-            ->with('user')
-            ->whereState('state', Confirmed::class)
-            ->get()
-            ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
-            ->map(fn ($order) => $order->user);
+       
+      
+        $data = $menu->orders()->whereNotState('state', Cancelled::class)->with('user')->get();
+        $this->users = $data->filter(fn($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
+        $this->showingUsers = true;
+
         $this->showingUsers = true;
     }
+
+
+
+    public function exportOrders(){
+        $file_name = "Les commandes du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY');
+        return Excel::download(new TodayOrdersExport(), $file_name.'.xlsx');
+    }
+
+    
 }

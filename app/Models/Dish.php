@@ -13,7 +13,7 @@ class Dish extends Model
     use HasImage;
 
     protected $fillable = [
-        'name', 'description', 'dish_type_id', 'image'
+        'name', 'description', 'dish_type_id', 'image_path',
     ];
 
     public function getPositionAttribute()
@@ -64,15 +64,18 @@ class Dish extends Model
 
     protected function defaultImageUrl()
     {
+        $img = asset("storage/".$this->attributes['image_path']); //Image chargée lors de la creation du plat
+
+        
         switch ($this->dish_type_id) {
             case DishType::STARTER:
-                return asset('images/entree1.png');
+                return $this->attributes['image_path'] ? $img : asset('images/entree1.png');
             case DishType::MAIN:
-                return asset('images/plat1.png');
+                return $this->attributes['image_path'] ? $img : asset('images/plat1.png');
             case DishType::DESSERT:
-                return asset('images/dessert1.png');
+                return $this->attributes['image_path'] ? $img : asset('images/dessert1.png');
             default:
-                return asset('images/plat1.png');
+                return $this->attributes['image_path'] ? $img : asset('images/plat1.png');
         };
     }
 

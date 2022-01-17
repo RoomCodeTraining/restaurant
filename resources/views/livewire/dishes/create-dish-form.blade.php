@@ -13,7 +13,7 @@
                         </label>
                     @enderror
                 </div>
-                   <div class="col-span-8 md:col-span-4">
+                <div class="col-span-8 md:col-span-4">
                     <div class="form-control w-full">
                         <label class="label">
                             <span class="label-text">Choississez un type de plat</span>
@@ -26,6 +26,19 @@
                         </select>
                     </div>
                     @error('state.dish_type_id')
+                        <label class="label">
+                            <span class="label-text-alt text-red-600">{{ $message }}</span>
+                        </label>
+                    @enderror
+                </div>
+
+                <div class="col-span-8 md:col-span-12 form-control">
+                    <label class="label">
+                        <span class="label-text">Image du plat</span>
+                    </label>
+                    <input class="input input-bordered" type="file" wire:model.defer="image_path" />
+                    <span class="label-text" style='font-size: 12px;'>*inserer une image sans fond au format png</span>
+                    @error('image_path')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>
                         </label>
@@ -50,7 +63,8 @@
                 <button class="md:hidden btn-sm btn">
                     Retour
                 </button>
-                <button class="btn btn-sm btn-primary" wire:target="saveDish" type="submit" wire:loading.attr="disabled" wire:loading.class="loading">
+                <button class="btn btn-sm btn-primary" wire:target="saveDish" type="submit" wire:loading.attr="disabled"
+                    wire:loading.class="loading">
                     Enregistrer
                 </button>
             </div>

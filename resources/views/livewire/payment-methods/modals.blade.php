@@ -10,11 +10,11 @@
 
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
-            <button wire:click="$toggle('confirmingPaymentMethodDeletion')" wire:loading.attr="disabled">
+            <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingPaymentMethodDeletion')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
 
-            <button class="btn btn-sm btn-error" wire:click="deletePaymentMethod" wire:target="deleteMenu"
+            <button class="btn btn-sm bg-red-500" wire:click="deletePaymentMethod" wire:target="deleteMenu"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

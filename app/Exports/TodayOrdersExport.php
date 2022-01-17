@@ -66,16 +66,16 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:C' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:B' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:C1')->applyFromArray([
+        $sheet->getStyle('A1:B1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:C' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:B' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

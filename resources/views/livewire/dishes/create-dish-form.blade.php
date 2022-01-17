@@ -33,10 +33,6 @@
                 </div>
 
                 <div class="col-span-8 md:col-span-12 form-control">
-                    @if ($image_path)
-                        Image du plat choisit :
-                        <img class='w-16 h-16' src="{{ $image_path->temporaryUrl() }}">
-                    @endif
                     <label class="label">
                         <span class="label-text">Image du plat</span>
                     </label>

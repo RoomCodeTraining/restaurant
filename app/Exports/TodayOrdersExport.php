@@ -18,18 +18,18 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
 
     public $data;
 
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
+        $this->data =  \App\Models\Order::OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
     }
-    
+
     public function collection()
-    {
+    {   
         return $this->data;
     }
 
@@ -41,17 +41,23 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function headings(): array
     {
-        return [
-            "Matricule",
-            "Nom & Prénoms",
+        
+        $heading = [
+            'Matricule',
+            'Nom & Prénoms',
+            'Plat commandé',
         ];
+
+        return $heading;
     }
 
     public function map($row): array
     {
+  
         return [
-            $row->identifier,
-            $row->full_name,
+            $row->user->identifier,
+            $row->user->full_name,
+            $row->dish->name,
         ];
     }
 
@@ -60,16 +66,16 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:B' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:C' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:B1')->applyFromArray([
+        $sheet->getStyle('A1:C1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:B' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:C' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

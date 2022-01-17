@@ -26,6 +26,11 @@ class TodayOrders extends DataTableComponent
 
     public $dish_name;
 
+
+    public array $bulkActions = [
+        'exportOrders' => 'Export au format Excel',
+    ];
+
     public function columns(): array
     {
         return [
@@ -76,7 +81,9 @@ class TodayOrders extends DataTableComponent
 
 
     public function exportOrders(){
-        $file_name = "Les commandes  du plat $this->dish_name du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY').' non traitées';
-        return Excel::download(new TodayOrdersExport($this->users), $file_name.'.xlsx');
+        $file_name = "Les commandes du ".Carbon::today()->locale('FR_fr')->isoFormat('dddd D MMMM YYYY').' non traitées';
+        return Excel::download(new TodayOrdersExport(), $file_name.'.xlsx');
     }
+
+    
 }

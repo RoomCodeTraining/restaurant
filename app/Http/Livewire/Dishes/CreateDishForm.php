@@ -31,7 +31,7 @@ class CreateDishForm extends Component
         ]);
 
         
-        $this->state['image_path'] = $this->image_path ? $this->image_path->store('dishes/images') : null;
+        $this->state['image_path'] = $this->image_path ? $this->image_path->store('public/dishes/images') : null;
 
         $createDishAction->execute($this->state);
 

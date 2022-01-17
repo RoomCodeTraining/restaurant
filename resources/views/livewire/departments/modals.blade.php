@@ -1,11 +1,11 @@
 <!-- Delete User Confirmation Modal -->
 <x-dialog-modal wire:model="confirmingDepartmentDeletion">
     <x-slot name="title">
-        Supprimer le department
+        Supprimer le département
     </x-slot>
 
     <x-slot name="content">
-        Etes vous sûr de vouloir supprimer ce department ?
+        Etes vous sûr de vouloir supprimer ce département ?
     </x-slot>
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">

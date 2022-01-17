@@ -27,7 +27,7 @@
                 </div>
             </main>
             <aside class="xl:block xl:col-span-3">
-                <div class="sticky mt-10 space-y-8">
+                <div class="sticky mt-10 space-y-8 top-32">
                     <div class="bg-white shadow py-2 px-4 flex flex-col space-y-4">
                         <h3 class="font-semibold text-lg flex items-center justify-between">
                             <span>Mon panier</span>

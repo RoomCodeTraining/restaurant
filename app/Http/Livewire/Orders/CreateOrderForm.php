@@ -69,7 +69,8 @@ class CreateOrderForm extends Component
             ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
             ->first();
 
-        if ($todayOrder && now()->hour >= config('cantine.order.locked_at')) {
+       
+        if ($todayOrder && now()->hour >= 14) {
             throw ValidationException::withMessages([
                 'selectedDishes' => [sprintf('Vous ne pouvez commander le menu du jour après %s heures.', config('cantine.order.locked_at'))]
             ]);
@@ -83,8 +84,8 @@ class CreateOrderForm extends Component
             ->whereIn('menu_id', array_keys($this->selectedDishes))
             ->whereNotState('state', Cancelled::class)
             ->get();
-
-        if (! $previousOrders->isEmpty()) {
+      
+        if (! $previousOrders->isEmpty() && $previousOrders[0]->state->title() != 'Suspendue') {
             throw ValidationException::withMessages([
                 'selectedDishes' => [
                     sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))

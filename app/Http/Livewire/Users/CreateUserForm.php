@@ -41,10 +41,15 @@ class CreateUserForm extends Component
         $this->role = Role::USER;
         $this->state['organization_id'] = Organization::firstWhere('name', 'Ciprel')->id;
         $this->generateIdentifierFor = UserType::where('auto_identifier', true)->pluck('id')->toArray();
+
+ 
     }
+
+ 
 
     public function updated($field, $value)
     {
+        
         if ($field === "state.user_type_id") {
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));
@@ -71,6 +76,7 @@ class CreateUserForm extends Component
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
         ]);
+
 
         $user = $createUserAction->execute(array_merge($this->state, ['roles' => [$this->role]]));
 

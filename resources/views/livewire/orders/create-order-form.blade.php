@@ -6,7 +6,7 @@
                     @foreach ($menus as $menu)
                         <div class="flex flex-col space-y-2">
                             <h3 class="text-lg md:text-xl font-semibold {{ $menu->served_at->isCurrentDay() ? 'text-primary-800' : '' }}">
-                                Menu du {{ $menu->served_at->format('d/m/Y') }}
+                                Menu du {{ \Carbon\Carbon::parse($menu->served_at)->locale('FR_fr')->isoFormat('dddd D MMMM YYYY') }}
                             </h3>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
                                 @foreach ($menu->dishes->sortBy('position') as $dish)

@@ -2,7 +2,7 @@
 
 <div
     class="bg-white shadow p-4 flex flex-col space-y-2 items-center justify-center">
-    <img src="{{ $dish->image_url }}" class="w-24">
+    <img src="{{ $dish->image_url }}" class="w-20 h-20">
     <div class="flex items-center justify-between">
         <div>
             <span class="text-sm">

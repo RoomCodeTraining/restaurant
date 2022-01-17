@@ -33,7 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/roles', App\Http\Controllers\RolesController::class);
     Route::resource('/dishes', App\Http\Controllers\DishesController::class);
     Route::resource('/menus', App\Http\Controllers\MenusController::class);
-    Route::get('/orders/summary', App\Http\Controllers\OrdersSummaryController::class)->name('orders.summary');
+    Route::get('weekly-orders/summary',[App\Http\Controllers\OrdersSummaryController::class, 'weeklyOrder'])->name('orders.summary');
+    Route::get('today-orders/summary', [App\Http\Controllers\OrdersSummaryController::class, 'todayOrder'])->name('today.orders.summary');
     Route::resource('/orders', App\Http\Controllers\OrdersController::class);
     Route::resource('/departments', App\Http\Controllers\DepartmentsController::class);
     Route::resource('/organizations', App\Http\Controllers\OrganizationsController::class);

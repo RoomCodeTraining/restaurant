@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Roles;
 
 use App\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class RolesTable extends DataTableComponent
 {
@@ -13,6 +14,10 @@ class RolesTable extends DataTableComponent
 
     public $roleIdBeingDeleted;
     public $confirmingRoleDeletion = false;
+
+    public array $bulkActions = [
+        'exportToRolesAndPermissions' => 'Export au format Excel',
+    ];
 
     public function query(): Builder
     {
@@ -38,6 +43,11 @@ class RolesTable extends DataTableComponent
     {
         $this->roleIdBeingDeleted = $RoleId;
         $this->confirmingRoleDeletion = true;
+    }
+
+
+    public function exportToRolesAndPermissions(){
+        return Excel::download(new \App\Exports\RolesAndPermissionsExport, 'roles-and-permissions.xlsx');
     }
 
     public function deleteRole()

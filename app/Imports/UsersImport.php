@@ -21,29 +21,43 @@ class UsersImport implements ToModel, WithHeadingRow
     */
     public function model(array $row)
     {
+
+
+  
         DB::beginTransaction();
+       //$employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
+        $users_exist = User::where(['identifier' => $row['matricule']])->orWhere('email', $row['email'])->exists() ? true : false;
+   
+        if ($users_exist) {
+            session()->flash('error', 'Il existe des utilisateurs du fichier qui existent déjà dans le système!');
+        }
 
-        $user = User::create([
-            'identifier' => $row['matricule'],
-            'username' => explode('@', $row['email'])[0],
-            'email' => $row['email'],
-            'last_name' => $row['nom'],
-            'first_name' => $row['prenoms'],
-            'contact' => $row['contact'],
-            'current_role_id' => Role::getRole($row['profil']) ?? Role::USER,
-            'employee_status_id' => 1,
-            'department_id' => \App\Models\Department::where('name', $row['departement'])->first()->id,
-            'organization_id' => \App\Models\Organization::where('name', $row['societe'])->first()->id,
-            'user_type_id' => \App\Models\UserType::where('name', $row['type_de_collaborateur'])->first()->id,
-            'email_verified_at' => now(),
-        ]);
+        if (! $users_exist) {
+            $user = User::create([
+                'identifier' => $row['matricule'],
+                'username' => explode('@', $row['email'])[0],
+                'email' => $row['email'],
+                'last_name' => $row['nom'],
+                'first_name' => $row['prenoms'],
+                'contact' => $row['contact'],
+                'current_role_id' => Role::getRole($row['profil']) ?? Role::USER,
+                'employee_status_id' => 1,
+                'department_id' => \App\Models\Department::where('name', $row['departement'])->first()->id,
+                'organization_id' => \App\Models\Organization::where('name', $row['societe'])->first()->id,
+                'user_type_id' => \App\Models\UserType::where('name', $row['type_de_collaborateur'])->first()->id,
+                'email_verified_at' => now(),
+            ]);
 
-        $user->syncRoles(Role::getRole($row['profil']) ?? [Role::USER]);
+           $user->syncRoles(Role::getRole($row['profil']) ?? [Role::USER]);
 
-        DB::commit();
+           DB::commit();
 
-        UserCreated::dispatch($user);
+           UserCreated::dispatch($user);
 
-        $user->sendWelcomeNotification(now()->addWeek());
+           session()->flash('success', 'Les utilisateurs ont été importés!');
+
+       }
+
+        //$user->sendWelcomeNotification(now()->addWeek());
     }
 }

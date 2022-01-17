@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\States\Order\Completed;
 use App\States\Order\Suspended;
 use Illuminate\View\Component;
 
@@ -24,7 +25,16 @@ class OrderSuspended extends Component
      */
     public function render()
     {
-        $hasAnOrderSuspended = \App\Models\Order::today()->whereState('state', Suspended::class)->first();
-        return view('components.order-suspended', compact('hasAnOrderSuspended'));
+        $order_is_suspended = false;
+
+        // Recuperation des commandes de la semaine qui on été suspendues
+        $count_orders_suspended = \App\Models\Order::join('menus', 'orders.menu_id', 'menus.id')
+            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereState('state', Suspended::class)->whereUserId(auth()->id())->count();
+
+        $order_is_suspended = $count_orders_suspended > 0 ? true : false; // $order_is_suspended -> true si les commandes suspendues sont superieurs a 0
+
+      
+        return view('components.order-suspended', compact('order_is_suspended'));
     }
 }

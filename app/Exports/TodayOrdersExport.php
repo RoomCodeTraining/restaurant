@@ -53,6 +53,8 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function map($row): array
     {
+
+        dd($row);
         
         return [
             

@@ -57,7 +57,7 @@ class OrdersSummaryTable extends DataTableComponent
     
         $this->users = $menu->orders()
             ->with('user')
-            ->whereState('state', Confirmed::class)
+            ->whereNotState('state', Cancelled::class)
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);

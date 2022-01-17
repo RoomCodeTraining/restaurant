@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Orders;
 use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Confirmed;
+use App\States\Order\Cancelled;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;

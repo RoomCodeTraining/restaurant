@@ -43,7 +43,6 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
     {
         
         $heading = [
-          
             'Nom & Prénoms',
             'Plat commandé',
         ];
@@ -53,11 +52,8 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function map($row): array
     {
-
-      
-        
+   
         return [
-            
             $row->user->full_name,
             $row->dish->name,
         ];

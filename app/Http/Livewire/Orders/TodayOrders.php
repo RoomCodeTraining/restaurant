@@ -69,7 +69,7 @@ class TodayOrders extends DataTableComponent
        
         $this->users = $menu->orders()
             ->with('user')
-            ->where('state', 'confirmed')
+            ->whereNotState('state', Cancelled::class)
             ->get()
             ->filter(fn ($order) => $order->dish_id == $row['dish_id'])
             ->map(fn ($order) => $order->user);

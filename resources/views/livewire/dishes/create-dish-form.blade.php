@@ -37,6 +37,7 @@
                         <span class="label-text">Image du plat</span>
                     </label>
                     <input class="input input-bordered" type="file" wire:model.defer="image_path" />
+                    <span class="label-text" style='font-size: 12px;'>*inserer une image sans fond au format png</span>
                     @error('image_path')
                         <label class="label">
                             <span class="label-text-alt text-red-600">{{ $message }}</span>

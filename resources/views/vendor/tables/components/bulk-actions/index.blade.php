@@ -20,7 +20,7 @@
         x-transition:leave="transition"
         x-transition:leave-start="translate-y-0 opacity-100"
         x-transition:leave-end="-translate-y-1 opacity-0"
-        class="absolute z-10 mt-2 shadow-xl rounded-xl w-52 top-full"
+        class="absolute z-9999 mt-2 shadow-xl rounded-xl w-52 top-full"
     >
         <ul class="py-1 space-y-1 overflow-hidden bg-white shadow rounded-xl">
             @foreach ($actions as $action)

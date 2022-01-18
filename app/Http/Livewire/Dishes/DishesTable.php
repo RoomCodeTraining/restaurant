@@ -2,16 +2,20 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Actions\Dish\DeleteDishAction;
 use App\Models\Dish;
 use App\Models\DishType;
+use Livewire\WithFileUploads;
+use App\Actions\Dish\DeleteDishAction;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class DishesTable extends DataTableComponent
 {
+
+  
+    
     public string $defaultSortColumn = 'created_at';
     public string $defaultSortDirection = 'desc';
 

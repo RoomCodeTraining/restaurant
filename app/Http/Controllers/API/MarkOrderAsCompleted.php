@@ -126,6 +126,8 @@ class MarkOrderAsCompleted extends Controller
                 "success" => true,
                 "user" => $accessCard->user
             ]);
+
+            $accessCard->decrement('quota_lunch');
         }
 
         return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ], Response::HTTP_UNPROCESSABLE_ENTITY);

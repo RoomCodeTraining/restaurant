@@ -15,6 +15,7 @@ class UpdateDishAction
            'name' => $data['name'],
             'dish_type_id' => $data['dish_type_id'],
             'description' => $data['description'],
+            'image_path' => $data['image_path'] ?? null,
         ]);
 
       

@@ -7,7 +7,7 @@
         isOpen: false,
     }"
     x-cloak
-    {{ $attributes->class(['relative z-9999']) }}
+    {{ $attributes->class(['relative z-0']) }}
 >
     <x-tables::bulk-actions.trigger />
 

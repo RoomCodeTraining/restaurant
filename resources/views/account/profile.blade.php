@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-8">
+                        <div class="col-span-8" id='card'>
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
                                     <dt class="text-sm font-medium text-gray-500">E-mail</dt>

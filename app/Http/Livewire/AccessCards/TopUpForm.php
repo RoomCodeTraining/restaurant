@@ -2,10 +2,11 @@
 
 namespace App\Http\Livewire\AccessCards;
 
-use App\Models\PaymentMethod;
 use App\Models\User;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use App\Models\PaymentMethod;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class TopUpForm extends Component
 {
@@ -20,26 +21,10 @@ class TopUpForm extends Component
     public function mount(User $user)
     {
         $this->user = $user->load('userType.paymentMethod', 'accessCard.paymentMethod');
+        $this->state['quota_breakfast'] = $this->user->accessCard->quota_breakfast;
+        $this->state['quota_lunch'] = $this->user->accessCard->quota_lunch;
         $paymentMethod = optional($this->user->accessCard)->paymentMethod->name ?? $this->user->userType->paymentMethod->name;
         $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', $paymentMethod)->id;
-    }
-
-    public function updated($field, $value)
-    {
-        if ($this->user->accessCard) {
-            $this->validate([
-                'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
-                    if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
-                        $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
-                    }
-                }],
-                'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25', function ($attribute, $value, $fail) {
-                    if ($this->user->accessCard->quota_lunch !== 0 && $value !== 0) {
-                        $fail("Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.");
-                    }
-                }],
-            ]);
-        }
     }
 
     public function topUp()
@@ -49,8 +34,10 @@ class TopUpForm extends Component
         $this->validate([
             'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
             'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
-            'state.payment_method_id' => ['required'],
+            'state.payment_method_id' => ['required', Rule::exists('payment_methods', 'id')],
         ]);
+
+
 
         if (! $this->user->accessCard) {
             throw ValidationException::withMessages([
@@ -58,8 +45,8 @@ class TopUpForm extends Component
             ]);
         }
 
-        $this->user->accessCard->quota_breakfast = $this->user->accessCard->quota_breakfast + (int) $this->state['quota_breakfast'];
-        $this->user->accessCard->quota_lunch = $this->user->accessCard->quota_lunch + (int) $this->state['quota_lunch'];
+        $this->user->accessCard->quota_breakfast =  (int) $this->state['quota_breakfast'];
+        $this->user->accessCard->quota_lunch = (int) $this->state['quota_lunch'];
         $this->user->accessCard->payment_method_id = $this->state['payment_method_id'];
         $this->user->accessCard->save();
 

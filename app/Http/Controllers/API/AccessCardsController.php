@@ -107,7 +107,7 @@ class AccessCardsController extends Controller
 
         if($old_quota > 0){
             return response()->json([
-                'message' => "Cette carte dispose des cota {$type}. Vous ne pouvez la recharger",
+                'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
                 'success' => false,
                 'data' => new AccessCardResource($card),
             ], 422);

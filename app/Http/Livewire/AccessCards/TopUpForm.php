@@ -21,8 +21,13 @@ class TopUpForm extends Component
     public function mount(User $user)
     {
         $this->user = $user->load('userType.paymentMethod', 'accessCard.paymentMethod');
-        $this->state['quota_breakfast'] = $this->user->accessCard->quota_breakfast;
-        $this->state['quota_lunch'] = $this->user->accessCard->quota_lunch;
+        
+        if ($this->user->accessCard) {
+            $this->state = [
+                'quota_breakfast' => $this->user->accessCard->quota_breakfast,
+                'quota_lunch' => $this->user->accessCard->quota_lunch,
+            ];
+        }
         $paymentMethod = optional($this->user->accessCard)->paymentMethod->name ?? $this->user->userType->paymentMethod->name;
         $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', $paymentMethod)->id;
     }
@@ -36,8 +41,6 @@ class TopUpForm extends Component
             'state.quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
             'state.payment_method_id' => ['required', Rule::exists('payment_methods', 'id')],
         ]);
-
-
 
         if (! $this->user->accessCard) {
             throw ValidationException::withMessages([

@@ -106,11 +106,21 @@ class UsersTable extends DataTableComponent
 
     public function deleteUser(){
         $user = User::find($this->userIdBeingDeletion);
+
+        //Annulation des commandes de l"utilisateur a supprimer
+        $user->orders->filter(function ($order) {
+            return $order->state === 'confirmed';
+        })->each(function ($order) {
+            $order->update(['state' => 'cancelled']);
+        });
+
         $identifier = Str::random(60);
         $user->update([
             'identifier' => $identifier,
             'email' => $identifier.'@'.$identifier.'.com',
         ]);
+
+
         $user->delete();
 
         $this->confirmingUserDeletion = false;

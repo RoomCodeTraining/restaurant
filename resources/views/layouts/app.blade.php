@@ -116,20 +116,21 @@
                             </x-nav-link>
                         @endcan
                         @can('manage', \App\Models\Order::class)
-                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                                Gestion des commandes
-                            </div>
-
-                            <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
-                                :active="request()->routeIs('today.orders.summary')">
-                                Journalières
-                            </x-nav-link>
-                            <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
-                                :active="request()->routeIs('orders.summary')">
-                                Hebdomadaires
-                            </x-nav-link>
+                            @if(!auth()->user()->hasRole(\App\Models\Role::USER))
+                                <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                    Gestion des commandes
+                                </div>
+                                
+                                <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
+                                    :active="request()->routeIs('today.orders.summary')">
+                                    Journalières
+                                </x-nav-link>
+                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
+                                    :active="request()->routeIs('orders.summary')">
+                                    Hebdomadaires
+                                </x-nav-link>
+                            @endif
                         @endcan
-
                         @if (Gate::any(['reporting-orders', 'reporting-account']))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Reporting

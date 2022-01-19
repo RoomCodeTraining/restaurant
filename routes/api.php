@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
     Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
     Route::post('reload/cards', [App\Http\Controllers\API\AccessCardsController::class, 'reloadAccessCard']);
+    Route::post('cards/current', [App\Http\Controllers\API\AccessCardsController::class, 'currentAccessCard']);
 });
 
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);

@@ -115,4 +115,14 @@ class AccessCardsController extends Controller
             "data" => new AccessCardResource($card),
         ]);
     }
+
+    public function currentAccessCard(Request $request)
+    {
+        $request->validate([
+            'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
+        ]);
+
+        $card = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        return new AccessCardResource($card);
+    }
 }

@@ -24,6 +24,11 @@
                     </button>
                 </div>
             @endif
+            <div x-data="{ tooltip: 'Supprimer' }">
+                <button wire:click="confirmUserDeleting({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
+                    <x-icon name="trash" class="h-4 w-4 text-red-900" />
+                </button>
+            </div>
         @endif
     @endhasrole
 </div>

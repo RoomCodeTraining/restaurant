@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Events\UserLocked;
 use App\Exports\UserExport;
+use Illuminate\Support\Str;
 use App\Events\UserUnlocked;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,6 +35,9 @@ class UsersTable extends DataTableComponent
 
     public $userIdBeingUnlocked;
     public $confirmingUserUnlocking = false;
+
+    public $userIdBeingDeletion;
+    public $confirmingUserDeletion = false;
 
     public function query(): Builder
     {
@@ -76,6 +80,12 @@ class UsersTable extends DataTableComponent
         $this->confirmingUserLocking = true;
     }
 
+    public function confirmUserDeleting($userId)
+    {
+        $this->userIdBeingDeletion = $userId;
+        $this->confirmingUserDeletion = true;
+    }
+
     public function lockUser()
     {
         $user = User::find($this->userIdBeingLocked);
@@ -90,6 +100,24 @@ class UsersTable extends DataTableComponent
 
         session()->flash('success', "L'utilisateur a été désactivé avec succès !");
 
+        return redirect()->route('users.index');
+    }
+
+
+    public function deleteUser(){
+        $user = User::find($this->userIdBeingDeletion);
+        $identifier = Str::random(60);
+        $user->update([
+            'identifier' => $identifier,
+            'email' => $identifier.'@'.$identifier.'.com',
+        ]);
+        $user->delete();
+
+        $this->confirmingUserDeletion = false;
+
+        $this->userIdBeingDeletion = null;
+
+        session()->flash('success', "L'utilisateur a été supprimé avec succès !");
         return redirect()->route('users.index');
     }
 

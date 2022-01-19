@@ -21,7 +21,7 @@ class TopUpForm extends Component
     public function mount(User $user)
     {
         $this->user = $user->load('userType.paymentMethod', 'accessCard.paymentMethod');
-        
+
         if ($this->user->accessCard) {
             $this->state = [
                 'quota_breakfast' => $this->user->accessCard->quota_breakfast,

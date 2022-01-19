@@ -6,6 +6,7 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Confirmed;
 use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
 use Illuminate\Database\Eloquent\Builder;
 use Carbon\Carbon;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;

@@ -8,6 +8,7 @@ use App\Models\Order;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TodayOrdersExport;
 use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;

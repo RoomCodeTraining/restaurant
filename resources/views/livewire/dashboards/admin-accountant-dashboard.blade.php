@@ -15,6 +15,7 @@
                     icon="card" />
             </a>
         @endif
+        <a href='{{ route('orders.index') }}'><x-statistic label="Commandes total du jour" value="{{ $count_today_orders }}" icon="plat" /></a>
         <a href='{{ route('orders.index') }}'>
             <x-statistic label="Consommations mensuelle des cadres"
                 value="{{ $guest_monthly_orders_count ? $guest_monthly_orders_count->count() : 0 }}" icon="plat" />

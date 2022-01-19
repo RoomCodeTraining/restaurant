@@ -12,6 +12,7 @@
                 <x-statistic label="quota dejeuner" value="{{ auth()->user()->currentAccessCard->quota_lunch }}" icon="card" />
             </a>
         @endif
+        <a href='{{ route('orders.index') }}'><x-statistic label="Commandes total du jour" value="{{ $count_today_orders }}" icon="plat" /></a>
         <a href='{{ route('users.index') }}'><x-statistic label="Utilisateurs actifs" value="{{ $active_users_count }}" icon="actifuser" /></a>
         <a href='{{ route('users.index') }}'><x-statistic label="Utilisateurs inactifs" value="{{ $inactive_users_count }}" icon="inactifuser" /></a>
     </div>

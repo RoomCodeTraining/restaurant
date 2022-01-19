@@ -31,7 +31,8 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div @keydown.escape="showModal = false" x-cloak x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true, 'showModal': false }"
+    <div @keydown.escape="showModal = false" x-cloak
+        x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true, 'showModal': false }"
         class="flex flex-col mx-auto w-full min-h-screen bg-stone-100"
         x-bind:class="{
         'lg:pl-72': desktopSidebarOpen
@@ -114,23 +115,22 @@
                                 Menus
                             </x-nav-link>
                         @endcan
-                        @if (auth()->user()->isFromLunchroom() ||
-    auth()->user()->hasRole([App\Models\Role::ADMIN]))
+                        @can('manage', \App\Models\Order::class)
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des commandes
                             </div>
-                            @can('manage', App\Models\Order::class)
-                                <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
-                                    :active="request()->routeIs('today.orders.summary')">
-                                    Journalières
-                                </x-nav-link>
-                                <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
+
+                            <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
+                                :active="request()->routeIs('today.orders.summary')">
+                                Journalières
+                            </x-nav-link>
+                            <x-nav-link href="{{ route('orders.summary') }}" icon="cde"
                                 :active="request()->routeIs('orders.summary')">
                                 Hebdomadaires
                             </x-nav-link>
-                            @endcan
-                        @endif
-                        @if(Gate::any(['reporting-orders', 'reporting-account']))
+                        @endcan
+
+                        @if (Gate::any(['reporting-orders', 'reporting-account']))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Reporting
                             </div>
@@ -186,8 +186,7 @@
         <!-- Page Sidebar -->
 
         <!-- Page Header -->
-        <header id="page-header"
-            class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0"
+        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0"
             x-bind:class="{
                 'lg:pl-72': desktopSidebarOpen
             }">

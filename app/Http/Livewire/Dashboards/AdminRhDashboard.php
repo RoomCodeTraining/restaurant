@@ -17,7 +17,8 @@ class AdminRhDashboard extends Component
             'inactive_users_count' => \App\Models\User::where('is_active', false)->count(),
             'orders_confirmed_count' => \App\Models\Order::today()->whereState('state', Confirmed::class)->count(),
             'orders_completed_count' => \App\Models\Order::today()->whereState('state', Completed::class)->count(),
-            "today_order" => \App\Models\Order::whereState('state', Confirmed::class)->today()->with('dish')->where('user_id', auth()->id())->first(),
+            'count_today_orders' => \App\Models\Order::whereNotState('state', Cancelled::class)->today()->count(),
+            "today_order" => \App\Models\Order::whereNotState('state', Cancelled::class)->today()->with('dish')->where('user_id', auth()->id())->first(),
         ]);
     }
 }

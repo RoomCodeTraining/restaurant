@@ -12,7 +12,7 @@ class DishesController
 
     public function index()
     {
-        $this->authorize('viewAny', Menu::class);
+        //$this->authorize('viewAny', Menu::class);
 
         $todayMenu = Menu::query()->whereDate('served_at', today())->first();
 

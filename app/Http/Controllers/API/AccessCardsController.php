@@ -90,6 +90,7 @@ class AccessCardsController extends Controller
     public function reloadAccessCard(Request $request)
     {
       
+        
         $request->validate([
             'identifier' => ['required', function($attrubute, $value, $fail){
                  if(!AccessCard::whereIdentifier($value)){
@@ -102,11 +103,17 @@ class AccessCardsController extends Controller
        
         $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
         $old_quota = $card[$request->quota_type];
+        $type = $request->quota_type == 'quota_lunch' ? 'déjeuner' : 'petit déjeuner';
 
-        // Lorque le quota de recharge est supérieur au quota defini
-        if ($request->quota + $old_quota > 25) {
-            return response()->json(['error' => 'Le quota ne doit pas depasser 25'], 422);
+        if($old_quota > 0){
+            return response()->json([
+                'message' => "Cette carte dispose des cota {$type}. Vous ne pouvez la recharger",
+                'success' => false,
+                'data' => new AccessCardResource($card),
+            ], 422);
         }
+
+   
 
         $card->update([ $request->quota_type => $request->quota + $old_quota ]);
 

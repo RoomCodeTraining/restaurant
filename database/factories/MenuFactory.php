@@ -14,7 +14,7 @@ class MenuFactory extends Factory
     public function definition()
     {
         return [
-            'served_at' => $this->faker->dateTimeBetween('-1 day', '+6 day'),
+            'served_at' => $this->faker->dateTimeBetween('+1 day', '+5 day'),
         ];
     }
 }

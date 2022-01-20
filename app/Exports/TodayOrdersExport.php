@@ -2,8 +2,9 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Support\BillingHelper;
+use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
 use App\Support\DateTimeHelper;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\WithTitle;
@@ -12,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
@@ -25,7 +27,7 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function __construct()
     {
-        $this->data =  \App\Models\Order::OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
+        $this->data =  \App\Models\Order::whereNotState('state', [Suspended::class, Cancelled::class])->OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
     }
 
     public function collection()

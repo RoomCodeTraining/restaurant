@@ -15,19 +15,8 @@
                     icon="card" />
             </a>
         @endif
-        <a href='{{ route('orders.index') }}'>
-            <x-statistic label="Consommations mensuelle des cadres"
-                value="{{ $guest_monthly_orders_count ? $guest_monthly_orders_count->count() : 0 }}" icon="plat" />
-        </a>
-        <a href='{{ route('orders.index') }}'>
-            <x-statistic label="Consommations mensuelle des agents"
-                value="{{ $ciprel_agent_monthly_orders_count ? $ciprel_agent_monthly_orders_count->count() : 0 }}"
-                icon="plat" />
-        </a>
-        <a href='{{ route('orders.index') }}'>
-            <x-statistic label="Consommations mensuelle des stagiaires"
-                value="{{ $intern_monthly_orders_count ? $intern_monthly_orders_count->count() : 0 }}" icon="plat" />
-        </a>
-
+        <a href='{{ route('orders.index') }}'><x-statistic label="Commandes totales du jour" value="{{ $count_today_orders }}" icon="plat" /></a>
+        <a href='#'><x-statistic label="Commande(s) consommée(s)" value="{{ $orders_completed_count }}" icon="plat" /></a>
+        <a hre='#'><x-statistic label="Commande(s) non consommée(s)" value="{{ $orders_confirmed_count }}" icon="plat" /></a>
     </div>
 </div>

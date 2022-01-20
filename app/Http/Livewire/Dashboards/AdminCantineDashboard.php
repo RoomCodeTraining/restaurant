@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Dashboards;
 
+use Livewire\Component;
 use App\States\Order\Cancelled;
-use App\States\Order\Confirmed;
 use App\States\Order\Completed;
 
-use Livewire\Component;
+use App\States\Order\Confirmed;
+use App\States\Order\Suspended;
 
 class AdminCantineDashboard extends Component
 {
@@ -27,7 +28,7 @@ class AdminCantineDashboard extends Component
     public function render()
     {
         return view('livewire.dashboards.admin-cantine-dashboard', [
-            'today_orders_count' => \App\Models\Order::today()->whereNotState('state', Cancelled::class)->count(),
+            'today_orders_count' => \App\Models\Order::today()->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'orders_completed_count' => \App\Models\Order::today()->whereState('state', Completed::class)->count(),
             'orders_cancelled_count' => \App\Models\Order::today()->whereState('state',  Cancelled::class)->count(),
         ]);

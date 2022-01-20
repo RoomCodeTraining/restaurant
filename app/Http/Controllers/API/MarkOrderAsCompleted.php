@@ -19,8 +19,8 @@ class MarkOrderAsCompleted extends Controller
 
     public function update(Request $request)
     {
-        //$this->authorize('viewAny', Menu::class);
-     
+      //  $this->authorize('viewAny', Menu::class);
+      
         $request->validate([
             'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
             'access_card_identifier' => ['required', Rule::exists('access_cards', 'identifier')],
@@ -28,14 +28,15 @@ class MarkOrderAsCompleted extends Controller
             'access_card_identifier.exists' => "Cet utilisateur n'a pas de carte associée à son compte."
         ]);
 
+    
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
-
+    
         if (! $accessCard) {
             return response()->json([
                 'message' => "Cette carte n'est associée à aucun compte.",
             ], Response::HTTP_NOT_FOUND);
         }
-
+    
         /**
          * Lorsque le quota de l'utilisateur est insuffisant.
          */
@@ -61,6 +62,7 @@ class MarkOrderAsCompleted extends Controller
             ->whereState('state', Completed::class)
             ->exists();
 
+        
         if ($hasAlreadyEaten) {
             $item = $request->order_type === 'lunch' ? 'déjeuner' : 'petit déjeuner';
 
@@ -81,7 +83,7 @@ class MarkOrderAsCompleted extends Controller
             ->where('type', $request->order_type)
             ->whereState('state', Confirmed::class)
             ->first();
-
+     
         /**
          * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
          */
@@ -120,14 +122,11 @@ class MarkOrderAsCompleted extends Controller
          */
         if ($request->order_type === 'lunch') {
             $order->markAsCompleted();
-
             return response()->json([
                 'message' => "La commande de {$order->dish->name} effectuée par Mr/Mme {$accessCard->user->full_name} a été récupérée.",
                 "success" => true,
                 "user" => $accessCard->user
-            ]);
-
-            $accessCard->decrement('quota_lunch');
+            ]);           
         }
 
         return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ], Response::HTTP_UNPROCESSABLE_ENTITY);

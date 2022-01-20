@@ -36,19 +36,20 @@ class AccessCardsController extends Controller
     public function store(Request $request, CreateAccessCardAction $createAccessCardAction)
     {
         $this->authorize('create', AccessCard::class);
-        //dd((bool) $request->is_temporary);
+        
+        
         $validated = $request->validate([
-            'user_id' => ['required'],
-            'identifier' => ['required', Rule::unique('access_cards', 'identifier')],
-            'quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
-            'quota_lunch' => ['required', 'integer', 'min:0', 'max:25'],
+            'user_id' => ['required', Rule::exists('users', 'id')],
+            'identifier' => ['required', 'string', 'max:255', Rule::unique('access_cards', 'identifier')],
+            'quota_breakfast' => ['nullable', Rule::requiredIf(!$request->is_temporary), 'integer', 'min:0', 'max:25'],
+            'quota_lunch' => ['nullable', Rule::requiredIf(!$request->is_temporary), 'integer', 'min:0', 'max:25'],
             'is_temporary' => ['required', 'boolean'],
             'expires_at' => ['nullable', Rule::requiredIf((bool) $request->is_temporary), 'date', 'after_or_equal:today'],
-            'payment_method_id' => ['nullable', 'integer', Rule::exists('payment_methods', 'id')],
+            'payment_method_id' => ['nullable', Rule::exists('payment_methods', 'id')],
         ]);
 
         $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
-
+      
         if (! $user) {
             return response()->json([
                 'message' => "Cet utilisateur n'existe pas",
@@ -62,8 +63,8 @@ class AccessCardsController extends Controller
                 'success' => false,
             ], 422);
         }
-
-        if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
+    
+        if ($user->accessCard && $user->currentAccessCard->type === AccessCard::TYPE_TEMPORARY) {
             return response()->json([
                 'message' => 'Cet utilisateur a déjà une carte temporaire associée à son compte',
                 'success' => false,
@@ -89,6 +90,7 @@ class AccessCardsController extends Controller
     public function reloadAccessCard(Request $request)
     {
       
+        
         $request->validate([
             'identifier' => ['required', function($attrubute, $value, $fail){
                  if(!AccessCard::whereIdentifier($value)){
@@ -101,11 +103,17 @@ class AccessCardsController extends Controller
        
         $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
         $old_quota = $card[$request->quota_type];
+        $type = $request->quota_type == 'quota_lunch' ? 'déjeuner' : 'petit déjeuner';
 
-        // Lorque le quota de recharge est supérieur au quota defini
-        if ($request->quota + $old_quota > 25) {
-            return response()->json(['error' => 'Le quota ne doit pas depasser 25'], 422);
+        if($old_quota > 0){
+            return response()->json([
+                'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
+                'success' => false,
+                'data' => new AccessCardResource($card),
+            ], 422);
         }
+
+   
 
         $card->update([ $request->quota_type => $request->quota + $old_quota ]);
 
@@ -114,5 +122,15 @@ class AccessCardsController extends Controller
             "success" => true,
             "data" => new AccessCardResource($card),
         ]);
+    }
+
+    public function currentAccessCard(Request $request)
+    {
+        $request->validate([
+            'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
+        ]);
+
+        $card = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        return new AccessCardResource($card);
     }
 }

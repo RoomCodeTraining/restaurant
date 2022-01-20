@@ -16,7 +16,7 @@
             display: none !important;
         }
         .customScroll::-webkit-scrollbar {
-         width: 8px; /* width of the entire scrollbar */
+         width: 6px; /* width of the entire scrollbar */
         }
 
         .customScroll::-webkit-scrollbar-track {
@@ -24,9 +24,9 @@
         }
 
         .customScroll::-webkit-scrollbar-thumb {
-        background-color: #020d1f; /* color of the scroll thumb */
+        background-color: #f07d00; /* color of the scroll thumb */
         border-radius: 20px; /* roundness of the scroll thumb */
-        border: 3px solid #020d1f; /* creates padding around scroll thumb */
+        border: 3px solid #f07d00; /* creates padding around scroll thumb */
         }
 
     </style>

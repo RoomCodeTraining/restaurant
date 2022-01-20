@@ -15,6 +15,19 @@
         [x-cloak] {
             display: none !important;
         }
+        .customScroll::-webkit-scrollbar {
+         width: 6px; /* width of the entire scrollbar */
+        }
+
+        .customScroll::-webkit-scrollbar-track {
+        background: inherit; /* color of the tracking area */
+        }
+
+        .customScroll::-webkit-scrollbar-thumb {
+        background-color: #f07d00; /* color of the scroll thumb */
+        border-radius: 20px; /* roundness of the scroll thumb */
+        border: 3px solid #f07d00; /* creates padding around scroll thumb */
+        }
 
     </style>
     <livewire:styles />
@@ -67,7 +80,7 @@
                     </button>
                 </div>
             </div>
-            <div class="overflow-y-auto">
+            <div class="overflow-y-auto customScroll">
                 <div class="p-4 w-full">
                     <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"

@@ -136,7 +136,7 @@ class MarkOrderAsCompleted extends Controller
     public function markAsConfirmed(Request $request){
         
         $request->validate([
-            'order_identifier' => ['required', Rule::exists('orders', 'identifier')],
+            'order_identifier' => ['required', Rule::exists('orders', 'id')],
         ]);
 
         $order = Order::whereId($request->order_identifier)->first();

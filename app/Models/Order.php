@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
+use App\States\Order\Confirmed;
 use App\States\Order\OrderState;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStates\HasStates;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {

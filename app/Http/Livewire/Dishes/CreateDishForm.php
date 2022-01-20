@@ -31,8 +31,10 @@ class CreateDishForm extends Component
         ]);
 
         
-        $this->state['image_path'] = $this->image_path ? $this->image_path->store('dishes/images') : null;
+        $this->state['image_path'] = $this->image_path ? $this->image_path->storePublicly('dishes'): null;
 
+
+        //dd($this->state);
         $createDishAction->execute($this->state);
 
         session()->flash('success', "Le plat a été créé avec succès!");

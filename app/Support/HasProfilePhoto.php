@@ -15,8 +15,20 @@ trait HasProfilePhoto
      */
     public function updateProfilePhoto(UploadedFile $photo)
     {
-       $this->profile_photo_path = $photo->store('profile_photos');
+        tap($this->profile_photo_path, function ($previous) use ($photo) {
+            $this->forceFill([
+                'profile_photo_path' => $photo->storePublicly(
+                    'profile-photos',
+                    ['disk' => $this->profilePhotoDisk()]
+                ),
+            ])->save();
+
+            if ($previous) {
+                Storage::disk($this->profilePhotoDisk())->delete($previous);
+            }
+        });
     }
+
     /**
      * Delete the user's profile photo.
      *

@@ -40,7 +40,7 @@ class EditDishForm extends Component
         ]);
 
 
-        $this->state['image_path'] = $this->image_path ? $this->image_path->store('dishes/images') : null;
+        $this->state['image_path'] = $this->image_path ? $this->image_path->storePublicly('dishes'): null;
         $updateDishAction->execute($this->dish, $this->state);
 
         session()->flash('success', "Le plat a été modifié avec succès!");

@@ -72,6 +72,11 @@ class Order extends Model
         $this->state->transitionTo(Completed::class);
     }
 
+    public function markAsConfirmed()
+    {
+        $this->state->transitionTo(Confirmed::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

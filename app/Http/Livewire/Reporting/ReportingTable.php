@@ -52,11 +52,11 @@ class ReportingTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return Order::query()
+        $orders =  Order::query()
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
             ->whereBetween('orders.created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
-            ->whereNotNull('orders.payment_method_id')
+            //->whereNotNull('orders.payment_method_id')
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
             ->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
@@ -70,6 +70,7 @@ class ReportingTable extends DataTableComponent
                 employee_statuses.name AS employee_status_name,
                 COUNT(orders.id) AS total_orders
             ');
+      return $orders;
     }
 
     public function modalsView(): string

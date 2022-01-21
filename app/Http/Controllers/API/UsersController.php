@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Actions\User\UpdateUserAction;
@@ -34,16 +35,23 @@ class UsersController extends Controller
     }
 
 
-    public function updateProfile(Request $request, UpdateUserAction $action)
+    public function updateProfile(Request $request)
     {
         $request->validate([
             'first_name' =>  ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:225'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'contact' => ['required', 'string', 'max:255'],
         ]);
-
-         $user = $action->execute(auth()->user(), $request->all());
+        DB::beginTransaction();
+        $user = auth()->user();
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'contact' => $request->contact,
+        ]);
+        DB::commit();
 
         return response()->json([
             "message" => 'Le compte a été mis à jour avec succès',

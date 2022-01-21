@@ -52,7 +52,7 @@
     }">
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
-            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full z-20 bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
+            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full z-30 bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
             x-bind:class="{
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
@@ -200,7 +200,7 @@
         <!-- Page Sidebar -->
 
         <!-- Page Header -->
-        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-10"
+        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-20"
             x-bind:class="{
                 'lg:pl-72': desktopSidebarOpen
             }">

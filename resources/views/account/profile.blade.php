@@ -110,38 +110,40 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-8">
-                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
-                                <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Quota petit déjeuner</dt>
-                                    <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->accessCard)->quota_breakfast ?? 0 }}
-                                    </dd>
-                                </div>
-                                <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Quota déjeuner</dt>
-                                    <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->accessCard)->quota_lunch ?? 0 }}
-                                    </dd>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-span-8">
-                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
-                                <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Numéro de la carte</dt>
-                                    <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->accessCard)->identifier ?? 'Non défini' }}
-                                    </dd>
-                                </div>
-                                <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Mode de paiement</dt>
-                                    <dd class="text-sm font-normal text-gray-900">
-                                        {{ optional($loggedInUser->accessCard)->paymentMethod->name ?? 'Non défini' }}
-                                    </dd>
+                        @if(!auth()->user()->isFromLunchroom())
+                            <div class="col-span-8">
+                                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                                    <div class="w-full md:w-1/2">
+                                        <dt class="text-sm font-medium text-gray-500">Quota petit déjeuner</dt>
+                                        <dd class="text-sm font-normal text-gray-900">
+                                            {{ optional($loggedInUser->accessCard)->quota_breakfast ?? 0 }}
+                                        </dd>
+                                    </div>
+                                    <div class="w-full md:w-1/2">
+                                        <dt class="text-sm font-medium text-gray-500">Quota déjeuner</dt>
+                                        <dd class="text-sm font-normal text-gray-900">
+                                            {{ optional($loggedInUser->accessCard)->quota_lunch ?? 0 }}
+                                        </dd>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="col-span-8">
+                                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                                    <div class="w-full md:w-1/2">
+                                        <dt class="text-sm font-medium text-gray-500">Numéro de la carte</dt>
+                                        <dd class="text-sm font-normal text-gray-900">
+                                            {{ optional($loggedInUser->accessCard)->identifier ?? 'Non défini' }}
+                                        </dd>
+                                    </div>
+                                    <div class="w-full md:w-1/2">
+                                        <dt class="text-sm font-medium text-gray-500">Mode de paiement</dt>
+                                        <dd class="text-sm font-normal text-gray-900">
+                                            {{ optional($loggedInUser->accessCard)->paymentMethod->name ?? 'Non défini' }}
+                                        </dd>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </form>
             </div>

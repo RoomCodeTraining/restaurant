@@ -57,7 +57,7 @@ class Order extends Model
 
     public function canBeUpdated()
     {
-        if ($this->menu->served_at->greaterThan(today())) {
+        if ($this->menu->served_at->greaterThan(today()) && $this->canBeCancelled()) {
             return true;
         }
 

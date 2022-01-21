@@ -45,7 +45,7 @@ class PermissionSheets implements FromCollection, WithTitle, WithHeadings, WithS
     public function headings(): array
     {
         return [
-            'permission',
+            'permissions accordées à ce rôle',
         ];
     }
 

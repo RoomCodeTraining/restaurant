@@ -23,6 +23,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cards/link-temporary-card', App\Http\Controllers\API\LinkTemporaryCard::class);
     Route::apiResource('cards', App\Http\Controllers\API\AccessCardsController::class);
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
+    Route::post('users/profile-update', [App\Http\Controllers\API\UsersController::class, 'updateProfile']);
+    Route::post('users/change-password', [App\Http\Controllers\API\UsersController::class, 'changePassword']);
     Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
     Route::post('reload/cards', [App\Http\Controllers\API\AccessCardsController::class, 'reloadAccessCard']);
     Route::post('cards/current', [App\Http\Controllers\API\AccessCardsController::class, 'currentAccessCard']);

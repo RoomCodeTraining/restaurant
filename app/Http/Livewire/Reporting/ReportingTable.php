@@ -14,11 +14,12 @@ use Rappasoft\LaravelLivewireTables\Views\Filter;
 
 class ReportingTable extends DataTableComponent
 {
-    public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
+    //public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
     public bool $showSearch = false;
 
     public $showingDetails = false;
+    public $refresh = 1000 * 60;
 
     public $orders = [];
 
@@ -44,7 +45,6 @@ class ReportingTable extends DataTableComponent
             Column::make('Matricule/Identifiant', 'user_identifier'),
             Column::make('Nom', 'user_full_name'),
             Column::make("Type d'utilisateur", 'user_type_name'),
-            Column::make('Categorie', 'employee_status_name'),
             Column::make('Nbr. de commandes', 'total_orders'),
             Column::make('Actions')->format(fn ($val, $col, $row) => view('livewire.reporting.table-actions', ['row' => $row]))
         ];
@@ -59,7 +59,7 @@ class ReportingTable extends DataTableComponent
             //->whereNotNull('orders.payment_method_id')
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
-            ->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
+            //->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
             ->orderBy('users.last_name', 'desc')
             ->groupBy('user_id')
             ->selectRaw('
@@ -67,9 +67,10 @@ class ReportingTable extends DataTableComponent
                 users.identifier AS user_identifier,
                 CONCAT(users.last_name, " ", users.first_name) AS user_full_name,
                 user_types.name AS user_type_name,
-                employee_statuses.name AS employee_status_name,
                 COUNT(orders.id) AS total_orders
             ');
+      
+     
       return $orders;
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use App\Actions\User\UpdateUserAction;
 use App\Actions\User\UpdateUserPassword;
 
@@ -79,5 +80,13 @@ class UsersController extends Controller
         return response()->json([
             "message" => 'Le mot de passe a été mis à jour avec succès',
         ], 201);
+    }
+
+
+    public function authenticate(){
+        return response()->json([
+            "message" => "Information sur l'utilisateur connecté",
+            "user" => new UserResource(Auth::user()),
+        ]);
     }
 }

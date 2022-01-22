@@ -130,7 +130,7 @@ class AccessCardsController extends Controller
             'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
         ]);
 
-        $card = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
-        return new AccessCardResource($card);
+         $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        return new AccessCardResource($user->currentAccessCard);
     }
 }

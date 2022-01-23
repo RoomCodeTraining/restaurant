@@ -4,12 +4,13 @@ namespace App\Models;
 
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
+use App\States\Order\Confirmed;
 use App\States\Order\OrderState;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStates\HasStates;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Order extends Model
 {
@@ -56,7 +57,7 @@ class Order extends Model
 
     public function canBeUpdated()
     {
-        if ($this->menu->served_at->greaterThan(today())) {
+        if ($this->menu->served_at->greaterThan(today()) && $this->canBeCancelled()) {
             return true;
         }
 
@@ -70,6 +71,11 @@ class Order extends Model
     public function markAsCompleted()
     {
         $this->state->transitionTo(Completed::class);
+    }
+
+    public function markAsConfirmed()
+    {
+        $this->state->transitionTo(Confirmed::class);
     }
 
     public function user()

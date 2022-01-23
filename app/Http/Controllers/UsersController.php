@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
+use App\States\Order\Suspended;
 use Illuminate\Http\Request;
 
 class UsersController extends Controller
@@ -37,7 +38,7 @@ class UsersController extends Controller
             'totalOrders' => $user->orders()->count(),
             'totalOrdersCompleted' => $user->orders()->whereState('state', Completed::class)->count(),
             'latestOrders' => $user->orders()
-                ->whereNotState('state', Cancelled::class)
+                ->whereNotState('state', [Cancelled::class, Suspended::class])
                 ->join('menus', 'menus.id', '=', 'orders.menu_id')
                 ->latest('menus.served_at')
                 ->limit(5)->get()

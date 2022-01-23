@@ -15,6 +15,19 @@
         [x-cloak] {
             display: none !important;
         }
+        .customScroll::-webkit-scrollbar {
+         width: 6px; /* width of the entire scrollbar */
+        }
+
+        .customScroll::-webkit-scrollbar-track {
+        background: inherit; /* color of the tracking area */
+        }
+
+        .customScroll::-webkit-scrollbar-thumb {
+        background-color: #f07d00; /* color of the scroll thumb */
+        border-radius: 20px; /* roundness of the scroll thumb */
+        border: 3px solid #f07d00; /* creates padding around scroll thumb */
+        }
 
     </style>
     <livewire:styles />
@@ -39,7 +52,7 @@
     }">
         <!-- Page Sidebar -->
         <nav id="page-sidebar"
-            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
+            class="flex flex-col fixed top-0 left-0 bottom-0 w-full lg:w-72 h-full z-30 bg-gray-900 border-r border-gray-100 transform transition-transform duration-100 ease-out z-10"
             x-bind:class="{
             '-translate-x-full': !mobileSidebarOpen,
             'translate-x-0': mobileSidebarOpen,
@@ -67,7 +80,7 @@
                     </button>
                 </div>
             </div>
-            <div class="overflow-y-auto">
+            <div class="overflow-y-auto customScroll">
                 <div class="p-4 w-full">
                     <nav class="space-y-1">
                         <x-nav-link href="{{ route('dashboard') }}" icon="home"
@@ -187,7 +200,7 @@
         <!-- Page Sidebar -->
 
         <!-- Page Header -->
-        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0"
+        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-20"
             x-bind:class="{
                 'lg:pl-72': desktopSidebarOpen
             }">

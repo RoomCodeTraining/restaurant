@@ -325,7 +325,7 @@ class PermissionSeeder extends Seeder
             'name' => 'Agent Cantine',
         ])->givePermissionTo([
             AccessCardPolicy::ACCESS_CARD_LIST,
-            OrderPolicy::ORDER_CREATE,
+            OrderPolicy::ORDER_MANAGE,
         ]);
     }
 }

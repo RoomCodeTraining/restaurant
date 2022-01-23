@@ -2,15 +2,18 @@
 
 namespace App\Imports;
 
-use App\Events\UserCreated;
 use App\Models\Role;
 use App\Models\User;
+use App\Events\UserCreated;
+use App\Models\EmployeeStatus;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class UsersImport implements ToModel, WithHeadingRow
+class UsersImport implements ToModel, WithHeadingRow, WithValidation
 {
     use Importable;
 
@@ -22,42 +25,55 @@ class UsersImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
 
-
+            //Informatique
+        
   
-        DB::beginTransaction();
-       //$employee_status_id = \App\Models\EmployeeStatus::where('name', $row['categorie'])->first()->id;
-        $users_exist = User::where(['identifier' => $row['matricule']])->orWhere('email', $row['email'])->exists() ? true : false;
-   
-        if ($users_exist) {
-            session()->flash('error', 'Il existe des utilisateurs du fichier qui existent déjà dans le système!');
-        }
-
-        if (! $users_exist) {
-            $user = User::create([
-                'identifier' => $row['matricule'],
-                'username' => explode('@', $row['email'])[0],
-                'email' => $row['email'],
-                'last_name' => $row['nom'],
-                'first_name' => $row['prenoms'],
-                'contact' => $row['contact'],
-                'current_role_id' => Role::getRole($row['profil']) ?? Role::USER,
-                'employee_status_id' => 1,
-                'department_id' => \App\Models\Department::where('name', $row['departement'])->first()->id,
-                'organization_id' => \App\Models\Organization::where('name', $row['societe'])->first()->id,
-                'user_type_id' => \App\Models\UserType::where('name', $row['type_de_collaborateur'])->first()->id,
-                'email_verified_at' => now(),
-            ]);
-
-           $user->syncRoles(Role::getRole($row['profil']) ?? [Role::USER]);
-
+           DB::beginTransaction();       
+                $data = $this->getUserhasBeingCreatedData($row);
+                $user = User::create($data);
+                $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
            DB::commit();
 
            UserCreated::dispatch($user);
-
            session()->flash('success', 'Les utilisateurs ont été importés!');
 
-       }
+   
 
         //$user->sendWelcomeNotification(now()->addWeek());
+    }
+
+
+    public function rules(): array
+    {
+        return [
+            'matricule' => 'required',
+            'prenoms' => 'nullable|string',
+            'nom' => 'required|string',
+            'contact' => 'required',
+            'societe' => 'required|string',
+            'email' => ['required', 'email', 'unique:users'],
+            'categorie' =>  'required|string',
+            'departement' => ['required','string', Rule::exists('departments', 'name')],
+            'profil' => 'required|string',
+        ];
+    }
+
+
+    public function getUserhasBeingCreatedData($model) : Array
+    {
+        return[
+            'employee_status_id' => \App\Models\EmployeeStatus::whereName(trim(ucfirst($model['categorie'])))->first()->id,
+            'organization_id' =>\App\Models\Organization::whereName(trim(ucfirst($model['societe'])))->first()->id,
+            'department_id' => \App\Models\Department::whereName(trim(ucfirst($model['departement'])))->first()->id,
+            'user_type_id' => \App\Models\UserType::whereName(trim(ucfirst($model['type'])))->first()->id,
+            'identifier' => $model['matricule'],
+            'username' => explode('@', $model['email'])[0],
+            'email' => $model['email'],
+            'last_name' => $model['nom'],
+            'first_name' => $model['prenoms'],
+            'contact' => $model['contact'],
+            'current_role_id' => Role::getRole(strtolower($model['profil'])) ?? Role::USER,
+            'email_verified_at' => now(),
+        ];       
     }
 }

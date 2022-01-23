@@ -131,4 +131,21 @@ class MarkOrderAsCompleted extends Controller
 
         return response()->json([ 'message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false ], Response::HTTP_UNPROCESSABLE_ENTITY);
     }
+
+
+    public function markAsConfirmed(Request $request){
+        
+        $request->validate([
+            'order_identifier' => ['required', Rule::exists('orders', 'id')],
+        ]);
+
+        $order = Order::whereId($request->order_identifier)->first();
+        $order->markAsConfirmed();
+
+        return response()->json([
+            'message' => "La commande a été marquée comme non consommée.",
+            "success" => true,
+            "order" => $order
+        ]);
+    }
 }

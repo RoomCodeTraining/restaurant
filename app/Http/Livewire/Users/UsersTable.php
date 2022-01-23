@@ -8,6 +8,8 @@ use App\Events\UserLocked;
 use App\Exports\UserExport;
 use Illuminate\Support\Str;
 use App\Events\UserUnlocked;
+use App\States\Order\Cancelled;
+use App\States\Order\Confirmed;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -108,12 +110,12 @@ class UsersTable extends DataTableComponent
         $user = User::find($this->userIdBeingDeletion);
 
         //Annulation des commandes de l"utilisateur a supprimer
+        
         $user->orders->filter(function ($order) {
-            return $order->state === 'confirmed';
-        })->each(function ($order) {
-            $order->update(['state' => 'cancelled']);
-        });
+            return $order->state->title() === "Commande effectuée";
+        })->each(fn ($order) => $order->update(['state' => Cancelled::class]));
 
+  
         $identifier = Str::random(60);
         $user->update([
             'identifier' => $identifier,

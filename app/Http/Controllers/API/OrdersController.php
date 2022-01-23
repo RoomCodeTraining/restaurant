@@ -28,7 +28,7 @@ class OrdersController extends Controller
      */
     public function store(Request $request, CreateOrderAction $createOrderAction)
     {
-        $this->authorize('viewAny', Menu::class);
+        //$this->authorize('viewAny', Menu::class);
 
         $request->validate([
             'identifier' => ['required', Rule::exists('access_cards', 'identifier')],

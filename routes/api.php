@@ -16,12 +16,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
     Route::post('/orders/complete-order', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'update']);
+    Route::post('orders/cancel-validation', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsConfirmed']);
     Route::apiResource('orders', App\Http\Controllers\API\OrdersController::class);
     Route::get('completed/orders', [App\Http\Controllers\API\OrdersController::class, 'orderCompleted']);
     Route::apiResource('menus', App\Http\Controllers\API\MenusController::class);
     Route::post('/cards/link-temporary-card', App\Http\Controllers\API\LinkTemporaryCard::class);
     Route::apiResource('cards', App\Http\Controllers\API\AccessCardsController::class);
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
+    Route::post('users/profile-update', [App\Http\Controllers\API\UsersController::class, 'updateProfile']);
+    Route::post('users/change-password', [App\Http\Controllers\API\UsersController::class, 'changePassword']);
+    Route::post('users/current', [App\Http\Controllers\API\UsersController::class, 'userAuthenticate']);
     Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
     Route::post('reload/cards', [App\Http\Controllers\API\AccessCardsController::class, 'reloadAccessCard']);
     Route::post('cards/current', [App\Http\Controllers\API\AccessCardsController::class, 'currentAccessCard']);

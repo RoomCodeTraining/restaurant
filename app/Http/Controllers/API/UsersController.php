@@ -83,8 +83,7 @@ class UsersController extends Controller
     }
 
 
-    public function authenticate(){
-        dd(Auth::user());
+    public function userAuthenticate(Request $request){
         return response()->json([
             "message" => "Information sur l'utilisateur connecté",
             "user" => new UserResource(Auth::user()),

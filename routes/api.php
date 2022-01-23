@@ -25,10 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
     Route::post('users/profile-update', [App\Http\Controllers\API\UsersController::class, 'updateProfile']);
     Route::post('users/change-password', [App\Http\Controllers\API\UsersController::class, 'changePassword']);
+    Route::post('users/current', [App\Http\Controllers\API\UsersController::class, 'userAuthenticate']);
     Route::apiResource('dishes', App\Http\Controllers\API\DishesController::class);
     Route::post('reload/cards', [App\Http\Controllers\API\AccessCardsController::class, 'reloadAccessCard']);
     Route::post('cards/current', [App\Http\Controllers\API\AccessCardsController::class, 'currentAccessCard']);
-    Route::get('users/authenticate', [App\Http\Controllers\API\UsersController::class, 'authenticate']);
 });
 
 Route::post('/login', [App\Http\Controllers\API\AuthController::class, 'login']);

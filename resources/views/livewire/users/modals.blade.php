@@ -58,7 +58,7 @@
             <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingUserDeletion')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
-            <button class="btn btn-sm bg-secondary-900" wire:click="deleteUser" wire:target="deleteUser"
+            <button class="btn btn-sm bg-red-500" wire:click="deleteUser" wire:target="deleteUser"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

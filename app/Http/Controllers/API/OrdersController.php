@@ -72,6 +72,7 @@ class OrdersController extends Controller
             'user_id' => $accessCard->user->id,
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
+            'order_by_other' => true,
         ]);
 
         return new OrderResource($order);

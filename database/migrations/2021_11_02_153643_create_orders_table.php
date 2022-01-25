@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('dish_id')->constrained();
             $table->foreignId('menu_id')->constrained();
+            $table->boolean('order_by_other')->default(false);
             $table->timestamps();
             $table->softDeletes();
 

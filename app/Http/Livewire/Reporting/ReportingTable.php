@@ -59,7 +59,6 @@ class ReportingTable extends DataTableComponent
             ->join('user_types', 'users.user_type_id', 'user_types.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->getFilter('order_by_other'), fn($query) => $query->where(['order_by_other' => $this->getFilter('order_by_other')]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
             ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
           
@@ -87,12 +86,7 @@ class ReportingTable extends DataTableComponent
     public function filters(): array
     {
         return [
-            'order_by_other' => Filter::make('Type de commande')->select([
-                '' => 'Tous',
-                false => 'Ordinaire',
-                true => 'Exceptionnelle',
-                
-            ]),
+     
             'state' => Filter::make('Statut')->select([
                 '' => 'Tous',
                 Confirmed::$name => 'Non Consommées',
@@ -128,7 +122,6 @@ class ReportingTable extends DataTableComponent
             ->where('user_id', $row['user_id'])
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
-            ->when($this->getFilter('order_by_other'), fn($query) => $query->where(['order_by_other' => $this->getFilter('order_by_other')]))
             ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
             ->get();
 

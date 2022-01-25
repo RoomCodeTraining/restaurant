@@ -14,7 +14,6 @@ class CreateOrderAction
             'user_id' => $data['user_id'],
             'dish_id' => $data['dish_id'],
             'menu_id' => $data['menu_id'],
-            'order_by_other' => $data['order_by_other'] ?? false
         ]);
 
         OrderCreated::dispatch($order);

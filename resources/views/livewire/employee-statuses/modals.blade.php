@@ -12,7 +12,7 @@
             <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingModelDeletion')" wire:loading.attr="disabled">
                 {{ __('Annuler') }}
             </button>
-            <button class="btn brn-sm bg-red-500 text-white" wire:click="deleteModel" wire:target="deleteModel"
+            <button class="btn btn-sm bg-red-500 text-white" wire:click="deleteModel" wire:target="deleteModel"
                 wire:loading.attr="disabled" wire:loading.class="loading">
                 {{ __('Confirmer') }}
             </button>

@@ -23,8 +23,7 @@ class DishesController
             ], 404);
         }
 
-        $dishes = $todayMenu->mainDishes()->get();
-
-        return DishResource::collection($dishes);
+    
+        return DishResource::collection($todayMenu->mainDishes()->get());
     }
 }

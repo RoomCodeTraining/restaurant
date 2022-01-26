@@ -60,7 +60,7 @@ class ReportingTable extends DataTableComponent
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
-            ->whereBetween('orders.orders.created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
+            ->whereBetween('orders.created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
           
             //->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
             ->orderBy('users.last_name', 'desc')

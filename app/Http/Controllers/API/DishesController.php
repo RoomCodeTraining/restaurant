@@ -16,13 +16,15 @@ class DishesController
 
         $todayMenu = Menu::query()->whereDate('served_at', today())->first();
 
-        if (! $todayMenu) {
+        if (!$todayMenu) {
             return response()->json([
                 'message' => 'Aucun menu n\'est disponible pour aujourd\'hui.',
                 'success' => false,
             ], 404);
         }
 
-        return DishResource::collection($todayMenu->dishes);
+        $dishes = $todayMenu->mainDishes()->get();
+
+        return DishResource::collection($dishes);
     }
 }

@@ -34,6 +34,12 @@ class Menu extends Model
         return $this->dishes()->main()->orderBy('id', 'asc')->first();
     }
 
+
+    public function mainDishes()
+    {
+        return $this->dishes()->main();
+    }
+
     public function getSecondDishAttribute()
     {
         $dishes = $this->dishes()->main()->orderBy('id', 'desc')->get();

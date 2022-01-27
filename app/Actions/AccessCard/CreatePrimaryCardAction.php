@@ -9,7 +9,7 @@ class CreatePrimaryCardAction
 {
     public function handle(User $user, array $input): AccessCard
     {
-        $hasCurrentAccessCard = $user->currentAccessCard;
+       // $hasCurrentAccessCard = $user->currentAccessCard;
    
         $accessCard = $user->accessCards()->create([
             'identifier' => $input['identifier'],

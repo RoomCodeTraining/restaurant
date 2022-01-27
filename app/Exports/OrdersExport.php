@@ -29,10 +29,13 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     {
         $this->period = $period;
         $this->state = $state;
+
+      
     }
 
     public function collection()
     {
+        
         return Order::query()
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
@@ -51,7 +54,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     {
         [$start, $end] = DateTimeHelper::inThePeriod($this->period);
 
-        return 'Reporting des commandes du ' . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
+        $state = $this->state == 'confirmed' ? 'non consommés' : 'consommé';
+        return "Commandes $state du " . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
     }
 
     public function headings(): array

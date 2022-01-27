@@ -111,7 +111,7 @@ class ReportingTable extends DataTableComponent
 
     public function exportToExcel()
     {
-        return (new OrdersExport($this->getFilter('in_the_period'), $this->getFilter('state')))->download('reporting_commandes.xlsx');
+        return (new OrdersExport($this->getFilter('in_the_period'), $this->getFilter('state')))->download('reporting-commandes.xlsx');
     }
 
     public function showDetails($row)

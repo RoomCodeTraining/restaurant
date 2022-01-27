@@ -34,12 +34,14 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function collection()
     {
         return Order::query()
+            ->join('users', 'orders.user_id', 'users.id')
+            ->join('user_types', 'users.user_type_id', 'user_types.id')
+            ->join('menus', 'orders.menu_id', 'menus.id')
             ->withoutGlobalScopes()
-            ->whereNotNull('payment_method_id')
-            ->with('menu', 'user.role', 'user.department', 'user.employeeStatus', 'user.userType')
+            ->with('menu', 'user.role', 'user.department', 'user.employeeStatus', 'user.userType', 'user.accessCard')
             ->unless($this->state, fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->state, fn ($query) => $query->whereState('state', $this->state))
-            ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))
+            ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->period))
             ->get()->groupBy('user_id')
             ->map(fn ($row) => $row->groupBy(fn ($item) => $item->type == 'lunch' ? $item->menu->served_at->format('Y-m-d') : $item->created_at->format('Y-m-d')))
             ->flatten(1);
@@ -75,6 +77,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
 
     public function map($row): array
     {
+
+
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
         $userBill = BillingHelper::getUserBill($order->user, $row);
@@ -91,13 +95,15 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->userType->name,
             $order->user->employeeStatus->name,
             $date->format('d/m/Y'),
-            $order->paymentMethod->name,
+            $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
             $mealLabel,
             $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'],
             $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'],
         ];
     }
+
+
 
     public function styles(Worksheet $sheet)
     {

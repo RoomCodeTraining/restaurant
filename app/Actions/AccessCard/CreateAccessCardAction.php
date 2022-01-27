@@ -25,7 +25,6 @@ class CreateAccessCardAction
             $accessCard = $this->createTemporaryCardAction->handle($user, $input);
         } else{
             $accessCard = $this->createPrimaryCardAction->handle($user, $input);
-            dd($user);
             $user->useCard($accessCard);
         }
 

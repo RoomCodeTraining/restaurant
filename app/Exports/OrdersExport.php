@@ -56,10 +56,10 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
      
         switch ($this->state) {
             case 'confirmed':
-                $state =  'Commandes non consommés';
+                $state =  'Commande non consommé';
                 break;
             case 'completed':
-                $state = 'Commandes consommés';
+                $state = 'Commande consommé';
                 break;
             default:
                $state = "Toutes les commandes";
@@ -114,8 +114,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
             $mealLabel,
-            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0,
-            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0,
+            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'],
+            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'],
         ];
     }
 

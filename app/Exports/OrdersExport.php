@@ -66,8 +66,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
                 break;
         }
         
-
-        return " $state du " . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
+     
+        return " $state du " . $start->format('d/m/y') . ' au ' . $end->format('d/m/y');
     }
 
     public function headings(): array
@@ -93,12 +93,12 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
 
     public function map($row): array
     {
-
-
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
         $userBill = BillingHelper::getUserBill($order->user, $row);
         $mealLabel = $row->count() > 1 ? 'petit déjeuner + déjeuner' : ($order->type == 'lunch' ? 'déjeuner' : 'petit déjeuner');
+        $contribution =  $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0;
+        $subvention = $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0;
 
         return [
             $order->user->last_name,
@@ -114,8 +114,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
             $mealLabel,
-            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'],
-            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'],
+            $contribution,
+            $subvention,
         ];
     }
 

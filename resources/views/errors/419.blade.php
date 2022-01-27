@@ -4,10 +4,10 @@
 <p
   class="mb-2 text-2xl font-bold text-center text-gray-800 md:text-3xl"
 >
-  <span class="text-red-500">Oops!</span> 
+  <span class="text-red-500">Oops!</span> votre session a expirée.
 </p>
 <p class="mb-8 text-center text-gray-500 md:text-lg">
-   Votre session a expirée
+  La sesssion a été détruite, vous devez vous reconnecter.
 </p>
 @endsection
 @section('image')

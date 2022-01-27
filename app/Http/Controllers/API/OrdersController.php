@@ -69,7 +69,7 @@ class OrdersController extends Controller
         }
 
         if(now()->hour > config('cantine.order.locked_at')){
-                $accessCard->quota_lunch->decrement();
+            $accessCard->decrement('quota_lunch');
         }
 
         $order = $createOrderAction->execute([

@@ -53,9 +53,21 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function title(): string
     {
         [$start, $end] = DateTimeHelper::inThePeriod($this->period);
+     
+        switch ($this->state) {
+            case 'confirmed':
+                $state =  'Commandes non consommés';
+                break;
+            case 'completed':
+                $state = 'Commandes consommés';
+                break;
+            default:
+               $state = "Toutes les commandes";
+                break;
+        }
+        
 
-        $state = $this->state == 'confirmed' ? 'non consommés' : 'consommé';
-        return "Commandes $state du " . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
+        return " $state du " . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
     }
 
     public function headings(): array

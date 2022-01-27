@@ -29,10 +29,13 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     {
         $this->period = $period;
         $this->state = $state;
+
+      
     }
 
     public function collection()
     {
+        
         return Order::query()
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
@@ -50,8 +53,21 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function title(): string
     {
         [$start, $end] = DateTimeHelper::inThePeriod($this->period);
+     
+        switch ($this->state) {
+            case 'confirmed':
+                $state =  'Commandes non consommés';
+                break;
+            case 'completed':
+                $state = 'Commandes consommés';
+                break;
+            default:
+               $state = "Toutes les commandes";
+                break;
+        }
+        
 
-        return 'Reporting des commandes du ' . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
+        return " $state du " . $start->format('d/m/Y') . ' au ' . $end->format('d/m/Y');
     }
 
     public function headings(): array
@@ -98,8 +114,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
             $mealLabel,
-            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'],
-            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'],
+            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0,
+            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0,
         ];
     }
 

@@ -68,6 +68,10 @@ class OrdersController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
+        if(now()->hour > config('cantine.order.locked_at')){
+            $accessCard->decrement('quota_lunch');
+        }
+
         $order = $createOrderAction->execute([
             'user_id' => $accessCard->user->id,
             'menu_id' => $todayMenu->id,

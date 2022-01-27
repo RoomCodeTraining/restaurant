@@ -98,8 +98,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
             $mealLabel,
-            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'],
-            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'],
+            $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0,
+            $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0,
         ];
     }
 

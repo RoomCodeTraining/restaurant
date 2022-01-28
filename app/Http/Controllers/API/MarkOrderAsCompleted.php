@@ -89,7 +89,7 @@ class MarkOrderAsCompleted extends Controller
          */
         if (! $order) {
             return response()->json([
-                "message" => "Vous n'avez pas de commande pour ce jour.",
+                "message" => "Vous ne pouvez pas manger aujourd'hui. Veuillez attendre demain.",
                 "success" => false,
                 "user" => $accessCard->user
             ], Response::HTTP_NOT_FOUND);

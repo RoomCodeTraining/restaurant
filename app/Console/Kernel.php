@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command(ChargeUsers::class)->dailyAt(config('cantine.order.charge_at'));
-        $schedule->command(GenerateBreakfastOrders::class)->daily();
+        $schedule->command(GenerateBreakfastOrders::class)->dailyAT('07:00');
         $schedule->command(DeleteTemporaryCards::class)->dailyAt('01:00');
     }
 

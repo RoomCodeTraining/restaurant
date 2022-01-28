@@ -17,7 +17,6 @@ class AddTypeToAccessCardsTable extends Migration
         Schema::table('access_cards', function (Blueprint $table) {
             $table->enum('type', [AccessCard::TYPE_PRIMARY, AccessCard::TYPE_TEMPORARY])->default(AccessCard::TYPE_PRIMARY);
             $table->timestamp('expires_at')->nullable();
-
             $table->index([ 'type', 'expires_at', ]);
         });
     }

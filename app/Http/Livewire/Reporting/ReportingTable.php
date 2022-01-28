@@ -19,7 +19,7 @@ class ReportingTable extends DataTableComponent
     public bool $showSearch = false;
 
     public $showingDetails = false;
-  
+
     public $orders = [];
 
     public array $filterNames = [
@@ -37,23 +37,36 @@ class ReportingTable extends DataTableComponent
     public function mount()
     {
         $this->filters['in_the_period'] = $this->getFilter('in_the_period') ?? 'this_month';
-   
     }
 
     public function columns(): array
     {
+
         return [
-            Column::make('Matricule/Identifiant', 'user_identifier'),
-            Column::make('Nom', 'user_full_name'),
-            Column::make("Type d'utilisateur", 'user_type_name'),
-            Column::make('Nbr. de commandes', 'total_orders'),
-            Column::make('Actions')->format(fn ($val, $col, $row) => view('livewire.reporting.table-actions', ['row' => $row]))
+            Column::make('Menu du')->format(fn ($val, $col, $row) => $row->menu->served_at->format('d/m/Y')),
+            Column::make('Matricule/Identifiant')->format(fn($val, $col, $row) => $row->user->identifier),
+            Column::make('Nom', 'user_full_name')->format(fn($val, $col, $row) => $row->user->full_name),
+            Column::make("Type d'utilisateur", 'user_type_name')->format(fn($val, $col, $row) => $row->user->userType->name),
+            Column::make('Statut', 'state')->format(fn($val, $col, $row) => $row->state->title()),
+            //Column::make('Nbr. de commandes', 'total_orders')->,
+            //Column::make('Actions')->format(fn ($val, $col, $row) => view('livewire.reporting.table-actions', ['row' => $row]))
         ];
     }
 
     public function query()
     {
-      
+
+        $q =  Order::with('user', 'menu')
+            ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
+            ->when($this->filters['state'], fn ($q) => $q->where('state', $this->filters['state']))
+            ->filter($this->getFilter('in_the_period'));
+        
+        $this->orders = $q->get();
+
+
+
+        return $q;
+
         $query =  Order::query()
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
@@ -61,7 +74,7 @@ class ReportingTable extends DataTableComponent
             ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
             ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
-          
+
             //->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
             ->orderBy('users.last_name', 'desc')
             ->groupBy('user_id')
@@ -72,10 +85,9 @@ class ReportingTable extends DataTableComponent
                 user_types.name AS user_type_name,
                 COUNT(orders.id) AS total_orders
             ');
-       
-            //->whereNotNull('orders.payment_method_id')
+
+        //->whereNotNull('orders.payment_method_id')
         return $query;
-     
     }
 
     public function modalsView(): string
@@ -86,7 +98,7 @@ class ReportingTable extends DataTableComponent
     public function filters(): array
     {
         return [
-     
+
             'state' => Filter::make('Statut')->select([
                 '' => 'Tous',
                 Confirmed::$name => 'Non Consommées',
@@ -105,7 +117,7 @@ class ReportingTable extends DataTableComponent
                 'last_year' => "L'année dernière",
             ]),
 
-          
+
         ];
     }
 

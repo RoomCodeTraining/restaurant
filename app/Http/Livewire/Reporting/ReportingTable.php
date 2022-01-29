@@ -57,6 +57,7 @@ class ReportingTable extends DataTableComponent
     {
        
         $query =  Order::query()->with('user', 'menu')
+            ->where('type', 'lunch')
             ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
             ->filter($this->getFilter('in_the_period'));

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Reporting;
 use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\DateTimeHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
@@ -12,6 +13,7 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class CheckInBreakfastTable extends DataTableComponent
 {
+    public bool $showSearch = false;
 
 
     public array $filterNames = [
@@ -26,14 +28,20 @@ class CheckInBreakfastTable extends DataTableComponent
         'exportToExcel' => 'Export au format Excel',
     ];
 
+
+    public function mount()
+    {
+        $this->filters['in_the_period'] = $this->getFilter('in_the_period') ?? 'today';
+    }
+
     public function columns(): array
     {
         return [
-            Column::make('Menu du')->format(fn ($val, $col, $row) => $row->menu->served_at->format('d/m/Y')),
+            Column::make('Pointage du')->format(fn ($val, $col, $row) => $row->created_at->format('d/m/Y')),
             Column::make('Matricule/Identifiant')->format(fn($val, $col, $row) => $row->user->identifier),
             Column::make('Nom', 'user_full_name')->format(fn($val, $col, $row) => $row->user->full_name),
             Column::make("Type d'utilisateur", 'user_type_name')->format(fn($val, $col, $row) => $row->user->userType->name),
-            Column::make('Statut', 'state')->format(fn($val, $col, $row) => $row->state->title()),
+            Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
             //Column::make('Nbr. de commandes', 'total_orders')->,
             //Column::make('Actions')->format(fn ($val, $col, $row) => view('livewire.reporting.table-actions', ['row' => $row]))
         ];
@@ -42,9 +50,10 @@ class CheckInBreakfastTable extends DataTableComponent
     public function query(): Builder
     {
         $query =  Order::query()->with('user', 'menu')
+        ->where('type', 'breakfast')
         ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
         ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
-        ->breakfastPeriodFilter($this->getFilter('in_the_period'));
+        ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')));
     
     //$this->orders = $q->get();    
          return $query;

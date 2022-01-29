@@ -57,7 +57,7 @@ class Order extends Model
     }
 
     public function scopeBreakfastPeriodFilter($query, $period){
-        return $query->where('created_at', DateTimeHelper::inThePeriod($period))->orderByDesc('created_at');
+        return $query->where('created_at', DateTimeHelper::inThePeriod($period));
     }
 
     public function canBeCancelled()

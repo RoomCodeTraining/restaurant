@@ -108,4 +108,9 @@ class Order extends Model
     {
         return $this->belongsTo(AccessCard::class);
     }
+
+
+    public function getOrderTypeAttribute(){
+        return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
+    }
 }

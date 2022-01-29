@@ -47,7 +47,8 @@ class ReportingTable extends DataTableComponent
             Column::make('Matricule/Identifiant')->format(fn($val, $col, $row) => $row->user->identifier),
             Column::make('Nom', 'user_full_name')->format(fn($val, $col, $row) => $row->user->full_name),
             Column::make("Type d'utilisateur", 'user_type_name')->format(fn($val, $col, $row) => $row->user->userType->name),
-            Column::make('Statut', 'state')->format(fn($val, $col, $row) => $row->state->title()),
+            Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
+
             //Column::make('Nbr. de commandes', 'total_orders')->,
             //Column::make('Actions')->format(fn ($val, $col, $row) => view('livewire.reporting.table-actions', ['row' => $row]))
         ];

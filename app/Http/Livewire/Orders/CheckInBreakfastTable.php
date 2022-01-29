@@ -22,6 +22,6 @@ class CheckInBreakfastTable extends DataTableComponent
 
     public function query(): Builder
     {
-        return \App\Models\Order::query()->whereUserId(Auth::id())->whereType('breakfast');
+        return \App\Models\Order::query()->whereUserId(Auth::id())->withoutGlobalScope('lunch');
     }
 }

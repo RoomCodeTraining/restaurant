@@ -33,7 +33,7 @@ class Order extends Model
     protected static function booted()
     {
         static::addGlobalScope('lunch', function (Builder $builder) {
-            $builder->whereIn('type', ['lunch', 'breakfast']);
+            $builder->whereIn('type', ['lunch']);
         });
     }
 

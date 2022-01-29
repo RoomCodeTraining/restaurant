@@ -49,7 +49,7 @@ class CheckInBreakfastTable extends DataTableComponent
 
     public function query(): Builder
     {
-        $query =  Order::query()->with('user', 'menu')
+        $query =  Order::withoutGlobalScope('lunch')->with('user', 'menu')
         ->where('type', 'breakfast')
         ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
         ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))

@@ -55,38 +55,13 @@ class ReportingTable extends DataTableComponent
 
     public function query()
     {
-
-        $q =  Order::with('user', 'menu')
+       
+        $query =  Order::query()->with('user', 'menu')
             ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->filters['state'], fn ($q) => $q->where('state', $this->filters['state']))
+            ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
             ->filter($this->getFilter('in_the_period'));
         
-        $this->orders = $q->get();
-
-
-
-        return $q;
-
-        $query =  Order::query()
-            ->join('users', 'orders.user_id', 'users.id')
-            ->join('user_types', 'users.user_type_id', 'user_types.id')
-            ->join('menus', 'orders.menu_id', 'menus.id')
-            ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
-            ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
-
-            //->join('employee_statuses', 'users.employee_status_id', 'employee_statuses.id')
-            ->orderBy('users.last_name', 'desc')
-            ->groupBy('user_id')
-            ->selectRaw('
-                users.id AS user_id,
-                users.identifier AS user_identifier,
-                CONCAT(users.last_name, " ", users.first_name) AS user_full_name,
-                user_types.name AS user_type_name,
-                COUNT(orders.id) AS total_orders
-            ');
-
-        //->whereNotNull('orders.payment_method_id')
+        //$this->orders = $q->get();    
         return $query;
     }
 

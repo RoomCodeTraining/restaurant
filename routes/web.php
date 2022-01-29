@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/menus', App\Http\Controllers\MenusController::class);
     Route::get('weekly-orders/summary',[App\Http\Controllers\OrdersSummaryController::class, 'weeklyOrder'])->name('orders.summary');
     Route::get('today-orders/summary', [App\Http\Controllers\OrdersSummaryController::class, 'todayOrder'])->name('today.orders.summary');
+    Route::view('check-in-breakfast', 'orders.check-breakfast')->name('check-in-breakfast');
     Route::resource('/orders', App\Http\Controllers\OrdersController::class);
     Route::resource('/departments', App\Http\Controllers\DepartmentsController::class);
     Route::resource('/organizations', App\Http\Controllers\OrganizationsController::class);

@@ -56,6 +56,10 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
     }
 
+    public function scopeBreakfastPeriodFilter($query, $period){
+        return $query->where('created_at', DateTimeHelper::inThePeriod($period))->orderByDesc('created_at');
+    }
+
     public function canBeCancelled()
     {
         return $this->state->canTransitionTo(Cancelled::class);

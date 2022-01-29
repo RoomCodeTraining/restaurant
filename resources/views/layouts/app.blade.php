@@ -15,18 +15,24 @@
         [x-cloak] {
             display: none !important;
         }
+
         .customScroll::-webkit-scrollbar {
-         width: 6px; /* width of the entire scrollbar */
+            width: 6px;
+            /* width of the entire scrollbar */
         }
 
         .customScroll::-webkit-scrollbar-track {
-        background: inherit; /* color of the tracking area */
+            background: inherit;
+            /* color of the tracking area */
         }
 
         .customScroll::-webkit-scrollbar-thumb {
-        background-color: #f07d00; /* color of the scroll thumb */
-        border-radius: 20px; /* roundness of the scroll thumb */
-        border: 3px solid #f07d00; /* creates padding around scroll thumb */
+            background-color: #f07d00;
+            /* color of the scroll thumb */
+            border-radius: 20px;
+            /* roundness of the scroll thumb */
+            border: 3px solid #f07d00;
+            /* creates padding around scroll thumb */
         }
 
     </style>
@@ -97,9 +103,9 @@
                                 Mes commandes
                             </x-nav-link>
                             <x-nav-link href="{{ route('check-in-breakfast') }}" icon="card"
-                            :active="request()->routeIs('check-in-breakfast')">
-                           Pointage petit dejeuner
-                        </x-nav-link>
+                                :active="request()->routeIs('check-in-breakfast')">
+                                Pointage petit dejeuner
+                            </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||
     auth()->user()->can('viewAny', \App\Models\User::class))
@@ -133,11 +139,11 @@
                             </x-nav-link>
                         @endcan
                         @can('manage', \App\Models\Order::class)
-                            @if(!auth()->user()->hasRole(\App\Models\Role::USER))
+                            @if (!auth()->user()->hasRole(\App\Models\Role::USER))
                                 <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                     Gestion des commandes
                                 </div>
-                                
+
                                 <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
                                     :active="request()->routeIs('today.orders.summary')">
                                     Journalières
@@ -154,7 +160,11 @@
                             </div>
                             <x-nav-link href="{{ route('reporting.orders') }}" icon="chart"
                                 :active="request()->routeIs('reporting.orders')">
-                                Commandes
+                                Dejeuner
+                            </x-nav-link>
+                            <x-nav-link href="{{ route('reporting.check.breakfast') }}" icon="chart"
+                                :active="request()->routeIs('reporting.check.breakfast')">
+                                Pointage petit dejeuner
                             </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
@@ -204,7 +214,8 @@
         <!-- Page Sidebar -->
 
         <!-- Page Header -->
-        <header id="page-header" class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-10"
+        <header id="page-header"
+            class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-10"
             x-bind:class="{
                 'lg:pl-72': desktopSidebarOpen
             }">

@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('password.expires');
     Route::get('profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');
     Route::get('reporting/orders', App\Http\Controllers\ReportingController::class)->name('reporting.orders');
+    Route::view('reporting/check-in-breakfast', 'reporting.check-breakfast')->name('reporting.check.breakfast');
     Route::get('reporting/accounts', App\Http\Controllers\ReportingController::class)->name('reporting.account');
     Route::view('users-import', 'users.import')->name('users-import');
 

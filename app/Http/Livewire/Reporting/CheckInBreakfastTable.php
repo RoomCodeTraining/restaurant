@@ -2,25 +2,17 @@
 
 namespace App\Http\Livewire\Reporting;
 
-use App\Exports\OrdersExport;
 use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use App\Support\DateTimeHelper;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
-class ReportingTable extends DataTableComponent
+class CheckInBreakfastTable extends DataTableComponent
 {
-    //public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
 
-    public bool $showSearch = false;
-
-    public $showingDetails = false;
-
-    public $orders = [];
 
     public array $filterNames = [
         'start_date' => 'A partir du',
@@ -34,14 +26,8 @@ class ReportingTable extends DataTableComponent
         'exportToExcel' => 'Export au format Excel',
     ];
 
-    public function mount()
-    {
-        $this->filters['in_the_period'] = $this->getFilter('in_the_period') ?? 'this_month';
-    }
-
     public function columns(): array
     {
-
         return [
             Column::make('Menu du')->format(fn ($val, $col, $row) => $row->menu->served_at->format('d/m/Y')),
             Column::make('Matricule/Identifiant')->format(fn($val, $col, $row) => $row->user->identifier),
@@ -53,21 +39,15 @@ class ReportingTable extends DataTableComponent
         ];
     }
 
-    public function query()
+    public function query(): Builder
     {
-       
         $query =  Order::query()->with('user', 'menu')
-            ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
-            ->filter($this->getFilter('in_the_period'));
-        
-        //$this->orders = $q->get();    
-        return $query;
-    }
-
-    public function modalsView(): string
-    {
-        return 'livewire.reporting.modals';
+        ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
+        ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
+        ->breakfastPeriodFilter($this->getFilter('in_the_period'));
+    
+    //$this->orders = $q->get();    
+         return $query;
     }
 
     public function filters(): array
@@ -94,24 +74,5 @@ class ReportingTable extends DataTableComponent
 
 
         ];
-    }
-
-    public function exportToExcel()
-    {
-        return (new OrdersExport($this->getFilter('in_the_period'), $this->getFilter('state')))->download('reporting-commandes.xlsx');
-    }
-
-    public function showDetails($row)
-    {
-        $this->orders = Order::query()
-            ->join('menus', 'orders.menu_id', 'menus.id')
-            ->with('dish')
-            ->where('user_id', $row['user_id'])
-            ->unless($this->getFilter('state'), fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
-            ->when($this->getFilter('state'), fn ($query) => $query->whereState('state', $this->getFilter('state')))
-            ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')))
-            ->get();
-
-        $this->showingDetails = true;
     }
 }

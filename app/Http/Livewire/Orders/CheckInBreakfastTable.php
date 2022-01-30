@@ -17,7 +17,7 @@ class CheckInBreakfastTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Pointage du')->format(fn ($val, $col, $row) => $row->created_at->format('d/m/Y')),
+            Column::make('Pointage du')->format(fn ($val, $col, $row) => $row->type == 'lunch' ? $row->menu->served_at->format('d/m/Y') : $row->created_at->format('d/m/Y')),
             Column::make('Type')->format(fn($val, $col, Order $row) => $row->type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
         ];

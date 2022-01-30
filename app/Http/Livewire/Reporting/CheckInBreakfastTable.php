@@ -52,6 +52,7 @@ class CheckInBreakfastTable extends DataTableComponent
     public function query(): Builder
     {
         $query =  Order::withoutGlobalScope('lunch')->with('user', 'menu')
+        ->whereState('state', Completed::class)
         ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')));
     
          return $query;

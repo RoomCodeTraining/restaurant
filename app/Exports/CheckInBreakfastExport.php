@@ -5,6 +5,7 @@ namespace App\Exports;
 use Carbon\Carbon;
 use App\Models\Order;
 use App\Support\BillingHelper;
+use App\States\Order\Completed;
 use App\Support\DateTimeHelper;
 use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -36,7 +37,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     */
     public function collection()
     {
-      return  Order::query()->withoutGlobalScope('lunch')->with('user', 'menu')->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))->get();
+      return  Order::query()->whereState('state', Completed::class)->withoutGlobalScope('lunch')->with('user', 'menu')->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))->get();
     }
 
 
@@ -61,7 +62,6 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
             "Catégorie professionnelle",
             "Date",
             "Méthode de paiement",
-            "Statut du plat",
             "A payer",
             "Subvention",
         ];
@@ -90,7 +90,6 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
           $row->user->employeeStatus->name,
           $date->format('d/m/Y'),
           $row->user->accessCard->paymentMethod->name,
-          $row->state::description(),
           0,
           0,
       ];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dish;
 use Illuminate\Http\Request;
 
 class StatsController extends Controller
@@ -14,6 +15,7 @@ class StatsController extends Controller
      */
     public function __invoke()
     {
-        return view('statistics.dishes');
+        $dishes = Dish::with('orders')->get();
+        return view('statistics.dishes', compact('dishes'));
     }
 }

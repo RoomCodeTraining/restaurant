@@ -163,7 +163,7 @@
                             </x-nav-link>
                             <x-nav-link href="{{ route('reporting.check.breakfast') }}" icon="chart"
                                 :active="request()->routeIs('reporting.check.breakfast')">
-                                Pointage petit dejeuner
+                                Petit dejeuner
                             </x-nav-link>
                         @endif
                         @can('manage', App\Models\SuggestionBox::class)

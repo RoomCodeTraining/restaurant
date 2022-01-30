@@ -121,7 +121,7 @@
                             @can('manage', \App\Models\User::class)
                                 <x-nav-link href="{{ route('roles.index') }}" icon="cog"
                                     :active="request()->routeIs('roles.index')">
-                                    Boîte à suggestions
+                                    Rôles et permissions
                                 </x-nav-link>
                             @endcan
                         @endif
@@ -173,7 +173,7 @@
                       @can('manage', App\Models\SuggestionBox::class)
                       <x-nav-link href="{{ route('suggestions-box.index') }}" icon="cube-transparent"
                               :active="request()->routeIs('suggestions-box.index')">
-                               Boite a suggestions
+                              Boîte à suggestions
                           </x-nav-link>
                       @endcan
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||

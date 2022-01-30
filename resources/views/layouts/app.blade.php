@@ -143,7 +143,6 @@
                                 <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                     Gestion des commandes
                                 </div>
-
                                 <x-nav-link href="{{ route('today.orders.summary') }}" icon="cde"
                                     :active="request()->routeIs('today.orders.summary')">
                                     Journalières
@@ -176,8 +175,17 @@
                                 Boîte à suggestions
                             </x-nav-link>
                         @endcan
+                        @can('manage', App\Models\SuggestionBox::class)
+                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                            Statistiques
+                        </div>
+                        <x-nav-link href="{{ route('dishes.stats') }}" icon="cube-transparent"
+                            :active="request()->routeIs('dishes.stats')">
+                            Plats
+                        </x-nav-link>
+                    @endcan
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
-    auth()->user()->can('manage', App\Models\Organization::class))
+                        auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Paramètrages
                             </div>
@@ -259,45 +267,12 @@
                             </svg>
                         </button>
                     </div>
-                    <!-- END Toggle Sidebar on Mobile -->
 
-                    <!-- Search -->
-                    {{-- <div class="hidden sm:block">
-                        <form onsubmit="return false;">
-                            <input type="text"
-                                class="w-full block rounded-full bg-grey-50 bg-opacity-50 border border-gray-200 px-3 py-2 leading-5 text-sm focus:border-purple-500 focus:ring focus:ring-purple-500 focus:ring-opacity-50"
-                                id="tk-form-layouts-search" placeholder="Rechercher.." />
-                        </form>
-                    </div> --}}
-                    {{-- <div class="sm:hidden">
-                        <button type="button"
-                            class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
-                            <svg class="hi-solid hi-search inline-block w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </div> --}}
-                    <!-- END Search -->
                 </div>
                 <!-- END Left Section -->
 
                 <!-- Right Section -->
                 <div class="flex items-center space-x-2">
-                    <!-- Notifications -->
-                    {{-- <button type="button"
-                        class="inline-flex justify-center items-center space-x-2 border font-semibold focus:outline-none px-3 py-2 leading-5 text-sm rounded border-gray-300 bg-grey-50 bg-opacity-50 text-gray-800 shadow-sm hover:text-gray-800 hover:bg-gray-100 hover:border-gray-300 hover:shadow focus:ring focus:ring-gray-500 focus:ring-opacity-25 active:bg-white active:border-white active:shadow-none">
-                        <svg class="hi-outline hi-bell inline-block w-5 h-5" stroke="currentColor" fill="none"
-                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                        </svg>
-                        <span class="text-primary-500">•</span>
-                    </button> --}}
-                    <!-- END Notifications -->
-
                     <!-- User Dropdown -->
                     <div class="relative inline-block">
                         <!-- Dropdown Toggle Button -->

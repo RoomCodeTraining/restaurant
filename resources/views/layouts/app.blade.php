@@ -157,14 +157,15 @@
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Reporting
                             </div>
+                            <x-nav-link href="{{ route('reporting.check.breakfast') }}" icon="chart"
+                            :active="request()->routeIs('reporting.check.breakfast')">
+                            Petit dejeuner
+                        </x-nav-link>
                             <x-nav-link href="{{ route('reporting.orders') }}" icon="chart"
                                 :active="request()->routeIs('reporting.orders')">
                                 Dejeuner
                             </x-nav-link>
-                            <x-nav-link href="{{ route('reporting.check.breakfast') }}" icon="chart"
-                                :active="request()->routeIs('reporting.check.breakfast')">
-                                Petit dejeuner
-                            </x-nav-link>
+                       
                         @endif
                         @can('manage', App\Models\SuggestionBox::class)
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">

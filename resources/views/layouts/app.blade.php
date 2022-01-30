@@ -104,7 +104,7 @@
                             </x-nav-link>
                             <x-nav-link href="{{ route('check-in-breakfast') }}" icon="card"
                                 :active="request()->routeIs('check-in-breakfast')">
-                                Pointage petit dejeuner
+                               Historiques pointages
                             </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||

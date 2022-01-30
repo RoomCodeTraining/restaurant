@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Reporting;
 
 use App\Models\Order;
+use App\Exports\OrdersExport;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use App\Support\DateTimeHelper;
+use App\Exports\CheckInBreakfastExport;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
@@ -15,13 +17,13 @@ class CheckInBreakfastTable extends DataTableComponent
 {
     public bool $showSearch = false;
 
+    public $orders = [];
+
 
     public array $filterNames = [
         'start_date' => 'A partir du',
         'end_date' => "Jusqu'au",
-        'state' => "Statut",
         'in_the_period' => 'Dans la période',
-        'order_by_other' => 'Type de commande'
     ];
 
     public array $bulkActions = [
@@ -50,24 +52,23 @@ class CheckInBreakfastTable extends DataTableComponent
     public function query(): Builder
     {
         $query =  Order::withoutGlobalScope('lunch')->with('user', 'menu')
-        ->where('type', 'breakfast')
-        ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
-        ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
         ->whereBetween('created_at', DateTimeHelper::inThePeriod($this->getFilter('in_the_period')));
     
-    //$this->orders = $q->get();    
          return $query;
+    }
+
+
+    public function exportToExcel()
+    {
+        $file_name = today()->format('d-m-Y') . '_pointage_de_petit_dejeuner.xlsx';
+        $period = $this->getFilter('in_the_period');
+ 
+        return (new CheckInBreakfastExport($period))->download($file_name);
     }
 
     public function filters(): array
     {
         return [
-
-            'state' => Filter::make('Statut')->select([
-                '' => 'Tous',
-                Confirmed::$name => 'Non Consommées',
-                Completed::$name => 'Consommées',
-            ]),
             'in_the_period' => Filter::make('Dans la période')->select([
                 'today' => "Aujourd'hui",
                 'yesterday' => 'Hier',

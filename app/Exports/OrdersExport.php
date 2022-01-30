@@ -28,25 +28,22 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function __construct(?string $period, ?string $state)
     {
         $this->period = $period;
-        $this->state = $state;
-
-      
+        $this->state = $state;  
     }
 
     public function collection()
     {
-        
+     
         return Order::query()
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->withoutGlobalScopes()
             ->with('menu', 'user.role', 'user.department', 'user.employeeStatus', 'user.userType', 'user.accessCard')
             ->unless($this->state, fn ($query) => $query->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->state, fn ($query) => $query->whereState('state', $this->state))
             ->whereBetween('menus.served_at', DateTimeHelper::inThePeriod($this->period))
             ->get()->groupBy('user_id')
-            ->map(fn ($row) => $row->groupBy(fn ($item) => $item->type == 'lunch' ? $item->menu->served_at->format('Y-m-d') : $item->created_at->format('Y-m-d')))
+            ->map(fn ($row) => $row->groupBy(fn ($item) =>  $item->menu->served_at->format('Y-m-d')))
             ->flatten(1);
     }
 
@@ -85,7 +82,6 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             "Date",
             "Méthode de paiement",
             "Statut du plat",
-            "Type du plat",
             "A payer",
             "Subvention",
         ];
@@ -96,7 +92,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
         $userBill = BillingHelper::getUserBill($order->user, $row);
-        $mealLabel = $row->count() > 1 ? 'petit déjeuner + déjeuner' : ($order->type == 'lunch' ? 'déjeuner' : 'petit déjeuner');
+     //   $mealLabel = $row->count() > 1 ? 'petit déjeuner + déjeuner' : ($order->type == 'lunch' ? 'déjeuner' : 'petit déjeuner');
         $contribution =  $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0;
         $subvention = $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0;
 
@@ -113,7 +109,6 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $date->format('d/m/Y'),
             $order->user->accessCard->paymentMethod->name,
             $order->state::description(),
-            $mealLabel,
             $contribution,
             $subvention,
         ];

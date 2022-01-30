@@ -12,16 +12,19 @@ use Rappasoft\LaravelLivewireTables\DataTableComponent;
 class CheckInBreakfastTable extends DataTableComponent
 {
 
+    public bool $showSearch = false;
+
     public function columns(): array
     {
         return [
             Column::make('Menu du')->format(fn ($val, $col, $row) => $row->created_at->format('d/m/Y')),
+            Column::make('Type')->format(fn($val, $col, Order $row) => $row->type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
         ];
     }
 
     public function query(): Builder
     {
-        return \App\Models\Order::query()->whereUserId(Auth::id())->withoutGlobalScope('lunch');
+        return \App\Models\Order::query()->whereIn('type', ['lunch', 'breakfast'])->whereUserId(Auth::id())->withoutGlobalScope('lunch');
     }
 }

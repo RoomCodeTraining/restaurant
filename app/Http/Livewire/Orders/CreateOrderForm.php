@@ -58,7 +58,7 @@ class CreateOrderForm extends Component
          */
         if ($this->userAccessCard->quota_lunch === 0) {
             throw ValidationException::withMessages([
-                'selectedDishes' => ['Vous quota est insuffisant.']
+                'selectedDishes' => ['Votre quota est insuffisant.']
             ]);
         }
 
@@ -137,7 +137,7 @@ class CreateOrderForm extends Component
     public function render()
     {
         $this->menus = Menu::with('dishes.dishType')
-            ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereBetween('served_at', [now(), now()->endOfWeek()])
             ->get();
 
         return view('livewire.orders.create-order-form', [ 'menus' => $this->menus, ]);

@@ -104,7 +104,7 @@
                             </x-nav-link>
                             <x-nav-link href="{{ route('check-in-breakfast') }}" icon="card"
                                 :active="request()->routeIs('check-in-breakfast')">
-                               Mes Historiques
+                                Mes Historiques
                             </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||
@@ -167,15 +167,15 @@
                                 Pointage petit dejeuner
                             </x-nav-link>
                         @endif
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                          Suggestions
-                      </div>
-                      @can('manage', App\Models\SuggestionBox::class)
-                      <x-nav-link href="{{ route('suggestions-box.index') }}" icon="cube-transparent"
-                              :active="request()->routeIs('suggestions-box.index')">
-                              Boîte à suggestions
-                          </x-nav-link>
-                      @endcan
+                        @can('manage', App\Models\SuggestionBox::class)
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Suggestions
+                            </div>
+                            <x-nav-link href="{{ route('suggestions-box.index') }}" icon="cube-transparent"
+                                :active="request()->routeIs('suggestions-box.index')">
+                                Boîte à suggestions
+                            </x-nav-link>
+                        @endcan
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
     auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">

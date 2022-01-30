@@ -344,7 +344,6 @@ class PermissionSeeder extends Seeder
             MenuPolicy::MENU_MANAGE,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
             ReportingPolicy::REPORTING_ORDERS,
-            SuggestionBoxPolicy::SUGGESTION_MANAGE,
         ]);
 
         Role::create([

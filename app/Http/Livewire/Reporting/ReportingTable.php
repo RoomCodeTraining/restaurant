@@ -44,9 +44,7 @@ class ReportingTable extends DataTableComponent
 
         return [
             Column::make('Menu du')->format(fn ($val, $col, $row) => $row->menu->served_at->format('d/m/Y')),
-            Column::make('Matricule/Identifiant')->format(fn($val, $col, $row) => $row->user->identifier),
             Column::make('Nom', 'user_full_name')->format(fn($val, $col, $row) => $row->user->full_name),
-            Column::make("Type d'utilisateur", 'user_type_name')->format(fn($val, $col, $row) => $row->user->userType->name),
             Column::make('Plat')->format(fn($val, $col, Order $row) => $row->dish->name),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
 

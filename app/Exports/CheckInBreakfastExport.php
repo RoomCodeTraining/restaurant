@@ -37,7 +37,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     */
     public function collection()
     {
-      return  Order::query()->whereState('state', Completed::class)->withoutGlobalScope('lunch')->with('user', 'menu')->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))->get();
+      return  Order::query()->whereState('state', Completed::class)->withoutGlobalScope('lunch')->whereType('breakfast')->with('user', 'menu')->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period))->get();
     }
 
 

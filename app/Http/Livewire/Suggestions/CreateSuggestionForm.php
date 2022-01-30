@@ -18,7 +18,8 @@ class CreateSuggestionForm extends Component
         auth()->user()->suggestions()->create(['suggestion' => $this->suggestion]);
 
         $this->suggestion = null;
-        return back()->with('success', 'Votre suggestion a été prise en compte');
+        session()->flash('success', 'Votre suggestion a été prise en compte');
+        return back();
     }
 
     public function render()

@@ -21,7 +21,7 @@
                 ]);
 
                 var options = {
-                    title: 'Nombre de commande des differents plats de la cantine', // Le titre
+                    title: 'Statistique des commandes des differents plats de la cantine', // Le titre
                     is3D: true // En 3D
                 };
 

@@ -19,7 +19,7 @@ class CreateSuggestionForm extends Component
 
         $this->suggestion = null;
         session()->flash('success', 'Votre suggestion a été prise en compte');
-        return back();
+        return redirect()->route('suggestions-box.index');
     }
 
     public function render()

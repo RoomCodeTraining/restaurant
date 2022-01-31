@@ -41,7 +41,7 @@ class AdminAccountantDashboard extends Component
         $monthly_orders_completed = \App\Models\Order::monthly()->whereState('state', Completed::class)->count();
         $monthly_orders_cancelled = \App\Models\Order::monthly()->whereState('state', Cancelled::class)->count();
         $monthly_orders_suspended = \App\Models\Order::monthly()->whereState('state', Suspended::class)->count();
-        $today_order = \App\Models\Order::whereState('state', Confirmed::class)->today()->with('dish')->where('user_id', auth()->id())->first();
+        $today_order = \App\Models\Order::whereState('state', [Completed::class, Confirmed::class])->today()->with('dish')->where('user_id', auth()->id())->first();
         $count_today_orders = \App\Models\Order::whereNotState('state', [Cancelled::class, Suspended::class])->today()->count();
         $orders_completed_count = \App\Models\Order::today()->whereState('state', Completed::class)->count();
         $orders_confirmed_count = \App\Models\Order::today()->whereState('state', Confirmed::class)->count();

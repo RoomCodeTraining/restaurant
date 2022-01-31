@@ -19,7 +19,8 @@ class SuggestionsBoxController extends Controller
        return view('suggestions.show', compact('suggestion'));
     }
 
-    public function update(SuggestionBox $suggestion){
-      return view('sugestions.update', compact('suggestion'));
+    public function edit(int $suggestion){
+      
+      return view('suggestions.edit', compact('suggestion'));
     }
 }

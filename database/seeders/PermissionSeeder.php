@@ -312,7 +312,7 @@ class PermissionSeeder extends Seeder
             EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
             UserTypePolicy::USER_TYPE_MANAGE,
             ReportingPolicy::REPORTING_ORDERS,
-            SuggestionBoxPolicy::SUGGESTION_MANAGE
+            SuggestionBoxPolicy::SUGGESTION_LIST
         ]);
 
         Role::create([
@@ -320,9 +320,7 @@ class PermissionSeeder extends Seeder
             'name' => 'Utilisateur',
         ])->givePermissionTo([
             OrderPolicy::ORDER_MANAGE,
-            SuggestionBoxPolicy::SUGGESTION_CREATE,
-            SuggestionBoxPolicy::SUGGESTION_LIST,
-            SuggestionBoxPolicy::SUGGESTION_DELETE
+            SuggestionBoxPolicy::SUGGESTION_MANAGE
         ]);
 
         Role::create([
@@ -333,7 +331,7 @@ class PermissionSeeder extends Seeder
             OrderPolicy::ORDER_MANAGE,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
             ReportingPolicy::REPORTING_ORDERS,
-            SuggestionBoxPolicy::SUGGESTION_MANAGE,
+            SuggestionBoxPolicy::SUGGESTION_MANAGE
         ]);
 
         Role::create([

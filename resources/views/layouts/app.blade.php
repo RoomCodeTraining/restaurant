@@ -184,6 +184,10 @@
                             :active="request()->routeIs('dishes.stats')">
                             Plats
                         </x-nav-link>
+                        <x-nav-link href="{{ route('dishes.stats') }}" icon="cube-transparent"
+                        :active="request()->routeIs('dishes.stats')">
+                        Utilisateurs
+                    </x-nav-link>
                     @endcan
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
                         auth()->user()->can('manage', App\Models\Organization::class))

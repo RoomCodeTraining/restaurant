@@ -121,8 +121,8 @@ class BillingHelper
                 ],
                 self::EMP_STATUS_STAGIAIRE => [
                     'subvention' => [
-                        'lunch' => 0,
-                        'breakfast' => 0,
+                        'lunch' => 3500,
+                        'breakfast' => 500,
                     ],
                     'contribution' => [
                         'lunch' => 0,

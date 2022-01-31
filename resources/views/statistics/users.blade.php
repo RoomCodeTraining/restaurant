@@ -15,8 +15,8 @@
 
               var data = google.visualization.arrayToDataTable([
                   ['Catégories', 'Produits'],
-                  @foreach ($data as $item) // On parcourt les catégories
-                      [ "{{ $item->name }}", {{ $item->count() }} ], // Proportion des produits de la catégorie
+                  @foreach ($data as $key => $value) // On parcourt les catégories
+                      [ "{{ $key }}", {{ $value }} ], // Proportion des produits de la catégorie
                   @endforeach
               ]);
 

@@ -6,6 +6,8 @@ use App\Models\Dish;
 use App\Models\Order;
 use App\Models\UserType;
 use Illuminate\Http\Request;
+use App\States\Order\Completed;
+use App\States\Order\Confirmed;
 
 class StatsController extends Controller
 {
@@ -24,15 +26,20 @@ class StatsController extends Controller
     public function usersTypeStats(){
        $data = [];
       $types = UserType::with('users')->get();
-      foreach (Order::all() as $key => $order) {
+      foreach (Order::whereState('state',[Confirmed::class, Completed::class])->get() as $key => $order) {
           foreach ($types as $key => $value) {
-              if($value->id == $order->user->user_type_id){
-                 $data[$value->name] += 1;
+  
+              if(!empty($data) && isset($data[$value->name])){
+                $data[$value->name] += 1;
               }
+
+              if($value->id == $order->user->user_type_id){
+                 $data[$value->name] = 1;
+              }
+
           }
       }
-
-       $data = Collect($data);
+      
       return view('statistics.users', compact('data'));
     } 
 }

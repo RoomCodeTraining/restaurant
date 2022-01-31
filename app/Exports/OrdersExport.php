@@ -82,8 +82,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             "Date",
             "Méthode de paiement",
             "Statut du plat",
-            "A payer",
-            "Subvention",
+            "Contribution collaborateur",
+            "Subvention ciprel",
         ];
     }
 

@@ -62,8 +62,8 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
             "Catégorie professionnelle",
             "Date",
             "Méthode de paiement",
-            "A payer",
-            "Subvention",
+            "Contribution collaborateur",
+            "Subvention ciprel",
         ];
     }
 

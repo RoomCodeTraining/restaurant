@@ -4,7 +4,7 @@
         @if (auth()->user()->current_access_card_id)
             <a href='{{ route('orders.index') }}'>
                 @if ($today_order && $today_order->state == 'completed')
-                    <x-statistic label="Commande du jour" value="{{ 'Deja connsommée' }}" icon="plat" />
+                    <x-statistic label="Commande du jour" value="{{ 'Deja consommée' }}" icon="plat" />
                 @else
                     <x-statistic label="Commande du jour"
                         value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}" icon="plat" />

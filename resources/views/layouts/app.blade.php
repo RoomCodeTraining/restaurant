@@ -176,7 +176,7 @@
                                 Boîte à suggestions
                             </x-nav-link>
                         @endif
-                        @can('manage', App\Models\SuggestionBox::class)
+                        @if(auth()->user()->hasRole(\App\Models\Role::ADMIN))
                         <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                             Statistiques
                         </div>
@@ -184,11 +184,11 @@
                             :active="request()->routeIs('dishes.stats')">
                             Plats
                         </x-nav-link>
-                        <x-nav-link href="{{ route('dishes.stats') }}" icon="cube-transparent"
-                        :active="request()->routeIs('dishes.stats')">
+                        <x-nav-link href="{{ route('users.stats') }}" icon="cube-transparent"
+                        :active="request()->routeIs('users.stats')">
                         Utilisateurs
                     </x-nav-link>
-                    @endcan
+                    @endif
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
                         auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">

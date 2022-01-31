@@ -32,7 +32,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/users', App\Http\Controllers\UsersController::class);
     Route::resource('/suggestions-box', App\Http\Controllers\SuggestionsBoxController::class);
-    Route::get('/statistics/dishes', App\Http\Controllers\StatsController::class)->name('dishes.stats');
+    Route::get('/statistics/dishes', [App\Http\Controllers\StatsController::class, 'dishStats'])->name('dishes.stats');
+    Route::get('/statistics/users-type', [App\Http\Controllers\StatsController::class, 'usersTypeStats'])->name('users.stats');
     Route::resource('/roles', App\Http\Controllers\RolesController::class);
     Route::resource('/dishes', App\Http\Controllers\DishesController::class);
     Route::resource('/menus', App\Http\Controllers\MenusController::class);

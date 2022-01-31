@@ -98,16 +98,16 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:O' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:M' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:O1')->applyFromArray([
+        $sheet->getStyle('A1:M1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:O' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:M' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

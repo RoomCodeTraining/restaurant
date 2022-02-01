@@ -46,7 +46,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
                     ->get();
 
 
-    dd($orders);
+   return $orders;
   }
 
 

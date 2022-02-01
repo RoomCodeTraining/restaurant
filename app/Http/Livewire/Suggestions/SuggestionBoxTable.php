@@ -14,12 +14,15 @@ class SuggestionBoxTable extends DataTableComponent
   public $suggestionIdBeingDeleted;
   public $confirmingSuggestionDeletion = false;
 
+
   public function columns(): array
   {
     return [
-      Column::make('Date de création')->format(fn ($col, $val, SuggestionBox $row) => $row->created_at->format('d-m-Y')),
-      Column::make('Auteur')->format(fn ($col, $val, $row) => $row->user->full_name),
-      Column::make('Suggestion', 'suggestion'),
+      Column::make('Date de création')->format(fn ($col, $val, SuggestionBox $row) => $row->created_at->format('d-m-Y'))->sortable(fn($query, $search) => $query->whereRaw("DATE_FORMAT(created_at, '%d-%m-%Y') LIKE '%{$search}%'")),
+      Column::make('Suggerant')->format(fn ($col, $val, $row) => $row->user->full_name)->sortable(function(Builder $builder, $searchTerme){
+          $builder->whereHas('user', fn($query) => $query->where('full_name', 'like', "%{$searchTerme}%"));
+      }),
+      Column::make('Suggestion', 'suggestion')->searchable(),
       Column::make('Actions')->format(fn ($val, $col, SuggestionBox $suggestion) => view('livewire.suggestions.table-actions', ['suggestion' => $suggestion])),
     ];
   }

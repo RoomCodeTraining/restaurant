@@ -24,7 +24,7 @@ class EditSuggestionForm extends Component
       'suggestionContent' => ['required', 'string', 'min:20']
     ]);
 
-    auth()->user()->suggestions()->update(['suggestion' => $this->suggestionContent]);
+    $this->suggestion->update(['suggestion' => $this->suggestionContent]);
 
     session()->flash('success', 'Votre suggestion a été modifiée avec succès');
     return redirect()->route('suggestions-box.index');

@@ -136,13 +136,13 @@ class BillingHelper
     public static function getUserBill(User $user, $orders): Collection
     {
         $billingHelper = new self();
-
+      
         if (! isset($billingHelper->billMap[$user->user_type_id]) || ! isset($billingHelper->billMap[$user->user_type_id][$user->employee_status_id])) {
             throw new \Exception("User type or employee status not found");
         }
 
         $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
-
+        return collect($billMap);
         $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
 
         $orders->each(function (Order $order) use (&$result, $billMap) {
@@ -156,7 +156,7 @@ class BillingHelper
                 $result['subvention']['breakfast'] = $billMap['subvention']['breakfast'];
             }
         });
-
+  
         return collect($result);
     }
 }

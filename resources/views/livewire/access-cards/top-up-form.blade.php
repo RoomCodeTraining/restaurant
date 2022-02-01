@@ -24,10 +24,16 @@
                 @endif
             </div>
             <div class="col-span-6 sm:col-span-8 form-control">
+                @if ($user->typeAndCategoryCanUpdated())
+                    <div class='alert alert-info mb-2 text-center'>
+                        Les informations de facturation de cet utilisateur ne peuvent etre modifiées  car ses quota ne sont pas epuisé.
+                    </div>
+                @endif
                 <label class="label">
                     <span class="label-text">Mode de paiement</span>
                 </label>
-                <select class="select select-bordered w-full" wire:model.defer="state.payment_method_id">
+                <select {{ $state['quota_breakfast'] > 0 || $state['quota_lunch'] > 0 ? 'disabled' : '' }}
+                    class="select select-bordered w-full" wire:model.defer="state.payment_method_id">
                     @foreach ($paymentMethods as $id => $name)
                         <option value="{{ $id }}">{{ $name }}</option>
                     @endforeach
@@ -43,7 +49,8 @@
                 <label class="label">
                     <span class="label-text">Quota petit-dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ $state['quota_breakfast'] > 0 ? 'disabled' : '' }} type="text" wire:model.lazy="state.quota_breakfast">
+                <input class="input input-bordered" {{ $state['quota_breakfast'] > 0 ? 'disabled' : '' }} type="text"
+                    wire:model.lazy="state.quota_breakfast">
                 @error('state.quota_breakfast')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -55,7 +62,8 @@
                 <label class="label">
                     <span class="label-text">Quota dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ $state['quota_lunch'] > 0 ? 'disabled' : '' }} type="text" wire:model.lazy="state.quota_lunch">
+                <input class="input input-bordered" {{ $state['quota_lunch'] > 0 ? 'disabled' : '' }} type="text"
+                    wire:model.lazy="state.quota_lunch">
                 @error('state.quota_lunch')
                     <label class="label">
                         <span class="label-text-alt text-red-600">{{ $message }}</span>
@@ -66,10 +74,12 @@
         </x-slot>
 
         <x-slot name="actions">
-            <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
-                wire:loading.attr="disabled" wire:loading.class="loading">
-                Enregistrer
-            </button>
+            @if ($state['quota_breakfast'] == 0 && $state['quota_lunch'] == 0)
+                <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
+                    wire:loading.attr="disabled" wire:loading.class="loading">
+                    Enregistrer
+                </button>
+            @endif
         </x-slot>
     </x-form-section>
 </div>

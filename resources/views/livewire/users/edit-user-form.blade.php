@@ -1,6 +1,12 @@
 <div>
     <x-form-card>
         <x-slot name="form">
+            @if ($user->typeAndCategoryCanUpdated())
+                <div class='alert alert-info mb-2 text-center'>
+                    Les informations concernant la categorie professionnelle et le type de collaborateur de cet utilisateur ne peuvent etre modifiés car
+                    ses quotas ne sont pas epuisés.
+                </div>
+            @endif
             <div class="grid grid-cols-8 gap-2 md:gap-4">
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
@@ -92,7 +98,6 @@
                         </label>
                     @enderror
                 </div>
-
                 <div class="col-span-8 md:col-span-4">
                     <div class="form-control w-full">
                         <label class="label">
@@ -135,7 +140,8 @@
                         <label class="label">
                             <span class="label-text">Catégorie professionnelle</span>
                         </label>
-                        <select class="select select-bordered w-full" wire:model.defer="state.employee_status_id">
+                        <select {{ $user->typeAndCategoryCanUpdated() ? 'disabled' : '' }}
+                            class="select select-bordered w-full" wire:model.defer="state.employee_status_id">
                             <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($employeeStatuses as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
@@ -154,7 +160,8 @@
                         <label class="label">
                             <span class="label-text">Type de Collaborateur</span>
                         </label>
-                        <select @cla class="select select-bordered w-full" wire:model="state.user_type_id">
+                        <select {{ $user->typeAndCategoryCanUpdated() ? 'disabled' : '' }} @cla
+                            class="select select-bordered w-full" wire:model="state.user_type_id">
                             <option value="{{ null }}" selected="selected">Veuillez choisir</option>
                             @foreach ($userTypes as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
@@ -176,24 +183,21 @@
                 <button class="md:hidden btn">
                     Retour
                 </button>
-                <button class="btn btn-primary" wire:target="saveUser" wire:click="confirmUpdate()" wire:loading.attr="disabled"
-                    wire:loading.class="loading">
+                <button class="btn btn-primary" wire:target="saveUser" wire:click="confirmUpdate()"
+                    wire:loading.attr="disabled" wire:loading.class="loading">
                     Enregistrer
                 </button>
             </div>
         </x-slot>
     </x-form-card>
-
     <!-- Delete User Confirmation Modal -->
     <x-dialog-modal wire:model="confirmingUpdate">
         <x-slot name="title">
             Modifier l'utilisateur
         </x-slot>
-
         <x-slot name="content">
             Etes vous sûr de vouloir appliquer ces modifications ?
         </x-slot>
-
         <x-slot name="footer">
             <div class="inline-flex items-center space-x-2">
                 <button wire:click="$toggle('confirmingUpdate')" wire:loading.attr="disabled">

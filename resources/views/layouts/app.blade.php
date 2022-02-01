@@ -158,16 +158,17 @@
                                 Reporting
                             </div>
                             <x-nav-link href="{{ route('reporting.check.breakfast') }}" icon="chart"
-                            :active="request()->routeIs('reporting.check.breakfast')">
-                            Petit dejeuner
-                        </x-nav-link>
+                                :active="request()->routeIs('reporting.check.breakfast')">
+                                Petit dejeuner
+                            </x-nav-link>
                             <x-nav-link href="{{ route('reporting.orders') }}" icon="chart"
                                 :active="request()->routeIs('reporting.orders')">
                                 Dejeuner
                             </x-nav-link>
-                       
+
                         @endif
-                        @if(auth()->user()->can('manage', \App\Models\SuggestionBox::class) || auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
+                        @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) ||
+    auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Suggestions
                             </div>
@@ -176,22 +177,22 @@
                                 Boîte à suggestions
                             </x-nav-link>
                         @endif
-                      <!--
-                        @if(auth()->user()->hasRole(\App\Models\Role::ADMIN))
-                        <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
-                            Statistiques
-                        </div>
-                        <x-nav-link href="{{ route('dishes.stats') }}" icon="stats"
-                            :active="request()->routeIs('dishes.stats')">
-                            Plats
-                        </x-nav-link>
-                        <x-nav-link href="{{ route('users.stats') }}" icon="stats"
-                        :active="request()->routeIs('users.stats')">
-                        Utilisateurs
-                    </x-nav-link>                    
-                    @endif-->
+                      
+                      <!--  @if (auth()->user()->hasRole(\App\Models\Role::ADMIN))
+                            <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Statistiques
+                            </div>
+                            <x-nav-link href="{{ route('dishes.stats') }}" icon="stats"
+                                :active="request()->routeIs('dishes.stats')">
+                                Plats
+                            </x-nav-link>
+                            <x-nav-link href="{{ route('users.stats') }}" icon="stats"
+                                :active="request()->routeIs('users.stats')">
+                                Utilisateurs
+                            </x-nav-link>
+                        @endif-->
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
-                        auth()->user()->can('manage', App\Models\Organization::class))
+    auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Paramètrages
                             </div>
@@ -357,9 +358,9 @@
         <!-- END Page Content -->
     </div>
     <!-- END Page Container -->
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-   @yield('js')
+    @yield('js')
 </body>
 
 </html>

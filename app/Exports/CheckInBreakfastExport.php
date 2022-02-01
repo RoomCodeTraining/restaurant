@@ -71,6 +71,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
       "Type de collaborateur",
       "Catégorie professionnelle",
       "Date",
+      'Type du plat',
       "Méthode de paiement",
       "Contribution collaborateur",
       "Subvention ciprel",
@@ -83,10 +84,11 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
 
     $date = $row->created_at;
     $userBill = BillingHelper::getUserBill($row->user, $row);
-
-
+ 
     $contribution =  $userBill['contribution']['breakfast'];
+  
     $subvention = $userBill['subvention']['breakfast'];
+
     $order_type = 'petit déjeuner';
     return [
       $row->user->last_name,
@@ -99,25 +101,26 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
       $row->user->userType->name,
       $row->user->employeeStatus->name,
       $date->format('d/m/Y'),
+      'petit déjeuner',
       $row->user->accessCard->paymentMethod->name,
-      0,
-      0,
+      $contribution,
+      $subvention,
     ];
   }
 
 
   public function styles(Worksheet $sheet)
   {
-    $sheet->setAutoFilter('A1:M' . $sheet->getHighestRow());
+    $sheet->setAutoFilter('A1:N' . $sheet->getHighestRow());
 
-    $sheet->getStyle('A1:M1')->applyFromArray([
+    $sheet->getStyle('A1:N1')->applyFromArray([
       'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
       'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
     ]);
 
     $sheet->getRowDimension(1)->setRowHeight(15);
 
-    $sheet->getStyle('A2:M' . $sheet->getHighestRow())->applyFromArray([
+    $sheet->getStyle('A2:N' . $sheet->getHighestRow())->applyFromArray([
       'borders' => [
         'allBorders' => [
           'borderStyle' => Border::BORDER_THIN,

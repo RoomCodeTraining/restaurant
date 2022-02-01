@@ -55,7 +55,7 @@ class SuggestionBoxTable extends DataTableComponent
 
   public function query(): Builder
   {
-    if (auth()->user()->can('suggestion.manage', \App\Models\SuggestionBox::class)) {
+    if (!auth()->user()->hasROle(\App\Models\Role::ADMIN)) {
       return SuggestionBox::query()->where('user_id', auth()->user()->id);
     }
 

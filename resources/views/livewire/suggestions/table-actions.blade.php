@@ -1,4 +1,4 @@
-@if(auth()->user()->can('manage', \App\Models\SuggestionBox::class))
+@if(auth()->user()->can('manage', \App\Models\SuggestionBox::class) && $suggestion->user_id == auth()->user()->id)
   <div class="flex items-center">
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('suggestions-box.edit', $suggestion) }}" class="mr-2" x-tooltip="tooltip">

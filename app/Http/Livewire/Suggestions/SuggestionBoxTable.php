@@ -22,7 +22,7 @@ class SuggestionBoxTable extends DataTableComponent
       Column::make('Date de création')->format(fn ($col, $val, SuggestionBox $row) => $row->created_at->format('d/m/Y'))->sortable(fn($query, $search) => $query->whereRaw("DATE_FORMAT(created_at, '%d-%m-%Y') LIKE '%{$search}%'")),
       Column::make('Suggerant')->format(fn ($col, $val, $row) => $row->user->full_name)->sortable(function(Builder $builder, $searchTerme){
           $builder->whereHas('user', fn($query) => $query->where('first_name', 'like', "%{$searchTerme}%"))->orWhere('last_name', 'like', "%{$searchTerme}%");
-      }),
+      })->hideIf(! auth()->user()->hasRole(\App\Models\Role::ADMIN)),
       Column::make('Suggestion', 'suggestion')->sortable(),
       Column::make('Actions')->format(fn ($val, $col, SuggestionBox $suggestion) => view('livewire.suggestions.table-actions', ['suggestion' => $suggestion])),
     ];

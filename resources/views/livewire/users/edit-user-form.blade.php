@@ -3,8 +3,8 @@
         <x-slot name="form">
             @if ($user->typeAndCategoryCanUpdated())
                 <div class='alert alert-info mb-2 text-center'>
-                    Les informations categorie profesionnelle et type de collaboratoire ne peuvent pas etre modifiés car
-                    il a toujours des quotas pour cet utilisateur
+                    Les informations concernant la categorie professionnelle et le type de collaborateur de cet utilisateur ne peuvent etre modifiés car
+                    ses quotas ne sont pas epuisés.
                 </div>
             @endif
             <div class="grid grid-cols-8 gap-2 md:gap-4">

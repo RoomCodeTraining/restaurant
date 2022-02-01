@@ -83,4 +83,9 @@ class Dish extends Model
     {
         return $this->dishType->is_orderable;
     }
+
+
+    public function orders(){
+      return $this->hasMany(\App\Models\Order::class);
+    }
 }

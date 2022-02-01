@@ -5,6 +5,7 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\DateTimeHelper;
 use App\States\Order\OrderState;
 use Spatie\ModelStates\HasStates;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +33,7 @@ class Order extends Model
     protected static function booted()
     {
         static::addGlobalScope('lunch', function (Builder $builder) {
-            $builder->where('type', 'lunch');
+            $builder->whereIn('type', ['lunch']);
         });
     }
 
@@ -49,6 +50,14 @@ class Order extends Model
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
+    }
+
+    public function scopeFilter($query, $period){
+        return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
+    }
+
+    public function scopeBreakfastPeriodFilter($query, $period){
+        return $query->where('created_at', DateTimeHelper::inThePeriod($period));
     }
 
     public function canBeCancelled()
@@ -102,5 +111,10 @@ class Order extends Model
     public function accessCard()
     {
         return $this->belongsTo(AccessCard::class);
+    }
+
+
+    public function getOrderTypeAttribute(){
+        return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
     }
 }

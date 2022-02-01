@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use App\Notifications\WelcomeNotification;
+use App\Models\SuggestionBox;
 use App\Support\HasProfilePhoto;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasPermissions;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use App\Notifications\WelcomeNotification;
+use Spatie\Permission\Traits\HasPermissions;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
@@ -141,5 +142,9 @@ class User extends Authenticatable
     {
         $this->current_access_card_id = $accessCard->id;
         $this->save();
+    }
+
+    public function suggestions(){
+      return $this->hasMany(SuggestionBox::class);
     }
 }

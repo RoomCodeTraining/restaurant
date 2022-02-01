@@ -19,7 +19,7 @@ class AdminRhDashboard extends Component
             'orders_confirmed_count' => \App\Models\Order::today()->whereState('state', Confirmed::class)->count(),
             'orders_completed_count' => \App\Models\Order::today()->whereState('state', Completed::class)->count(),
             'count_today_orders' => \App\Models\Order::whereNotState('state', [Cancelled::class, Suspended::class])->today()->count(),
-            "today_order" => \App\Models\Order::whereNotState('state', Cancelled::class)->today()->with('dish')->where('user_id', auth()->id())->first(),
+            "today_order" => \App\Models\Order::whereState('state', [Completed::class, Confirmed::class])->today()->with('dish')->where('user_id', auth()->id())->first(),
         ]);
     }
 }

@@ -21,7 +21,7 @@ class GenerateBreakfastOrders extends Command
      */
     protected $description = 'Génère les commandes de petit déjeuner pour les employés';
 
-    /**
+    /** 
      * Execute the console command.
      *
      * @return int

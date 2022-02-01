@@ -58,7 +58,7 @@ class CreateOrderForm extends Component
          */
         if ($this->userAccessCard->quota_lunch === 0) {
             throw ValidationException::withMessages([
-                'selectedDishes' => ['Vous quota est insuffisant.']
+                'selectedDishes' => ['Votre quota est insuffisant.']
             ]);
         }
 

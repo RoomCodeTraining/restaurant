@@ -57,9 +57,9 @@ class SuggestionBoxTable extends DataTableComponent
   public function query(): Builder
   {
     if (!auth()->user()->hasROle(\App\Models\Role::ADMIN)) {
-      return SuggestionBox::query()->where('user_id', auth()->user()->id);
+      return SuggestionBox::query()->where('user_id', auth()->user()->id)->orderBy('created_at', 'desc');
     }
 
-    return SuggestionBox::query();
+    return SuggestionBox::query()->OrderBy('created_at', 'desc');
   }
 }

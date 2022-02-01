@@ -13,7 +13,8 @@ class SuggestionBoxTable extends DataTableComponent
 
   public $suggestionIdBeingDeleted;
   public $confirmingSuggestionDeletion = false;
-
+ 
+  public bool $showSearch = false;
 
   public function columns(): array
   {

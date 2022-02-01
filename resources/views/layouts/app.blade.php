@@ -171,7 +171,7 @@
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Suggestions
                             </div>
-                            <x-nav-link href="{{ route('suggestions-box.index') }}" icon="cube-transparent"
+                            <x-nav-link href="{{ route('suggestions-box.index') }}" icon="box_"
                                 :active="request()->routeIs('suggestions-box.index')">
                                 Boîte à suggestions
                             </x-nav-link>
@@ -180,11 +180,11 @@
                         <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                             Statistiques
                         </div>
-                        <x-nav-link href="{{ route('dishes.stats') }}" icon="cube-transparent"
+                        <x-nav-link href="{{ route('dishes.stats') }}" icon="stats"
                             :active="request()->routeIs('dishes.stats')">
                             Plats
                         </x-nav-link>
-                        <x-nav-link href="{{ route('users.stats') }}" icon="cube-transparent"
+                        <x-nav-link href="{{ route('users.stats') }}" icon="stats"
                         :active="request()->routeIs('users.stats')">
                         Utilisateurs
                     </x-nav-link>

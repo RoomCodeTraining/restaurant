@@ -312,7 +312,8 @@ class PermissionSeeder extends Seeder
             EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
             UserTypePolicy::USER_TYPE_MANAGE,
             ReportingPolicy::REPORTING_ORDERS,
-            SuggestionBoxPolicy::SUGGESTION_LIST
+            SuggestionBoxPolicy::SUGGESTION_LIST,
+            SuggestionBoxPolicy::SUGGESTION_MANAGE,
         ]);
 
         Role::create([

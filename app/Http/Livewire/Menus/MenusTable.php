@@ -2,11 +2,12 @@
 
 namespace App\Http\Livewire\Menus;
 
-use App\Actions\Menu\DeleteMenuAction;
 use App\Models\Menu;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Actions\Menu\DeleteMenuAction;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class MenusTable extends DataTableComponent
 {
@@ -20,6 +21,11 @@ class MenusTable extends DataTableComponent
 
     public $menuIdBeingRestored;
     public $confirmingMenuRestoration = false;
+
+
+    protected $bulkActions = [
+        'exportMenu' =>'Exporter les menus'
+    ];
 
     public function columns(): array
     {
@@ -62,6 +68,11 @@ class MenusTable extends DataTableComponent
         session()->flash('success', "Le menu a été supprimé avec succès !");
 
         return redirect()->route('menus.index');
+    }
+
+
+    public function exportMenu(){
+        return Excel::download(new \App\Exports\DishExport, 'liste-des-menus.xlsx');
     }
 
     public function modalsView(): string

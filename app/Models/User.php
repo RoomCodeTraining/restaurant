@@ -12,6 +12,7 @@ use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
@@ -146,5 +147,11 @@ class User extends Authenticatable
 
     public function suggestions(){
       return $this->hasMany(SuggestionBox::class);
+    }
+
+    public function typeAndCategoryCanUpdated(){
+      if($this->accessCard && $this->accessCard->quota_breakfast > 0 && $this->accessCard->quota_lunch > 0){
+          return true;
+      }
     }
 }

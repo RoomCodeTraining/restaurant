@@ -176,6 +176,7 @@
                                 Boîte à suggestions
                             </x-nav-link>
                         @endif
+                      <!--
                         @if(auth()->user()->hasRole(\App\Models\Role::ADMIN))
                         <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                             Statistiques
@@ -187,8 +188,8 @@
                         <x-nav-link href="{{ route('users.stats') }}" icon="stats"
                         :active="request()->routeIs('users.stats')">
                         Utilisateurs
-                    </x-nav-link>
-                    @endif
+                    </x-nav-link>                    
+                    @endif-->
                         @if (auth()->user()->can('manage', App\Models\Department::class) ||
                         auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">

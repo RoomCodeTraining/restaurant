@@ -26,7 +26,7 @@
             <div class="col-span-6 sm:col-span-8 form-control">
                 @if ($user->typeAndCategoryCanUpdated())
                     <div class='alert alert-info mb-2 text-center'>
-                        Les informations de facturation de cet utilisateur ne peuvent etre modifiées  car ses quota ne sont pas epuisé.
+                        Les informations de facturation de cet utilisateur ne peuvent etre modifiées car ses quota ne sont pas epuisés.
                     </div>
                 @endif
                 <label class="label">

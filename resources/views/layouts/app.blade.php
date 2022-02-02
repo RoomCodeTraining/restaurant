@@ -107,8 +107,7 @@
                                 Mes Historiques
                             </x-nav-link>
                         @endif
-                        @if (auth()->user()->can('manage', \App\Models\User::class) ||
-    auth()->user()->can('viewAny', \App\Models\User::class))
+                        @if (auth()->user()->can('manage', \App\Models\User::class) || auth()->user()->can('viewAny', \App\Models\User::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>
@@ -165,10 +164,8 @@
                                 :active="request()->routeIs('reporting.orders')">
                                 Dejeuner
                             </x-nav-link>
-
                         @endif
-                        @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) ||
-    auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
+                        @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) || auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Suggestions
                             </div>
@@ -177,8 +174,7 @@
                                 Boîte à suggestions
                             </x-nav-link>
                         @endif
-                      
-                      <!--  @if (auth()->user()->hasRole(\App\Models\Role::ADMIN))
+                        <!--  @if (auth()->user()->hasRole(\App\Models\Role::ADMIN))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Statistiques
                             </div>
@@ -191,8 +187,7 @@
                                 Utilisateurs
                             </x-nav-link>
                         @endif-->
-                        @if (auth()->user()->can('manage', App\Models\Department::class) ||
-    auth()->user()->can('manage', App\Models\Organization::class))
+                        @if (auth()->user()->can('manage', App\Models\Department::class) || auth()->user()->can('manage', App\Models\Organization::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Paramètrages
                             </div>
@@ -236,7 +231,6 @@
             <!-- END Sidebar Navigation -->
         </nav>
         <!-- Page Sidebar -->
-
         <!-- Page Header -->
         <header id="page-header"
             class="flex flex-none items-center h-16 bg-white shadow fixed top-0 right-0 left-0 z-10"
@@ -260,7 +254,6 @@
                         </button>
                     </div>
                     <!-- END Toggle Sidebar on Desktop -->
-
                     <!-- Toggle Sidebar on Mobile -->
                     <div class="lg:hidden">
                         <button type="button"
@@ -274,10 +267,8 @@
                             </svg>
                         </button>
                     </div>
-
                 </div>
                 <!-- END Left Section -->
-
                 <!-- Right Section -->
                 <div class="flex items-center space-x-2">
                     <!-- User Dropdown -->
@@ -296,7 +287,6 @@
                             </svg>
                         </button>
                         <!-- END Dropdown Toggle Button -->
-
                         <!-- Dropdown -->
                         <div x-cloak x-show="userDropdownOpen" x-transition:enter="transition ease-out duration-150"
                             x-transition:enter-start="transform opacity-0 scale-75"
@@ -359,7 +349,6 @@
     </div>
     <!-- END Page Container -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
     @yield('js')
 </body>
 

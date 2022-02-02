@@ -30,7 +30,7 @@ class MarkOrderAsCompleted extends Controller
 
     if (!$accessCard) {
       return response()->json([
-        'message' => "Cette carte n'est associée à aucun compte.",
+        'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
       ], Response::HTTP_NOT_FOUND);
     }
 
@@ -88,7 +88,7 @@ class MarkOrderAsCompleted extends Controller
 
     if ($request->order_type === 'breakfast' && $accessCard->user->created_at->isToday()) {
       return response()->json([
-        "message" => "Vous ne pouvez pas manger aujourd'hui car votre compte a été crée aujourd'hui",
+        "message" => "Votre compte a été crée aujourd'hui. Le pointage petit dejeuner sera activé apres dans 24H.",
         "success" => false,
         "user" => $accessCard->user
       ], Response::HTTP_NOT_FOUND);

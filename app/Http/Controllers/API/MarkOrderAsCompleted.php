@@ -87,7 +87,7 @@ class MarkOrderAsCompleted extends Controller
         /**
          * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
          */
-        if (! $order && auth()->user()->created_at->equalTo(today())) {
+        if (! $order && $accessCard->user->created_at->equalTo(today())) {
             return response()->json([
                 "message" => "Vous ne pouvez pas manger aujourd'hui. Veuillez attendre demain.",
                 "success" => false,

@@ -86,9 +86,9 @@ class MarkOrderAsCompleted extends Controller
      */
 
 
-    if ($accessCard->user->created_at->isToday()) {
+    if ($request->order_type === 'breakfast' && $accessCard->user->created_at->isToday()) {
       return response()->json([
-        "message" => "Vous ne pouvez pas manger aujourd'hui. Veuillez attendre demain.",
+        "message" => "Vous ne pouvez pas manger aujourd'hui car votre compte a été crée aujourd'hui",
         "success" => false,
         "user" => $accessCard->user
       ], Response::HTTP_NOT_FOUND);

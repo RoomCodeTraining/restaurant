@@ -88,7 +88,7 @@ class MarkOrderAsCompleted extends Controller
 
     if ($request->order_type === 'breakfast' && $accessCard->user->created_at->isToday()) {
       return response()->json([
-        "message" => "Votre compte a été crée aujourd'hui. Le pointage petit dejeuner sera activé apres dans 24H.",
+        "message" => "Votre compte a été crée aujourd'hui. Le pointage petit dejeuner sera activé dans 24H.",
         "success" => false,
         "user" => $accessCard->user
       ], Response::HTTP_NOT_FOUND);

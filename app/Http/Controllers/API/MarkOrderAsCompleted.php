@@ -22,11 +22,7 @@ class MarkOrderAsCompleted extends Controller
     //  $this->authorize('viewAny', Menu::class);
     $request->validate([
       'order_type' => ['required', Rule::in(['breakfast', 'lunch'])],
-      'access_card_identifier' => ['required', function ($attrubute, $value, $fail) {
-        if (!AccessCard::whereIdentifier($value)) {
-          $fail("Cette Carte RFID n'existe pas. Veuillez verifier l'identifiant entré");
-        }
-      }],
+      'access_card_identifier' => ['required']
     ]);
 
 
@@ -88,6 +84,8 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
      */
+
+ 
     if (!$order && $accessCard->user->created_at->equalTo(today())) {
       return response()->json([
         "message" => "Vous ne pouvez pas manger aujourd'hui. Veuillez attendre demain.",

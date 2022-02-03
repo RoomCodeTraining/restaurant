@@ -226,8 +226,8 @@ return [
     'table_prefix' => env('TOTEM_TABLE_PREFIX', ''),
     'artisan' => [
       'command_filter' => [
-          'stats:*',
-          'email:daily-reports'
+          'charge:users',
+          'orders:generate-breakfast'
       ],
       'whitelist' => true,
   ],

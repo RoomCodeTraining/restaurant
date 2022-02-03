@@ -15,7 +15,7 @@ class ChargeUsers extends Command
      * @var string
      */
     protected $signature = 'charge:users';
-
+ 
     /**
      * The console command description.
      *

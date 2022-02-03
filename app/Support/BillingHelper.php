@@ -142,21 +142,24 @@ class BillingHelper
         }
 
         $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
-        return collect($billMap);
+        
+        $bill['subvention'] =  $billMap['subvention']['lunch'];
+        $bill['contribution'] =  $billMap['contribution']['lunch'];
+
+       return collect($bill);
+
+
         $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
 
-        $orders->each(function (Order $order) use (&$result, $billMap) {
+        $orders->each(function (Order $order) use ($result, $billMap) {
             if ($order->type == 'lunch') {
                 $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
                 $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
             }
-
-            if ($order->type == 'breakfast') {
-                $result['contribution']['breakfast'] = $billMap['contribution']['breakfast'];
-                $result['subvention']['breakfast'] = $billMap['subvention']['breakfast'];
-            }
         });
-  
+        
+
+
         return collect($result);
     }
 }

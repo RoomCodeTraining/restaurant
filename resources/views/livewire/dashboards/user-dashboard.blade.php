@@ -12,10 +12,10 @@
             </a>
             <a href='/profile#card'>
                 <x-statistic label="quota petit dejeuner"
-                    value="{{ auth()->user()->currentAccessCard->quota_breakfast }}" icon="card" />
+                    value="{{ auth()->user()->AccessCard->quota_breakfast }}" icon="card" />
             </a>
             <a href='/profile#card'>
-                <x-statistic label="quota dejeuner" value="{{ auth()->user()->currentAccessCard->quota_lunch }}"
+                <x-statistic label="quota dejeuner" value="{{ auth()->user()->AccessCard->quota_lunch }}"
                     icon="card" />
             </a>
         @endif

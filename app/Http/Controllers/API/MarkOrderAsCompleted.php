@@ -26,7 +26,15 @@ class MarkOrderAsCompleted extends Controller
     ]);
 
 
+
+
     $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
+
+    if(now()->hour < config('cantine.order.locked_at') && $request->order_type == 'lunch'){
+        return response()->json([
+            'message' => 'Vous ne pouvez pas retirer de repas avant '.config('cantine.order.locked_at').'h'
+        ], Response::HTTP_BAD_REQUEST);
+    }
 
     if (!$accessCard) {
       return response()->json([
@@ -84,7 +92,12 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque l'utilisateur n'a pas fait de commande pour le jour en cours.
      */
-
+    if (!$order && $request->order_type == 'lunch') {
+      return response()->json([
+        "message" => 'Vous n\'avez pas de commande pour le déjeuner du jour. Veuillez vous rendre chez l\'operateur cantine pour passer une commande exceptionnelle.',
+        "success" => false,
+      ], Response::HTTP_NOT_FOUND);
+    }
 
     if ($request->order_type === 'breakfast' && $accessCard->user->created_at->isToday()) {
       return response()->json([

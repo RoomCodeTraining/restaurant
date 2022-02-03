@@ -94,9 +94,10 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
         $userBill = BillingHelper::getUserBill($order->user, $row);
      //   $mealLabel = $row->count() > 1 ? 'petit déjeuner + déjeuner' : ($order->type == 'lunch' ? 'déjeuner' : 'petit déjeuner');
-        $contribution =  $userBill['contribution']['lunch'] + $userBill['contribution']['breakfast'] ?? 0;
-        $subvention = $userBill['subvention']['lunch'] + $userBill['subvention']['breakfast'] ?? 0;
-
+   
+        $contribution =  $userBill['contribution'];
+        $subvention = $userBill['subvention'];
+       
         return [
             $order->user->last_name,
             $order->user->first_name,

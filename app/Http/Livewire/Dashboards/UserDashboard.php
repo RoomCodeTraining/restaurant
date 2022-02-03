@@ -14,7 +14,7 @@ class UserDashboard extends Component
     public function render()
     {
         return view('livewire.dashboards.user-dashboard', [
-                   "today_order" => \App\Models\Order::whereState('state', [Completed::class, Confirmed::class])->today()->with('dish')->where('user_id', auth()->id())->first(),
+                "today_order" => \App\Models\Order::whereState('state', [Completed::class, Confirmed::class])->today()->with('dish')->where('user_id', auth()->id())->first(),
                 'weekly_orders_count' => Order::weekly()->where('user_id', auth()->id())->count(),
                 'monthly_order_count' => Order::monthly()->where('user_id', auth()->id())->count(),
           ]);

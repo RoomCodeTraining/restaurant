@@ -221,7 +221,12 @@
                                     Catégories
                                 </x-nav-link>
                             @endcan
-                   
+                            @if(auth()->user()->isAdmin())
+                                <x-nav-link href="totem/tasks" icon="users"
+                                    :active="request()->routeIs('employeeStatuses.index')">
+                                    Planificateur des tâches
+                                </x-nav-link>
+                            @endif
                         @endif
                         {{-- <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                             Reporting

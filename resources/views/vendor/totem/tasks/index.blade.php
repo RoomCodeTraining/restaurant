@@ -42,7 +42,7 @@
                 <tr>
                     <td class="uk-text-center" colspan="5">
                         <img class="uk-svg" width="50" height="50" src="{{ asset('/vendor/totem/img/funnel.svg') }}">
-                        <p>No Tasks Found.</p>
+                        <p>Aucun resultat pour l'instant.</p>
                     </td>
                 </tr>
             @endforelse
@@ -54,16 +54,7 @@
         <span>
             <a class="uk-icon-button uk-button-primary uk-hidden@m" uk-icon="icon: plus"
                 href="{{ route('totem.task.create') }}"></a>
-            <a class="uk-button uk-button-primary uk-button-small uk-visible@m" href="{{ route('totem.task.create') }}">New
-                Task</a>
-        </span>
-
-        <span>
-            <import-button url="{{ route('totem.tasks.import') }}"></import-button>
-            <a class="uk-icon-button uk-button-primary uk-hidden@m" uk-icon="icon: cloud-download"
-                href="{{ route('totem.tasks.export') }}"></a>
-            <a class="uk-button uk-button-primary uk-button-small uk-visible@m"
-                href="{{ route('totem.tasks.export') }}">Export</a>
+            <a class="uk-button uk-button-primary uk-button-small uk-visible@m" href="{{ route('totem.task.create') }}">Nouvelle tâche </a>
         </span>
     </div>
     {{ $tasks->links('totem::partials.pagination', ['params' => '&' . http_build_query(array_filter(request()->except('page')))]) }}

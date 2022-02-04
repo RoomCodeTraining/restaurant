@@ -84,10 +84,9 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
 
     $date = $row->created_at;
     $userBill = BillingHelper::getUserBill($row->user, $row);
- 
-    $contribution =  $userBill['contribution']['breakfast'];
-  
-    $subvention = $userBill['subvention']['breakfast'];
+    
+    $contribution =  $userBill['contribution'];
+    $subvention = $userBill['subvention'];
 
     $order_type = 'petit déjeuner';
     return [

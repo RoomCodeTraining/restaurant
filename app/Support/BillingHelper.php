@@ -133,7 +133,7 @@ class BillingHelper
         ];
     }
 
-    public static function getUserBill(User $user, $orders): Collection
+    public static function getUserBill(User $user, $order): Collection
     {
         $billingHelper = new self();
       
@@ -143,23 +143,25 @@ class BillingHelper
 
         $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
         
-        $bill['subvention'] =  $billMap['subvention']['lunch'];
-        $bill['contribution'] =  $billMap['contribution']['lunch'];
-
+        if($order->type == 'lunch'){
+          $bill['subvention'] =  $billMap['subvention']['lunch'];
+          $bill['contribution'] =  $billMap['contribution']['lunch'];
+        }else{
+          $bill['subvention'] =  $billMap['subvention']['breakfast'];
+          $bill['contribution'] =  $billMap['contribution']['breakfast'];
+        }
+      
+      
        return collect($bill);
 
 
-        $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
+      // $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
 
-        $orders->each(function (Order $order) use ($result, $billMap) {
+      /*  $orders->each(function (Order $order) use ($result, $billMap) {
             if ($order->type == 'lunch') {
                 $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
                 $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
             }
-        });
-        
-
-
-        return collect($result);
+        });*/
     }
 }

@@ -28,6 +28,7 @@ class GenerateBreakfastOrders extends Command
      */
     public function handle()
     {
+      
         User::query()->whereHas('accessCard')->each(function (User $user) {
             $user->orders()->create(['type' => 'breakfast']);
         });

@@ -59,6 +59,10 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function isAdmin() : bool {
+        return $this->hasRole(\App\Models\Role::ADMIN) ? true : false;
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->last_name} {$this->first_name}";

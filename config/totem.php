@@ -3,32 +3,32 @@
 return [
     'frequencies'  => [
         [
-            'label'             => 'Every Minute',
+            'label'             => 'Chaque minute',
             'interval'          => 'everyMinute',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Five Minutes',
+            'label'             => 'Chaque cinq minutes',
             'interval'          => 'everyFiveMinutes',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Ten Minutes',
+            'label'             => 'Toutes les 10 minutes',
             'interval'          => 'everyTenMinutes',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Thirty Minutes',
+            'label'             => 'Toutes les 30 minutes',
             'interval'          => 'everyThirtyMinutes',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Hourly',
+            'label'             => 'Toutes les heures',
             'interval'          => 'hourly',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Hourly at',
+            'label'             => 'Toutes les heures à',
             'interval'          => 'hourlyAt',
             'parameters'        => [
                 [
@@ -41,12 +41,12 @@ return [
             ],
         ],
         [
-            'label'             => 'Daily',
+            'label'             => 'Tout les jours',
             'interval'          => 'daily',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Daily at',
+            'label'             => 'Tout les jours à',
             'interval'          => 'dailyAt',
             'parameters'        => [
                 [
@@ -57,7 +57,7 @@ return [
             ],
         ],
         [
-            'label'             => 'Twice Daily',
+            'label'             => 'Deux par jour',
             'interval'          => 'twiceDaily',
             'parameters'        => [
                 [
@@ -73,12 +73,12 @@ return [
             ],
         ],
         [
-            'label'             => 'Weekly',
+            'label'             => 'Hebdomadaire',
             'interval'          => 'weekly',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Weekly On',
+            'label'             => 'Chaque semaine le',
             'interval'          => 'weeklyOn',
             'parameters'        => [
                 [
@@ -96,12 +96,12 @@ return [
             ],
         ],
         [
-            'label'             => 'Monthly',
+            'label'             => 'Tout les mois',
             'interval'          => 'monthly',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Monthly On',
+            'label'             => 'Chaque mois le',
             'interval'          => 'monthlyOn',
             'parameters'        => [
                 [
@@ -118,7 +118,7 @@ return [
             ],
         ],
         [
-            'label'             => 'Twice Monthly',
+            'label'             => 'Tout les deux mois',
             'interval'          => 'twiceMonthly',
             'parameters'        => [
                 [
@@ -134,57 +134,57 @@ return [
             ],
         ],
         [
-            'label'             => 'Quarterly',
+            'label'             => 'Chaque trimestre',
             'interval'          => 'quarterly',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Yearly',
+            'label'             => 'annuel',
             'interval'          => 'yearly',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Weekdays',
+            'label'             => 'jours de la semaine',
             'interval'          => 'weekdays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Sunday',
+            'label'             => 'Tout les dimanche',
             'interval'          => 'sundays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Monday',
+            'label'             => 'Tout les lundi',
             'interval'          => 'mondays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Tuesday',
+            'label'             => 'Tout les mardi',
             'interval'          => 'tuesdays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Wednesday',
+            'label'             => 'Tout les mercredi',
             'interval'          => 'wednesdays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Thursday',
+            'label'             => 'Tout les Jeudi',
             'interval'          => 'thursdays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Friday',
+            'label'             => 'Tout les Vendredi',
             'interval'          => 'fridays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Every Saturday',
+            'label'             => 'Tout les samedi',
             'interval'          => 'saturdays',
             'parameters'        => false,
         ],
         [
-            'label'             => 'Between',
+            'label'             => 'Compris entre',
             'interval'          => 'between',
             'parameters'        => [
                 [
@@ -200,7 +200,7 @@ return [
             ],
         ],
         [
-            'label'             => 'Unless Between',
+            'label'             => 'Sauf entre',
             'interval'          => 'unlessBetween',
             'parameters'        => [
                 [

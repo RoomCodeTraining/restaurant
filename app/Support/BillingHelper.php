@@ -140,10 +140,10 @@ class BillingHelper
         if (! isset($billingHelper->billMap[$user->user_type_id]) || ! isset($billingHelper->billMap[$user->user_type_id][$user->employee_status_id])) {
             throw new \Exception("User type or employee status not found");
         }
-
-        $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
         
-        if($order->type == 'lunch'){
+        $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
+        $type = $order[0]['type'] ?? $order->type;
+        if($type == 'lunch'){
           $bill['subvention'] =  $billMap['subvention']['lunch'];
           $bill['contribution'] =  $billMap['contribution']['lunch'];
         }else{

@@ -5,7 +5,7 @@
 
     <x-dialog-modal wire:model="showModal">
         <x-slot name="title">
-            Importer depuis un fichier CSV
+            Importer depuis un fichier Excel
         </x-slot>
 
         <x-slot name="content">

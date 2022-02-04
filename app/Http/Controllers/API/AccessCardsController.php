@@ -75,7 +75,7 @@ class AccessCardsController extends Controller
 
         
     
-        if ($user->accessCard && $user->currentAccessCard->type === AccessCard::TYPE_TEMPORARY) {
+        if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
             return response()->json([
                 'message' => 'Cet utilisateur a déjà une carte temporaire associée à son compte',
                 'success' => false,

@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             UserSeeder::class,
             DishTypeSeeder::class,
-            //MenuSeeder::class
+            MenuSeeder::class
         ]);
     }
 }

@@ -5,6 +5,6 @@
 @endif
 @if($errors->any())
     <uikit-alert type="danger">
-        Please Correct the errors and try resubmitting.
+      Veuillez corriger les erreurs et essayer de soumettre à nouveau.
     </uikit-alert>
 @endif

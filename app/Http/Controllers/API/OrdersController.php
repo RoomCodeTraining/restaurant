@@ -30,7 +30,7 @@ class OrdersController extends Controller
         //$this->authorize('viewAny', Menu::class);
 
         $request->validate([
-            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+            'identifier' => ['required'],
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 

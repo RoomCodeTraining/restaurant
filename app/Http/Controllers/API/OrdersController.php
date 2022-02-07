@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 class OrdersController extends Controller
 {
     //use AuthorizesRequests;
-
     /**
      * Store a newly created resource in storage.
      *
@@ -31,20 +30,28 @@ class OrdersController extends Controller
         //$this->authorize('viewAny', Menu::class);
 
         $request->validate([
-            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+            'identifier' => ['required'],
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
+
+
         $todayMenu = Menu::with('dishes')->today()->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
+        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
+
+        if(!$accessCard){
+          return response()->json([
+              'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
+              'success' => false,
+          ], Response::HTTP_NOT_FOUND);
+      }
 
         if (! $menuHasDish) {
             throw ValidationException::withMessages([
                 'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
             ]);
         }
-
-        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
         if ($accessCard->quota_lunch <= 0) {
             throw ValidationException::withMessages([
@@ -68,7 +75,8 @@ class OrdersController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        if(now()->hour > config('cantine.order.locked_at')){
+
+        if(now()->hour >= config('cantine.order.locked_at')){
             $accessCard->decrement('quota_lunch');
         }
 
@@ -80,8 +88,6 @@ class OrdersController extends Controller
 
         return new OrderResource($order);
     }
-
-
 
     /**
      * Show completed orders for the authenticated user.

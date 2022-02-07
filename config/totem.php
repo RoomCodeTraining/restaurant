@@ -227,7 +227,8 @@ return [
     'artisan' => [
       'command_filter' => [
           'charge:users',
-          'orders:generate-breakfast'
+          'orders:generate-breakfast',
+          'cards:delete-temporary',
       ],
       'whitelist' => true,
   ],

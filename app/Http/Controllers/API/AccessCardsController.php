@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+
 class AccessCardsController extends Controller
 {
     public function __construct()
@@ -37,10 +38,10 @@ class AccessCardsController extends Controller
     {
         $this->authorize('create', AccessCard::class);
         
-        
+    
         $validated = $request->validate([
             'user_id' => ['required', Rule::exists('users', 'id')],
-            'identifier' => ['required', 'string', 'max:255', Rule::unique('access_cards', 'identifier')],
+            'identifier' => ['required', 'string', 'max:255'],
             'quota_breakfast' => ['nullable', Rule::requiredIf(!$request->is_temporary), 'integer', 'min:0', 'max:25'],
             'quota_lunch' => ['nullable', Rule::requiredIf(!$request->is_temporary), 'integer', 'min:0', 'max:25'],
             'is_temporary' => ['required', 'boolean'],
@@ -48,8 +49,24 @@ class AccessCardsController extends Controller
             'payment_method_id' => ['nullable', Rule::exists('payment_methods', 'id')],
         ]);
 
+        $hasAnAccessCard = AccessCard::where(['identifier' => $request->identifier])->exists();
         $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
-      
+
+
+        if(!$user->accessCard && $request->is_temporary){
+          return response()->json([
+              'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
+              'success' => false,
+          ], 422);
+      }
+
+        if($hasAnAccessCard){
+          return response()->json([
+              'message' => "Cette carte est déja utilisée",
+              'success' => false,
+            ], 422);
+        }
+        
         if (! $user) {
             return response()->json([
                 'message' => "Cet utilisateur n'existe pas",
@@ -63,8 +80,8 @@ class AccessCardsController extends Controller
                 'success' => false,
             ], 422);
         }
-    
-        if ($user->accessCard && $user->currentAccessCard->type === AccessCard::TYPE_TEMPORARY) {
+
+        if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
             return response()->json([
                 'message' => 'Cet utilisateur a déjà une carte temporaire associée à son compte',
                 'success' => false,
@@ -72,7 +89,6 @@ class AccessCardsController extends Controller
         }
 
         $accessCard = $createAccessCardAction->handle($user, $validated);
-
         return new AccessCardResource($accessCard);
     }
 
@@ -130,7 +146,7 @@ class AccessCardsController extends Controller
             'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
         ]);
 
-         $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
         return new AccessCardResource($user->currentAccessCard);
     }
 }

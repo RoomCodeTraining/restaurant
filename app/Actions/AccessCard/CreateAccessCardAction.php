@@ -20,15 +20,15 @@ class CreateAccessCardAction
     public function handle(User $user, array $input): AccessCard
     {
         DB::beginTransaction();
-   
-        if ($input['is_temporary'] == 'false') {
+        
+        if ($input['is_temporary'] == true) {
             $accessCard = $this->createTemporaryCardAction->handle($user, $input);
         } else{
             $accessCard = $this->createPrimaryCardAction->handle($user, $input);
-            $user->useCard($accessCard);
         }
 
-     
+        $user->useCard($accessCard);
+
         DB::commit();
         return $accessCard;
     }

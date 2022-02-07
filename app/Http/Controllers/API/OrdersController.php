@@ -19,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 class OrdersController extends Controller
 {
     //use AuthorizesRequests;
-
     /**
      * Store a newly created resource in storage.
      *
@@ -83,8 +82,6 @@ class OrdersController extends Controller
 
         return new OrderResource($order);
     }
-
-
 
     /**
      * Show completed orders for the authenticated user.

@@ -48,7 +48,7 @@ class AccessCardsController extends Controller
             'expires_at' => ['nullable', Rule::requiredIf((bool) $request->is_temporary), 'date', 'after_or_equal:today'],
             'payment_method_id' => ['nullable', Rule::exists('payment_methods', 'id')],
         ]);
-        
+
         $hasAnAccessCard = AccessCard::where(['identifier' => $request->identifier])->exists();
 
         if($hasAnAccessCard){
@@ -75,7 +75,7 @@ class AccessCardsController extends Controller
             ], 422);
         }
 
-        if(!$user->accessCard){
+        if(!$user->accessCard && $request->is_temporary){
             return response()->json([
                 'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
                 'success' => false,
@@ -147,7 +147,7 @@ class AccessCardsController extends Controller
             'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
         ]);
 
-         $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
         return new AccessCardResource($user->currentAccessCard);
     }
 }

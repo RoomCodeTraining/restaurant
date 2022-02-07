@@ -15,4 +15,5 @@ class WelcomeNotification extends BaseWelcomeNotification
             ->line('Veuillez cliquer sur le lien ci dessous afin de renseigner votre mot de passe.')
             ->action('Renseigner votre mot de passe', $this->showWelcomeFormUrl);
     }
+    
 }

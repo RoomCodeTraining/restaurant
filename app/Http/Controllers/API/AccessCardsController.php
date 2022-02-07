@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+
 class AccessCardsController extends Controller
 {
     public function __construct()
@@ -69,6 +70,13 @@ class AccessCardsController extends Controller
         if ($user->isFromlunchroom()) {
             return response()->json([
                 'message' => "Cet utilisateur ne peut disposer d'une carte RFID",
+                'success' => false,
+            ], 422);
+        }
+
+        if(!$user->accessCard){
+            return response()->json([
+                'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
                 'success' => false,
             ], 422);
         }

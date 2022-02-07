@@ -40,9 +40,10 @@ class OrdersController extends Controller
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
-        if(!$accessCard){
+        if(!$accessCard->exists()){
           return response()->json([
               'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
+              'success' => false,
           ], Response::HTTP_NOT_FOUND);
       }
 

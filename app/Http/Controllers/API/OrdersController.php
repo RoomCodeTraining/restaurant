@@ -38,14 +38,19 @@ class OrdersController extends Controller
 
         $todayMenu = Menu::with('dishes')->today()->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
+        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
+
+        if(!$accessCard){
+          return response()->json([
+              'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
+          ], Response::HTTP_NOT_FOUND);
+      }
 
         if (! $menuHasDish) {
             throw ValidationException::withMessages([
                 'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
             ]);
         }
-
-        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
         if ($accessCard->quota_lunch <= 0) {
             throw ValidationException::withMessages([

@@ -35,6 +35,8 @@ class OrdersController extends Controller
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
+        dd($request->all());
+
         $todayMenu = Menu::with('dishes')->today()->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
 
@@ -68,7 +70,8 @@ class OrdersController extends Controller
             ], Response::HTTP_FORBIDDEN);
         }
 
-        if(now()->hour > config('cantine.order.locked_at')){
+
+        if(now()->hour >= config('cantine.order.locked_at')){
             $accessCard->decrement('quota_lunch');
         }
 

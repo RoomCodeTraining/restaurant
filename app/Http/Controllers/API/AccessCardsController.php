@@ -67,6 +67,7 @@ class AccessCardsController extends Controller
             ], 422);
         }
 
+     
         if ($user->isFromlunchroom()) {
             return response()->json([
                 'message' => "Cet utilisateur ne peut disposer d'une carte RFID",
@@ -81,8 +82,6 @@ class AccessCardsController extends Controller
             ], 422);
         }
 
-        
-    
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
             return response()->json([
                 'message' => 'Cet utilisateur a déjà une carte temporaire associée à son compte',
@@ -91,7 +90,6 @@ class AccessCardsController extends Controller
         }
 
         $accessCard = $createAccessCardAction->handle($user, $validated);
-
         return new AccessCardResource($accessCard);
     }
 

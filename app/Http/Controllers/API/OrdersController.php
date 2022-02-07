@@ -34,7 +34,7 @@ class OrdersController extends Controller
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
-        dd($request->all());
+
 
         $todayMenu = Menu::with('dishes')->today()->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);

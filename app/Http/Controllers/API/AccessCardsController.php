@@ -38,7 +38,7 @@ class AccessCardsController extends Controller
     {
         $this->authorize('create', AccessCard::class);
         
-        
+    
         $validated = $request->validate([
             'user_id' => ['required', Rule::exists('users', 'id')],
             'identifier' => ['required', 'string', 'max:255'],
@@ -74,15 +74,12 @@ class AccessCardsController extends Controller
             ], 422);
         }
 
-     
         if ($user->isFromlunchroom()) {
             return response()->json([
                 'message' => "Cet utilisateur ne peut disposer d'une carte RFID",
                 'success' => false,
             ], 422);
         }
-
-     
 
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
             return response()->json([

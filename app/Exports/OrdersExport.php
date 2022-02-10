@@ -70,6 +70,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function headings(): array
     {
         return [
+            "Matricule",
             "Nom",
             "Prénom",
             "Email",
@@ -99,6 +100,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
         $subvention = $userBill['subvention'];
        
         return [
+            $order->user->identifier,
             $order->user->last_name,
             $order->user->first_name,
             $order->user->email,

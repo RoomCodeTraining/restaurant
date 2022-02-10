@@ -61,6 +61,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
   public function headings(): array
   {
     return [
+      "Matricule",
       "Nom",
       "Prénom",
       "Email",
@@ -90,6 +91,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
 
     $order_type = 'petit déjeuner';
     return [
+      $row->user->identifier,
       $row->user->last_name,
       $row->user->first_name,
       $row->user->email,

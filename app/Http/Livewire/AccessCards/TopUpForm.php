@@ -42,6 +42,7 @@ class TopUpForm extends Component
             'state.payment_method_id' => ['required', Rule::exists('payment_methods', 'id')],
         ]);
 
+
         if (! $this->user->accessCard) {
             throw ValidationException::withMessages([
                 'state.payment_method_id' => ["Cet utilisateur ne dispose pas de carte RFID associée à son compte."],

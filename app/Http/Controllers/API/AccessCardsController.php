@@ -50,9 +50,8 @@ class AccessCardsController extends Controller
         ]);
 
         $hasAnAccessCard = AccessCard::where(['identifier' => $request->identifier])->exists();
-        $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
-
-
+        $user = User::with('userType.paymentMethod')->find($request->user_id);
+            
         if(!$user->accessCard && $request->is_temporary){
           return response()->json([
               'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
@@ -62,7 +61,7 @@ class AccessCardsController extends Controller
 
         if($hasAnAccessCard){
           return response()->json([
-              'message' => "Cette carte est déja utilisée",
+              'message' => "Cette carte est déja utilisée par un collaborateur",
               'success' => false,
             ], 422);
         }
@@ -133,6 +132,7 @@ class AccessCardsController extends Controller
 
         $card->update([ $request->quota_type => $request->quota + $old_quota ]);
         $type = $request->quota_type == 'quota_lunch' ? 'lunch' : 'breakfast';
+     
         $card->createReloadHistory($type);
 
         return response()->json([

@@ -8,47 +8,60 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AccessCard extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+  use HasFactory;
+  use SoftDeletes;
 
-    public const TYPE_PRIMARY = 'primary';
-    public const TYPE_TEMPORARY = 'temporary';
+  public const TYPE_PRIMARY = 'primary';
+  public const TYPE_TEMPORARY = 'temporary';
 
-    protected $guarded = [];
+  protected $guarded = [];
 
-    public function getRouteKey()
-    {
-        return $this->identifier;
-    }
+  public function getRouteKey()
+  {
+    return $this->identifier;
+  }
 
-    public function getRouteKeyName()
-    {
-        return 'identifier';
-    }
+  
+  public function getRouteKeyName()
+  {
+    return 'identifier';
+  }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+  /*
+  * Une carte d'accès est liée à un utilisateur
+  */
 
-    public function paymentMethod()
-    {
-        return $this->belongsTo(PaymentMethod::class);
-    }
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
+  /*
+  * Une carte est liée a une methode de paiement
+  */
+  public function paymentMethod()
+  {
+    return $this->belongsTo(PaymentMethod::class);
+  }
 
-    public function createReloadHistory(string $type_quota){
-        if($type_quota == 'lunch'){
-          $this->increment('lunch_reload_count');
-        }
-        elseif($type_quota == 'breakfast'){
-          $this->increment('breakfast_reload_count');
-        }
+  /*
+  * Une carte est liée a un ou plusieurs commandes
+  */
 
-        $this->save();
-    }
+  public function orders()
+  {
+    return $this->hasMany(Order::class);
+  }
+
+
+  /*
+  * Mettre à jour le nombre de rechargement de la carte(Petit dejeuner et dejeuner)
+  */
+
+  public function createReloadHistory(string $type_quota)
+  {
+    
+    $this->increment($type_quota.'_reload_count');
+    $this->save();
+  }
 }

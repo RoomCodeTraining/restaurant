@@ -20,6 +20,8 @@ class AccessCardResource extends JsonResource
             'quota_breakfast' => $this->quota_breakfast,
             'quota_lunch' => $this->quota_lunch,
             'type' => $this->type,
+            'lunch_reload_count' => $this->lunch_reload_count,
+            'breakfast_reload_count' => $this->breakfast_reload_count,
             'expires_at' => $this->expires_at,
             'payment_method' => new PaymentMethodResource($this->paymentMethod),
             'user' => new UserResource($this->user),

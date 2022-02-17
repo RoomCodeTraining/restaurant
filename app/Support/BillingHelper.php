@@ -12,10 +12,14 @@ class BillingHelper
     public const USER_TYPE_AGENT_NON_CIPREL = 2;
     public const USER_TYPE_INVITEE = 3;
     public const USER_TYPE_STAGIAIRE = 4;
+    public const USER_TYPE_PROVIDER = 5;
+
+
 
     public const EMP_STATUS_CADRE = 1;
     public const EMP_STATUS_MAITRISE = 2;
     public const EMP_STATUS_STAGIAIRE = 3;
+    public const EMP_STATUS_PROVIDER = 4;
 
     protected $billMap = [];
 
@@ -129,6 +133,30 @@ class BillingHelper
                         'breakfast' => 0,
                     ],
                 ],
+            ],
+
+            self::USER_TYPE_PROVIDER => [
+                self::EMP_STATUS_CADRE => [
+                    'subvention' => [
+                        'lunch' => 3000,
+                        'breakfast' => 500,
+                    ],
+                    'contribution' => [
+                        'lunch' => 500,
+                        'breakfast' => 0,
+                    ],
+                ],
+                self::EMP_STATUS_PROVIDER => [
+                    'subvention' => [
+                        'lunch' => 3300,
+                        'breakfast' => 500,
+                    ],
+                    'contribution' => [
+                        'lunch' => 200,
+                        'breakfast' => 0,
+                    ],
+                ],
+
             ],
         ];
     }

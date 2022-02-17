@@ -19,7 +19,18 @@ class CreatePrimaryCardAction
             'type' => AccessCard::TYPE_PRIMARY,
         ]);
 
+        $this->accessCardHasNewQuota($accessCard);
         return $accessCard;
+    }
+
+
+    public function accessCardHasNewQuota($accessCard){
+      if($accessCard->quota_breakfast != 0){
+          $accessCard->createReloadHistory('breakfast');
+      }elseif($accessCard->quota_lunch != 0){
+          $accessCard->createReloadHistory('lunch');
+      }
+      return $accessCard;
     }
 
     

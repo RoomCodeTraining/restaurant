@@ -132,6 +132,8 @@ class AccessCardsController extends Controller
    
 
         $card->update([ $request->quota_type => $request->quota + $old_quota ]);
+        $type = $request->quota_type == 'quota_lunch' ? 'lunch' : 'breakfast';
+        $card->createReloadHistory($type);
 
         return response()->json([
             'message' => "Le quota a été rechargé avec succès.",

@@ -40,4 +40,15 @@ class AccessCard extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function createReloadHistory(string $type_quota){
+        if($type_quota == 'lunch'){
+          $this->increment('lunch_reload_count');
+        }
+        elseif($type_quota == 'breakfast'){
+          $this->increment('breakfast_reload_count');
+        }
+
+        $this->save();
+    }
 }

@@ -45,13 +45,13 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque le quota de l'utilisateur est insuffisant.
      */
-    if ($accessCard->{'quota_' . $request->order_type} <= 0) {
+   /* if ($accessCard->{'quota_' . $request->order_type} <= 0) {
       return response()->json([
         'message' => "Votre quota est insuffisant.",
         "success" => false,
         "user" => $accessCard->user,
       ], Response::HTTP_FORBIDDEN);
-    }
+    }*/
 
     /**
      * Lorsque l'utilisateur a déjà récupéré son plat.
@@ -144,6 +144,9 @@ class MarkOrderAsCompleted extends Controller
     return response()->json(['message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
   }
 
+
+
+  //APi pour marquer les commandes confirmés en cas de reclamation
 
   public function markAsConfirmed(Request $request)
   {

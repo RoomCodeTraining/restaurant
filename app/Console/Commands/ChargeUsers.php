@@ -51,6 +51,7 @@ class ChargeUsers extends Command
         * Marquer la commande comme consommee.
         */
         $order->markAsCompleted();
+        $order->save();
       });
     });
 

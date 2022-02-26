@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\SuggestionBox;
+use App\States\Order\Confirmed;
 use App\Support\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,9 +11,9 @@ use Illuminate\Notifications\Notifiable;
 use App\Notifications\WelcomeNotification;
 use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
@@ -153,10 +154,28 @@ class User extends Authenticatable
       return $this->hasMany(SuggestionBox::class);
     }
 
+    /*
+    * Verifier si la carte du collaborateur est rechargeable
+    */
     public function typeAndCategoryCanUpdated(){
       if($this->accessCard && $this->accessCard->quota_breakfast > 0 && $this->accessCard->quota_lunch > 0){
           return true;
       }
+    }
+
+    /*
+    * Compter le nombre de commande en cours de l'utilisateur en cours
+    */
+
+    public function countOrderConfirmed() : int {
+       return $this->orders()->whereState('state', Confirmed::class)->count();
+    }
+
+    /*
+    * Verifier si le quota de l'utilisateur est egal au nombre de commande en cours
+    */
+    public function canCreateOtherOrder() : bool {
+        return $this->countOrderConfirmed() == $this->accessCard->quota_lunch ? false : true;
     }
 
 

@@ -41,13 +41,16 @@ class ChargeUsers extends Command
           $order->user->accessCard->decrement('quota_lunch');
         }
         /* 
-        * On passe la commande à l'état "completed" et on met la methode de paiement ainsi que la access_card_id
+        * Mise a jour de la methode de paiement ainsi que la access_card_id
         */
         $order->update([
-          'state' => Completed::class,
           'payment_method_id' => $order->user->accessCard->payment_method_id,
           'access_card_id' => $order->user->accessCard->id,
         ]);
+        /*
+        * Marquer la commande comme consommee.
+        */
+        $order->markAsCompleted();
       });
     });
 

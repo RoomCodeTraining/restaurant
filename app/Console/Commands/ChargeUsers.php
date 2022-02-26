@@ -48,10 +48,11 @@ class ChargeUsers extends Command
           'payment_method_id' => $order->user->accessCard->payment_method_id,
           'access_card_id' => $order->user->accessCard->id,
         ]);
+        dd($order);
         /*
         * Marquer la commande comme consommee.
         */
-        $order->markAsCompleted();
+        //$order->markAsCompleted();
       });
     });
 

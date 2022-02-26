@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Order;
+use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -32,13 +33,21 @@ class ChargeUsers extends Command
   {
     Order::with('user.accessCard')->today()->whereState('state', Confirmed::class)->each(function (Order $order) {
       DB::transaction(function () use ($order) {
+
+        /*
+        * Réduire le quota de déjeuner de l'utilisateur.
+        */
         if ($order->user->accessCard->quota_lunch > 0) {
           $order->user->accessCard->decrement('quota_lunch');
-          $order->update([
-            'payment_method_id' => $order->user->accessCard->payment_method_id,
-            'access_card_id' => $order->user->accessCard->id,
-          ]);
         }
+        /* 
+        * On passe la commande à l'état "completed" et on met la methode de paiement ainsi que la access_card_id
+        */
+        $order->update([
+          'state' => Completed::class,
+          'payment_method_id' => $order->user->accessCard->payment_method_id,
+          'access_card_id' => $order->user->accessCard->id,
+        ]);
       });
     });
 

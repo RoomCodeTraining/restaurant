@@ -62,6 +62,19 @@ class CreateOrderForm extends Component
             ]);
         }
 
+
+        /**
+         * S'assure que l'utilisateur ne passe pas de commande au dela de son quota dejeuner
+         */
+
+         if ($this->userAccessCard->quota_lunch < count($this->selectedDishes)) {
+             throw ValidationException::withMessages([
+                'selectedDishes' => [
+                  "Vous ne pouvez pas passer plus de ".count($this->selectedDishes)." commande(s) car votre quota dejeuner est de ".$this->userAccessCard->quota_lunch
+                ]
+            ]);
+         }
+
         /**
          * S'assure qu'aucune commande n'est passée après une certaine heure.
          */

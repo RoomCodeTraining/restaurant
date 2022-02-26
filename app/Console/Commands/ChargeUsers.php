@@ -44,6 +44,7 @@ class ChargeUsers extends Command
         * Mise a jour de la methode de paiement ainsi que la access_card_id
         */
         $order->update([
+          'state' => 'completed',
           'payment_method_id' => $order->user->accessCard->payment_method_id,
           'access_card_id' => $order->user->accessCard->id,
         ]);
@@ -51,7 +52,6 @@ class ChargeUsers extends Command
         * Marquer la commande comme consommee.
         */
         $order->markAsCompleted();
-        $order->save();
       });
     });
 

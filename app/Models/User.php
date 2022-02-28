@@ -187,14 +187,17 @@ class User extends Authenticatable
     */
 
     public function countOrderConfirmed() : int {
-       return $this->orders()->whereState('state', Confirmed::class)->count();
+       return $this->orders()->weekly()->whereState('state', Confirmed::class)->count();
     }
 
     /*
     * Verifier si le quota de l'utilisateur est egal au nombre de commande en cours
     */
     public function canCreateOtherOrder() : bool {
-        return $this->countOrderConfirmed() == $this->accessCard->quota_lunch ? false : true;
+        if($this->countOrderConfirmed() < $this->accessCard->quota_lunch){
+            return true;
+        }
+        return false;
     }
 
 

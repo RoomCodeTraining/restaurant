@@ -68,6 +68,7 @@ class CreateOrderForm extends Component
     /**
      * S'assurer que l'utilisateur n'a pas de commande en cours quant il a des commandes qui sont egal en cours et egal a son quota actuel
      */
+ 
     if (! auth()->user()->canCreateOtherOrder()) {
       throw ValidationException::withMessages([
         'selectedDishes' => [

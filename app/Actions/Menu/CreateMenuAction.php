@@ -21,8 +21,8 @@ class CreateMenuAction
     */
     ActivityHelper::createActivity(
       $menu,
-      'Creation de nouveau menu',
       'Ajout de menu du ' . \Carbon\Carbon::parse($menu->served_at)->format('d-m-Y'),
+      'Creation de nouveau menu',
     );
 
 

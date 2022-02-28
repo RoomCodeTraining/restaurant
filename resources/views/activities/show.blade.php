@@ -35,7 +35,7 @@
                     <div class="col-span-8">
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                             <div class="w-full md:w-1/2">
-                                <dt class="text-sm font-medium text-gray-500">Matricule/Identifiant</dt>
+                                <dt class="text-sm font-medium text-gray-500"></dt>
                                 <dd class="text-sm font-normal text-gray-900">
                                     {{ $user->identifier }}
                                 </dd>

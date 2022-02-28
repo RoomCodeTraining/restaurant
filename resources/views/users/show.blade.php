@@ -206,6 +206,7 @@
                     <x-table hover class="shadow bg-white" :columns="[
                         'Menu du' => fn ($order) => $order->menu->served_at->format('d/m/Y'),
                         'Plat' => 'dish.name',
+                        'Statut' => fn ($order) => $order->state->title(),
                     ]" :rows="$latestOrders">
                     </x-table>
                 </div>

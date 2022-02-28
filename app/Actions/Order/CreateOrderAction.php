@@ -2,8 +2,9 @@
 
 namespace App\Actions\Order;
 
-use App\Events\OrderCreated;
 use App\Models\Order;
+use App\Events\OrderCreated;
+use App\Support\ActivityHelper;
 
 class CreateOrderAction
 {
@@ -15,6 +16,13 @@ class CreateOrderAction
             'dish_id' => $data['dish_id'],
             'menu_id' => $data['menu_id'],
         ]);
+
+            
+      ActivityHelper::createActivity(
+        $order,
+        "Création de sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+        "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+      );
 
         OrderCreated::dispatch($order);
 

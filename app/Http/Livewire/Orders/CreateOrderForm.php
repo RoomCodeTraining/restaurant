@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Orders;
 
-use App\Actions\Order\CreateOrderAction;
 use App\Models\Menu;
-use App\States\Order\Cancelled;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
+use App\Support\ActivityHelper;
+use Illuminate\Support\Facades\Auth;
+use App\Actions\Order\CreateOrderAction;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Formulaire de création d'une commande.
@@ -69,7 +71,7 @@ class CreateOrderForm extends Component
     if (! auth()->user()->canCreateOtherOrder()) {
       throw ValidationException::withMessages([
         'selectedDishes' => [
-          "Vous ne pouvez pas passer plus de commande. Veuillez consulter la liste de vos commandes en cours et vérifier votre quota dejeuner."
+          "Impossible de passer d'autres commandes. Veuillez consulter la liste de vos commandes en cours et vérifier votre quota dejeuner."
         ]
       ]);
     }
@@ -107,24 +109,27 @@ class CreateOrderForm extends Component
       ->whereNotState('state', Cancelled::class)
       ->get();
 
-    if (!$previousOrders->isEmpty() && $previousOrders[0]->state->title() != 'Suspendue') {
+ 
+    if (!$previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
       throw ValidationException::withMessages([
         'selectedDishes' => [
           sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
         ]
       ]);
     }
-
+  
     /**
      * Crée une commande pour chacun des plats sélectionnés.
      */
     foreach ($this->selectedDishes as $menuId => $dish) {
-      $createOrderAction->execute([
+     $order =  $createOrderAction->execute([
         'dish_id' => $dish['id'],
         'menu_id' => $menuId,
         'user_id' => Auth::id()
       ]);
     }
+
+    
 
     session()->flash('success', 'La commande a été effectuée avec succès !');
 
@@ -159,7 +164,7 @@ class CreateOrderForm extends Component
   public function render()
   {
     $this->menus = Menu::with('dishes.dishType')
-      ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+    // ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
       ->get();
 
     return view('livewire.orders.create-order-form', ['menus' => $this->menus,]);

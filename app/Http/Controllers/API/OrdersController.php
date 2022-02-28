@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\Order\CreateOrderAction;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\OrderResource;
-use App\Models\AccessCard;
 use App\Models\Menu;
 use App\Models\Order;
+use App\Models\AccessCard;
+use Illuminate\Http\Request;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
+use App\Support\ActivityHelper;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderResource;
+use App\Actions\Order\CreateOrderAction;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrdersController extends Controller
 {
@@ -85,6 +86,12 @@ class OrdersController extends Controller
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
         ]);
+
+        ActivityHelper::createActivity(
+          $order,
+          'Création de commande',
+          "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+        );
 
         return new OrderResource($order);
     }

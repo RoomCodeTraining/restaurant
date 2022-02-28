@@ -4,61 +4,75 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use App\Support\ActivityHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('auth.login');
+  /**
+   * Display the login view.
+   *
+   * @return \Illuminate\View\View
+   */
+  public function create()
+  {
+    return view('auth.login');
+  }
+
+  /**
+   * Handle an incoming authentication request.
+   *
+   * @param  \App\Http\Requests\Auth\LoginRequest  $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
+  public function store(LoginRequest $request)
+  {
+    $request->authenticate();
+    $request->session()->regenerate();
+
+
+
+    if (auth()->user()->hasRole(Role::OPERATOR_LUNCHROOM)) {
+      Auth::guard('web')->logout();
+      $request->session()->invalidate();
+      $request->session()->regenerateToken();
+      return redirect()->route('login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     *
-     * @param  \App\Http\Requests\Auth\LoginRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(LoginRequest $request)
-    {
-        $request->authenticate();
-        $request->session()->regenerate();
-        
+    session()->flash('success', 'Bienvenue ' . auth()->user()->full_name);
+    ActivityHelper::createActivity(
+      auth()->user(),
+      'Nouvelle connexion',
+      "Connexion a  la plateforme",
+    );
 
-        
-         if(auth()->user()->hasRole(Role::OPERATOR_LUNCHROOM)){
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-             return redirect()->route('login');
-         }
+    return redirect()->intended(route('dashboard'));
+  }
 
-        session()->flash('success', 'Bienvenue '.auth()->user()->full_name);
+  /**
+   * Destroy an authenticated session.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
+  public function destroy(Request $request)
+  {
 
-        return redirect()->intended(route('dashboard'));
-    }
+    ActivityHelper::createActivity(
+      auth()->user(),
+      'Deconnexion',
+      "Deconnexion de la plateforme",
+    );
 
-    /**
-     * Destroy an authenticated session.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Request $request)
-    {
-        Auth::guard('web')->logout();
+   $auth =  Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+  
+    $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+    $request->session()->regenerateToken();
 
-        return redirect('/');
-    }
+    return redirect('/');
+  }
 }

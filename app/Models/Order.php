@@ -5,6 +5,7 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
 use App\Support\DateTimeHelper;
 use App\States\Order\OrderState;
 use Spatie\ModelStates\HasStates;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+
 
 class Order extends Model
 {
@@ -20,6 +23,8 @@ class Order extends Model
     use HasStates;
 
     use SoftDeletes;
+    protected static $recordEvents = ['updated', "created"];
+
 
     protected $guarded = [];
 
@@ -29,6 +34,8 @@ class Order extends Model
         'updated_at' => 'datetime',
         "order_by_other" => 'boolean',
     ];
+
+   
 
     protected static function booted()
     {

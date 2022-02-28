@@ -4,11 +4,14 @@ namespace App\Models;
 
 use App\Models\SuggestionBox;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
 use App\Support\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\WelcomeNotification;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
@@ -24,9 +27,13 @@ class User extends Authenticatable
         HasRoles,
         HasPermissions,
         ReceivesWelcomeNotification,
-        HasProfilePhoto;
+        HasProfilePhoto,
+        LogsActivity;
 
     use SoftDeletes;
+
+    protected static $logName = 'Utilisateur';
+    protected static $recordEvents = ['deleted', "created"];
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +66,18 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+        return ActivityHelper::getAction($eventName)." d'utilisateur";
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['identifier']);
+        // Chain fluent methods for configuration options
+    }
 
     public function isAdmin() : bool {
         return $this->hasRole(\App\Models\Role::ADMIN) ? true : false;

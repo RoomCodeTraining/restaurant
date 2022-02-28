@@ -2,8 +2,9 @@
 
 namespace App\Actions\User;
 
-use App\Events\UserDeleted;
 use App\Models\User;
+use App\Events\UserDeleted;
+use App\Support\ActivityHelper;
 use Illuminate\Validation\ValidationException;
 
 final class DeleteUserAction
@@ -15,6 +16,12 @@ final class DeleteUserAction
                 'delete_user' => 'Ce utilisateur est deja supprimé.',
             ]));
         }
+     
+        ActivityHelper::createActivity(
+          $user,
+          "Suppression du compte de $user->full_name",
+          'Creation de nouveau menu',
+        );
 
         $user->delete();
 

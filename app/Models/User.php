@@ -33,7 +33,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     protected static $logName = 'Utilisateur';
-    protected static $recordEvents = ['deleted', "created"];
+    protected static $recordEvents = [];
 
     /**
      * The attributes that are mass assignable.

@@ -41,9 +41,9 @@ class ActivityHelper
   *Create a new ActivityLog
   */
   public static function createActivity(Model $someModel, string $event, string $description)
-  {
+  { 
     activity()
-      ->causedBy(Auth()->user()->id)
+      ->causedBy(Auth()->user() ? Auth()->user()->id : $someModel->id)
       ->performedOn($someModel)
       ->event($event)
       ->log($description);

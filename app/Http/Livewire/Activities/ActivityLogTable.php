@@ -32,7 +32,7 @@ class ActivityLogTable extends DataTableComponent
 
   public function mount()
   {
-    $this->filters['activity_at'] = now()->startOfWeek()->format('Y-m-d');
+    $this->filters['activity_at'] = now()->format('Y-m-d');
   }
 
   public function columns(): array

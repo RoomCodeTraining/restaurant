@@ -29,13 +29,12 @@ class OrdersController extends Controller
     public function store(Request $request, CreateOrderAction $createOrderAction)
     {
         //$this->authorize('viewAny', Menu::class);
-
         $request->validate([
             'identifier' => ['required'],
             'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
-
+       
 
         $todayMenu = Menu::with('dishes')->today()->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
@@ -81,17 +80,15 @@ class OrdersController extends Controller
             $accessCard->decrement('quota_lunch');
         }
 
+        
+
         $order = $createOrderAction->execute([
             'user_id' => $accessCard->user->id,
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
         ]);
 
-        ActivityHelper::createActivity(
-          $order,
-          'Création de commande',
-          "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-        );
+
 
         return new OrderResource($order);
     }

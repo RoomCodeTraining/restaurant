@@ -31,8 +31,8 @@ class ActivityHelper
 
   public static function createdBy($causer_id = null): string
   {
-    $user = \App\Models\User::find($causer_id) ?? 'NA';
-     return $user->full_name ?? 'NA';
+    $user = \App\Models\User::find($causer_id) ?? 'Le système';
+     return $user->full_name ?? 'Le système';
   }
 
 

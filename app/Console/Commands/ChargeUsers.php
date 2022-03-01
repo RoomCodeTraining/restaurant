@@ -47,6 +47,12 @@ class ChargeUsers extends Command
           'payment_method_id' => $order->user->accessCard->payment_method_id,
           'access_card_id' => $order->user->accessCard->id,
         ]);
+
+        activity()
+        ->performedOn($order->user->accessCard)
+        ->event("Le quota de Mr/Mme ".$order->user->full_name." vient d"."'être débité pour la commande du ".$order->menu->served_at->format('d-m-Y'))
+        ->log('Debit de quota de déjeuner');
+
         
         /*
         * Marquer la commande comme consommee.

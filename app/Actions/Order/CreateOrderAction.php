@@ -19,13 +19,6 @@ class CreateOrderAction
         ]);
 
 
-     
-     /*
-      ActivityHelper::createActivity(
-        Auth()->user(),
-        "Création de sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-        "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-      );*/
 
         OrderCreated::dispatch($order);
 

@@ -40,7 +40,7 @@ class ActivityHelper
   /*
   *Create a new ActivityLog
   */
-  public static function createActivity(Model $someModel, string $event, string $description)
+  public static function createActivity($someModel, string $event, string $description)
   { 
     activity()
       ->causedBy(Auth()->user() ? Auth()->user()->id : $someModel->id)

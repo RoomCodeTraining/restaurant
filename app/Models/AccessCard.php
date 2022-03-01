@@ -18,6 +18,8 @@ class AccessCard extends Model
     public const TYPE_TEMPORARY = 'temporary';
 
     protected $guarded = [];
+    protected static $recordEvents = [];
+
 
     public function getDescriptionForEvent(string $eventName): string
     {

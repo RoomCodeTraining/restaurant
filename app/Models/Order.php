@@ -23,10 +23,11 @@ class Order extends Model
     use HasStates;
 
     use SoftDeletes;
-    protected static $recordEvents = ['updated', "created"];
+    protected static $recordEvents = [];
 
 
     protected $guarded = [];
+    
 
     protected $casts = [
         'state' => OrderState::class,

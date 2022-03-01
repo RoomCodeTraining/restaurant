@@ -76,9 +76,11 @@ class OrdersController extends Controller
         }
 
 
-        if(now()->hour >= config('cantine.order.locked_at')){
+        if(now()->hour >= config('cantine.locked_at')){
             $accessCard->decrement('quota_lunch');
         }
+
+
 
         
 
@@ -87,6 +89,12 @@ class OrdersController extends Controller
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
         ]);
+
+        activity()
+        ->causedBy(Auth()->user())
+        ->performedOn($order)
+        ->event("Mr/Mme ".auth()->user()->full_name." vient de passer une commande exceptionnelle du ".$order->menu->served_at->format('d-m-Y').' pour '.$order->user->full_name)
+        ->log('Creation de commande pour tiers');
 
 
 

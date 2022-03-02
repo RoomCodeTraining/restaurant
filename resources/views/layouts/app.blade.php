@@ -124,11 +124,11 @@
                                     :active="request()->routeIs('roles.index')">
                                     Rôles et permissions
                                 </x-nav-link>
-                            <x-nav-link href="{{ route('activities-log') }}" icon="box_"
-                                :active="request()->routeIs('activities-log')">
-                                Activités
-                            </x-nav-link>
-                          @endcan
+                                <x-nav-link href="{{ route('activities-log') }}" icon="box_"
+                                    :active="request()->routeIs('activities-log')">
+                                    Activités
+                                </x-nav-link>
+                            @endcan
                         @endif
                         @can('manage', \App\Models\Menu::class)
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -172,7 +172,7 @@
                             </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) ||
-                        auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
+    auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Suggestions
                             </div>
@@ -235,6 +235,12 @@
                                     Planificateur des tâches
                                 </x-nav-link>
 @endif-->
+                        @endif
+                        @if (auth()->user()->isAdmin())
+                            <x-nav-link href="totem/tasks" icon="users"
+                                :active="request()->routeIs('employeeStatuses.index')">
+                                Planificateur des tâches
+                            </x-nav-link>
                         @endif
                         {{-- <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                             Reporting

@@ -137,7 +137,7 @@ class UserSeeder extends Seeder
             'identifier' => Str::upper(Str::random(5)),
             'first_name' => 'Utilisateur',
             'last_name' => 'Base',
-            'user_type_id' => UserType::firstWhere('name', 'like', '%Agent CIPREL%')->id,
+            'user_type_id' => UserType::firstWhere('name', 'like', '%Prestataire%')->id,
             'is_active' => true,
             'contact' => '+225 4845754864',
             'email' => $email,

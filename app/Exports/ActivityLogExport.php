@@ -42,7 +42,7 @@ class ActivityLogExport implements FromCollection, WithTitle, WithMapping, WithH
     return [
       'DATE',
       'HEURE',
-      'MENER PAR',
+      'MENÉ PAR',
       'ACTION',
     ];
   }

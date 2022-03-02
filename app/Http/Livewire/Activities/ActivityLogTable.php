@@ -40,7 +40,7 @@ class ActivityLogTable extends DataTableComponent
     return [
       Column::make('Date', "created_at")->format(fn ($row) => \Carbon\Carbon::parse($row)->locale('FR_fr')->isoFormat('dddd D MMMM YYYY'))->sortable(),
       Column::make('Heure', "created_at")->format(fn ($row) => $row->format('H:i'))->sortable(),
-      Column::make('Mener par', 'causer_id')->format(fn ($row) => ActivityHelper::createdBy($row))->searchable(),
+      Column::make('Mené par', 'causer_id')->format(fn ($row) => ActivityHelper::createdBy($row))->searchable(),
       Column::make('Action', 'event')->searchable(),
     ];
   }

@@ -76,6 +76,7 @@ class CreateOrderForm extends Component
         ]
       ]);
     }
+
     /**
      * S'assurer que l'utilisateur ne passe pas de commande au dela de son quota dejeuner
      */

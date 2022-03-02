@@ -156,7 +156,7 @@ class UserSeeder extends Seeder
             $accessCard = $user->accessCards()->create([
                 'identifier' => 'CARD00' . $key,
                 'quota_breakfast' => 25,
-                'quota_lunch' => 3,
+                'quota_lunch' => 2,
                 'payment_method_id' => 1,
             ]);
 

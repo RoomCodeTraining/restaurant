@@ -1,9 +1,7 @@
 <x-app-layout>
     <x-section-header title="Utilisateurs">
         @can('manage', App\Models\User::class)
-
             <x-slot name="actions">
-           
                 <livewire:users.create-users-by-import />
                 <a href="{{ route('users.create') }}" class="btn btn-sm btn-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="inline-block font-bold w-4 h-4 mr-1 stroke-current"

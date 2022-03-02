@@ -28,8 +28,5 @@
         <a href='{{ route('users.index') }}'>
             <x-statistic label="Utilisateurs inactifs" value="{{ $inactive_users_count }}" icon="inactifuser" />
         </a>
-        <a href='{{ route('suggestions-box.index') }}'>
-          <x-statistic label="Suggestions" value="{{ $suggestionsCount }}" icon="chart" />
-      </a>
     </div>
 </div>

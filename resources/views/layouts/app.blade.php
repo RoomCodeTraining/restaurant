@@ -171,8 +171,7 @@
                                 Dejeuner
                             </x-nav-link>
                         @endif
-                        @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) ||
-    auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))
+                        @if (auth()->user()->hasRole(\App\Models\Role::ADMIN_RH))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Suggestions
                             </div>

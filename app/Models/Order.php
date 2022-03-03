@@ -55,6 +55,12 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()]));
     }
 
+    public function scopeFuturOrder($query)
+    {
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
+    }
+ 
+
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));

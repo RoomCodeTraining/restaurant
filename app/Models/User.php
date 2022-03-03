@@ -197,7 +197,7 @@ class User extends Authenticatable
     */
 
     public function countOrderConfirmed() : int {
-       return $this->orders()->weekly()->whereState('state', [Confirmed::class, Completed::class])->count();
+       return $this->orders()->futurOrder()->whereState('state', Confirmed::class)->count();
     }
 
     /*

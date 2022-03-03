@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\AccessCards;
 
+use App\Models\AccessCard;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\PaymentMethod;
@@ -48,6 +49,7 @@ class TopUpForm extends Component
                 'state.payment_method_id' => ["Cet utilisateur ne dispose pas de carte RFID associée à son compte."],
             ]);
         }
+        $this->updateCountOfReload($this->user->accessCard);
 
         $this->user->accessCard->quota_breakfast =  (int) $this->state['quota_breakfast'];
         $this->user->accessCard->quota_lunch = (int) $this->state['quota_lunch'];
@@ -59,10 +61,23 @@ class TopUpForm extends Component
         $this->reset(['state']);
 
         $this->state['payment_method_id'] = $selectedPaymentMethod;
-
         session()->flash('success', "Le rechargement a été effectué avec succès.");
 
         return redirect()->route('users.show', $this->user);
+    }
+
+
+    public function updateCountOfReload(AccessCard $accessCard)
+    {
+      
+       if($accessCard->quota_lunch != $this->state['quota_lunch']){
+         $accessCard->createReloadHistory('lunch');
+       }
+        if($accessCard->quota_breakfast != $this->state['quota_breakfast']){
+          $accessCard->createReloadHistory('breakfast');
+        }
+
+        return $accessCard;
     }
 
     public function render()

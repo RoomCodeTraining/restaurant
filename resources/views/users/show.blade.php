@@ -121,9 +121,25 @@
                                     </dd>
                                 </div>
                                 <div class="w-full md:w-1/2">
-                                    <dt class="text-sm font-medium text-gray-500">Quota déjeuner</dt>
+                                    <dt class="text-sm font-medium text-gray-500">Rechargement quota petit dejeuner</dt>
+                                    <dd class="text-sm font-normal text-gray-900">
+                                        {{ optional($user->accessCard)->breakfast_reload_count ?? 0 }}
+                                    </dd>
+                                </div>
+                            </div>
+                        </div>
+                                <div class="col-span-8">
+                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                                <div class="w-full md:w-1/2">
+                                    <dt class="text-sm font-medium text-gray-500">Quota petit déjeuner</dt>
                                     <dd class="text-sm font-normal text-gray-900">
                                         {{ optional($user->accessCard)->quota_lunch ?? 0 }}
+                                    </dd>
+                                </div>
+                                <div class="w-full md:w-1/2">
+                                    <dt class="text-sm font-medium text-gray-500">Rechargement quota déjeuner</dt>
+                                    <dd class="text-sm font-normal text-gray-900">
+                                        {{ optional($user->accessCard)->lunch_reload_count ?? 0 }}
                                     </dd>
                                 </div>
                             </div>

@@ -57,4 +57,13 @@ class AccessCard extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+  /*
+  * Mettre à jour le nombre de rechargement de la carte(Petit dejeuner et dejeuner)
+  */
+  public function createReloadHistory(string $type_quota)
+  {
+    $this->increment($type_quota.'_reload_count');
+    $this->save();
+  }
 }

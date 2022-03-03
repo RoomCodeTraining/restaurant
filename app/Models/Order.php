@@ -33,7 +33,7 @@ class Order extends Model
         'state' => OrderState::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        "order_by_other" => 'boolean',
+        'is_decrement' => 'boolean',
     ];
 
    

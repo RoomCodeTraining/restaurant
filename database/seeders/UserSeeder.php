@@ -155,8 +155,8 @@ class UserSeeder extends Seeder
         foreach ($users as $key => $user) {
             $accessCard = $user->accessCards()->create([
                 'identifier' => 'CARD00' . $key,
-                'quota_breakfast' => 25,
-                'quota_lunch' => 2,
+                'quota_breakfast' => 0,
+                'quota_lunch' => 0,
                 'payment_method_id' => 1,
             ]);
 

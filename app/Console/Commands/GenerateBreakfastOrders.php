@@ -30,7 +30,7 @@ class GenerateBreakfastOrders extends Command
   {
 
     User::query()->whereHas('accessCard')->each(function (User $user) {
-      if ($user->accessCard->quota_lunch > 0) {
+      if ($user->accessCard->quota_lunch > 0 && $user->accessCard->quota_lunch > 0) {
         $order = $user->orders()->create(['type' => 'breakfast']);
         activity()
           ->performedOn($order)

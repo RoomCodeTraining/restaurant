@@ -67,6 +67,16 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function getRouteKey()
+    {
+      return $this->identifier;
+    }
+
+    public function getRouteKeyName()
+    {
+      return 'identifier';
+    }
+
     public function getDescriptionForEvent(string $eventName): string
     {
         return ActivityHelper::getAction($eventName)." d'utilisateur";
@@ -187,7 +197,7 @@ class User extends Authenticatable
     */
 
     public function countOrderConfirmed() : int {
-       return $this->orders()->weekly()->whereState('state', Confirmed::class)->count();
+       return $this->orders()->weekly()->whereState('state', [Confirmed::class, Completed::class])->count();
     }
 
     /*
@@ -196,7 +206,7 @@ class User extends Authenticatable
     public function canCreateOtherOrder() : bool {
         if($this->countOrderConfirmed() < $this->accessCard->quota_lunch){
             return true;
-        }
+        } 
         return false;
     }
 

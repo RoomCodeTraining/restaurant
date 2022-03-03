@@ -42,7 +42,7 @@
                 <tr>
                     <td class="uk-text-center" colspan="5">
                         <img class="uk-svg" width="50" height="50" src="{{ asset('/vendor/totem/img/funnel.svg') }}">
-                        <p>Aucun resultat pour l'instant.</p>
+                        <p>Aucune tache n'a été planifiée</p>
                     </td>
                 </tr>
             @endforelse

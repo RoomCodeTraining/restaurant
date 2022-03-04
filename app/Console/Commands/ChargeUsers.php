@@ -37,7 +37,7 @@ class ChargeUsers extends Command
         /*
         * Réduire le quota de déjeuner de l'utilisateur.
         */
-        if (!$order->is_decrement && $order->user->accessCard->quota_lunch > 0) {
+        if (!$order->is_decrement && $order->user->accessCard->quota_lunch > 0 && now()->hour >= 10 ) {
           $order->user->accessCard->decrement('quota_lunch');
           /*
             * Mise a jour de la methode de paiement ainsi que la access_card_id

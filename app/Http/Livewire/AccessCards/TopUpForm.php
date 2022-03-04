@@ -35,7 +35,7 @@ class TopUpForm extends Component
 
     public function topUp()
     {
-        $this->resetErrorBag();
+        //$this->resetErrorBag();
 
         $this->validate([
             'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],

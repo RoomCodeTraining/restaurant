@@ -60,7 +60,7 @@ class ActivityLogExport implements FromCollection, WithTitle, WithMapping, WithH
 
   public function title() : string
   {
-    return "Activités du ".$this->date->format('d-m-Y');
+    return "Activités du ".\Carbon\Carbon::parse($this->date)->format('d-m-Y');
   }
 
   public function styles(Worksheet $sheet)

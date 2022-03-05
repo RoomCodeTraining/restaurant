@@ -57,8 +57,10 @@ class Order extends Model
 
     public function scopeFuturOrder($query)
     {
-        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>', today()));
     }
+
+ 
  
 
     public function scopeMonthly($query)

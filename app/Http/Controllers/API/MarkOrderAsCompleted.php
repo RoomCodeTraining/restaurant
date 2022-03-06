@@ -117,8 +117,8 @@ class MarkOrderAsCompleted extends Controller
 
       ActivityHelper::createActivity(
           $order,
-          'Retrait de son petit dejeuner du',
-          "$order->user->full_name vient de retirer sa commande petit dejeuner du ".now()->format('d/m/Y'),
+          'Retrait de son petit dejeuner du jour',
+          "$order->user->full_name vient de retirer sa commande petit dejeuner du jour",
         );
 
         $order->update([

@@ -61,8 +61,6 @@ class Order extends Model
     }
 
  
- 
-
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));

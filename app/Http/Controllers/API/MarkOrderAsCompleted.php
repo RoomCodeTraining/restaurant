@@ -133,11 +133,7 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
      */
-    ActivityHelper::createActivity(
-      $order,
-      'Retrait de son déjeuner du ' . $order->menu->served_at->format('d/m/Y'),
-      "$order->user->full_name vient de retirer sa commande dejeuner du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-    );
+
 
     if ($request->order_type === 'lunch') {
       $order->markAsCompleted();

@@ -57,7 +57,7 @@ class Order extends Model
 
     public function scopeFuturOrder($query)
     {
-        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>', today()));
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
     }
 
  
@@ -132,5 +132,9 @@ class Order extends Model
         return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
     }
 
+    public function isToday()
+    {
+        return $this->menu->served_at->isCurrentDay();
+    }
     
 }

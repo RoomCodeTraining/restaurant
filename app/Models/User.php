@@ -210,14 +210,22 @@ class User extends Authenticatable
     */
   public function canCreateOtherOrder(): bool
   {
+
     if ($this->countOrderConfirmed() < $this->accessCard->quota_lunch) {
       return true;
     }
     return false;
   }
 
-  public function hasOrderForToday($orders): bool
+  public function hasOrderForToday(): bool
   {
-    return  $orders && $orders->filter(fn ($order)  => $order->today()) ? false : true;
+     $todayOrder = Order::where('user_id', $this->id)
+      ->whereHas('menu', function ($query) {
+        $query->whereDate('served_at', today());
+      })
+      ->whereState('state', Confirmed::class)
+      ->exists();
+  
+    return (int)config('cantine.order.locked_at') > now()->hour && $todayOrder ? true : false;
   }
 }

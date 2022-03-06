@@ -64,9 +64,9 @@ class CreateOrderForm extends Component
       ]);
     }
 
-    
+    $locket_at = (int) config('cantine.order.locked_at');
 
-    if($this->userAccessCard->quota_lunch == 1 && auth()->user()->hasOrderForToday(auth()->user()->orders) && now()->hour < 9){
+    if($this->userAccessCard->quota_lunch == 1 && auth()->user()->hasOrderForToday() && now()->hour < $locket_at) {
       throw ValidationException::withMessages([
         'selectedDishes' => [
           "Vous avez une commande du jour en cours et votre quota est de 1. Vous ne pouvez plus effectuer d'autres commandes. Veuillez recharger votre carte"
@@ -74,11 +74,12 @@ class CreateOrderForm extends Component
       ]);
     }
 
-
+  
     /**
      * S'assurer que l'utilisateur n'a pas de commande en cours quant il a des commandes qui sont egal en cours et egal a son quota actuel
      */
- 
+
+
     if (! auth()->user()->canCreateOtherOrder()) {
       throw ValidationException::withMessages([
         'selectedDishes' => [
@@ -86,6 +87,7 @@ class CreateOrderForm extends Component
         ]
       ]);
     }
+
 
     /**
      * S'assurer que l'utilisateur ne passe pas de commande au dela de son quota dejeuner
@@ -105,6 +107,7 @@ class CreateOrderForm extends Component
       ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
       ->first();
 
+    
 
     if ($todayOrder && now()->hour >= config('cantine.order.locked_at')) {
       throw ValidationException::withMessages([
@@ -121,11 +124,21 @@ class CreateOrderForm extends Component
       ->whereNotState('state', Cancelled::class)
       ->get();
 
+
+
  
     if (!$previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
       throw ValidationException::withMessages([
         'selectedDishes' => [
           sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
+        ]
+      ]);
+    }
+
+    if(auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch-1 < count($this->selectedDishes)){
+      throw ValidationException::withMessages([
+        'selectedDishes' => [
+          "Vous ne pouvez pas passer plus de ".count($this->selectedDishes)." plats"
         ]
       ]);
     }
@@ -183,7 +196,7 @@ class CreateOrderForm extends Component
   public function render()
   {
     $this->menus = Menu::with('dishes.dishType')
-      ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+    //  ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
       ->get();
 
     return view('livewire.orders.create-order-form', ['menus' => $this->menus,]);

@@ -196,7 +196,7 @@ class CreateOrderForm extends Component
   public function render()
   {
     $this->menus = Menu::with('dishes.dishType')
-    //  ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+      ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
       ->get();
 
     return view('livewire.orders.create-order-form', ['menus' => $this->menus,]);

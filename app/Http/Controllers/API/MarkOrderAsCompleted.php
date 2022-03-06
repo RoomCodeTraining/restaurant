@@ -118,7 +118,7 @@ class MarkOrderAsCompleted extends Controller
       ActivityHelper::createActivity(
           $order,
           'Retrait de son petit dejeuner du',
-          "$order->user->full_name vient de retirer sa commande petit dejeuner du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+          "$order->user->full_name vient de retirer sa commande petit dejeuner du ".now()->format('d/m/Y'),
         );
 
         $order->update([

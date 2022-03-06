@@ -65,6 +65,15 @@ class CreateOrderForm extends Component
     }
 
 
+    if($this->userAccessCard->quota_lunch == 1 && auth()->user()->orders->today() && now()->hour < 9){
+      throw ValidationException::withMessages([
+        'selectedDishes' => [
+          "Vous avez une commande du jour en cours et votre quota est de 1. Vous ne pouvez plus effectuer d'autres commandes. Veuillez recharger votre carte"
+        ]
+      ]);
+    }
+
+
     /**
      * S'assurer que l'utilisateur n'a pas de commande en cours quant il a des commandes qui sont egal en cours et egal a son quota actuel
      */

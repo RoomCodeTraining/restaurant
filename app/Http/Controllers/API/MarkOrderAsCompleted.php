@@ -114,13 +114,7 @@ class MarkOrderAsCompleted extends Controller
     if ($request->order_type === 'breakfast') {
       DB::transaction(function () use ($accessCard, $order) {
         $order->markAsCompleted();
-
-      ActivityHelper::createActivity(
-          $order,
-          'Retrait de son petit dejeuner du jour',
-          "$order->user->full_name vient de retirer sa commande petit dejeuner du jour",
-        );
-
+        
         $order->update([
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,

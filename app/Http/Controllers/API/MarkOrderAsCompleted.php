@@ -163,12 +163,6 @@ class MarkOrderAsCompleted extends Controller
     $order->markAsConfirmed();
 
 
-    ActivityHelper::createActivity(
-      $order,
-      'Annulation de la commande du ' . $order->menu->served_at->format('d/m/Y') .$order->user->full_name,
-      "La commande de $order->user->full_name du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'). ' a été annulée.',
-    );
-
     return response()->json([
       'message' => "La commande a été marquée comme non consommée.",
       "success" => true,

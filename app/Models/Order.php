@@ -131,4 +131,6 @@ class Order extends Model
     public function getOrderTypeAttribute(){
         return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
     }
+
+    
 }

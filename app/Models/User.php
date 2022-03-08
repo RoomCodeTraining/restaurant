@@ -120,6 +120,7 @@ class User extends Authenticatable
     return $this->hasRole(Role::OPERATOR_LUNCHROOM);
   }
 
+
   public function orders()
   {
     return $this->hasMany(Order::class);

@@ -28,6 +28,7 @@ class UsersTable extends DataTableComponent
 
      public array $bulkActions = [
         'exportToUser' => 'Export au format Excel',
+        'exportQuota' => 'Export des quota au format Excel',
     ];
 
     public string $defaultSortColumn = 'created_at';
@@ -171,6 +172,10 @@ class UsersTable extends DataTableComponent
 
         return redirect()->route('users.index');
     }
+
+    public function exportQuota(){
+      return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
+  }
 
 
     public function exportToUser()

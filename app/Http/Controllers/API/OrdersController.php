@@ -30,14 +30,10 @@ class OrdersController extends Controller
   {
     //$this->authorize('viewAny', Menu::class);
 
-
-
     $request->validate([
       'identifier' => ['required'],
       'dish_id' => ['required', Rule::exists('dishes', 'id')],
     ]);
-
-
 
     $todayMenu = Menu::with('dishes')->today()->first();
     $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
@@ -79,24 +75,25 @@ class OrdersController extends Controller
     }
 
 
-
-
-
     $order = $createOrderAction->execute([
       'user_id' => $accessCard->user->id,
       'menu_id' => $todayMenu->id,
       'dish_id' => $request->dish_id,
     ]);
 
-    $this->canChargeUser($order, $accessCard);
+    /*
+    * Quuand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota 
+    */
 
+    if ((int) config('cantine.order.locket_at') <= now()->hour) {
+        $this->canChargeUser($order, $accessCard);
+    }
+    
     activity()
       ->causedBy(Auth()->user())
       ->performedOn($order)
       ->event("Mr/Mme " . auth()->user()->full_name . " vient de passer une commande exceptionnelle du " . $order->menu->served_at->format('d-m-Y') . ' pour ' . $order->user->full_name)
       ->log('Creation de commande pour tiers');
-
-
 
     return new OrderResource($order);
   }
@@ -120,9 +117,9 @@ class OrdersController extends Controller
 
   public function canChargeUser(Order $order, AccessCard $accessCard)
   {
-    if ((int)config('cantine.order.locket_at') >= now()->hour) {
-      $order->update(['is_exceptional' => true]);
-      $accessCard->decrement('quota_lunch');
-    }
+    $order->update(['is_exceptional' => true, 'is_decrement' => true]);
+    $accessCard->decrement('quota_lunch');
+
+    return 1;
   }
 }

@@ -118,6 +118,7 @@ class MarkOrderAsCompleted extends Controller
         $order->update([
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,
+          'is_decrement' => true,
         ]);
 
         $accessCard->decrement('quota_breakfast');

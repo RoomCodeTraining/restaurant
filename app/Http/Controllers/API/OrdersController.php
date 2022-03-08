@@ -19,100 +19,110 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OrdersController extends Controller
 {
-    //use AuthorizesRequests;
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, CreateOrderAction $createOrderAction)
-    {
-        //$this->authorize('viewAny', Menu::class);
-        $request->validate([
-            'identifier' => ['required'],
-            'dish_id' => ['required', Rule::exists('dishes', 'id')],
-        ]);
-
-       
-
-        $todayMenu = Menu::with('dishes')->today()->first();
-        $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
-        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
-
-        if(!$accessCard){
-          return response()->json([
-              'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
-              'success' => false,
-          ], Response::HTTP_NOT_FOUND);
-      }
-
-        if (! $menuHasDish) {
-            throw ValidationException::withMessages([
-                'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
-            ]);
-        }
-
-        if ($accessCard->quota_lunch <= 0) {
-            throw ValidationException::withMessages([
-                'message' => 'Le quota de ce utilisateur est insuffisant.',
-                'success' => false,
-                'user' => $accessCard->user,
-            ]);
-        }
-
-        $hasAlreadyOrdered = Order::query()
-            ->whereHas('menu', fn ($query) => $query->whereDate('served_at', today()))
-            ->whereBelongsTo($accessCard->user)
-            ->whereState('state', [Confirmed::class, Completed::class])
-            ->exists();
-
-        if ($hasAlreadyOrdered) {
-            return response()->json([
-                'message' => "Cet utilisateur a déjà commandé un plat.",
-                'success' => false,
-                'user' => $accessCard->user,
-            ], Response::HTTP_FORBIDDEN);
-        }
-
-
-        if(now()->hour >= config('cantine.locked_at')){
-            $accessCard->decrement('quota_lunch');
-        }
+  //use AuthorizesRequests;
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(Request $request, CreateOrderAction $createOrderAction)
+  {
+    //$this->authorize('viewAny', Menu::class);
 
 
 
-        
-
-        $order = $createOrderAction->execute([
-            'user_id' => $accessCard->user->id,
-            'menu_id' => $todayMenu->id,
-            'dish_id' => $request->dish_id,
-        ]);
-
-        activity()
-        ->causedBy(Auth()->user())
-        ->performedOn($order)
-        ->event("Mr/Mme ".auth()->user()->full_name." vient de passer une commande exceptionnelle du ".$order->menu->served_at->format('d-m-Y').' pour '.$order->user->full_name)
-        ->log('Creation de commande pour tiers');
+    $request->validate([
+      'identifier' => ['required'],
+      'dish_id' => ['required', Rule::exists('dishes', 'id')],
+    ]);
 
 
 
-        return new OrderResource($order);
+    $todayMenu = Menu::with('dishes')->today()->first();
+    $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
+    $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
+
+    if (!$accessCard) {
+      return response()->json([
+        'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
+        'success' => false,
+      ], Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * Show completed orders for the authenticated user.
-     * @return \Illuminate\Http\Response
-     */
-
-    public function orderCompleted(){
-        $orders = Order::with('user', 'dish')->today()->whereState('state', completed::class)->get();
-   
-        return response()->json([
-            'orders' => $orders,
-            'success' => true,
-            'message' => 'Commandes récupérées avec succès.'
-        ]);
+    if (!$menuHasDish) {
+      throw ValidationException::withMessages([
+        'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
+      ]);
     }
+
+    if ($accessCard->quota_lunch <= 0) {
+      throw ValidationException::withMessages([
+        'message' => 'Le quota de ce utilisateur est insuffisant.',
+        'success' => false,
+        'user' => $accessCard->user,
+      ]);
+    }
+
+    $hasAlreadyOrdered = Order::query()
+      ->whereHas('menu', fn ($query) => $query->whereDate('served_at', today()))
+      ->whereBelongsTo($accessCard->user)
+      ->whereState('state', [Confirmed::class, Completed::class])
+      ->exists();
+
+    if ($hasAlreadyOrdered) {
+      return response()->json([
+        'message' => "Cet utilisateur a déjà commandé un plat.",
+        'success' => false,
+        'user' => $accessCard->user,
+      ], Response::HTTP_FORBIDDEN);
+    }
+
+
+
+
+
+    $order = $createOrderAction->execute([
+      'user_id' => $accessCard->user->id,
+      'menu_id' => $todayMenu->id,
+      'dish_id' => $request->dish_id,
+    ]);
+
+    $this->canChargeUser($order, $accessCard);
+
+    activity()
+      ->causedBy(Auth()->user())
+      ->performedOn($order)
+      ->event("Mr/Mme " . auth()->user()->full_name . " vient de passer une commande exceptionnelle du " . $order->menu->served_at->format('d-m-Y') . ' pour ' . $order->user->full_name)
+      ->log('Creation de commande pour tiers');
+
+
+
+    return new OrderResource($order);
+  }
+
+  /**
+   * Show completed orders for the authenticated user.
+   * @return \Illuminate\Http\Response
+   */
+
+  public function orderCompleted()
+  {
+    $orders = Order::with('user', 'dish')->today()->whereState('state', completed::class)->get();
+
+    return response()->json([
+      'orders' => $orders,
+      'success' => true,
+      'message' => 'Commandes récupérées avec succès.'
+    ]);
+  }
+
+
+  public function canChargeUser(Order $order, AccessCard $accessCard)
+  {
+    if ((int)config('cantine.order.locket_at') >= now()->hour) {
+      $order->update(['is_exceptional' => true]);
+      $accessCard->decrement('quota_lunch');
+    }
+  }
 }

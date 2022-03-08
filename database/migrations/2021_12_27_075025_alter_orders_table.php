@@ -20,6 +20,7 @@ class AlterOrdersTable extends Migration
             $table->foreignId('menu_id')->nullable()->change();
             $table->foreignId('payment_method_id')->nullable();
             $table->enum('type', ['lunch', 'breakfast'])->default('lunch');
+            $table->boolean('is_exceptional')->default(false);
 
             $table->index(['dish_id', 'menu_id', 'type']);
         });

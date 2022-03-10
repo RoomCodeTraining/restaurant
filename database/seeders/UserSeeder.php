@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
   {
     $email = 'admin@ciprel.com';
     $username = explode('@', $email)[0];
-    /*
+    
     User::create([
       'username' => $username,
       'identifier' => Str::upper(Str::random(5)),
@@ -161,8 +161,9 @@ class UserSeeder extends Seeder
       ]);
 
       $user->update(['current_access_card_id' => $accessCard->id]);
-    }*/
+    }
 
+    
     $faker = \Faker\Factory::create();
     $rand = rand(3000, 7000000000);
     for ($i = 1500; $i < 25000; $i++) {

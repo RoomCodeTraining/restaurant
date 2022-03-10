@@ -48,6 +48,7 @@ class ChargeUsers extends Command
             'payment_method_id' => $order->user->accessCard->payment_method_id,
             'access_card_id' => $order->user->accessCard->id,
             'is_decrement' => true,
+            'new_quota_lunch' => $order->user->accessCard->quota_lunch,
           ]);
 
           activity()

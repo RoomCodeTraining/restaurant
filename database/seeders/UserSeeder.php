@@ -164,7 +164,7 @@ class UserSeeder extends Seeder
     }
 
     
-    $faker = \Faker\Factory::create();
+    
     $rand = rand(1, 700);
     for ($i = 1; $i < 200; $i++) {
       $user = User::create([
@@ -187,8 +187,8 @@ class UserSeeder extends Seeder
 
       $accessCard = $user->accessCards()->create([
         'identifier' => 'CARD00' . rand(1, 999089),
-        'quota_breakfast' => 25,
-        'quota_lunch' => rand(0, 25),
+        'quota_breakfast' => rand(0, 22),
+        'quota_lunch' => 0,
         'payment_method_id' => 1,
       ]);
 

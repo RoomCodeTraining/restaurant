@@ -30,7 +30,8 @@
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                             <div class="w-full">
                                 <dt class="text-sm font-medium text-gray-500">Photo</dt>
-                                <img src="{{ $user->profile_photo_url }}" class="rounded" alt="{{ $user->username }}">
+                                <img src="{{ $user->profile_photo_url }}" class="rounded"
+                                    alt="{{ $user->username }}">
                             </div>
                         </div>
                     </div>
@@ -112,6 +113,7 @@
                             </div>
                         </div>
                     </div>
+                    @if (!$user->isFromLunchroom())
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
@@ -128,7 +130,7 @@
                                 </div>
                             </div>
                         </div>
-                
+
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
@@ -145,13 +147,13 @@
                                 </div>
                             </div>
                         </div>
-                
+                    @endif
+
                 </div>
             </x-slot>
         </x-action-section>
 
         @if ($user->can('create', App\Models\Order::class) && !$user->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
-
             <x-section-border></x-section-border>
 
             <div class="md:grid md:grid-cols-3 md:gap-6">

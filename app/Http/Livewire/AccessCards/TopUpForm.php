@@ -111,14 +111,14 @@ class TopUpForm extends Component
   public function logMessage(AccessCard $card, string $asUpdated): string
   {
     if ($asUpdated == 'all') {
-      return "Les quotas petit déjeuner et déjeuner de " . $card->user->full_name . " ont été rechargeés par " . auth()->user()->full_name . " le nouveau quota petit déjeuner est de " . $card->quota_breakfast . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
+      return "Les quotas petit déjeuner et déjeuner de " . $card->user->full_name . " ont été rechargées par " . auth()->user()->full_name . " le nouveau quota petit déjeuner est de " . $card->quota_breakfast . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
     }
 
     if ($asUpdated == 'lunch') {
-      return "Le quota déjeuner de " . $card->user->full_name . " a été rechargeé par " . auth()->user()->full_name . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
+      return "Le quota déjeuner de " . $card->user->full_name . " a été rechargée par " . auth()->user()->full_name . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
     }
 
-    return "Le quota petit déjeuner de " . $card->user->full_name . " a été rechargeé par " . auth()->user()->full_name . " et le nouveau quota petit déjeuner est de " . $card->quota_breakfast;
+    return "Le quota petit déjeuner de " . $card->user->full_name . " a été rechargée par " . auth()->user()->full_name . " et le nouveau quota petit déjeuner est de " . $card->quota_breakfast;
   }
 
   public function render()

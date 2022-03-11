@@ -57,6 +57,12 @@ class TopUpForm extends Component
         $this->user->accessCard->payment_method_id = $this->state['payment_method_id'];
         $this->user->accessCard->save();
 
+        activity()
+        ->causedBy(Auth()->user())
+        ->performedOn($this->user->accessCard)
+        ->event("La carte de l'utilisateur {$this->user->full_name} a été rechargée par ".auth()->user()->full_name)
+        ->log('Rechargement de carte RFID');
+
         $selectedPaymentMethod = $this->state['payment_method_id'];
 
         $this->reset(['state']);

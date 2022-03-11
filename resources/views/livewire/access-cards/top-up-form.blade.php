@@ -76,7 +76,8 @@
         @if ($user->accessCard)
             <x-slot name="actions">
                 @if ($user->accessCard->quota_breakfast == 0 || $user->accessCard->quota_lunch == 0)
-                    <button class="btn btn-sm btn-primary" type="submit">
+                    <button class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
+                        wire:loading.attr="disabled" wire:loading.class="loading">
                         Enregistrer
                     </button>
                 @endif

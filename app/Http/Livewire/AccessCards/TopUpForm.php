@@ -49,6 +49,7 @@ class TopUpForm extends Component
                 'state.payment_method_id' => ["Cet utilisateur ne dispose pas de carte RFID associée à son compte."],
             ]);
         }
+        
         $this->updateCountOfReload($this->user->accessCard);
 
         $this->user->accessCard->quota_breakfast =  (int) $this->state['quota_breakfast'];

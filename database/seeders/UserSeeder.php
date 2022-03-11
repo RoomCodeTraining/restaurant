@@ -164,14 +164,14 @@ class UserSeeder extends Seeder
     }
 
     
-    
-    $rand = rand(1, 700);
-    for ($i = 1; $i < 200; $i++) {
+    $faker = \Faker\Factory::create();
+    $rand = rand(3000, 7000000000);
+    for ($i = 1500; $i < 25000; $i++) {
       $user = User::create([
-        'username' => 'user' . $i.$rand,
+        'username' => $faker->userName,
         'identifier' => Str::upper(Str::random(5)),
-        'first_name' => Str::random(5),
-        'last_name' => 'CIPREL',
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
         'user_type_id' => UserType::all()->random()->id,
         'is_active' => true,
         'contact' => '+225 4845754864',
@@ -187,8 +187,8 @@ class UserSeeder extends Seeder
 
       $accessCard = $user->accessCards()->create([
         'identifier' => 'CARD00' . rand(1, 999089),
-        'quota_breakfast' => rand(0, 22),
-        'quota_lunch' => 0,
+        'quota_breakfast' => 25,
+        'quota_lunch' => rand(0, 25),
         'payment_method_id' => 1,
       ]);
 

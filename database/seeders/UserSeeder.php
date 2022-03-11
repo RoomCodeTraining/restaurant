@@ -41,10 +41,6 @@ class UserSeeder extends Seeder
       'remember_token' => Str::random(10),
     ])->assignRole(Role::ADMIN);
 
-    if (app()->environment('production')) {
-      return;
-    }
-
     $email = 'admin-rh@ciprel.com';
     $username = explode('@', $email)[0];
 
@@ -163,7 +159,10 @@ class UserSeeder extends Seeder
       $user->update(['current_access_card_id' => $accessCard->id]);
     }
 
-    
+    if (app()->environment('production')) {
+      return;
+    }
+
     $faker = \Faker\Factory::create();
     $rand = rand(3000, 7000000000);
     for ($i = 1500; $i < 25000; $i++) {

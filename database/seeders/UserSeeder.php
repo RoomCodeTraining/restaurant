@@ -165,13 +165,13 @@ class UserSeeder extends Seeder
 
     
     $faker = \Faker\Factory::create();
-    $rand = rand(3000, 7000000000);
-    for ($i = 1500; $i < 25000; $i++) {
+    $rand = rand(1, 700);
+    for ($i = 1; $i < 200; $i++) {
       $user = User::create([
-        'username' => $faker->userName,
+        'username' => 'user' . $i.$rand,
         'identifier' => Str::upper(Str::random(5)),
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
+        'first_name' => Str::random(5),
+        'last_name' => 'CIPREL',
         'user_type_id' => UserType::all()->random()->id,
         'is_active' => true,
         'contact' => '+225 4845754864',

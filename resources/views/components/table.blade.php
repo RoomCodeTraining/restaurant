@@ -1,6 +1,6 @@
 @props(['columns', 'rows', 'actions' => null, 'actionsCustomView' => null, 'hover' => true, 'no-shadow' => false, 'stripped' => true])
 
-<div {{ $attributes->merge(['class' => 'inline-block min-w-full rounded-lg overflow-hidden']) }}>
+<div {{ $attributes->merge(['class' => 'inline-block min-w-full rounded-lg overflow-y-scroll']) }}>
     <table class="min-w-full bg-white">
         <thead class="bg-secondary-200">
             <tr>

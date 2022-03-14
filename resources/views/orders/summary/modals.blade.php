@@ -1,4 +1,4 @@
-<x-dialog-modal wire:model="showingUsers" maxWidth="3xl">
+<x-dialog-modal wire:model="showingUsers" maxWidth="4xl">
     <x-slot name="title">
         Utilisateurs ayant commandés ce plat
     </x-slot>

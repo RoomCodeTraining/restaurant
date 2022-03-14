@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\AccessCards;
 
-use App\Models\AccessCard;
 use App\Models\User;
 use Livewire\Component;
+use App\Models\AccessCard;
 use App\Models\PaymentMethod;
 use Illuminate\Validation\Rule;
+use App\Events\UpdatedAccessCard;
 use Illuminate\Validation\ValidationException;
+use Studio\Totem\Events\Updated;
 
 class TopUpForm extends Component
 {
@@ -50,13 +52,15 @@ class TopUpForm extends Component
       ]);
     }
 
-    $this->updateCountOfReload($this->user->accessCard);
+    //$this->updateCountOfReload($this->user->accessCard);
     $updated = $this->allIsUpdated($this->user->accessCard);
  
     $this->user->accessCard->quota_breakfast =  (int) $this->state['quota_breakfast'];
     $this->user->accessCard->quota_lunch = (int) $this->state['quota_lunch'];
     $this->user->accessCard->payment_method_id = $this->state['payment_method_id'];
     $this->user->accessCard->save();
+
+   
 
     $logMessage = $this->logMessage($this->user->accessCard, $updated);
 
@@ -111,13 +115,17 @@ class TopUpForm extends Component
   public function logMessage(AccessCard $card, string $asUpdated): string
   {
     if ($asUpdated == 'all') {
+      UpdatedAccessCard::dispatch($card, 'lunch');
+      UpdatedAccessCard::dispatch($card, 'breakfast');
       return "Les quotas petit déjeuner et déjeuner de " . $card->user->full_name . " ont été rechargées par " . auth()->user()->full_name . " le nouveau quota petit déjeuner est de " . $card->quota_breakfast . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
     }
 
     if ($asUpdated == 'lunch') {
+      UpdatedAccessCard::dispatch($card, 'lunch');
       return "Le quota déjeuner de " . $card->user->full_name . " a été rechargée par " . auth()->user()->full_name . " et le nouveau quota déjeuner est de " . $card->quota_lunch;
     }
 
+    UpdatedAccessCard::dispatch($card, 'breakfast');
     return "Le quota petit déjeuner de " . $card->user->full_name . " a été rechargée par " . auth()->user()->full_name . " et le nouveau quota petit déjeuner est de " . $card->quota_breakfast;
   }
 

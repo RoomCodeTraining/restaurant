@@ -55,6 +55,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'categorie' =>  'required|string',
             'departement' => ['required','string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
+            'type' => 'required'
         ];
     }
 

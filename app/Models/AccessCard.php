@@ -7,12 +7,16 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class AccessCard extends Model
 {
     use HasFactory;
     use SoftDeletes, LogsActivity;
+
+    public const LUNCH = 'lunch';
+    public const BREAKFAST = 'breakfast';
 
     public const TYPE_PRIMARY = 'primary';
     public const TYPE_TEMPORARY = 'temporary';
@@ -66,4 +70,18 @@ class AccessCard extends Model
     $this->increment($type_quota.'_reload_count');
     $this->save();
   }
+
+
+  public function reloadAccessCardHistory() : HasMany{
+    return $this->hasMany(ReloadAccessCardHistory::class);
+  }
+
+  public function countLunchReload() : int {
+      return $this->reloadAccessCardHistory()->where('quota_type', self::LUNCH)->count();
+  }
+
+  public function countBreakfastReload() : int {
+      return $this->reloadAccessCardHistory()->where('quota_type', self::BREAKFAST)->count();
+  }
+
 }

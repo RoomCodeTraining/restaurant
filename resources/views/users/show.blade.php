@@ -214,10 +214,13 @@
                     </x-table>
                 </div>
             </div>
+
+            <x-section-border></x-section-border>
             @if($user->accessCard)
+          
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <x-section-title>
-                  <x-slot name="title">Historiques de rechargement</x-slot>
+                  <x-slot name="title">Historiques de rechargements</x-slot>
                   <x-slot name="description">Les differentes historiques de rechargement du collaborateur</x-slot>
               </x-section-title>
 
@@ -253,7 +256,7 @@
                       </div>
                   </div>
                   <div class="py-4">
-                      <span class="font-bold">Derniers rechargement</span>
+                      <span class="font-bold">Derniers rechargements</span>
                   </div>
                   <x-table hover class="shadow bg-white" :columns="[
                       'Date' => fn ($history) => $history->created_at->format('d/m/Y'),
@@ -263,7 +266,7 @@
                   </x-table>
               </div>
               @endif
-          </div>
+            </div>
 
             @can('manage', App\Models\AccessCard::class)
                 <x-section-border></x-section-border>

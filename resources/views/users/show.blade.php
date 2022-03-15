@@ -215,6 +215,14 @@
                 </div>
             </div>
 
+            </div>
+
+            @can('manage', App\Models\AccessCard::class)
+                <x-section-border></x-section-border>
+
+                <livewire:access-cards.top-up-form :user="$user" />
+            @endcan
+
             @if($user->accessCard)
             <x-section-border></x-section-border>
 
@@ -266,13 +274,6 @@
                   </x-table>
               </div>
               @endif
-            </div>
-
-            @can('manage', App\Models\AccessCard::class)
-                <x-section-border></x-section-border>
-
-                <livewire:access-cards.top-up-form :user="$user" />
-            @endcan
         @endif
 
     </section>

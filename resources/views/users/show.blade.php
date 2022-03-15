@@ -215,9 +215,9 @@
                 </div>
             </div>
 
-            <x-section-border></x-section-border>
             @if($user->accessCard)
-          
+            <x-section-border></x-section-border>
+
             <div class="md:grid md:grid-cols-3 md:gap-6">
               <x-section-title>
                   <x-slot name="title">Historiques de rechargements</x-slot>

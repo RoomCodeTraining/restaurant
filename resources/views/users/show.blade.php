@@ -215,7 +215,7 @@
                 </div>
             </div>
 
-            </div>
+         
 
             @can('manage', App\Models\AccessCard::class)
                 <x-section-border></x-section-border>
@@ -241,7 +241,7 @@
                           </div>
                           <div>
                               <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                Nbr Rechargement petit dejeuner
+                                Nbr rechargement petit dejeuner
                               </p>
                               <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                   {{ $user->accessCard->countBreakfastReload() }}
@@ -255,7 +255,7 @@
                           </div>
                           <div>
                               <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                                  Nbr Rechargement dejeuner
+                                  Nbr rechargement dejeuner
                               </p>
                               <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
                                 {{ $user->accessCard->countLunchReload() }}

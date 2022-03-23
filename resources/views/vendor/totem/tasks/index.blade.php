@@ -9,6 +9,7 @@
       
             <a href="{{ route('dashboard') }}" class="btn btn-sm btn-secondary hidden md:flex font-bold">
                 Retour
+            
             </a>
     
         {!! Form::open([

@@ -237,8 +237,7 @@
 @endif-->
                         @endif
                         @if (auth()->user()->isAdmin())
-                            <x-nav-link href="totem/tasks" icon="users"
-                                :active="request()->routeIs('employeeStatuses.index')">
+                            <x-nav-link href="totem/tasks" icon="users">
                                 Planificateur des tâches
                             </x-nav-link>
                         @endif

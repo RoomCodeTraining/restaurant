@@ -8,7 +8,7 @@
             </div>
         @endisset
 
-        <div class="mt-4">
+        <div class="mt-4 content">
             {{ $content }}
         </div>
     </div>
@@ -18,4 +18,11 @@
             {{ $footer }}
         </div>
     @endif
+
+  <style>
+    .content {
+        max-height: calc(100vh - 400px);
+        overflow-y: auto;
+    }
+  </style>
 </x-modal>

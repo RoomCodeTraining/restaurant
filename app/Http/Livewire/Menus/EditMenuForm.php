@@ -38,7 +38,11 @@ class EditMenuForm extends Component
         $this->validate([
             'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
-            'state.second_dish_id' => ['nullable', 'integer', 'different:state.main_dish_id', Rule::exists('dishes', 'id')],
+            'state.second_dish_id' => ['nullable', 'integer', Rule::exists('dishes', 'id'), function($attr, $value, $fail){
+                if($this->state['second_dish_id'] && $this->state['second_dish_id'] == $this->state['main_dish_id']){
+                    return $fail('Le second plat ne peut pas être le même que le plat principal !');
+                }
+            }],
             'state.dessert_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 

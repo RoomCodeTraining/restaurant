@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\UserTypes;
 
-use App\Actions\UserType\CreateUserTypeAction;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
+use App\Actions\UserType\CreateUserTypeAction;
 
 class CreateUserTypeForm extends Component
 {
@@ -15,7 +16,7 @@ class CreateUserTypeForm extends Component
     public function saveUserType(CreateUserTypeAction $createUserTypeAction)
     {
         $this->validate([
-            'state.name' => ['required'],
+            'state.name' => ['required', 'string', Rule::unique('user_types', 'name')],
             'state.auto_identifier' => ['nullable']
         ]);
 

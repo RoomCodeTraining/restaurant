@@ -12,7 +12,7 @@ class CreateOrganizationForm extends Component
     public function saveOrganization(CreateOrganizationAction $action)
     {
         $this->validate([
-            'state.name' => ['required', 'string',  Rule::unique('users', 'identifier')],
+            'state.name' => ['required', 'string',  Rule::unique('organizations', 'name')],
         ]);
 
         $action->execute($this->state);

@@ -12,7 +12,7 @@ class CreateDepartmentForm extends Component
     public function saveDepartment(CreateDepartmentAction $action)
     {
         $this->validate([
-            'state.name' => ['required', 'string',  Rule::unique('users', 'identifier')],
+            'state.name' => ['required', 'string',  Rule::unique('departments', 'name')],
         ]);
 
         $action->execute($this->state);

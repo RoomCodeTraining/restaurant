@@ -2,8 +2,9 @@
 
 namespace App\Http\Livewire\EmployeeStatuses;
 
-use App\Actions\EmployeeStatus\CreateEmployeeStatusAction;
 use Livewire\Component;
+use Illuminate\Validation\Rule;
+use App\Actions\EmployeeStatus\CreateEmployeeStatusAction;
 
 class CreateEmployeeStatusForm extends Component
 {
@@ -14,7 +15,7 @@ class CreateEmployeeStatusForm extends Component
     public function saveEmployeeStatus(CreateEmployeeStatusAction $action)
     {
         $this->validate([
-            'state.name' => ['required'],
+            'state.name' => ['required', 'string', Rule::unique('employee_statuses', 'name')],
         ]);
 
         $action->execute($this->state);

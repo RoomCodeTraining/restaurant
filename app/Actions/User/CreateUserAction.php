@@ -2,9 +2,10 @@
 
 namespace App\Actions\User;
 
-use App\Events\UserCreated;
 use App\Models\Role;
 use App\Models\User;
+use App\Events\UserCreated;
+use App\Support\ActivityHelper;
 use Illuminate\Support\Facades\DB;
 
 class CreateUserAction
@@ -27,6 +28,13 @@ class CreateUserAction
             'user_type_id' => $data['user_type_id'],
             'email_verified_at' => now(),
         ]);
+
+   
+        ActivityHelper::createActivity(
+          $user,
+          "Creation du compte de $user->full_name",
+          'Creation de nouveau menu',
+        );
 
         $user->syncRoles($data['roles'] ?? [Role::USER]);
 

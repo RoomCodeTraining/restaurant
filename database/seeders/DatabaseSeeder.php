@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
             PaymentMethodSeeder::class,
             UserTypeSeeder::class,
             PermissionSeeder::class,
-            UserSeeder::class,
             DishTypeSeeder::class,
-            MenuSeeder::class
+            MenuSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

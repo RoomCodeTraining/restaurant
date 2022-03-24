@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use App\Events\UserUnlocked;
 use App\States\Order\Cancelled;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -26,7 +27,8 @@ class UsersTable extends DataTableComponent
     ];
 
      public array $bulkActions = [
-        'exportToUser' => 'Export au format Excel',
+        'exportToUser' => 'Export en Excel',
+        'exportQuota' => 'Export quotas en Excel',
     ];
 
     public string $defaultSortColumn = 'created_at';
@@ -93,7 +95,11 @@ class UsersTable extends DataTableComponent
         $user = User::find($this->userIdBeingLocked);
 
         $user->update(['is_active' => false]);
-
+        ActivityHelper::createActivity(
+          $user,
+          "Desactivation du compte de $user->full_name",
+          'Mise a jour de compte',
+        );
         UserLocked::dispatch($user);
 
         $this->confirmingUserLocking = false;
@@ -122,6 +128,11 @@ class UsersTable extends DataTableComponent
             'email' => $identifier.'@'.$identifier.'.com',
         ]);
 
+        ActivityHelper::createActivity(
+          $user,
+          "Suppression du compte de $user->full_name",
+          'Suppression de compte',
+        );
 
         $user->delete();
 
@@ -145,6 +156,12 @@ class UsersTable extends DataTableComponent
 
         $user->update(['is_active' => true]);
 
+        ActivityHelper::createActivity(
+          $user,
+          "Activation de compte de $user->full_name",
+          'MLise a jour de compte',
+        );
+
         UserUnlocked::dispatch($user);
 
         $this->confirmingUserUnlocking = false;
@@ -155,6 +172,10 @@ class UsersTable extends DataTableComponent
 
         return redirect()->route('users.index');
     }
+
+    public function exportQuota(){
+      return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
+  }
 
 
     public function exportToUser()

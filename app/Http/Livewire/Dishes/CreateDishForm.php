@@ -24,7 +24,11 @@ class CreateDishForm extends Component
     public function saveDish(CreateDishAction $createDishAction)
     {
         $this->validate([
-            'state.name' => ['required', 'string', 'max:255'],
+            'state.name' => ['required', 'string', 'max:255', function($attribute, $value, $fail){
+                if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->state['dish_type_id']])->exists()) {
+                    $fail('Ce plat existe déjà !');
+                }
+            }],
             'state.description' => ['nullable', 'string', 'max:255'],
             'image_path' => ['nullable', 'image:1024', 'max:255'],
             'state.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],

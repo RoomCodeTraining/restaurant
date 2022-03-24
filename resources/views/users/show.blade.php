@@ -30,7 +30,8 @@
                         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                             <div class="w-full">
                                 <dt class="text-sm font-medium text-gray-500">Photo</dt>
-                                <img src="{{ $user->profile_photo_url }}" class="rounded" alt="{{ $user->username }}">
+                                <img src="{{ $user->profile_photo_url }}" class="rounded"
+                                    alt="{{ $user->username }}">
                             </div>
                         </div>
                     </div>
@@ -112,6 +113,7 @@
                             </div>
                         </div>
                     </div>
+                    @if (!$user->isFromLunchroom())
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
@@ -128,6 +130,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-span-8">
                             <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
                                 <div class="w-full md:w-1/2">
@@ -144,13 +147,13 @@
                                 </div>
                             </div>
                         </div>
-                
+                    @endif
+
                 </div>
             </x-slot>
         </x-action-section>
 
         @if ($user->can('create', App\Models\Order::class) && !$user->hasRole([App\Models\Role::ADMIN_LUNCHROOM, App\Models\Role::OPERATOR_LUNCHROOM]))
-
             <x-section-border></x-section-border>
 
             <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -206,16 +209,72 @@
                     <x-table hover class="shadow bg-white" :columns="[
                         'Menu du' => fn ($order) => $order->menu->served_at->format('d/m/Y'),
                         'Plat' => 'dish.name',
+                        'Statut' => fn ($order) => $order->state->title(),
                     ]" :rows="$latestOrders">
                     </x-table>
                 </div>
             </div>
+
+         
 
             @can('manage', App\Models\AccessCard::class)
                 <x-section-border></x-section-border>
 
                 <livewire:access-cards.top-up-form :user="$user" />
             @endcan
+
+            @if($user->accessCard)
+            <x-section-border></x-section-border>
+
+            <div class="md:grid md:grid-cols-3 md:gap-6">
+              <x-section-title>
+                  <x-slot name="title">Historiques de rechargements</x-slot>
+                  <x-slot name="description">Les differentes historiques de rechargement du collaborateur</x-slot>
+              </x-section-title>
+
+              <div class="mt-5 md:mt-0 md:col-span-2">
+                  <div class="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-2">
+                      <div class="flex items-center p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                          <div
+                              class="p-3 mr-4 text-primary-500 bg-primary-100 rounded-full dark:text-primary-100 dark:bg-primary-500">
+                              <x-icon name="card" class="w-8 h-8 text-info-600" />
+                          </div>
+                          <div>
+                              <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                Nbr rechargement petit dejeuner
+                              </p>
+                              <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                  {{ $user->accessCard->countBreakfastReload() }}
+                              </p>
+                          </div>
+                      </div>
+                      <div class="flex items-center p-4 bg-white rounded-lg shadow dark:bg-gray-800">
+                          <div
+                              class="p-3 mr-4 text-green-500 bg-green-100 rounded-full dark:text-green-100 dark:bg-green-500">
+                              <x-icon name="card" class="w-8 h-8 text-primary-600" />
+                          </div>
+                          <div>
+                              <p class="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                  Nbr rechargement dejeuner
+                              </p>
+                              <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                                {{ $user->accessCard->countLunchReload() }}
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="py-4">
+                      <span class="font-bold">Derniers rechargements</span>
+                  </div>
+                  <x-table hover class="shadow bg-white" :columns="[
+                      'Date' => fn ($history) => $history->created_at->format('d/m/Y'),
+                      'Type quota' => fn($history) => $history->quota_type == 'breakfast' ? 'Petit dejeuner' : 'Dejeuner',
+                      'Nbr de quota' => fn ($history) => $history->quota,
+                  ]" :rows="$user->accessCard->reloadAccessCardHistory">
+                  </x-table>
+              </div>
+              @endif
         @endif
+
     </section>
 </x-app-layout>

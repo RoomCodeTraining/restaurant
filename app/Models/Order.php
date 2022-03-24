@@ -5,6 +5,7 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
 use App\Support\DateTimeHelper;
 use App\States\Order\OrderState;
 use Spatie\ModelStates\HasStates;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+
 
 class Order extends Model
 {
@@ -20,15 +23,20 @@ class Order extends Model
     use HasStates;
 
     use SoftDeletes;
+    protected static $recordEvents = [];
+
 
     protected $guarded = [];
+    
 
     protected $casts = [
         'state' => OrderState::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        "order_by_other" => 'boolean',
+        'is_decrement' => 'boolean',
     ];
+
+   
 
     protected static function booted()
     {
@@ -47,10 +55,18 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()]));
     }
 
+    public function scopeFuturOrder($query)
+    {
+        return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
+    }
+
+ 
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
     }
+
+
 
     public function scopeFilter($query, $period){
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
@@ -117,4 +133,10 @@ class Order extends Model
     public function getOrderTypeAttribute(){
         return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
     }
+
+    public function isToday()
+    {
+        return $this->menu->served_at->isCurrentDay();
+    }
+    
 }

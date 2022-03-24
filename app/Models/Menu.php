@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Support\ActivityHelper;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Menu extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
+
+    
 
     protected $casts = [
         'served_at' => 'date',
@@ -18,6 +22,8 @@ class Menu extends Model
     protected $dates = [
         'served_at' => 'Y-m-d',
     ];
+
+
 
     public function getStarterAttribute()
     {

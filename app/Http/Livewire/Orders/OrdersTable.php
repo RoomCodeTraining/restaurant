@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -98,7 +99,11 @@ class OrdersTable extends DataTableComponent
         $order->state->transitionTo(Cancelled::class);
 
         $this->confirmingOrderCancellation = false;
-
+        ActivityHelper::createActivity(
+            $order,
+            'Annulation de la commande du ' . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+            'Annulation de la commande',
+        );
         session()->flash('success', "Votre commande a été annulée avec succès !");
 
         return redirect()->route('orders.index');

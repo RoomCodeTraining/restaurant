@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Support\HasImage;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Support\ActivityHelper;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Dish extends Model
 {
@@ -15,6 +17,8 @@ class Dish extends Model
     protected $fillable = [
         'name', 'description', 'dish_type_id', 'image_path',
     ];
+
+  
 
     public function getPositionAttribute()
     {

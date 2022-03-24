@@ -40,7 +40,7 @@ class DishExport implements FromCollection, WithTitle, WithMapping, WithHeadings
         $menu->served_at->format('d/m/Y'),
         $menu->starter->name,
         $menu->main_dish->name,
-        $menu->second_dish->name,
+        $menu->second_dish ? $menu->second_dish->name : 'Pas de second plat',
         $menu->dessert->name,
       ];
     }

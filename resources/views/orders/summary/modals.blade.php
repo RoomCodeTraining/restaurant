@@ -1,8 +1,7 @@
-<x-dialog-modal wire:model="showingUsers" maxWidth="3xl">
+<x-dialog-modal wire:model="showingUsers" maxWidth="3xl" class="customScroll">
     <x-slot name="title">
         Utilisateurs ayant commandés ce plat
     </x-slot>
-
     <x-slot name="content">
         <x-table hover no-shadow :columns="[
                 'Matricule' => 'identifier',
@@ -10,7 +9,6 @@
             ]" :rows="$users">
         </x-table>
     </x-slot>
-
     <x-slot name="footer">
         <div class="inline-flex items-center space-x-2">
             <button class="btn btn-sm bg-red-500 text-white" wire:click="$toggle('showingUsers')" wire:loading.attr="disabled">

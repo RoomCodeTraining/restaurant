@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Support\ActivityHelper;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -20,6 +21,12 @@ class AuthController extends Controller
         }
 
         $token = $user->createToken('bearer-token')->plainTextToken;
+
+        ActivityHelper::createActivity(
+          $user,
+          'Connexion a l\'application mobile',
+          'Nouvelle connexion',
+        );
 
         return response([
             'user' => $user,

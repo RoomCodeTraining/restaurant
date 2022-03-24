@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::view('reporting/check-in-breakfast', 'reporting.check-breakfast')->name('reporting.check.breakfast');
     Route::get('reporting/accounts', App\Http\Controllers\ReportingController::class)->name('reporting.account');
     Route::view('users-import', 'users.import')->name('users-import');
+    Route::view('activities-log', 'activities.index')->name('activities-log');
+    Route::get('activities-log/{activity}', fn($activity) => view('activities.show'))->name('activity-log.show');
+
 
     Route::resource('/users', App\Http\Controllers\UsersController::class);
     Route::resource('/suggestions-box', App\Http\Controllers\SuggestionsBoxController::class);

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Models\AccessCard;
 use App\Models\Order;
+use App\Models\AccessCard;
+use Illuminate\Http\Request;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Support\ActivityHelper;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class MarkOrderAsCompleted extends Controller
 {
@@ -30,10 +31,10 @@ class MarkOrderAsCompleted extends Controller
 
     $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->access_card_identifier);
 
-    if(now()->hour < config('cantine.order.locked_at') && $request->order_type == 'lunch'){
-        return response()->json([
-            'message' => 'Vous ne pouvez pas retirer de repas avant '.config('cantine.order.locked_at').'h'
-        ], Response::HTTP_BAD_REQUEST);
+    if (now()->hour < config('cantine.order.locked_at') && $request->order_type == 'lunch') {
+      return response()->json([
+        'message' => 'Vous ne pouvez pas retirer de repas avant ' . config('cantine.order.locked_at') . 'h'
+      ], Response::HTTP_BAD_REQUEST);
     }
 
     if (!$accessCard) {
@@ -113,10 +114,11 @@ class MarkOrderAsCompleted extends Controller
     if ($request->order_type === 'breakfast') {
       DB::transaction(function () use ($accessCard, $order) {
         $order->markAsCompleted();
-
+        
         $order->update([
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,
+          'is_decrement' => true,
         ]);
 
         $accessCard->decrement('quota_breakfast');
@@ -132,6 +134,8 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque l'utilisateur récupère son plat, applicable seulement au déjeuner.
      */
+
+
     if ($request->order_type === 'lunch') {
       $order->markAsCompleted();
       return response()->json([
@@ -157,6 +161,7 @@ class MarkOrderAsCompleted extends Controller
 
     $order = Order::whereId($request->order_identifier)->first();
     $order->markAsConfirmed();
+
 
     return response()->json([
       'message' => "La commande a été marquée comme non consommée.",

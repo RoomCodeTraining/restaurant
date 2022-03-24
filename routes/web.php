@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/userTypes', App\Http\Controllers\UserTypesController::class);
     Route::resource('/paymentMethods', App\Http\Controllers\PaymentMethodsController::class);
     Route::resource('/employeeStatuses', App\Http\Controllers\EmployeeStatusesController::class);
+    Route::view('access-cards/reloads-history', 'access-cards.reloads-history')->name('access-cards.reloads.history');
 });
 
 

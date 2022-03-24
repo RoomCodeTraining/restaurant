@@ -117,6 +117,10 @@
                                     :active="request()->routeIs('users.*')">
                                     Utilisateurs
                                 </x-nav-link>
+                                <x-nav-link href="{{ route('access-cards.reloads.history') }}" icon="users"
+                                    :active="request()->routeIs('access-cards.reloads.history')">
+                                    Historique des recharges
+                                </x-nav-link>
                             @endcan
 
                             @can('manage', \App\Models\User::class)

@@ -163,6 +163,7 @@ class UserSeeder extends Seeder
       return;
     }
 
+    /*
     $faker = \Faker\Factory::create();
     $rand = rand(3000, 7000000000);
     for ($i = 1500; $i < 25000; $i++) {
@@ -203,6 +204,6 @@ class UserSeeder extends Seeder
              'new_quota_lunch' => 0,
            ]);
       }
-    }
+    }*/
   }
 }

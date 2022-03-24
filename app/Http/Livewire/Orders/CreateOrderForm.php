@@ -55,6 +55,7 @@ class CreateOrderForm extends Component
 
     $this->validate(['selectedDishes' => ['required', 'array']]);
 
+    dd('ici');
     /**
      * S'assure que le quota de commande de l'utilisateur est suffisant.
      */

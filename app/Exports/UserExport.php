@@ -24,7 +24,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
     public function collection()
     {
         return User::query()
-                    ->with('role', 'department', 'employeeStatus', 'userType')
+                    ->with('role', 'department', 'employeeStatus', 'userType', 'accessCard')
                     ->orderByDesc('created_at')
                     ->get();
 
@@ -49,6 +49,8 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Société",
             "Département",
             "Statut professionnel",
+            "Rechargement petit dejeuner",
+            "Rechargement déjeuner",
             "Etat du compte"
         ];
     }
@@ -67,6 +69,8 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             $row->organization->name,
             $row->department->name,
             $row->employeeStatus->name,
+            $row->accessCard?->breakfast_reload_count,
+            $row->accessCard?->lunch_reload_count,
             $row->is_active ? "Actif" : "Inactif" 
 
         ];
@@ -76,16 +80,16 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:K' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:M' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:K1')->applyFromArray([
+        $sheet->getStyle('A1:M1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:K' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:M' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

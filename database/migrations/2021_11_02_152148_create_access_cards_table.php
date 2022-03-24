@@ -20,6 +20,8 @@ class CreateAccessCardsTable extends Migration
             $table->unsignedInteger('quota_lunch');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('payment_method_id')->constrained();
+            $table->integer('lunch_reload_count')->default(0);
+            $table->integer('breakfast_reload_count')->default(0);
             $table->timestamps();
             $table->softDeletes();
 

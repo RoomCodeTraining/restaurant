@@ -74,6 +74,7 @@ class AccessCardsController extends Controller
       ], 422);
     }
 
+
     if ($user->isFromlunchroom()) {
       return response()->json([
         'message' => "Cet utilisateur ne peut disposer d'une carte RFID",
@@ -119,6 +120,7 @@ class AccessCardsController extends Controller
 
     $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
     $old_quota = $card[$request->quota_type];
+
 
 
     /*

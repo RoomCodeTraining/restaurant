@@ -33,7 +33,11 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
   public function collection()
   {
     return ReloadAccessCardHistory::query()
-      //->unless($this->quota_type, fn ($query) => $query->whereIn('quota_type', ['lunch', 'breakfast']))
+        ->whereHas('accessCard', function ($query) {
+          $query->whereHas('user', function ($query) {
+            $query->where('deleted_at', null);
+          });
+        })
       ->when($this->quota_type, fn ($query) => $query->where('quota_type', $this->quota_type))
       ->when($this->period, fn ($query) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period)))
       ->orderBy('created_at', 'desc')->get();

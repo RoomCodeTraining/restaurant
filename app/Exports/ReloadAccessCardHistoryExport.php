@@ -22,7 +22,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
 
   public $period, $quota_type;
 
-  public function __construct($period, string $quota_type)
+  public function __construct($period, ?string $quota_type)
   {
     $this->period = $period;
     $this->quota_type = $quota_type;
@@ -33,7 +33,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
   public function collection()
   {
     return ReloadAccessCardHistory::query()
-      ->unless($this->quota_type, fn ($query) => $query->whereIn('quota_type', ['lunch', 'breakfast']))
+      //->unless($this->quota_type, fn ($query) => $query->whereIn('quota_type', ['lunch', 'breakfast']))
       ->when($this->quota_type, fn ($query) => $query->where('quota_type', $this->quota_type))
       ->when($this->period, fn ($query) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($this->period)))
       ->orderBy('created_at', 'desc')->get();

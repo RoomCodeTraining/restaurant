@@ -17,8 +17,6 @@ class BillingHelper
     public const EMP_STATUS_CADRE = 1;
     public const EMP_STATUS_MAITRISE = 2;
     public const EMP_STATUS_STAGIAIRE = 3;
-   
-
 
 
     protected $billMap = [];
@@ -134,7 +132,7 @@ class BillingHelper
                     ],
                 ],
             ],
-            
+
             self::USER_TYPE_PROVIDER => [
                 self::EMP_STATUS_CADRE => [
                     'subvention' => [
@@ -146,7 +144,9 @@ class BillingHelper
                         'breakfast' => 0,
                     ],
                 ],
+
                 self::EMP_STATUS_MAITRISE => [
+
                     'subvention' => [
                         'lunch' => 3300,
                         'breakfast' => 500,
@@ -158,6 +158,7 @@ class BillingHelper
                 ],
          
             ]
+
         ];
     }
 

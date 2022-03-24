@@ -73,6 +73,11 @@ class ReloadHistoryTable extends DataTableComponent
   public function query(): Builder
   {
     return ReloadAccessCardHistory::query()
+      ->whereHas('accessCard', function ($query) {
+        $query->whereHas('user', function ($query) {
+          $query->where('deleted_at', null);
+        });
+      })
       ->unless($this->filters['quota_type'], fn ($query) => $query->whereIn('quota_type', ['lunch', 'breakfast']))
       ->when($this->filters['quota_type'], fn ($query) => $query->where('quota_type', $this->filters['quota_type']))
       ->when($this->filters['in_the_period'], fn ($query) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($this->filters['in_the_period'])))->orderBy('created_at', 'desc');

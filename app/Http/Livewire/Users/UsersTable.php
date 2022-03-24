@@ -27,8 +27,8 @@ class UsersTable extends DataTableComponent
     ];
 
      public array $bulkActions = [
-        'exportToUser' => 'Export au format Excel',
-        'exportQuota' => 'Export des quota au format Excel',
+        'exportToUser' => 'Export en Excel',
+        'exportQuota' => 'Export quotas en Excel',
     ];
 
     public string $defaultSortColumn = 'created_at';

@@ -21,7 +21,11 @@ class AdminCantineDashboard extends Component
         $this->menu = \App\Models\Menu::today()->first();
         if ($this->menu) {
             $this->main_dish_count = \App\Models\Order::whereNotState('state', Cancelled::class)->today()->where(['dish_id' => $this->menu->main_dish->id, 'menu_id' => $this->menu->id])->count();
-            $this->second_dish_count = \App\Models\Order::whereNotState('state', Cancelled::class)->today()->where(['dish_id' => $this->menu->second_dish->id, 'menu_id' => $this->menu->id])->count();
+
+            if($this->menu->second_dish){
+                $this->second_dish_count = \App\Models\Order::whereNotState('state', Cancelled::class)->today()->where(['dish_id' => $this->menu->second_dish->id, 'menu_id' => $this->menu->id])->count();
+            }
+            
         }
     }
 

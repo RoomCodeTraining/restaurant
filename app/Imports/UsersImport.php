@@ -5,6 +5,7 @@ namespace App\Imports;
 use App\Models\Role;
 use App\Models\User;
 use App\Events\UserCreated;
+use App\Models\Department;
 use App\Models\EmployeeStatus;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -26,15 +27,13 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
   {
 
     //Informatique
-
-
     DB::beginTransaction();
 
-      $data = $this->getUserhasBeingCreatedData($row);
-      $user = User::updateOrCreate([
-        'identifier' => $data['identifier'],
-      ], $data);
-      $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
+    $data = $this->getUserhasBeingCreatedData($row);
+    $user = User::updateOrCreate([
+      'identifier' => $data['identifier'],
+    ], $data);
+    $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
 
     DB::commit();
 
@@ -53,7 +52,6 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
       'matricule' => 'required',
       'prenoms' => 'nullable|string',
       'nom' => 'required|string',
-      'contact' => 'required',
       'societe' => 'required|string',
       'email' => ['required', 'email'],
       'categorie' =>  'required|string',
@@ -66,8 +64,11 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
   public function getUserhasBeingCreatedData($model): array
   {
+
+    $categorie = trim(str_replace('î', 'i', $model['categorie']));
+
     return [
-      'employee_status_id' => \App\Models\EmployeeStatus::whereName(trim(ucfirst($model['categorie'])))->first()->id,
+      'employee_status_id' => \App\Models\EmployeeStatus::whereName(trim(ucfirst($categorie)))->first()->id,
       'organization_id' => \App\Models\Organization::whereName(trim(ucfirst($model['societe'])))->first()->id,
       'department_id' => \App\Models\Department::whereName(trim(ucfirst($model['departement'])))->first()->id,
       'user_type_id' => \App\Models\UserType::whereName(trim(ucfirst($model['type'])))->first()->id,

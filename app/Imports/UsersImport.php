@@ -42,7 +42,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
 
 
-    //$user->sendWelcomeNotification(now()->addWeek());
+    $user->sendWelcomeNotification(now()->addWeek());
   }
 
 

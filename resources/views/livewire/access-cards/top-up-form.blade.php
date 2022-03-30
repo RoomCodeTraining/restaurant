@@ -50,7 +50,7 @@
                 <label class="label">
                     <span class="label-text">Quota petit-dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ $state['quota_breakfast'] > 0 ? 'disabled' : '' }} type="text"
+                <input class="input input-bordered" {{ optional($user->accessCard)->quota_breakfast > 0 ? 'disabled' : '' }} type="text"
                     wire:model.lazy="state.quota_breakfast">
                 @error('state.quota_breakfast')
                     <label class="label">
@@ -63,7 +63,7 @@
                 <label class="label">
                     <span class="label-text">Quota dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ $state['quota_lunch'] > 0 ? 'disabled' : '' }} type="text"
+                <input class="input input-bordered" {{ optional($user->accessCard)->quota_lunch > 0 ? 'disabled' : '' }} type="text"
                     wire:model.lazy="state.quota_lunch">
                 @error('state.quota_lunch')
                     <label class="label">

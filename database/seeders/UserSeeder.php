@@ -152,7 +152,7 @@ class UserSeeder extends Seeder
       $accessCard = $user->accessCards()->create([
         'identifier' => 'CARD00' . $key,
         'quota_breakfast' => 0,
-        'quota_lunch' => rand(1, 2),
+        'quota_lunch' => 0,
         'payment_method_id' => 1,
       ]);
 

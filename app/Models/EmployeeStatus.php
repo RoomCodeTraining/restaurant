@@ -16,8 +16,10 @@ class EmployeeStatus extends Model
         return $this->hasMany(User::class);
     }
 
-    public function getNameAttribute($value)
+    public function setNameAttribute($value)
     {
-        return ucfirst($value);
+        $this->attributes['name'] = ucfirst($value);
     }
+
+
 }

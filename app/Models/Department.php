@@ -6,6 +6,7 @@ use App\Support\ActivityHelper;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Department extends Model
@@ -35,8 +36,9 @@ class Department extends Model
     return $this->hasMany(User::class);
   }
 
-  public function getNameAttribute($value)
-  {
-    return ucfirst($value);
-  }
+
+
+
+
+ 
 }

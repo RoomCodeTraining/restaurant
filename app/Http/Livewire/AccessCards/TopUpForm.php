@@ -79,7 +79,7 @@ class TopUpForm extends Component
     $this->state['payment_method_id'] = $selectedPaymentMethod;
     session()->flash('success', "Le rechargement a été effectué avec succès.");
 
-    return redirect()->route('access-cards.reloads.history');
+    return redirect()->route('users.show', $this->user);
   }
 
   // Message du log lors du rechargement de carte RFID

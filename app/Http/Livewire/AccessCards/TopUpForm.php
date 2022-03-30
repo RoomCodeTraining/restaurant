@@ -48,7 +48,7 @@ class TopUpForm extends Component
     ]);
 
     
-    sleep(2);
+    sleep(3); // Bloquer le script afin d'eviter le double click sur le bouton de rechargement.
 
     if (!$this->user->accessCard) {
       throw ValidationException::withMessages([
@@ -79,7 +79,7 @@ class TopUpForm extends Component
     $this->state['payment_method_id'] = $selectedPaymentMethod;
     session()->flash('success', "Le rechargement a été effectué avec succès.");
 
-    return redirect()->route('users.show', $this->user);
+    return redirect()->route('access-cards.reloads.history');
   }
 
   // Message du log lors du rechargement de carte RFID

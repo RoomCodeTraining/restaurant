@@ -78,7 +78,7 @@
         @if ($user->accessCard)
             <x-slot name="actions">
                 @if ($user->accessCard->quota_breakfast == 0 || $user->accessCard->quota_lunch == 0)
-                    <div wire:loading.delay>
+                    <div wire:loading.delay.longer wire:target='topUp'>
                         Rechargement en cours...
                     </div>
                     <button wire:loading.remove wire:click.prevent="topUp" class="btn btn-sm btn-primary" type="submit"

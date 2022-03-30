@@ -50,7 +50,8 @@
                 <label class="label">
                     <span class="label-text">Quota petit-dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ optional($user->accessCard)->quota_breakfast > 0 ? 'disabled' : '' }} type="text"
+                <input class="input input-bordered"
+                    {{ optional($user->accessCard)->quota_breakfast > 0 ? 'disabled' : '' }} type="text"
                     wire:model.lazy="state.quota_breakfast">
                 @error('state.quota_breakfast')
                     <label class="label">
@@ -63,7 +64,8 @@
                 <label class="label">
                     <span class="label-text">Quota dejeuner</span>
                 </label>
-                <input class="input input-bordered" {{ optional($user->accessCard)->quota_lunch > 0 ? 'disabled' : '' }} type="text"
+                <input class="input input-bordered"
+                    {{ optional($user->accessCard)->quota_lunch > 0 ? 'disabled' : '' }} type="text"
                     wire:model.lazy="state.quota_lunch">
                 @error('state.quota_lunch')
                     <label class="label">
@@ -76,8 +78,11 @@
         @if ($user->accessCard)
             <x-slot name="actions">
                 @if ($user->accessCard->quota_breakfast == 0 || $user->accessCard->quota_lunch == 0)
-                    <button wire:click.prevent="topUp" class="btn btn-sm btn-primary" type="submit" wire:loading.class="opacity-25"
-                        wire:loading.attr="disabled"  wire:loading.class="loading">
+                    <div wire:loading.delay>
+                        Rechargement en cours...
+                    </div>
+                    <button wire:loading.remove wire:click.prevent="topUp" class="btn btn-sm btn-primary" type="submit"
+                        wire:loading.class="opacity-25" wire:loading.attr="disabled">
                         Enregistrer
                     </button>
                 @endif

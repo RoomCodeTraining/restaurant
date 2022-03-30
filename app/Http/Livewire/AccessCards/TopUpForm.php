@@ -39,7 +39,7 @@ class TopUpForm extends Component
 
   public function topUp(LogActionMessage $action)
   {
-    $this->resetErrorBag();
+    //$this->resetErrorBag();
 
     $this->validate([
       'state.quota_breakfast' => ['required', 'integer', 'min:0', 'max:25'],
@@ -48,13 +48,16 @@ class TopUpForm extends Component
     ]);
 
     
+    sleep(2);
+
     if (!$this->user->accessCard) {
       throw ValidationException::withMessages([
         'state.payment_method_id' => ["Cet utilisateur ne dispose pas de carte RFID associée à son compte."],
       ]);
     }
     
- 
+;
+
     if($this->user->accessCard->quota_lunch != $this->state['quota_lunch']){
         $this->user->accessCard->quota_lunch = $this->state['quota_lunch'];
         $this->user->accessCard->save();

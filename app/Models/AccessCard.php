@@ -74,7 +74,7 @@ class AccessCard extends Model
 
 
   public function reloadAccessCardHistory() : HasMany{
-    return $this->hasMany(ReloadAccessCardHistory::class);
+    return $this->hasMany(ReloadAccessCardHistory::class)->orderByDesc('created_at');
   }
 
   public function countLunchReload() : int {

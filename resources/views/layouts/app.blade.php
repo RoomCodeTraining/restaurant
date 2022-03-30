@@ -50,8 +50,7 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div @keydown.escape="showModal = false" x-cloak
-        x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true, 'showModal': false }"
+    <div @keydown.escape="showModal = false" x-cloak x-data="{ userDropdownOpen: false, mobileSidebarOpen: false, desktopSidebarOpen: true, 'showModal': false }"
         class="flex flex-col mx-auto w-full min-h-screen bg-stone-100"
         x-bind:class="{
         'lg:pl-72': desktopSidebarOpen
@@ -117,12 +116,13 @@
                                     :active="request()->routeIs('users.*')">
                                     Utilisateurs
                                 </x-nav-link>
-                                <x-nav-link href="{{ route('access-cards.reloads.history') }}" icon="users"
-                                    :active="request()->routeIs('access-cards.reloads.history')">
-                                    Historique des recharges
-                                </x-nav-link>
                             @endcan
-
+                            @if(auth()->user()->hasRole(App\Models\Role::ADMIN_RH))
+                              <x-nav-link href="{{ route('access-cards.reloads.history') }}" icon="users"
+                                  :active="request()->routeIs('access-cards.reloads.history')">
+                                  Historique des recharges
+                              </x-nav-link>
+                            @endif
                             @can('manage', \App\Models\User::class)
                                 <x-nav-link href="{{ route('roles.index') }}" icon="cog"
                                     :active="request()->routeIs('roles.index')">

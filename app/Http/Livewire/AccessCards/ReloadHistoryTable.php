@@ -73,6 +73,7 @@ class ReloadHistoryTable extends DataTableComponent
   public function query(): Builder
   {
     return ReloadAccessCardHistory::query()
+      ->orderByDesc('created_at')
       ->whereHas('accessCard', function ($query) {
         $query->whereHas('user', function ($query) {
           $query->where('deleted_at', null);

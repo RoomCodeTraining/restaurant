@@ -4,6 +4,13 @@
             <x-icon name="eye" class="h-4 w-4 text-secondary-800" />
         </a>
     </div>
+    @if(auth()->user()->hasRole(App\Models\Role::ADMIN_RH) && $user->accessCard)
+    <div x-data="{ tooltip: 'Recharger sa carte' }">
+      <a href="{{ route('reload.card', $user->accessCard) }}" x-tooltip="tooltip">
+          <x-icon name="card" class="h-4 w-4 text-primary-800" />
+      </a>
+    </div>
+    @endif
     @hasrole(App\Models\Role::ADMIN)
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('users.edit', $user) }}" x-tooltip="tooltip">

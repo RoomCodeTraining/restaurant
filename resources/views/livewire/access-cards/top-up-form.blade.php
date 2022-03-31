@@ -81,8 +81,12 @@
                     <div wire:loading.delay.longer wire:target='topUp'>
                         Rechargement en cours...
                     </div>
-                    <button wire:loading.remove wire:click.prevent="topUp" class="btn btn-sm btn-primary" type="submit"
-                        wire:loading.class="opacity-25" wire:loading.attr="disabled">
+                    <button wire:loading.attr="disabled"
+                             wire:loading.remove
+                              wire:click.prevent="topUp"
+                              class="btn btn-sm btn-primary"
+                              type="submit"
+                        wire:loading.class="opacity-25" >
                         Enregistrer
                     </button>
                 @endif

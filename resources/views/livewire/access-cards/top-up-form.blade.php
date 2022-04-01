@@ -30,20 +30,7 @@
                         sont pas epuisés.
                     </div>
                 @endif
-                <label class="label">
-                    <span class="label-text">Mode de paiement</span>
-                </label>
-                <select {{ $state['quota_breakfast'] > 0 || $state['quota_lunch'] > 0 ? 'disabled' : '' }}
-                    class="select select-bordered w-full" wire:model.defer="state.payment_method_id">
-                    @foreach ($paymentMethods as $id => $name)
-                        <option value="{{ $id }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-                @error('state.payment_method_id')
-                    <label class="label">
-                        <span class="label-text-alt text-red-600">{{ $message }}</span>
-                    </label>
-                @enderror
+          
             </div>
 
             <div class="col-span-6 sm:col-span-8 form-control">

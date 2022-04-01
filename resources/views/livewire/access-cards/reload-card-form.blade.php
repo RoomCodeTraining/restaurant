@@ -38,7 +38,7 @@
                   <label class="label">
                     <span class="label-text">Mode de paiement</span>
                 </label>
-                <select {{ $accessCard->quota_breakfast > 0 && $accessCard->quota_lunch > 0 ? 'disabled' : '' }}
+                <select {{ $accessCard->quota_breakfast != 0 || $accessCard->quota_lunch != 0 ? 'disabled' : '' }}
                     class="select select-bordered w-full" wire:model.defer="payment_method_id">
                     @foreach ($paymentMethods as $id => $name)
                         <option value="{{ $id }}">{{ $name }}</option>

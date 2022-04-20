@@ -54,7 +54,6 @@ class AccessCardsController extends Controller
     $hasAnAccessCard = AccessCard::where(['identifier' => $request->identifier])->exists();
     $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
 
-
     if (!$user->accessCard && $request->is_temporary) {
       return response()->json([
         'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
@@ -92,6 +91,22 @@ class AccessCardsController extends Controller
     }
 
     $accessCard = $createAccessCardAction->handle($user, $validated);
+
+    if($accessCard->quota_lunch > 0) {
+      event(new UpdatedAccessCard($accessCard, 'lunch'));
+      $accessCard->createReloadHistory('lunch');
+    }
+
+    if($accessCard->quota_breakfast > 0) {
+      event(new UpdatedAccessCard($accessCard, 'breakfast'));
+      $accessCard->createReloadHistory('breakfast');
+    }
+
+  activity()
+    ->causedBy(Auth()->user())
+    ->performedOn($accessCard)
+    ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
+    ->log('Rechargement de carte RFID');
     return new AccessCardResource($accessCard);
   }
 

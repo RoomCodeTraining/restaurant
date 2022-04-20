@@ -20,7 +20,6 @@
                         </label>
                     @enderror
                 </div>
-
                 <div class="col-span-8 md:col-span-4 form-control">
                     <label class="label">
                         <span class="label-text">Quota dejeuner</span>
@@ -33,7 +32,6 @@
                         </label>
                     @enderror
                 </div>
-
                 <div class="col-span-8 md:col-span-8 form-control">
                   <label class="label">
                     <span class="label-text">Mode de paiement</span>
@@ -50,10 +48,8 @@
                     </label>
                 @enderror
               </div>
-
             </div>
         </x-slot>
-
         <x-slot name="actions">
             <div class="flex items-center space-x-2">
                 <button class="md:hidden btn">

@@ -52,7 +52,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
   {
     return [
       'Date',
-      'identifiant carte',
+      'Matricule',
       'Utilisateur',
       'Type de quota',
       'Quota'

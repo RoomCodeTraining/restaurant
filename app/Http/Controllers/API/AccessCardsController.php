@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Actions\AccessCard\CreateAccessCardAction;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AccessCardResource;
-use App\Models\AccessCard;
 use App\Models\User;
+use App\Models\AccessCard;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Events\UpdatedAccessCard;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AccessCardResource;
+use App\Actions\AccessCard\LogActionMessage;
+use App\Actions\AccessCard\CreateAccessCardAction;
 
 
 class AccessCardsController extends Controller
@@ -104,7 +106,7 @@ class AccessCardsController extends Controller
     return new AccessCardResource($card->load('user', 'paymentMethod'));
   }
 
-  public function reloadAccessCard(Request $request)
+  public function reloadAccessCard(Request $request, LogActionMessage $action)
   {
 
 
@@ -117,6 +119,8 @@ class AccessCardsController extends Controller
       'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
       'quota' => ['required', 'integer', 'min:0', 'max:25'],
     ]);
+
+
 
     $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
     $old_quota = $card[$request->quota_type];
@@ -142,6 +146,8 @@ class AccessCardsController extends Controller
 
     $card->update([$request->quota_type => $request->quota + $old_quota]);
     $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
+
+    UpdatedAccessCard::dispatch($card, $type);
 
     activity()
       ->causedBy(Auth()->user())

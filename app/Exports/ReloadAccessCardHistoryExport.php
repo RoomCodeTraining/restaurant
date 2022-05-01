@@ -63,7 +63,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
   {
     return [
       \Carbon\Carbon::parse($history->created_at)->format('d/m/Y'),
-      $history->accessCard->identifier,
+      $history->accessCard->user->identifier,
       $history->accessCard->user->full_name,
       $history->quota_type == 'lunch' ? 'Dejeuner' : 'petit dejeuner',
       $history->quota

@@ -4,6 +4,7 @@ namespace App\Actions\User;
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Support\PasswordHistoryChecker;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -21,13 +22,7 @@ class UpdateUserPassword
         Validator::make($input, [
             'current_password' => ['required', 'string'],
             'password' => ['required', 'string', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols(), function ($attribute, $value, $fail) {
-                $isRecentPassword = auth()->user()
-                    ->passwordHistories()
-                    ->latest()
-                    ->limit(3)
-                    ->exists('password', Hash::make($value));
-
-                if ($isRecentPassword) {
+                if ($this->passwordIsAlreadyUsed($value)) {
                     $fail("Vous avez déjà utilisé ce mot de passe, veuillez le changer.");
                 }
             }],
@@ -38,14 +33,20 @@ class UpdateUserPassword
         })->validate();
 
         // Reset the expiration clock
-        if ($expired) {
-            $user->password_changed_at = now();
-        }
+      
 
         $user->password = $input['password'];
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
+            'password_changed_at' => now(),
         ])->save();
+    }
+
+
+    private function passwordIsAlreadyUsed(string $password) : bool
+    {
+       $passwordChecker = new PasswordHistoryChecker();
+       return $passwordChecker->validatePassword(auth()->user(), $password);
     }
 }

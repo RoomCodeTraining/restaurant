@@ -30,11 +30,11 @@ class CheckPasswordValidity
                 );
 
                 session(['password_expired' => true]);
-
                 return redirect()->route('profile');
             }
         }
 
         return $next($request);
     }
+    
 }

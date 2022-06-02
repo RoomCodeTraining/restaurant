@@ -49,6 +49,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Société",
             "Département",
             "Statut professionnel",
+            "Numero de Carte NFC",
             "Rechargement petit dejeuner",
             "Rechargement déjeuner",
             "Etat du compte"
@@ -69,6 +70,7 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             $row->organization->name,
             $row->department->name,
             $row->employeeStatus->name,
+            $row->currentAccessCard->identifier ?? "Aucune Carte associé",
             $row->accessCard?->breakfast_reload_count,
             $row->accessCard?->lunch_reload_count,
             $row->is_active ? "Actif" : "Inactif" 
@@ -80,16 +82,16 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:M' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:N' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:M1')->applyFromArray([
+        $sheet->getStyle('A1:N1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
-        $sheet->getStyle('A2:M' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:N' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

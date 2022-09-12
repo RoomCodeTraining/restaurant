@@ -103,7 +103,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
       $row->user->employeeStatus->name,
       $date->format('d/m/Y'),
       'petit déjeuner',
-      $row->user->accessCard->paymentMethod->name,
+      $row->user->accessCard ? $row->user->paymentMethod->name : 'Aucune',
       $contribution,
       $subvention,
     ];

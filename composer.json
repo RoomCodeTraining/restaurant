@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.7",
         "maatwebsite/excel": "^3.1",
+        "rap2hpoutre/laravel-log-viewer": "^2.2",
         "rappasoft/laravel-livewire-tables": "^1.20",
         "spatie/browsershot": "^3.52",
         "spatie/laravel-activitylog": "^4.4",

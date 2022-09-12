@@ -22,6 +22,10 @@ Route::group(['middleware' => ['web', WelcomesNewUsers::class,]], function () {
     Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
 });
 
+$router->group(['namespace' => '\Rap2hpoutre\LaravelLogViewer'], function() use ($router) {
+  $router->get('logs', 'LogViewerController@index');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard')->middleware('password.expires');
     Route::get('profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile');

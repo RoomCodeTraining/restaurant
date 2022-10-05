@@ -117,7 +117,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user?->userType->name,
             $order->user?->employeeStatus->name,
             $date->format('d/m/Y'),
-            $order->user?->accessCard->paymentMethod->name,
+            $order->user?->accessCard?->paymentMethod->name,
             "Déjeuner",
             $order->state::description(),
             (string) $contribution,

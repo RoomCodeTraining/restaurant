@@ -93,11 +93,17 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     {
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
-        $userBill = BillingHelper::getUserBill($order->user, $row);
-     //   $mealLabel = $row->count() > 1 ? 'petit déjeuner + déjeuner' : ($order->type == 'lunch' ? 'déjeuner' : 'petit déjeuner');
-   
-        $contribution =  $userBill['contribution'];
-        $subvention = $userBill['subvention'];
+
+        // Recuperation de la facturation
+        if($order->user){
+          $userBill = BillingHelper::getUserBill($order->user, $row);
+          $contribution =  $userBill['contribution'];
+          $subvention = $userBill['subvention'];
+        }else{
+          $contribution = '(N/A)';
+          $subvention = '(N/A)';  
+        }
+
        
         return [
             $order->user->identifier,
@@ -114,8 +120,8 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $order->user->accessCard->paymentMethod->name,
             "Déjeuner",
             $order->state::description(),
-            $contribution,
-            $subvention,
+            (string) $contribution,
+            (string) $subvention,
         ];
     }
 

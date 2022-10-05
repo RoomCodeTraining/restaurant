@@ -84,23 +84,27 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
 
 
     $date = $row->created_at;
-    $userBill = BillingHelper::getUserBill($row->user, $row);
-    
-    $contribution =  $userBill['contribution'];
-    $subvention = $userBill['subvention'];
+    if($row->user){
+      $userBill = BillingHelper::getUserBill($row->user, $row);
+      $contribution =  $userBill['contribution'];
+      $subvention = $userBill['subvention'];
+    }else{
+      $contribution = '(N/A)';
+      $subvention = '(N/A)';  
+    }
 
     $order_type = 'petit déjeuner';
     return [
-      $row->user->identifier,
-      $row->user->last_name,
-      $row->user->first_name,
-      $row->user->email,
-      $row->user->contact,
-      $row->user->role->name,
-      $row->user->organization->name,
-      $row->user->department->name,
-      $row->user->userType->name,
-      $row->user->employeeStatus->name,
+      $row->user?->identifier,
+      $row->user?->last_name,
+      $row->user?->first_name,
+      $row->user?->email,
+      $row->user?->contact,
+      $row->user?->role->name,
+      $row->user?->organization->name,
+      $row->user?->department->name,
+      $row->user?->userType->name,
+      $row->user?->employeeStatus->name,
       $date->format('d/m/Y'),
       'petit déjeuner',
       'Moyen de paiement',

@@ -38,7 +38,7 @@ class ChargeAccessCard extends Command
    */
   public function handle()
   {
-    Order::with('user.accessCard')->monthly()->where('is_decrement', false)->each(function (Order $order) {
+    Order::with('user.accessCard')->whereDate('served_at', '!=', today())->where('is_decrement', false)->each(function (Order $order) {
       if ($order?->user->accessCard) {
         $order->user->accessCard->decrement('quota_lunch');
 

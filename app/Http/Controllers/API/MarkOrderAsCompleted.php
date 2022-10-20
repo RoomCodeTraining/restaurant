@@ -111,7 +111,7 @@ class MarkOrderAsCompleted extends Controller
     /**
      * Lorsque l'utilisateur récupéres sont plat, applicable seulement au petit déjeuner.
      */
-    if ($request->order_type === 'breakfast') {
+    if ($request->order_type === 'breakfast' && $order) {
       DB::transaction(function () use ($accessCard, $order) {
         $order->markAsCompleted();
         

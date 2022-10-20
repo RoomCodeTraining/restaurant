@@ -32,6 +32,7 @@ class GenerateBreakfastOrders extends Command
     User::query()->whereHas('accessCard')->each(function (User $user) {
       if ($user->accessCard && $user->accessCard->quota_breakfast > 0) {
         $order = $user->orders()->create(['type' => 'breakfast']);
+        
         activity()
           ->performedOn($order)
           ->event('Création de la commande de petit déjeuner du ' . today()->format('d-m-Y') . ' pour Mr/Mme ' . $user->full_name)

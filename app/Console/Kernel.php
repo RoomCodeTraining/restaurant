@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
     {
        // $schedule->command(ChargeUsers::class)->dailyAt(config('cantine.charge_at'));
         //$schedule->command(GenerateBreakfastOrders::class)->daily();
-        $schedule->command(DeleteTemporaryCards::class)->dailyAt('01:00');
+        //$schedule->command(DeleteTemporaryCards::class)->dailyAt('01:00');
     }
 
     /**

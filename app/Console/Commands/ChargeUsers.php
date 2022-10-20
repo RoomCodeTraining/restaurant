@@ -31,36 +31,34 @@ class ChargeUsers extends Command
    */
   public function handle()
   {
-    Order::with('user.accessCard')->today()->whereState('state', Confirmed::class)->each(function (Order $order) {
-      DB::transaction(function () use ($order) {
 
-        /*
+    Order::with('user.accessCard')->today()->whereState('state', Confirmed::class)->each(function (Order $order) {
+
+      /*
         * Réduire le quota de déjeuner de l'utilisateur.
         */
 
-     
-        if (!$order->is_decrement && !$order->is_exceptional && $order->user->accessCard->quota_lunch > 0 && now()->hour >= (int) config('cantine.order.locked_at') ) {
-          $order->user->accessCard->decrement('quota_lunch');
-          /*
+      if (!$order->is_decrement && !$order->is_exceptional && $order->user->accessCard->quota_lunch > 0 && now()->hour >= (int) config('cantine.order.locked_at')) {
+        $order->user->accessCard->decrement('quota_lunch');
+        /*
             * Mise a jour de la methode de paiement ainsi que la access_card_id
             */
-          $order->update([
-            'payment_method_id' => $order->user->accessCard->payment_method_id,
-            'access_card_id' => $order->user->accessCard->id,
-            'is_decrement' => true,
-            'new_quota_lunch' => $order->user->accessCard->quota_lunch,
-          ]);
+        $order->update([
+          'payment_method_id' => $order->user->accessCard->payment_method_id,
+          'access_card_id' => $order->user->accessCard->id,
+          'is_decrement' => true,
+          'new_quota_lunch' => $order->user->accessCard->quota_lunch,
+        ]);
 
-          activity()
-            ->performedOn($order->user->accessCard)
-            ->event("Le quota de Mr/Mme " . $order->user->full_name . " vient d" . "'être débité pour la commande du " . $order->menu->served_at->format('d-m-Y'))
-            ->log('Debit de quota de déjeuner');
-        }
-        /*
+        activity()
+          ->performedOn($order->user->accessCard)
+          ->event("Le quota de Mr/Mme " . $order->user->full_name . " vient d" . "'être débité pour la commande du " . $order->menu->served_at->format('d-m-Y'))
+          ->log('Debit de quota de déjeuner');
+      }
+      /*
         * Marquer la commande comme consommee.
         */
-        //$order->markAsCompleted();
-      });
+      //$order->markAsCompleted();
     });
 
     return Command::SUCCESS;

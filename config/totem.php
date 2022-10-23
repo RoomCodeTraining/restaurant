@@ -227,6 +227,7 @@ return [
     'artisan' => [
       'command_filter' => [
           'charge:users',
+          'charge:access-card',
           'orders:generate-breakfast',
           'cards:delete-temporary',
       ],

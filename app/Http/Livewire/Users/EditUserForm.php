@@ -2,17 +2,28 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Actions\User\UpdateUserAction;
+use App\Models\Role;
 use App\Models\User;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
+use App\Models\UserType;
+use App\Models\Department;
+use App\Models\Organization;
 use Livewire\WithFileUploads;
+use App\Models\EmployeeStatus;
+use Illuminate\Validation\Rule;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use App\Actions\User\UpdateUserAction;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class EditUserForm extends Component
+class EditUserForm extends Component implements HasForms
 {
     use AuthorizesRequests;
-    use WithFileUploads;
+    use WithFileUploads, InteractsWithForms;
 
     public $user;
 
@@ -40,6 +51,63 @@ class EditUserForm extends Component
         $this->state = $user->toArray();
         $this->role = $this->user->roles->first()->id ?? \App\Models\Role::USER;
     }
+
+     protected function getFormSchema(): array
+  {
+    return [
+      Grid::make()
+        ->schema([
+            TextInput::make('state.identifier')
+            ->label('Matricule/Identifiant')
+            ->autofocus()
+            ->placeholder('TKOL8'),
+           TextInput::make('state.first_name')
+            ->label('Nom')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.last_name')
+            ->label('Prénoms')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.email')
+            ->label('E-mail')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.contact')
+            ->label('Contact')
+            ->required()
+            ->autofocus(),
+        Select::make('state.role')
+            ->label('Role')
+            ->options(Role::pluck('name', "id"))
+            ->autofocus(),
+        Select::make('state.employee_status_id')
+            ->label('Catégorie professionnelle')
+            ->required()
+            ->options(EmployeeStatus::pluck('name', "id"))
+            ->autofocus(),
+          Select::make('state.organization_id')
+            ->label('Société')
+            ->options(Organization::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+        Select::make('state.department_id')
+            ->label('Departément')
+            ->options(Department::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+          Select::make('state.user_type_id')
+            ->label('Type de collaborateur')
+            ->options(UserType::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+        Toggle::make('state.can_rigth_breakfast')
+            ->label('Le collaborateur a droit au petit déjeuner ?')
+            ->onColor('success')
+            ->offColor('danger')
+      ])->columns(2)
+    ];
+  }
 
     public function confirmUpdate()
     {

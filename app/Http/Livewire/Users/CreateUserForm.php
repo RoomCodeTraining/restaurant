@@ -2,27 +2,38 @@
 
 namespace App\Http\Livewire\Users;
 
-use App\Actions\User\CreateUserAction;
-use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use App\Models\UserType;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
+use App\Models\UserType;
+use App\Models\Department;
+use Illuminate\Support\Str;
+use App\Models\Organization;
 use Livewire\WithFileUploads;
+use App\Models\EmployeeStatus;
+use Illuminate\Validation\Rule;
+use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use App\Actions\User\CreateUserAction;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class CreateUserForm extends Component
+class CreateUserForm extends Component implements HasForms
 {
-    use AuthorizesRequests;
-    use WithFileUploads;
+    use AuthorizesRequests, WithFileUploads, InteractsWithForms;
+
 
     public $role = null;
 
     public $profile_photo = null;
 
     public $generateIdentifierFor = [];
+    public $user_type_id = null;
 
     public $state = [
         'identifier' => null,
@@ -34,6 +45,7 @@ class CreateUserForm extends Component
         'organization_id' => null,
         'department_id' => null,
         'user_type_id' => null,
+        "can_rigth_breakfast" => true
     ];
 
     public function mount()
@@ -41,15 +53,68 @@ class CreateUserForm extends Component
         $this->role = Role::USER;
         $this->state['organization_id'] = Organization::firstWhere('name', 'Ciprel')->id;
         $this->generateIdentifierFor = UserType::where('auto_identifier', true)->pluck('id')->toArray();
-
- 
     }
 
- 
+ protected function getFormSchema(): array
+  {
+    return [
+      Grid::make()
+        ->schema([
+            TextInput::make('state.identifier')
+            ->label('Matricule/Identifiant')
+            ->autofocus()
+            ->placeholder('TKOL8'),
+           TextInput::make('state.first_name')
+            ->label('Nom')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.last_name')
+            ->label('Prénoms')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.email')
+            ->label('E-mail')
+            ->required()
+            ->autofocus(),
+        TextInput::make('state.contact')
+            ->label('Contact')
+            ->required()
+            ->autofocus(),
+        Select::make('state.role')
+            ->label('Role')
+            ->options(Role::pluck('name', "id"))
+            ->autofocus(),
+        Select::make('state.employee_status_id')
+            ->label('Catégorie professionnelle')
+            ->required()
+            ->options(EmployeeStatus::pluck('name', "id"))
+            ->autofocus(),
+          Select::make('state.organization_id')
+            ->label('Société')
+            ->options(Organization::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+        Select::make('state.department_id')
+            ->label('Departément')
+            ->options(Department::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+          Select::make('state.user_type_id')
+            ->label('Type de collaborateur')
+            ->options(UserType::pluck('name', "id"))
+            ->required()
+            ->autofocus(),
+        Toggle::make('state.can_rigth_breakfast')
+            ->label('Le collaborateur a droit au petit déjeuner ?')
+            ->onColor('success')
+            ->offColor('danger')
+      ])->columns(2)
+    ];
+  }
+
 
     public function updated($field, $value)
     {
-        
         if ($field === "state.user_type_id") {
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));

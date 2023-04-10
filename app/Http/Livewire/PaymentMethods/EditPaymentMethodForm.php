@@ -2,12 +2,18 @@
 
 namespace App\Http\Livewire\PaymentMethods;
 
-use App\Actions\PaymentMethods\UpdatePaymentMethodAction;
-use App\Models\PaymentMethod;
 use Livewire\Component;
+use App\Models\PaymentMethod;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use App\Actions\PaymentMethods\UpdatePaymentMethodAction;
+use Filament\Notifications\Notification;
 
-class EditPaymentMethodForm extends Component
+class EditPaymentMethodForm extends Component implements HasForms
 {
+    use InteractsWithForms;
     public $state = [
         'name' => null,
         'description' => null,
@@ -18,9 +24,23 @@ class EditPaymentMethodForm extends Component
     public function mount(PaymentMethod $paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
-        $this->state = [
-            'name' => $paymentMethod->name,
-            'description' => $paymentMethod->description,
+        $this->form->fill([
+            'state.name' => $paymentMethod->name,
+            'state.description' => $paymentMethod->description,
+        ]);
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+            Textarea::make('state.description')
+                ->label('Description')
+                ->required()
+                ->rules('required', 'max:255'),
         ];
     }
 
@@ -31,7 +51,9 @@ class EditPaymentMethodForm extends Component
         ]);
 
         $action->execute($this->paymentMethod, $this->state);
-        session()->flash('success', 'La méthode de paiement a été modifiée !');
+
+
+        flasher("success", "Le moyen de paiement a bien été modifié.");
 
         return redirect()->route('paymentMethods.index');
     }

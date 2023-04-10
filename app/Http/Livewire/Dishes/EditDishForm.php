@@ -7,12 +7,19 @@ use Livewire\Component;
 use App\Models\DishType;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
+use Filament\Forms\Components\Select;
 use App\Actions\Dish\UpdateDishAction;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Concerns\InteractsWithForms;
 
-class EditDishForm extends Component
+class EditDishForm extends Component implements HasForms
 {
 
-    use WithFileUploads;
+
+    use WithFileUploads, InteractsWithForms;
 
     public $state = [
         'name' => null,
@@ -30,6 +37,35 @@ class EditDishForm extends Component
         $this->state = $dish->toArray();
     }
 
+
+
+     protected function getFormSchema(): array
+    {
+      return [
+         TextInput::make('state.name')
+            ->label('Nom du plat')
+            ->required()
+            ->autofocus()
+            ->placeholder('Salade, choux...'),
+            Select::make('state.dish_type_id')
+            ->label('Type de plat')
+            ->required()
+            ->placeholder('Choisissez un type de plat')
+            ->options(DishType::all()->pluck('name', 'id')),
+          Textarea::make('state.description')
+            ->label('Description')
+            ->required()
+            ->placeholder('Description du plat'),
+
+          FileUpload::make('image_path')
+            ->label('Image')
+            ->required()
+            ->placeholder('Selectionnez une image pour ce plat')
+
+      ];
+    }
+
+
     public function saveDish(UpdateDishAction $updateDishAction)
     {
         $this->validate([
@@ -43,8 +79,7 @@ class EditDishForm extends Component
         $this->state['image_path'] = $this->image_path ? $this->image_path->storePublicly('dishes'): null;
         $updateDishAction->execute($this->dish, $this->state);
 
-        session()->flash('success', "Le plat a été modifié avec succès!");
-
+        flasher('success', 'Le plat a bien été modifié.');
         return redirect()->route('dishes.index');
     }
 

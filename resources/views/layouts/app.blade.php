@@ -15,17 +15,14 @@
         [x-cloak] {
             display: none !important;
         }
-
         .customScroll::-webkit-scrollbar {
             width: 6px;
             /* width of the entire scrollbar */
         }
-
         .customScroll::-webkit-scrollbar-track {
             background: inherit;
             /* color of the tracking area */
         }
-
         .customScroll::-webkit-scrollbar-thumb {
             background-color: #f07d00;
             /* color of the scroll thumb */
@@ -34,7 +31,6 @@
             border: 3px solid #f07d00;
             /* creates padding around scroll thumb */
         }
-
     </style>
     <livewire:styles />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -370,6 +366,7 @@
         <!-- END Page Content -->
     </div>
     <!-- END Page Container -->
+    @livewire('notifications')
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     @yield('js')
 </body>

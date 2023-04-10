@@ -1,17 +1,7 @@
 <div>
     <x-form-card submit="saveEmployeeStatus">
         <x-slot name="form">
-            <div class="col-span-8 md:col-span-12 form-control">
-                <label class="label">
-                    <span class="label-text">Nom</span>
-                </label>
-                <input class="input input-bordered" type="text" wire:model.defer="state.name" />
-                @error('state.name')
-                    <label class="label">
-                        <span class="label-text-alt text-red-600">{{ $message }}</span>
-                    </label>
-                @enderror
-            </div>
+            {{ $this->form }}
         </x-slot>
 
         <x-slot name="actions">

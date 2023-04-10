@@ -12,9 +12,7 @@
         <link rel="stylesheet" href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" />
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-
         <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
         <div class="font-sans text-gray-900 antialiased">

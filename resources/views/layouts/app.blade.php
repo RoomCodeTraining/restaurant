@@ -43,7 +43,6 @@
 
     <!-- Scripts -->
     <livewire:scripts />
-    <script src="{{ mix('js/app.js') }}" defer></script>
     @stack('scripts')
 
     <title>{{ config('app.name', 'Ciprel Cantine') }}</title>

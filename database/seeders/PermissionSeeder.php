@@ -316,6 +316,22 @@ class PermissionSeeder extends Seeder
             SuggestionBoxPolicy::SUGGESTION_MANAGE,
         ]);
 
+           Role::create([
+            'id' => Role::ADMIN_TECHNIQUE,
+            'name' => 'Admin Technique',
+        ])->givePermissionTo([
+            UserPolicy::USER_MANAGE,
+            OrderPolicy::ORDER_MANAGE,
+            OrganizationPolicy::ORGANIZATION_MANAGE,
+            DepartmentPolicy::DEPARTMENT_MANAGE,
+            PaymentMethodPolicy::PAYMENT_METHOD_MANAGE,
+            EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE,
+            UserTypePolicy::USER_TYPE_MANAGE,
+            ReportingPolicy::REPORTING_ORDERS,
+            SuggestionBoxPolicy::SUGGESTION_LIST,
+            SuggestionBoxPolicy::SUGGESTION_MANAGE,
+        ]);
+
         Role::create([
             'id' => Role::USER,
             'name' => 'Utilisateur',

@@ -14,6 +14,7 @@ class Role extends SpatieRole
     public const OPERATOR_LUNCHROOM = 5;
     public const ACCOUNTANT = 4;
     public const USER = 6;
+    public const ADMIN_TECHNIQUE = 7;
 
 
 

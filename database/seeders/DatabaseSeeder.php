@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            OrganizationSeeder::class,
+        /*
+          OrganizationSeeder::class,
             DepartmentSeeder::class,
             EmployeeStatusSeeder::class,
             PaymentMethodSeeder::class,
@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
             DishTypeSeeder::class,
             MenuSeeder::class,
             UserSeeder::class,
+            */
+        $this->call([
             SuggestionTypeSeeder::class,
         ]);
     }

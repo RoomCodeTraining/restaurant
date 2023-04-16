@@ -95,6 +95,11 @@ class User extends Authenticatable
     return $this->hasRole(\App\Models\Role::ADMIN) ? true : false;
   }
 
+  public function isAdminTechnical(): bool
+  {
+    return $this->hasRole(\App\Models\Role::ADMIN_TECHNICAL) ? true : false;
+  }
+
   public function getFullNameAttribute()
   {
     return "{$this->last_name} {$this->first_name}";
@@ -226,7 +231,7 @@ class User extends Authenticatable
       })
       ->whereState('state', Confirmed::class)
       ->exists();
-  
+
     return (int)config('cantine.order.locked_at') > now()->hour && $todayOrder ? true : false;
   }
 }

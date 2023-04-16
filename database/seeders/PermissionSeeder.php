@@ -317,7 +317,7 @@ class PermissionSeeder extends Seeder
         ]);
 
            Role::create([
-            'id' => Role::ADMIN_TECHNIQUE,
+            'id' => Role::ADMIN_TECHNICAL,
             'name' => 'Admin Technique',
         ])->givePermissionTo([
             UserPolicy::USER_MANAGE,

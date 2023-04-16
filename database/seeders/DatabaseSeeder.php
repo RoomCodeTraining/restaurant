@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             DishTypeSeeder::class,
             MenuSeeder::class,
             UserSeeder::class,
+            SuggestionTypeSeeder::class,
         ]);
     }
 }

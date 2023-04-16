@@ -3,19 +3,43 @@
 namespace App\Http\Livewire\Suggestions;
 
 use Livewire\Component;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Concerns\InteractsWithForms;
 
-class CreateSuggestionForm extends Component
+class CreateSuggestionForm extends Component implements HasForms
 {
+    use InteractsWithForms;
 
     public $suggestion;
+    public $suggestion_type_id;
+
+    public function mount(){
+        $this->form->fill();
+    }
+
+    protected function getFormSchema(): array
+    {
+        return [
+            \Filament\Forms\Components\Select::make('suggestion_type_id')
+                ->label('Objet')
+                ->required()
+                ->placeholder('Choisissez un type de suggestion')
+                ->options(\App\Models\SuggestionType::all()->pluck('name', 'id')),
+            \Filament\Forms\Components\Textarea::make('suggestion')
+                ->label('Suggestion')
+                ->required()
+                ->placeholder('Votre suggestion'),
+        ];
+    }
 
 
     public function saveSuggestion(){
-        $this->validate([
-          'suggestion' => ['required', 'string', 'min:20']
-        ]);
+        $this->validate();
 
-        auth()->user()->suggestions()->create(['suggestion' => $this->suggestion]);
+        auth()->user()->suggestions()->create([
+            'suggestion' => $this->suggestion,
+            'suggestion_type_id' => $this->suggestion_type_id,
+            ]);
 
         $this->suggestion = null;
         session()->flash('success', 'Votre suggestion a été prise en compte');

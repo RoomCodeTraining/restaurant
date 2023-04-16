@@ -10,10 +10,14 @@ class SuggestionBox extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['suggestion', 'user_id'];
+    protected $fillable = ['suggestion', 'user_id', 'suggestion_type_id'];
 
     public function user(){
       return $this->belongsTo(User::class);
+    }
+
+    public function suggestionType(){
+      return $this->belongsTo(SuggestionType::class);
     }
 
 }

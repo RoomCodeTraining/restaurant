@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
   {
     $email = 'admin@ciprel.com';
     $username = explode('@', $email)[0];
-    
+
     User::create([
       'username' => $username,
       'identifier' => Str::upper(Str::random(5)),
@@ -40,6 +40,27 @@ class UserSeeder extends Seeder
       'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
       'remember_token' => Str::random(10),
     ])->assignRole(Role::ADMIN);
+
+    $email = 'admin-tech@ciprel.com';
+    $username = explode('@', $email)[0];
+
+    User::create([
+      'username' => $username,
+      'identifier' => Str::upper(Str::random(5)),
+      'first_name' => 'Admin',
+      'last_name' => 'Tech',
+      'user_type_id' => UserType::firstWhere('name', 'like', '%Agent CIPREL%')->id,
+      'is_active' => true,
+      'contact' => '+225 4845754864',
+      'email' => $email,
+      'email_verified_at' => now(),
+      'department_id' => Department::first()->id,
+      'organization_id' => Organization::first()->id,
+      'employee_status_id' => EmployeeStatus::first()->id,
+      'current_role_id' => Role::ADMIN_TECHNICAL,
+      'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+      'remember_token' => Str::random(10),
+    ])->assignRole(Role::ADMIN_TECHNICAL);
 
     $email = 'admin-rh@ciprel.com';
     $username = explode('@', $email)[0];

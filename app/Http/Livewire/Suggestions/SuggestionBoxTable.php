@@ -28,7 +28,7 @@ class SuggestionBoxTable extends DataTableComponent
           $builder->whereHas('user', fn($query) => $query->where('first_name', 'like', "%{$searchTerme}%"))->orWhere('last_name', 'like', "%{$searchTerme}%");
       }),
       Column::make('Objet', 'suggestion_type_id')->format(
-        fn ($col, $val, $row) => $row->suggestionType->name
+        fn ($col, $val, $row) => $row->suggestionType?->name
       )->sortable(),
       Column::make('Suggestion', 'suggestion')->sortable(),
       Column::make('Actions')->format(fn ($val, $col, SuggestionBox $suggestion) => view('livewire.suggestions.table-actions', ['suggestion' => $suggestion])),

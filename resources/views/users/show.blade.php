@@ -147,6 +147,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-span-8">
+                            <div class="flex flex-col md:flex-row space-y-2 md:space-y-0">
+                                <div class="w-full md:w-1/2">
+                                    <dt class="text-sm font-medium text-gray-500">A droit au petit dejeuner ?</dt>
+                                        <dd class="badge {{ $user->is_entitled_breakfast ? 'badge-success' : 'badge-error' }}">
+                                            {{ $user->is_entitled_breakfast ? 'Oui' : 'Non' }}
+                                        </dd>
+                                </div>
+
+                            </div>
+                        </div>
                     @endif
 
                 </div>
@@ -215,8 +227,8 @@
                 </div>
             </div>
 
-         
-            
+
+
             {{--@can('manage', App\Models\AccessCard::class)
                 <x-section-border></x-section-border>
 

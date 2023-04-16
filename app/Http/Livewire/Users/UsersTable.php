@@ -46,7 +46,7 @@ class UsersTable extends DataTableComponent
     public function query(): Builder
     {
         return User::query()
-            ->with('role')
+            ->with('role', 'accessCard')
             ->when($this->getFilter('type'), fn ($query, $type) => $query->whereRelation('roles', 'name', $type))
             ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
     }
@@ -62,6 +62,13 @@ class UsersTable extends DataTableComponent
             }),
             Column::make('Email', 'email')->searchable(),
             Column::make('Contact', 'contact')->searchable(),
+            Column::make('Numero de carte')->format(fn ($val, $col, User $user) => $user->accessCard ? $user->accessCard->identifier : 'Aucune carte')
+            ->searchable(function ($builder, $term) {
+                return $builder
+                    ->orWhereHas('accessCard', function ($query) use ($term) {
+                        $query->where('identifier', 'like', '%' . $term . '%');
+                    });
+            }),
             Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
             Column::make('Etat du compte')->format(fn ($val, $col, User $user) => view('livewire.users.status', ['user' => $user])),
             Column::make('Actions')->format(fn ($val, $col, User $user) => view('livewire.users.table-actions', ['user' => $user])),
@@ -116,12 +123,12 @@ class UsersTable extends DataTableComponent
         $user = User::find($this->userIdBeingDeletion);
 
         //Annulation des commandes de l"utilisateur a supprimer
-        
+
         $user->orders->filter(function ($order) {
             return $order->state->title() === "Commande effectuée";
         })->each(fn ($order) => $order->update(['state' => Cancelled::class]));
 
-  
+
         $identifier = Str::random(60);
         $user->update([
             'identifier' => $identifier,

@@ -27,9 +27,10 @@ class CreateUserAction
             'department_id' => (int) $data['department_id'],
             'user_type_id' => $data['user_type_id'],
             'email_verified_at' => now(),
+            'is_entitled_breakfast' => $data['is_entitled_breakfast'],
         ]);
 
-   
+
         ActivityHelper::createActivity(
           $user,
           "Creation du compte de $user->full_name",

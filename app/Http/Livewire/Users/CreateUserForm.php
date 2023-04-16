@@ -45,7 +45,7 @@ class CreateUserForm extends Component implements HasForms
         'organization_id' => null,
         'department_id' => null,
         'user_type_id' => null,
-        "can_rigth_breakfast" => true
+        "is_entitled_breakfast" => false
     ];
 
     public function mount()
@@ -104,7 +104,7 @@ class CreateUserForm extends Component implements HasForms
             ->options(UserType::pluck('name', "id"))
             ->required()
             ->autofocus(),
-        Toggle::make('state.can_rigth_breakfast')
+        Toggle::make('state.is_entitled_breakfast')
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
             ->offColor('danger')
@@ -140,6 +140,7 @@ class CreateUserForm extends Component implements HasForms
             'state.user_type_id' => ['required', Rule::exists('user_types', 'id')],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
+            'state.is_entitled_breakfast' => ['required', 'boolean']
         ]);
 
 

@@ -62,6 +62,7 @@ class User extends Authenticatable
     'email_verified_at' => 'datetime',
     'is_active' => 'boolean',
     'is_external' => 'boolean',
+    'is_entitled_breakfast' => 'boolean',
   ];
 
   protected $appends = [

@@ -344,7 +344,7 @@ class PermissionSeeder extends Seeder
             'id' => Role::ADMIN_RH,
             'name' => 'Administrateur Ressources Humaines',
         ])->givePermissionTo([
-            UserPolicy::USER_LIST,
+            UserPolicy::USER_MANAGE,
             OrderPolicy::ORDER_MANAGE,
             AccessCardPolicy::ACCESS_CARD_MANAGE,
             ReportingPolicy::REPORTING_ORDERS,

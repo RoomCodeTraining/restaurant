@@ -16,6 +16,13 @@ class UserPolicy
     public const USER_DELETE = 'user.delete';
     public const USER_DEACTIVATE = 'user.deactivate';
 
+    public function before(User $loggedInUser, $ability)
+    {
+        if ($loggedInUser->can(self::USER_MANAGE)) {
+            return true;
+        }
+    }
+
     public function manage(User $loggedInUser)
     {
         if ($loggedInUser->can(self::USER_MANAGE)) {

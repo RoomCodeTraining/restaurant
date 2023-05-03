@@ -7,6 +7,7 @@ use App\Models\SuggestionBox;
 use App\Models\SuggestionType;
 use App\Exports\SuggestionExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
@@ -97,6 +98,11 @@ class SuggestionBoxTable extends DataTableComponent
   public function export()
   {
     $dataSelected = $this->selectedRowsQuery->get();
+
+    if($dataSelected->isEmpty()){
+      session()->flash('error', "Aucune suggestion n'a été sélectionné !");
+      return redirect()->route('suggestions-box.index');
+    }
     return Excel::download(new SuggestionExport($dataSelected), 'suggestions.xlsx');
   }
 }

@@ -147,7 +147,7 @@ class AccessCardsController extends Controller
     */
 
     $type = $request->quota_type == 'quota_lunch' ? 'lunch' : 'breakfast';
-    
+
     $card->createReloadHistory($type);
 
     if ($old_quota > 0) {

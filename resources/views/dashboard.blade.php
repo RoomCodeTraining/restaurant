@@ -2,6 +2,8 @@
     <x-order-suspended />
     @hasrole(\App\Models\Role::ADMIN)
         <livewire:dashboards.admin-dashboard>
+        @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))
+            <livewire:dashboards.admin-technical-dashboard>
         @elseif(auth()->user()->hasRole(\App\Models\Role::USER))
             <livewire:dashboards.user-dashboard>
             @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_RH))

@@ -31,7 +31,6 @@ class SuggestionBoxTable extends DataTableComponent
         fn ($col, $val, $row) => $row->suggestionType?->name
       )->sortable(),
       Column::make('Suggestion', 'suggestion')->sortable(),
-      Column::make('Actions')->format(fn ($val, $col, SuggestionBox $suggestion) => view('livewire.suggestions.table-actions', ['suggestion' => $suggestion])),
     ];
   }
 

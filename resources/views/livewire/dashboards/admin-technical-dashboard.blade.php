@@ -22,10 +22,10 @@
         <a href='{{ route('users.index') }}'>
             <x-statistic label="Utilisateurs" value="{{ $users_count }}" icon="users" />
         </a>
-        <a href='{{ route('users.index') }}'>
+         <a href='{{ config('app.url') }}/users?filters[active]=yes'>
             <x-statistic label="Utilisateurs actifs" value="{{ $active_users_count }}" icon="actifuser" />
         </a>
-        <a href='{{ route('users.index') }}'>
+        <a href='{{ config('app.url') }}/users?filters[active]=no'>
             <x-statistic label="Utilisateurs inactifs" value="{{ $inactive_users_count }}" icon="inactifuser" />
         </a>
     </div>

@@ -6,26 +6,45 @@ use Livewire\Component;
 use App\Models\AccessCard;
 use App\Models\PaymentMethod;
 use Illuminate\Validation\Rule;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\TextInput;
 use App\Actions\AccessCard\LogActionMessage;
+use Filament\Forms\Concerns\InteractsWithForms;
 
-class ReloadCardForm extends Component
+class ReloadCardForm extends Component implements HasForms
 {
+  use InteractsWithForms;
 
-  public $accessCard, $quota_breakfast, $quota_lunch, $showReloadButton = true, $payment_method_id;
-
+  public $accessCard, $showReloadButton = true;
+  public $state = [
+    'quota_breakfast' => '',
+    'quota_lunch' => '',
+    'payment_method_id' => ''
+  ];
 
   public function mount(AccessCard $accessCard)
   {
-    $this->quota_breakfast = $accessCard->quota_breakfast;
-    $this->quota_lunch = $accessCard->quota_lunch;
+    $this->state['quota_breakfast'] = $accessCard->quota_breakfast;
+    $this->state['quota_lunch'] = $accessCard->quota_lunch;
     $this->accessCard = $accessCard;
+    $this->form->fill($this->state);
 
-    if ($this->accessCard->quota_breakfast != 0 && $this->accessCard->quota_lunch != 0) {
+    if ($this->accessCard->quota_breakfast != 0 || $this->accessCard->quota_lunch != 0) {
       $this->showReloadButton = false;
     }
 
     $paymentMethod = optional($accessCard)->paymentMethod->name ?? $this->accessCard->user->userType->paymentMethod->name;
-    $this->payment_method_id = PaymentMethod::firstWhere('name', $paymentMethod)->id;
+    $this->state['payment_method_id'] = PaymentMethod::firstWhere('name', $paymentMethod)->id;
+  }
+
+  public function getFormSchema() : array
+  {
+    return [
+      TextInput::make('state.quota_breakfast')->rules('required|numeric|min:0|max:25')->label('Quota petit déjeuner'),
+      TextInput::make('state.quota_lunch')->rules('required|numeric|min:0|max:25')->label('Quota déjeuner'),
+      Select::make('state.payment_method_id')->options(PaymentMethod::pluck('name', 'id'))->label('Moyen de paiement')
+    ];
   }
 
 
@@ -34,26 +53,22 @@ class ReloadCardForm extends Component
 
     $this->resetErrorBag();
 
-    $this->validate([
-      'quota_lunch' => 'required|numeric|min:0|max:25',
-      'quota_breakfast' => 'required|numeric|min:0|max:25',
-      'payment_method_id' => ['required', Rule::exists('payment_methods', "id")]
-    ]);
+    $this->validate();
 
 
-    if ($this->accessCard->quota_lunch != $this->quota_lunch) {
-      $this->accessCard->quota_lunch = $this->quota_lunch;
+    if ($this->accessCard->quota_lunch != $this->state['quota_lunch']) {
+      $this->accessCard->quota_lunch =  $this->state['quota_lunch'];
       $this->accessCard->save();
       $action->execute($this->accessCard, 'lunch');
     }
 
-    if ($this->accessCard->quota_breakfast != $this->quota_breakfast) {
-      $this->accessCard->quota_breakfast = $this->quota_breakfast;
+    if ($this->accessCard->quota_breakfast != $this->state['quota_breakfast']) {
+      $this->accessCard->quota_breakfast = $this->state['quota_breakfast'];
       $this->accessCard->save();
       $action->execute($this->accessCard, 'breakfast');
     }
 
-    $this->accessCard->payment_method_id = $this->payment_method_id;
+    $this->accessCard->payment_method_id = $this->state['payment_method_id'];
     $this->accessCard->save();
 
     session()->flash('success', 'Le quota a été rechargé et mis a jour avec succès.');

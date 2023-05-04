@@ -118,7 +118,7 @@
                                   Historique des recharges
                               </x-nav-link>
                             @endif
-                            @can('manage', \App\Models\User::class)
+                            @if(auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
                                 <x-nav-link href="{{ route('roles.index') }}" icon="cog"
                                     :active="request()->routeIs('roles.index')">
                                     Rôles et permissions
@@ -127,7 +127,7 @@
                                     :active="request()->routeIs('activities-log')">
                                     Activités
                                 </x-nav-link>
-                            @endcan
+                            @endif
                         @endif
                         @can('manage', \App\Models\Menu::class)
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">

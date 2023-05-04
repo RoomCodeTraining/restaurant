@@ -6,6 +6,7 @@ use App\Support\DateTimeHelper;
 use App\Models\ReloadAccessCardHistory;
 use Illuminate\Database\Eloquent\Builder;
 use App\Exports\ReloadAccessCardHistoryExport;
+use Filament\Tables\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -40,6 +41,9 @@ class ReloadHistoryTable extends DataTableComponent
           });
         });
       }),
+      Column::make('Categorie')->format(fn ($col, $attr, $row) => $row->accessCard->user->userType->name),
+      Column::make('Société')->format(fn ($col, $attr, $row) => $row->accessCard->user->organization->name),
+      Column::make('Methode de paiement')->format(fn ($col, $attr, $row) => $row->accessCard->paymentMethod->name),
       Column::make('Type')->format(fn ($attr, $col, $row) => $row->quota_type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
       Column::make('Quota', 'quota'),
     ];
@@ -66,6 +70,12 @@ class ReloadHistoryTable extends DataTableComponent
         'this_year' => "Cette année",
         'last_year' => "L'année dernière",
       ]),
+      'payment_method' => Filter::make('Methode de paiement')->select([
+        '' => 'Tous',
+        1 => 'Cash',
+        2 => 'Postpaid',
+        3 => 'Subvention',
+      ]),
     ];
   }
 
@@ -81,7 +91,10 @@ class ReloadHistoryTable extends DataTableComponent
       })
       ->unless($this->filters['quota_type'], fn ($query) => $query->whereIn('quota_type', ['lunch', 'breakfast']))
       ->when($this->filters['quota_type'], fn ($query) => $query->where('quota_type', $this->filters['quota_type']))
-      ->when($this->filters['in_the_period'], fn ($query) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($this->filters['in_the_period'])))->orderBy('created_at', 'desc');
+      ->when($this->filters['in_the_period'], fn ($query) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($this->filters['in_the_period'])))->orderBy('created_at', 'desc')
+      ->when($this->filters['payment_method'], fn ($query) => $query->whereHas('accessCard', function ($query) {
+        $query->where('payment_method_id', $this->filters['payment_method']);
+      }));
   }
 
 

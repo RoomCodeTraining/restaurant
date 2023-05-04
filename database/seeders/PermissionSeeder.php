@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use App\Policies\AccessCardPolicy;
 use App\Policies\DepartmentPolicy;
 use App\Policies\EmployeeStatusPolicy;
@@ -304,7 +305,7 @@ class PermissionSeeder extends Seeder
             'id' => Role::ADMIN,
             'name' => 'Admin fonctionnel',
         ])->givePermissionTo([
-            UserPolicy::USER_LIST,
+            UserPolicy::USER_MANAGE,
             OrderPolicy::ORDER_MANAGE,
             OrganizationPolicy::ORGANIZATION_MANAGE,
             DepartmentPolicy::DEPARTMENT_MANAGE,

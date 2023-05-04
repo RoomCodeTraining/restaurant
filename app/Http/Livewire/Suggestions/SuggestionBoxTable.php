@@ -99,9 +99,7 @@ class SuggestionBoxTable extends DataTableComponent
         $dataSelected = $this->selectedRowsQuery->get();
 
         if($dataSelected->isEmpty()) {
-            session()->flash('error', "Aucune suggestion n'a été sélectionné !");
-
-            return redirect()->route('suggestions-box.index');
+            $dataSelected = $this->query()->get();
         }
 
         return Excel::download(new SuggestionExport($dataSelected), 'suggestions.xlsx');

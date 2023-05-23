@@ -141,8 +141,8 @@
                                 :active="request()->routeIs('menus.index')">
                                 Menus A
                             </x-nav-link>
-                             <x-nav-link href="{{ route('menus.index') }}" icon="menu"
-                                :active="request()->routeIs('menus.index')">
+                             <x-nav-link href="{{ route('menus-specials.index') }}" icon="menu"
+                                :active="request()->routeIs('menus-specials.index')">
                                 Menus B
                             </x-nav-link>
                         @endcan

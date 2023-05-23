@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire\Account;
 
-use Livewire\Component;
+use App\Actions\User\UpdateUserPassword;
+use App\Support\PasswordHistoryChecker;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Contracts\HasForms;
-use App\Support\PasswordHistoryChecker;
-use App\Actions\User\UpdateUserPassword;
-use Filament\Forms\Components\TextInput;
 use Illuminate\Validation\Rules\Password;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Livewire\Component;
 
 class UpdatePasswordForm extends Component implements HasForms
 {
@@ -43,9 +43,9 @@ class UpdatePasswordForm extends Component implements HasForms
                 ->required()
                 ->password()
                 ->rules([
-                    function(){
-                        return function($attribute, $value, $fail){
-                            if(! Hash::check($value, auth()->user()->password)){
+                    function () {
+                        return function ($attribute, $value, $fail) {
+                            if(! Hash::check($value, auth()->user()->password)) {
                                 $fail('Le mot de passe actuel est incorrect.');
                             }
                         };
@@ -63,9 +63,9 @@ class UpdatePasswordForm extends Component implements HasForms
                         ->numbers()
                         ->symbols()
                         ->uncompromised(),
-                    function(){
-                        return function($attribute, $value, $fail){
-                            if($this->passwordIsAlreadyUsed($value)){
+                    function () {
+                        return function ($attribute, $value, $fail) {
+                            if($this->passwordIsAlreadyUsed($value)) {
                                 $fail('Vous avez déjà utilisé ce mot de passe.');
                             }
                         };

@@ -31,6 +31,13 @@
                     </a>
                 </div>
             @endif
+            @if(! $user->is_entitled_breakfast)
+            <div x-data="{ tooltip: 'A droit au petit dejeuner' }">
+                <a href='#' wire:click="confirmUserLunch({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
+                    <x-icon name="eat" class="h-4 w-4 text-indigo-900" />
+                </a>
+            </div>
+            @endif
             <div x-data="{ tooltip: 'Supprimer' }">
                 <a href='#' wire:click="confirmUserDeleting({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
                     <x-icon name="trash" class="h-4 w-4 text-red-900" />

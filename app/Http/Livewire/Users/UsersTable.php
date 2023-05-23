@@ -43,6 +43,9 @@ class UsersTable extends DataTableComponent
     public $userIdBeingDeletion;
     public $confirmingUserDeletion = false;
 
+    public $userIdBeingLunch;
+    public $confirmingUserLunch = false;
+
     public function query(): Builder
     {
         return User::query()
@@ -97,6 +100,27 @@ class UsersTable extends DataTableComponent
         $this->confirmingUserDeletion = true;
     }
 
+    public function confirmUserLunch($userId)
+    {
+        $this->userIdBeingLunch = $userId;
+        $this->confirmingUserLunch = true;
+    }
+
+    public function confirmLunch()
+    {
+        $user = User::find($this->userIdBeingLunch);
+
+        $user->update(['is_entitled_breakfast' => true]);
+
+        $this->confirmingUserLunch = false;
+
+        $this->userIdBeingLunch = null;
+
+        session()->flash('success', "L'utilisateur a été activé avec succès !");
+
+        return redirect()->route('users.index');
+    }
+
     public function lockUser()
     {
         $user = User::find($this->userIdBeingLocked);
@@ -117,6 +141,8 @@ class UsersTable extends DataTableComponent
 
         return redirect()->route('users.index');
     }
+
+
 
 
     public function deleteUser(){

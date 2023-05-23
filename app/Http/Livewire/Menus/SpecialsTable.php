@@ -25,6 +25,10 @@ class SpecialsTable extends DataTableComponent
                 })
                 ->sortable()
                 ->searchable(),
+            Column::make('Actions', 'actions')
+                ->format(function($value, $column, $row) {
+                    return view('livewire.menus.special-table-actions', ['menuSpecial' => $row]);
+                })
         ];
     }
 

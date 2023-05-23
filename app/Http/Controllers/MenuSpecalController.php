@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MenuSpecal;
 use Illuminate\Http\Request;
 
 class MenuSpecalController extends Controller
@@ -16,14 +17,15 @@ class MenuSpecalController extends Controller
         return view('menus.specials.create');
     }
 
-    public function edit(MenuSpecal $menuSpecal)
+    public function edit($menuSpecial)
     {
-        return view('menus.specials.edit', compact('menuSpecal'));
+        $menuSpecial = MenuSpecal::findOrFail($menuSpecial);
+        return view('menus.specials.edit', compact('menuSpecial'));
     }
 
-    public function show(MenuSpecal $menuSpecal)
+    public function show(MenuSpecal $menuSpecial)
     {
-        return view('menus.specials.show', compact('menuSpecal'));
+        return view('menus.specials.show', compact('menuSpecial'));
     }
 
 }

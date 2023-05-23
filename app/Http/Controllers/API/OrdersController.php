@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Actions\Order\CreateOrderAction;
+use App\Http\Resources\AccessCardResource;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -39,7 +40,7 @@ class OrdersController extends Controller
     $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
     $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
-    if (!$accessCard) {
+    if (! $accessCard) {
       return response()->json([
         'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
         'success' => false,
@@ -82,13 +83,13 @@ class OrdersController extends Controller
     ]);
 
     /*
-    * Quuand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota 
+    * Quand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota
     */
 
     if ((int) config('cantine.order.locket_at') <= now()->hour) {
         $this->canChargeUser($order, $accessCard);
     }
-    
+
     activity()
       ->causedBy(Auth()->user())
       ->performedOn($order)
@@ -119,7 +120,28 @@ class OrdersController extends Controller
   {
     $order->update(['is_exceptional' => true, 'is_decrement' => true]);
     $accessCard->decrement('quota_lunch');
-
     return 1;
+  }
+
+  public function createBreakfastOrder(AccessCard $accessCard){
+      if($accessCard->quota_breakfast <= 0){
+          return response()->json([
+              'message' => 'Votre quota petit dejeuner est epuisé. Merci de recharger votre compte.',
+              'success' => false,
+              'user' => new AccessCardResource($accessCard),
+          ], Response::HTTP_FORBIDDEN);
+      }
+
+      $order = Order::create([
+        'user_id' => $accessCard->user->id,
+        'type' => 'breakfast',
+        'payment_method_id' => $accessCard->payment_method_id,
+      ]);
+
+      return response()->json([
+          'message' => 'Commande petit dejeuner retirée avec succès.',
+          'success' => true,
+          'order' => new OrderResource($order),
+      ], Response::HTTP_CREATED);
   }
 }

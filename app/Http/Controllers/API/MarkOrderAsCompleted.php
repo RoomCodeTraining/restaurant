@@ -43,20 +43,6 @@ class MarkOrderAsCompleted extends Controller
       ], Response::HTTP_NOT_FOUND);
     }
 
-    /**
-     * Lorsque le quota de l'utilisateur est insuffisant.
-     */
-   /* if ($accessCard->{'quota_' . $request->order_type} <= 0) {
-      return response()->json([
-        'message' => "Votre quota est insuffisant.",
-        "success" => false,
-        "user" => $accessCard->user,
-      ], Response::HTTP_FORBIDDEN);
-    }*/
-
-    /**
-     * Lorsque l'utilisateur a déjà récupéré son plat.
-     */
     $hasAlreadyEaten = Order::query()
       ->withoutGlobalScopes()
       ->whereBelongsTo($accessCard->user)
@@ -114,7 +100,7 @@ class MarkOrderAsCompleted extends Controller
     if ($request->order_type === 'breakfast' && $order) {
       DB::transaction(function () use ($accessCard, $order) {
         $order->markAsCompleted();
-        
+
         $order->update([
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,

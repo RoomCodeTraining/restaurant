@@ -10,5 +10,4 @@
         </x-section-header>
         <livewire:users.edit-user-form :user="$user">
     </section>
-
 </x-app-layout>

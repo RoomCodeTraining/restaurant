@@ -8,9 +8,11 @@ use App\Events\UserLocked;
 use App\Exports\UserExport;
 use Illuminate\Support\Str;
 use App\Events\UserUnlocked;
+use App\Notifications\PasswordResetNotification;
 use App\States\Order\Cancelled;
 use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
@@ -46,6 +48,9 @@ class UsersTable extends DataTableComponent
     public $userIdBeingLunch;
     public $confirmingUserLunch = false;
 
+    public $userIdBeingReset;
+    public $confirmingUserReset = false;
+
     public function query(): Builder
     {
         return User::query()
@@ -65,7 +70,7 @@ class UsersTable extends DataTableComponent
             }),
             Column::make('Email', 'email')->searchable(),
             Column::make('Contact', 'contact')->searchable(),
-            Column::make('Numero de carte')->format(fn ($val, $col, User $user) => $user->accessCard ? $user->accessCard->identifier : 'Aucune carte')
+            Column::make('Carte')->format(fn ($val, $col, User $user) => $user->accessCard ? $user->accessCard->identifier : 'Aucune carte')
             ->searchable(function ($builder, $term) {
                 return $builder
                     ->orWhereHas('accessCard', function ($query) use ($term) {
@@ -118,6 +123,33 @@ class UsersTable extends DataTableComponent
 
         session()->flash('success', "L'utilisateur a été activé avec succès !");
 
+        return redirect()->route('users.index');
+    }
+
+    public function confirmUserReset($userId)
+    {
+        $this->userIdBeingReset = $userId;
+        $this->confirmingUserReset = true;
+    }
+
+    public function confirmPasswordReset()
+    {
+        $user = User::find($this->userIdBeingReset);
+        $newPassword = Str::random(8);
+        $user->update([
+            'password' => bcrypt($newPassword),
+            'password_changed_at' => now(),
+        ]);
+
+        $user->passwordHistories()->create([
+          'password' => Hash::make($newPassword),
+        ]);
+
+        $user->notify(new PasswordResetNotification($newPassword));
+        $this->confirmingUserReset = false;
+        $this->userIdBeingReset = null;
+
+        session()->flash('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
         return redirect()->route('users.index');
     }
 

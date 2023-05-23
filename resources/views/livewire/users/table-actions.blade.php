@@ -31,9 +31,16 @@
                     </a>
                 </div>
             @endif
-            @if(! $user->is_entitled_breakfast)
-            <div x-data="{ tooltip: 'A droit au petit dejeuner' }">
-                <a href='#' wire:click="confirmUserLunch({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
+            @if(auth()->user()->hasRole(App\Models\Role::ADMIN))
+            <div x-data="{ tooltip: 'Réinitialisation de mot de passe' }">
+                <a href='#' wire:click="confirmUserReset({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
+                    <x-icon name="restore" class="h-4 w-4 text-indigo-900" />
+                </a>
+            </div>
+            @endif
+            @if($user->is_entitled_breakfast)
+            <div x-data="{ tooltip: 'Petit dej' }">
+                <a href='#' wire:click="confirmUserDeleting({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
                     <x-icon name="eat" class="h-4 w-4 text-indigo-900" />
                 </a>
             </div>

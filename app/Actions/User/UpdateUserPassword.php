@@ -27,7 +27,7 @@ class UpdateUserPassword
         ])->save();
 
         $user->passwordHistories()->create([
-        'password' => Hash::make($data['password']),
+         'password' => Hash::make($data['password']),
         ]);
     }
 }

@@ -43,6 +43,7 @@ class EditUserForm extends Component implements HasForms
         'organization_id' => null,
         'department_id' => null,
         'user_type_id' => null,
+        'is_entitled_breakfast' => false,
     ];
 
     public function mount(User $user)
@@ -101,7 +102,7 @@ class EditUserForm extends Component implements HasForms
             ->options(UserType::pluck('name', "id"))
             ->required()
             ->autofocus(),
-        Toggle::make('state.can_rigth_breakfast')
+        Toggle::make('state.is_entitled_breakfast')
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
             ->offColor('danger')

@@ -139,7 +139,11 @@
                             </x-nav-link>
                             <x-nav-link href="{{ route('menus.index') }}" icon="menu"
                                 :active="request()->routeIs('menus.index')">
-                                Menus
+                                Menus A
+                            </x-nav-link>
+                             <x-nav-link href="{{ route('menus.index') }}" icon="menu"
+                                :active="request()->routeIs('menus.index')">
+                                Menus B
                             </x-nav-link>
                         @endcan
                         @can('manage', \App\Models\Order::class)

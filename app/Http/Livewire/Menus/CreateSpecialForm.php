@@ -24,7 +24,7 @@ class CreateSpecialForm extends Component implements HasForms
         return [
             \Filament\Forms\Components\Grid::make(1)
                 ->schema([
-                    \Filament\Forms\Components\DatePicker::make('state.served_at')
+                    \Filament\Forms\Components\DateTimePicker::make('state.served_at')
                         ->label('Menu du')
                         ->required(),
                     \Filament\Forms\Components\Select::make('state.dish_id')

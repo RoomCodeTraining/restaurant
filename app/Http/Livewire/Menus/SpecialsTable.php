@@ -10,6 +10,9 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 class SpecialsTable extends DataTableComponent
 {
 
+    public $menuIdBeingDeleted;
+    public $confirmingMenuDeletion = false;
+
     public function columns(): array
     {
         return [
@@ -35,5 +38,26 @@ class SpecialsTable extends DataTableComponent
     public function query(): Builder
     {
         return MenuSpecal::query()->latest();
+    }
+
+    public function confirmMenuDeletion($menuId)
+    {
+        $this->menuIdBeingDeleted = $menuId;
+        $this->confirmingMenuDeletion = true;
+    }
+
+    public function deleteMenu()
+    {
+        $menu = MenuSpecal::find($this->menuIdBeingDeleted);
+        $menu->delete();
+        $this->confirmingMenuDeletion = false;
+        session()->flash('success', 'Menu supprimé avec succès !');
+
+        return redirect()->route('menus-specials.index');
+    }
+
+    public function modalsView(): string
+    {
+        return 'livewire.menus.special-modals';
     }
 }

@@ -6,11 +6,11 @@
             </a>
         </div>
 
-            <div x-data="{ tooltip: 'Supprimer' }">
-                <button wire:click="confirmMenuDeletion({{ $menuSpecial->id }})" wire:loading.attr="disabled"
-                    x-tooltip="tooltip">
-                    <x-icon name="trash" class="h-4 w-4 text-red-700" />
-                </button>
-            </div>
+        <div x-data="{ tooltip: 'Supprimer' }">
+            <button wire:click="confirmMenuDeletion({{ $menuSpecial->id }})" wire:loading.attr="disabled"
+                x-tooltip="tooltip">
+                <x-icon name="trash" class="h-4 w-4 text-red-700" />
+            </button>
+        </div>
     @endif
 </div>

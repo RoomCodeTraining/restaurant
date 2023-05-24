@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MenuSpecalController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Menu;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
@@ -44,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/roles', App\Http\Controllers\RolesController::class);
     Route::resource('/dishes', App\Http\Controllers\DishesController::class);
     Route::resource('/menus', App\Http\Controllers\MenusController::class);
+    Route::resource('menus-specials', MenuSpecalController::class);
     Route::get('weekly-orders/summary',[App\Http\Controllers\OrdersSummaryController::class, 'weeklyOrder'])->name('orders.summary');
     Route::get('today-orders/summary', [App\Http\Controllers\OrdersSummaryController::class, 'todayOrder'])->name('today.orders.summary');
     Route::view('check-in-breakfast', 'orders.check-breakfast')->name('check-in-breakfast');

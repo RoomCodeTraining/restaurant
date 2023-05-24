@@ -1,7 +1,7 @@
 <x-app-layout>
-    <x-section-header title="Menus A">
+    <x-section-header title="Menus B">
         <x-slot name="actions">
-            <a href="{{ route('menus.create') }}" class="btn btn-sm btn-secondary">
+            <a href="{{ route('menus-specials.create') }}" class="btn btn-sm btn-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="inline-block font-bold w-4 h-4 mr-1 stroke-current"
                     xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 12 12">
                     <g fill="none">
@@ -16,6 +16,6 @@
     </x-section-header>
 
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:menus.menus-table />
+        <livewire:menus.specials-table />
     </div>
 </x-app-layout>

@@ -150,7 +150,29 @@
             <!-- END Card Body: User Profile -->
         </div>
         <!-- END Card: User Profile -->
+           <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
+            <!-- Card Header: Change Password -->
+            <div class="py-4 px-5 lg:px-6 w-full bg-secondary-700">
+                <h3 class="flex items-center space-x-2">
+                    <svg class="hi-solid hi-lock-open inline-block w-5 h-5 text-gray-50" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                    </svg>
+                    <span class="text-gray-50">Parametre de vos commandes</span>
+                </h3>
+            </div>
+            <!-- END Card Header: Change Password -->
 
+            <!-- Card Body: Change Password -->
+            <div class="p-5 lg:p-6 flex-grow w-full md:flex md:space-x-5">
+                <p class="md:flex-none md:w-1/3 text-gray-500 text-sm mb-5">
+                   Ce parametre vous permet automatiquement de choisir l'heure de consommation de de vos commandes.
+                </p>
+                <livewire:account.order-config-form />
+            </div>
+            <!-- END Card Body: Change Password -->
+        </div>
         <!-- Card: Change Password -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: Change Password -->

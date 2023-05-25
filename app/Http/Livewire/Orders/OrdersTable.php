@@ -53,6 +53,7 @@ class OrdersTable extends DataTableComponent
                     $query->orWhere('name', $searchTerm);
                 });
             }),
+            Column::make('Heure de Consommation', 'is_for_the_evening')->format(fn ($val, $col, Order $row) => $row->is_for_the_evening ? 'Soir' : 'Midi'),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.state', ['order' => $row])),
             Column::make('Actions')->format(fn ($val, $col, Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
         ];

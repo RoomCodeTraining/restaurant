@@ -22,6 +22,9 @@ class OrdersTable extends DataTableComponent
     public $orderIdBeingCancelled;
     public $confirmingOrderCancellation = false;
 
+    public $orderIdHourBeingUpdated;
+    public $confirmingOrderHourUpdate = false;
+
     public $dishId;
     public $selectedOrder;
     public $orderIdBeingUpdated;
@@ -53,7 +56,7 @@ class OrdersTable extends DataTableComponent
                     $query->orWhere('name', $searchTerm);
                 });
             }),
-            Column::make('Heure de Consommation', 'is_for_the_evening')->format(fn ($val, $col, Order $row) => $row->is_for_the_evening ? 'Jour' : 'Nuit'),
+            Column::make('Commande ', 'is_for_the_evening')->format(fn ($val, $col, Order $row) => view('livewire.orders.hour', ['order' => $row])),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.state', ['order' => $row])),
             Column::make('Actions')->format(fn ($val, $col, Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
         ];
@@ -91,6 +94,25 @@ class OrdersTable extends DataTableComponent
     {
         $this->orderIdBeingCancelled = $orderId;
         $this->confirmingOrderCancellation = true;
+    }
+
+    public function confirmOrderHourUpdate($orderId)
+    {
+        $this->orderIdHourBeingUpdated = $orderId;
+        $this->confirmingOrderHourUpdate = true;
+    }
+
+    public function updateHour()
+    {
+        $order = Order::find($this->orderIdHourBeingUpdated);
+        if($order->is_for_the_evening) {
+            $order->update(['is_for_the_evening' => false]);
+        } else {
+            $order->update([ 'is_for_the_evening' => true ]);
+        }
+        $this->confirmingOrderHourUpdate = false;
+        session()->flash('success', "Votre commande a été modifiée avec succès !");
+        return redirect()->route('orders.index');
     }
 
     public function cancelOrder()

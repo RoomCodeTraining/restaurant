@@ -102,7 +102,7 @@
                             </x-nav-link>
                         @endif
                         @if (auth()->user()->can('manage', \App\Models\User::class) ||
-    auth()->user()->can('viewAny', \App\Models\User::class))
+    auth()->user()->can('viewAny', \App\Models\User::class) || auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
                             <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
                                 Gestion des comptes
                             </div>
@@ -118,7 +118,7 @@
                                   Historique des recharges
                               </x-nav-link>
                             @endif
-                            @if(!auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
+                            @if(auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
                                 <x-nav-link href="{{ route('roles.index') }}" icon="cog"
                                     :active="request()->routeIs('roles.index')">
                                     Rôles et permissions
@@ -240,6 +240,9 @@
 @endif-->
                         @endif
                         @if (auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))
+                          <div class="px-3 pt-5 pb-2 text-xs font-medium uppercase tracking-wider text-gray-500">
+                                Paramètrages
+                            </div>
                             <x-nav-link href="totem/tasks" icon="users">
                                 Planificateur des tâches
                             </x-nav-link>

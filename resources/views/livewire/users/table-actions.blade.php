@@ -38,7 +38,7 @@
                     </a>
                 </div>
             @endif
-            @if(auth()->user()->hasRole(App\Models\Role::ADMIN))
+            @if(auth()->user()->hasRole(App\Models\Role::ADMIN) && $user->canAccessInApp())
             <div x-data="{ tooltip: 'Réinitialisation de mot de passe' }">
                 <a href='#' wire:click="confirmUserReset({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
                     <x-icon name="restore" class="h-4 w-4 text-indigo-900" />

@@ -118,7 +118,7 @@
                                   Historique des recharges
                               </x-nav-link>
                             @endif
-                            @if(auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
+                            @if(!auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
                                 <x-nav-link href="{{ route('roles.index') }}" icon="cog"
                                     :active="request()->routeIs('roles.index')">
                                     Rôles et permissions
@@ -239,7 +239,7 @@
                                 </x-nav-link>
 @endif-->
                         @endif
-                        @if (auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL)))
+                        @if (auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))
                             <x-nav-link href="totem/tasks" icon="users">
                                 Planificateur des tâches
                             </x-nav-link>

@@ -1,6 +1,7 @@
 <x-app-layout>
     <x-order-suspended />
-    @hasrole(\App\Models\Role::ADMIN)
+    <div class='border-2 py-8 px-4 border-solid bg-white border-rounded'>
+         @hasrole(\App\Models\Role::ADMIN)
         <livewire:dashboards.admin-dashboard>
         @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))
             <livewire:dashboards.admin-technical-dashboard>
@@ -25,4 +26,5 @@
                     </div>
                 </div>
             @endhasrole
+    </div>
 </x-app-layout>

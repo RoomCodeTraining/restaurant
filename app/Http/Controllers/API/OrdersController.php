@@ -30,7 +30,6 @@ class OrdersController extends Controller
   public function store(Request $request, CreateOrderAction $createOrderAction)
   {
     //$this->authorize('viewAny', Menu::class);
-
     $request->validate([
       'identifier' => ['required'],
       'dish_id' => ['required', Rule::exists('dishes', 'id')],
@@ -47,7 +46,9 @@ class OrdersController extends Controller
       ], Response::HTTP_NOT_FOUND);
     }
 
-    if (!$menuHasDish) {
+
+
+    if ($menuHasDish) {
       throw ValidationException::withMessages([
         'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
       ]);
@@ -66,6 +67,7 @@ class OrdersController extends Controller
       ->whereBelongsTo($accessCard->user)
       ->whereState('state', [Confirmed::class, Completed::class])
       ->exists();
+
 
     if ($hasAlreadyOrdered) {
       return response()->json([

@@ -18,11 +18,46 @@ class MarkOrderAsCompleted extends Controller
 {
   use AuthorizesRequests;
 
-  public function update(Request $request)
+  public function markAsLunchCompleted(Request $request)
   {
+      $request->validate([
+          'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+      ]);
 
+      $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
+      $order = Order::today()->firstWhere('user_id', $accessCard->user_id);
 
-    //return response()->json(['message' => "Votre requête n'a pas pu être prise en compte.", 'success' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
+      if(! $order){
+          return response()->json([
+              'message' => "Vous n'avez pas de commande pour aujourd'hui.",
+              "success" => false,
+              "user" => $accessCard->user
+          ], Response::HTTP_NOT_FOUND);
+      }
+
+      if($order->state === 'completed'){
+          return response()->json([
+              'message' => "Vous avez déjà récupéré votre commande de ce jour.",
+              "success" => false,
+              "user" => $accessCard->user
+          ], Response::HTTP_NOT_FOUND);
+      }
+
+      if($oder->is_for_the_evening && now()->hour <= 18){
+          return response()->json([
+              'message' => "Vous ne pouvez pas récupérer votre commande de ce soir avant 18h.",
+              "success" => false,
+              "user" => $accessCard->user
+          ], Response::HTTP_NOT_FOUND);
+      }
+
+      $order->markAsCompleted();
+
+      return response()->json([
+          'message' => "Bonjour {$accessCard->user->first_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.",
+          "success" => true,
+          "order" => $order
+      ]);
   }
 
 

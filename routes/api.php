@@ -15,16 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
-    Route::post('/orders/complete-order', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'update']);
-    Route::post('orders/cancel-validation', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsConfirmed']);
+    Route::post('/orders/lunch-completed', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsLunchCompleted']);
     Route::post('orders/breakfast-completed', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsBreakfastCompleted']);
+    Route::post('orders/cancel-validation', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsConfirmed']);
     Route::apiResource('orders', App\Http\Controllers\API\OrdersController::class);
     Route::get('completed/orders', [App\Http\Controllers\API\OrdersController::class, 'orderCompleted']);
     Route::apiResource('menus', App\Http\Controllers\API\MenusController::class);
     Route::post('/cards/link-temporary-card', App\Http\Controllers\API\LinkTemporaryCard::class);
     Route::apiResource('cards', App\Http\Controllers\API\AccessCardsController::class);
     Route::post('cards/current/assign', [App\Http\Controllers\API\AccessCardsController::class, 'assignCurrentCarrd']);
-    Route::post('cards/current/temporary', [App\Http\Controllers\API\AccessCardsController::class, 'assignTemporaryCard']);
+    Route::post('cards/temporary/assign', [App\Http\Controllers\API\AccessCardsController::class, 'assignTemporaryCard']);
     Route::apiResource('users', App\Http\Controllers\API\UsersController::class);
     Route::post('users/profile-update', [App\Http\Controllers\API\UsersController::class, 'updateProfile']);
     Route::post('users/change-password', [App\Http\Controllers\API\UsersController::class, 'changePassword']);

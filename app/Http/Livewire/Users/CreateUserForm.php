@@ -19,6 +19,7 @@ use Filament\Forms\Components\Toggle;
 use App\Actions\User\CreateUserAction;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -46,6 +47,7 @@ class CreateUserForm extends Component implements HasForms
         'department_id' => null,
         'user_type_id' => null,
         "is_entitled_breakfast" => false,
+        'can_order_two_dishes' => false,
     ];
 
     public function mount()
@@ -107,7 +109,11 @@ class CreateUserForm extends Component implements HasForms
         Toggle::make('state.is_entitled_breakfast')
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
-            ->offColor('danger')
+            ->offColor('danger'),
+        Toggle::make('state.can_order_two_dishes')
+            ->label('Le collaborateur peut commander deux repas par jour ?')
+            ->onColor('success')
+            ->offColor('danger'),
       ])->columns(2)
     ];
   }
@@ -140,7 +146,8 @@ class CreateUserForm extends Component implements HasForms
             'state.user_type_id' => ['required', Rule::exists('user_types', 'id')],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
-            'state.is_entitled_breakfast' => ['required', 'boolean']
+            'state.is_entitled_breakfast' => ['required', 'boolean'],
+            'state.can_order_two_dishes' => ['required', 'boolean'],
         ]);
 
 
@@ -150,8 +157,7 @@ class CreateUserForm extends Component implements HasForms
             $user->updateProfilePhoto($this->profile_photo);
         }
 
-        session()->flash('success', "L'utilisateur a été créé avec succès!");
-
+        Notification::make()->title('Le collaborateur a été créé avec succès !')->success()->send();
         return redirect()->route('users.index');
     }
 

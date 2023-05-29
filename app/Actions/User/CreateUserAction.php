@@ -28,6 +28,7 @@ class CreateUserAction
             'user_type_id' => $data['user_type_id'],
             'email_verified_at' => now(),
             'is_entitled_breakfast' => $data['is_entitled_breakfast'],
+            'can_order_two_dishes' => $data['can_order_two_dishes'],
         ]);
 
 

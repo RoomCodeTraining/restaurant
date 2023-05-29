@@ -9,8 +9,6 @@
     <link rel='icon' href='{{ asset('images/logo-ciprel.png') }}' type='image/png' />
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-
-    <!-- Styles -->
     <style>
         [x-cloak] {
             display: none !important;

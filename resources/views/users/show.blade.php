@@ -156,6 +156,12 @@
                                             {{ $user->is_entitled_breakfast ? 'Oui' : 'Non' }}
                                         </dd>
                                 </div>
+                                <div class="w-full md:w-1/2">
+                                    <dt class="text-sm font-medium text-gray-500">Peut commander deux plats par jour ?</dt>
+                                        <dd class="badge {{ $user->can_order_two_dishes ? 'badge-success' : 'badge-error' }}">
+                                            {{ $user->can_order_two_dishes ? 'Oui' : 'Non' }}
+                                        </dd>
+                                </div>
 
                             </div>
                         </div>

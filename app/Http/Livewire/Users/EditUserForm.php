@@ -44,6 +44,7 @@ class EditUserForm extends Component implements HasForms
         'department_id' => null,
         'user_type_id' => null,
         'is_entitled_breakfast' => false,
+        'can_order_two_dishes' => false,
     ];
 
     public function mount(User $user)
@@ -106,6 +107,10 @@ class EditUserForm extends Component implements HasForms
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
             ->offColor('danger'),
+        Toggle::make('state.can_order_two_dishes')
+            ->label('Le collaborateur peut commander deux plats par jour ?')
+            ->onColor('success')
+            ->offColor('danger'),
       ])->columns(2)
     ];
   }
@@ -130,6 +135,7 @@ class EditUserForm extends Component implements HasForms
             'state.user_type_id' => ['required'],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
+            'state.can_order_two_dishes' => 'required|boolean',
         ]);
 
         $user = $updateUserAction->execute($this->user, array_merge($this->state, ['roles' => [$this->role]]));

@@ -7,7 +7,6 @@ use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use App\Support\DateTimeHelper;
-use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filter;
@@ -44,8 +43,8 @@ class ReportingTable extends DataTableComponent
 
         return [
             Column::make('Menu du')->format(fn ($val, $col, $row) => $row->menu->served_at->format('d/m/Y')),
-            Column::make('Nom', 'user_full_name')->format(fn($val, $col, $row) => optional($row->user)->full_name),
-            Column::make('Plat')->format(fn($val, $col, Order $row) => $row->dish->name),
+            Column::make('Nom', 'user_full_name')->format(fn ($val, $col, $row) => optional($row->user)->full_name),
+            Column::make('Plat')->format(fn ($val, $col, Order $row) => $row->dish->name),
             Column::make('Statut')->format(fn ($val, $col, Order $row) => view('livewire.orders.check-state', ['order' => $row])),
 
             //Column::make('Nbr. de commandes', 'total_orders')->,
@@ -55,14 +54,14 @@ class ReportingTable extends DataTableComponent
 
     public function query()
     {
-       
-        $query =  Order::query()->with('user', 'menu')
+
+        $query = Order::query()->with('user', 'menu')
             ->where('type', 'lunch')
             ->unless($this->filters['state'], fn ($q) => $q->whereState('state', [Confirmed::class, Completed::class]))
             ->when($this->filters['state'], fn ($q) => $q->whereState('state', $this->filters['state']))
             ->filter($this->getFilter('in_the_period'));
-        
-        //$this->orders = $q->get();    
+
+        //$this->orders = $q->get();
         return $query;
     }
 

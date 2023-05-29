@@ -16,7 +16,6 @@
             </x-slot>
         @endif
     </x-section-header>
-
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
         <livewire:orders.orders-table />
     </div>

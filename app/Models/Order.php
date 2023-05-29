@@ -27,7 +27,7 @@ class Order extends Model
 
 
     protected $guarded = [];
-    
+
 
     protected $casts = [
         'state' => OrderState::class,
@@ -36,7 +36,10 @@ class Order extends Model
         'is_decrement' => 'boolean',
     ];
 
-   
+    public const LUNCH = "Commande pour midi";
+    public const EVENING = "Commande pour le soir";
+
+
 
     protected static function booted()
     {
@@ -60,7 +63,7 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
     }
 
- 
+
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
@@ -138,5 +141,5 @@ class Order extends Model
     {
         return $this->menu->served_at->isCurrentDay();
     }
-    
+
 }

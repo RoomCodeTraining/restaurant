@@ -105,7 +105,7 @@ class EditUserForm extends Component implements HasForms
         Toggle::make('state.is_entitled_breakfast')
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
-            ->offColor('danger')
+            ->offColor('danger'),
       ])->columns(2)
     ];
   }

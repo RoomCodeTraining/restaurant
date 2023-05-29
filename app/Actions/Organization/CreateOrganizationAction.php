@@ -13,6 +13,9 @@ class CreateOrganizationAction
 
         $dish = Organization::create([
             'name' => $data['name'],
+            'family' => $data['family'],
+            'is_entitled_two_dishes' => $data['is_entitled_two_dishes'],
+            'description' => $data['description'],
         ]);
 
         DB::commit();

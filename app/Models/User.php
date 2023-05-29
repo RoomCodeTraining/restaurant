@@ -12,6 +12,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\WelcomeNotification;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -234,5 +235,25 @@ class User extends Authenticatable
       ->exists();
 
     return (int)config('cantine.order.locked_at') > now()->hour && $todayOrder ? true : false;
+  }
+
+
+  public function canOrderTwoDishes() : Attribute
+  {
+      return new Attribute(
+        get : function(){
+            if($this->organization){
+              return $this->organization->is_entitled_two_dishes ? true : false;
+            }
+        }
+      );
+  }
+
+  public function canAccessInApp() : bool
+  {
+     if($this->organization->family === Organization::GROUP_1){
+       return true;
+     }
+     return false;
   }
 }

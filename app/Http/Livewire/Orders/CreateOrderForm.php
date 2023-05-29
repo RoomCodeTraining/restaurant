@@ -158,13 +158,9 @@ class CreateOrderForm extends Component
                 "Création de sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
                 "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
             );
-
         }
 
-
-
-        session()->flash('success', 'La commande a été effectuée avec succès !');
-
+        flasher('success', 'Votre commande a bien été enregistrée.');
         return redirect()->route('orders.index');
     }
 

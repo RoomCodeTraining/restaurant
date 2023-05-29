@@ -8,6 +8,7 @@ use App\Support\ActivityHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\LoginRequest;
+use Filament\Notifications\Notification;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,8 +33,6 @@ class AuthenticatedSessionController extends Controller
     $request->authenticate();
     $request->session()->regenerate();
 
-
-
     if (auth()->user()->hasRole(Role::OPERATOR_LUNCHROOM)) {
       Auth::guard('web')->logout();
       $request->session()->invalidate();
@@ -41,13 +40,13 @@ class AuthenticatedSessionController extends Controller
       return redirect()->route('login');
     }
 
-    session()->flash('success', 'Bienvenue ' . auth()->user()->full_name);
     ActivityHelper::createActivity(
       auth()->user(),
       'Nouvelle connexion',
       "Connexion a  la plateforme",
     );
 
+    Notification::make()->title('Bienvenue ' . auth()->user()->full_name)->success()->send();
     return redirect()->intended(route('dashboard'));
   }
 
@@ -68,7 +67,7 @@ class AuthenticatedSessionController extends Controller
 
    $auth =  Auth::guard('web')->logout();
 
-  
+
     $request->session()->invalidate();
 
     $request->session()->regenerateToken();

@@ -20,7 +20,7 @@ class CreateAccessCardAction
     public function handle(User $user, array $input): AccessCard
     {
         DB::beginTransaction();
-        
+
         if ($input['is_temporary'] == true) {
             $accessCard = $this->createTemporaryCardAction->handle($user, $input);
         } else{

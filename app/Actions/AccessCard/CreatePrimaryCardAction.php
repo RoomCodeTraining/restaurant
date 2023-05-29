@@ -16,6 +16,7 @@ class CreatePrimaryCardAction
       'quota_breakfast' => $user->currentAccessCard->quota_breakfast ?? $input['quota_breakfast'],
       'quota_lunch' => $user->currentAccessCard->quota_lunch ?? $input['quota_lunch'],
       'payment_method_id' => $input['payment_method_id'] ?? $user->userType->paymentMethod->id,
+      'is_used' => true,
       'type' => AccessCard::TYPE_PRIMARY,
     ]);
 

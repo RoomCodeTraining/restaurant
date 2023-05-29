@@ -9,5 +9,7 @@
         @endif
        <a href='#'><x-statistic label="Commande(s) consommée(s)" value="{{ $orders_completed_count }}" icon="plat" /></a>
         <a hre='#'><x-statistic label="Commande(s) non consommée(s)" value="{{ $today_orders_count - $orders_completed_count }}" icon="plat" /></a>
+        <a hre='#'><x-statistic label="Commande du jour" value="{{ $sun_orders_count }}" icon="cde" /></a>
+        <a hre='#'><x-statistic label="Commande du soir" value="{{ $journey_orders_count }}" icon="cde" /></a>
     </div>
 </div>

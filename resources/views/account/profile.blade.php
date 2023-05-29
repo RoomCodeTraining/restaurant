@@ -150,6 +150,8 @@
             <!-- END Card Body: User Profile -->
         </div>
         <!-- END Card: User Profile -->
+            @if(! auth()->user()->isFromLunchroom())
+
            <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: Change Password -->
             <div class="py-4 px-5 lg:px-6 w-full bg-secondary-700">
@@ -173,6 +175,8 @@
             </div>
             <!-- END Card Body: Change Password -->
         </div>
+            @endif
+
         <!-- Card: Change Password -->
         <div class="flex flex-col rounded shadow-sm bg-white overflow-hidden">
             <!-- Card Header: Change Password -->

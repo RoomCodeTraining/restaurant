@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
     Route::post('/orders/complete-order', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'update']);
     Route::post('orders/cancel-validation', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsConfirmed']);
+    Route::post('orders/breakfast-completed', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsBreakfastCompleted']);
     Route::apiResource('orders', App\Http\Controllers\API\OrdersController::class);
     Route::get('completed/orders', [App\Http\Controllers\API\OrdersController::class, 'orderCompleted']);
     Route::apiResource('menus', App\Http\Controllers\API\MenusController::class);

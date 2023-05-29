@@ -45,7 +45,7 @@ class CreateUserForm extends Component implements HasForms
         'organization_id' => null,
         'department_id' => null,
         'user_type_id' => null,
-        "is_entitled_breakfast" => false
+        "is_entitled_breakfast" => false,
     ];
 
     public function mount()
@@ -80,7 +80,7 @@ class CreateUserForm extends Component implements HasForms
             ->label('Contact')
             ->required()
             ->autofocus(),
-        Select::make('state.role')
+        Select::make('role')
             ->label('Role')
             ->options(Role::pluck('name', "id"))
             ->autofocus(),

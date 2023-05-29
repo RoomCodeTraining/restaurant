@@ -106,3 +106,23 @@
         </div>
     </x-slot>
 </x-dialog-modal>
+
+<x-dialog-modal wire:model="confirmingUserAccessCardReset">
+    <x-slot name="title">
+        Recuperation de la carte courante
+    </x-slot>
+    <x-slot name="content">
+        Etes vous sûr de vouloir restauré la carte courante de cet utilisateur ?
+    </x-slot>
+    <x-slot name="footer">
+        <div class="inline-flex items-center space-x-2">
+            <button class="btn btn-sm bg-gray-900" wire:click="$toggle('confirmingUserAccessCardReset')" wire:loading.attr="disabled">
+                {{ __('Annuler') }}
+            </button>
+            <button class="btn btn-sm bg-red-500" wire:click="restoreCurrentCard" wire:target="restoreCurrentCard"
+                wire:loading.attr="disabled" wire:loading.class="loading">
+                {{ __('Confirmer') }}
+            </button>
+        </div>
+    </x-slot>
+</x-dialog-modal>

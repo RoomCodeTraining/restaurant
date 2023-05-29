@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/employeeStatuses', App\Http\Controllers\EmployeeStatusesController::class);
     Route::view('access-cards/reloads-history', 'access-cards.reloads-history')->name('access-cards.reloads.history');
     Route::get('access-cards/reloads-history/{accessCard?}', [App\Http\Controllers\AccessCardsController::class, 'reload'])->name('reload.card');
+    Route::get('access-cards/temporary/detach/{accessCard?}', [App\Http\Controllers\AccessCardsController::class, 'detach'])->name('detach.card');
 });
 
 

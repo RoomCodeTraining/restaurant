@@ -16,8 +16,8 @@ class MenusController extends Controller
     public function index()
     {
         $menus = Menu::query()
-            ->with('dishes')
-            ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->with('mainDishes')
+            ->today()
             ->get();
 
         return MenuResource::collection($menus);

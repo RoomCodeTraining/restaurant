@@ -51,6 +51,9 @@ class UsersTable extends DataTableComponent
     public $userIdBeingReset;
     public $confirmingUserReset = false;
 
+    public $userIdAccessCardBeingReset;
+    public $confirmingUserAccessCardReset = false;
+
     public function query(): Builder
     {
         return User::query()
@@ -70,6 +73,23 @@ class UsersTable extends DataTableComponent
             }),
             Column::make('Email', 'email')->searchable(),
             Column::make('Contact', 'contact')->searchable(),
+            Column::make('Type de carte', 'accessCard.type')
+                ->format(function($value, $column, $row) {
+                    switch($row->accessCard?->type) {
+                        case 'primary':
+                            return 'Carte primaire';
+                        case 'temporary':
+                            return 'Carte temporaire';
+                        default:
+                            return 'Aucune carte';
+                    }
+                })
+                ->searchable(function ($builder, $term) {
+                return $builder
+                    ->orWhereHas('accessCard', function ($query) use ($term) {
+                        $query->where('type', 'like', '%' . $term . '%');
+                    });
+            }),
             Column::make('Carte')->format(fn ($val, $col, User $user) => $user->accessCard ? $user->accessCard->identifier : 'Aucune carte')
             ->searchable(function ($builder, $term) {
                 return $builder
@@ -99,6 +119,12 @@ class UsersTable extends DataTableComponent
         $this->confirmingUserLocking = true;
     }
 
+    public function confirmAccessCardReset($userId)
+    {
+        $this->userIdAccessCardBeingReset = $userId;
+        $this->confirmingUserAccessCardReset = true;
+    }
+
     public function confirmUserDeleting($userId)
     {
         $this->userIdBeingDeletion = $userId;
@@ -111,6 +137,36 @@ class UsersTable extends DataTableComponent
         $this->confirmingUserLunch = true;
     }
 
+    public function restoreCurrentCard()
+    {
+        $user = User::find($this->userIdAccessCardBeingReset);
+
+        $temporaryCard = \App\Models\AccessCard::where('user_id', $user->id)->where('type', 'temporary')->latest()->first();
+        $currentCard = $user->accessCards()->where('type', 'primary')->latest()->first();
+
+        $user->current_access_card_id = $currentCard->id;
+        $user->save();
+
+
+        $currentCard->update([
+            'quota_lunch' => $temporaryCard->quota_lunch,
+            'quota_breakfast' => $temporaryCard->quota_breakfast,
+        ]);
+
+        $temporaryCard->update([
+            'is_used' => false,
+            'quota_lunch' => 0,
+            'quota_breakfast' => 0,
+        ]);
+
+        $this->confirmingUserAccessCardReset = false;
+
+        $this->userIdAccessCardBeingReset = null;
+
+        flasher('success', "La carte courante de l'utilisateur a été restauré!");
+        return redirect()->route('users.index');
+    }
+
     public function confirmLunch()
     {
         $user = User::find($this->userIdBeingLunch);
@@ -121,7 +177,7 @@ class UsersTable extends DataTableComponent
 
         $this->userIdBeingLunch = null;
 
-        session()->flash('success', "L'utilisateur a été activé avec succès !");
+       flasher('success', "L'utilisateur a été activé avec succès !");
 
         return redirect()->route('users.index');
     }
@@ -149,7 +205,7 @@ class UsersTable extends DataTableComponent
         $this->confirmingUserReset = false;
         $this->userIdBeingReset = null;
 
-        session()->flash('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
+        flasher('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
         return redirect()->route('users.index');
     }
 
@@ -166,10 +222,9 @@ class UsersTable extends DataTableComponent
         UserLocked::dispatch($user);
 
         $this->confirmingUserLocking = false;
-
         $this->userIdBeingLocked = null;
 
-        session()->flash('success', "L'utilisateur a été désactivé avec succès !");
+        flasher('success', "L'utilisateur a été désactivé avec succès !");
 
         return redirect()->route('users.index');
     }

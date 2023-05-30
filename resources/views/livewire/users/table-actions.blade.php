@@ -11,6 +11,13 @@
       </a>
     </div>
     @endif
+    @if($user->accessCard?->type == \App\Models\AccessCard::TYPE_TEMPORARY)
+        <div x-data="{ tooltip: 'Dettacher la carte temporaire' }">
+            <a href="#" wire:click='confirmAccessCardReset({{ $user->id }})' x-tooltip="tooltip">
+                <x-icon name="restore" class="h-4 w-4 text-primary-800" />
+            </a>
+        </div>
+    @endif
     @hasrole(App\Models\Role::ADMIN)
         <div x-data="{ tooltip: 'Modifier' }">
             <a href="{{ route('users.edit', $user) }}" x-tooltip="tooltip">
@@ -31,7 +38,7 @@
                     </a>
                 </div>
             @endif
-            @if(auth()->user()->hasRole(App\Models\Role::ADMIN))
+            @if(auth()->user()->hasRole(App\Models\Role::ADMIN) && $user->canAccessInApp())
             <div x-data="{ tooltip: 'Réinitialisation de mot de passe' }">
                 <a href='#' wire:click="confirmUserReset({{ $user->id }})" wire:loading.attr="disabled" x-tooltip="tooltip">
                     <x-icon name="restore" class="h-4 w-4 text-indigo-900" />

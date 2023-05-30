@@ -7,6 +7,7 @@ use App\Models\Organization;
 use Illuminate\Validation\Rule;
 use App\Models\OrganizationType;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -22,6 +23,8 @@ class EditOrganizationForm extends Component implements HasForms
   public $state = [
     'name' => null,
     'description' => null,
+    'family' => null,
+    'is_entitled_two_dishes' => null,
   ];
 
   public function mount(Organization $organization)
@@ -31,6 +34,8 @@ class EditOrganizationForm extends Component implements HasForms
     $this->form->fill([
       'state.name' => $organization->name,
       'state.description' => $organization->description,
+      'state.family' => $organization->family,
+      'state.is_entitled_two_dishes' => $organization->is_entitled_two_dishes,
     ]);
   }
 
@@ -43,7 +48,16 @@ class EditOrganizationForm extends Component implements HasForms
         ->required()
         ->rules('required', 'max:255'),
         Textarea::make('state.description')
-        ->label('Description')
+        ->label('Description'),
+        Select::make('state.family')
+        ->required()
+        ->label('Cette société fait partie de la famille')
+        ->options([Organization::GROUP_1 => 'Famille A', Organization::GROUP_2 => 'Famille B']),
+        Toggle::make('state.is_entitled_two_dishes')
+        ->required()
+        ->label('Les collaborateurs de cette société peuvent commander deux plats par jour')
+        ->onColor('success')
+        ->offColor('danger'),
     ];
   }
 
@@ -51,6 +65,9 @@ class EditOrganizationForm extends Component implements HasForms
   {
     $this->validate([
       'state.name' => ['required', 'string',  Rule::unique('users', 'identifier')],
+      'state.description' => ['nullable', 'string'],
+      'state.family' => ['required', 'string', Rule::in([Organization::GROUP_1, Organization::GROUP_2])],
+      'state.is_entitled_two_dishes' => ['required', 'boolean'],
     ]);
 
     $action->execute($this->organization, $this->state);

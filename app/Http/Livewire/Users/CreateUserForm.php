@@ -110,10 +110,6 @@ class CreateUserForm extends Component implements HasForms
             ->label('Le collaborateur a droit au petit déjeuner ?')
             ->onColor('success')
             ->offColor('danger'),
-        Toggle::make('state.can_order_two_dishes')
-            ->label('Le collaborateur peut commander deux repas par jour ?')
-            ->onColor('success')
-            ->offColor('danger'),
       ])->columns(2)
     ];
   }
@@ -147,7 +143,6 @@ class CreateUserForm extends Component implements HasForms
             'profile_photo' => ['nullable', 'image', 'max:1024'],
             'role' => ['required', Rule::exists('roles', 'id')],
             'state.is_entitled_breakfast' => ['required', 'boolean'],
-            'state.can_order_two_dishes' => ['required', 'boolean'],
         ]);
 
 

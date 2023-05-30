@@ -16,9 +16,15 @@ class SpecialsTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('Date', 'created_at')
+            Column::make('Date de création', 'created_at')
                 ->format(function($value, $column, $row) {
-                    return $row->created_at->format('d/m/Y');
+                    return \Carbon\Carbon::parse($row->created_at)->format('d/m/Y');
+                })
+                ->sortable()
+                ->searchable(),
+            Column::make('Menu du', 'served_at')
+                ->format(function($value, $column, $row) {
+                    return \Carbon\Carbon::parse($row->served_at)->format('d/m/Y');
                 })
                 ->sortable()
                 ->searchable(),

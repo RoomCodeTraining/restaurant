@@ -13,13 +13,19 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Actions\Organization\CreateOrganizationAction;
+use App\Models\Organization;
 
 class CreateOrganizationForm extends Component implements HasForms
 {
   use InteractsWithForms;
 
 
-  public $state = ['name' => null, 'description' => true];
+  public $state = [
+    'name' => null,
+    'description' => true,
+    'family' => null,
+    'is_entitled_two_dishes' => false,
+    ];
 
   public function mount()
   {
@@ -34,9 +40,16 @@ class CreateOrganizationForm extends Component implements HasForms
         ->required()
         ->rules('required', 'max:255'),
         Textarea::make('state.description')
-        ->label('Description')
-
-
+        ->label('Description'),
+             Select::make('state.family')
+          ->required()
+          ->label('Cette société fait partie de la famille')
+          ->options([Organization::GROUP_1 => 'Famille A', Organization::GROUP_2 => 'Famille B']),
+        Toggle::make('state.is_entitled_two_dishes')
+          ->required()
+          ->label('Les collaborateurs de cette société peuvent commander deux plats par jour')
+          ->onColor('success')
+          ->offColor('danger'),
     ];
   }
 
@@ -45,6 +58,8 @@ class CreateOrganizationForm extends Component implements HasForms
     $this->validate([
       'state.name' => ['required', 'string',  Rule::unique('organizations', 'name')],
       'state.description' => ['nullable', 'string'],
+      'state.family' => ['required', 'string'],
+      'state.is_entitled_two_dishes' => ['required', 'boolean'],
     ]);
 
     $action->execute($this->state);

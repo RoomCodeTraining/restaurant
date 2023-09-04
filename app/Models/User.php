@@ -12,10 +12,11 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\WelcomeNotification;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Notifications\PasswordResetNotification;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -182,6 +183,11 @@ class User extends Authenticatable
   {
     $this->notify(new WelcomeNotification($validUntil));
   }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetNotification($token));
+    }
 
   public function useCard(AccessCard $accessCard)
   {

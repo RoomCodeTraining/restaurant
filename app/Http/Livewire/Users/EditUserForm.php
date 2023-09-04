@@ -80,7 +80,7 @@ class EditUserForm extends Component implements HasForms
             ->required()
             ->autofocus(),
         Select::make('state.role')
-            ->label('Role')
+            ->label('Rôle')
             ->options(Role::pluck('name', "id"))
             ->autofocus(),
         Select::make('state.employee_status_id')
@@ -94,7 +94,7 @@ class EditUserForm extends Component implements HasForms
             ->required()
             ->autofocus(),
         Select::make('state.department_id')
-            ->label('Departément')
+            ->label('Departement')
             ->options(Department::pluck('name', "id"))
             ->required()
             ->autofocus(),

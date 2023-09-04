@@ -24,21 +24,27 @@ class Role extends SpatieRole
         switch ($role) {
             case 'utilisateur':
                 return Role::USER;
+
                 break;
             case 'admin':
                 return Role::ADMIN;
+
                 break;
             case 'admin_rh':
                 return Role::ADMIN_RH;
+
                 break;
             case 'admin_cantine':
                 return Role::ADMIN_LUNCHROOM;
+
                 break;
             case 'operator_cantine':
                 return Role::OPERATOR_LUNCHROOM;
+
                 break;
             default:
                 return Role::ACCOUNTANT;
+
                 break;
         }
     }

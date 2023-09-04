@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use Livewire\Component;
-use App\Models\DishType;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Select;
 use App\Actions\Dish\CreateDishAction;
-use Filament\Forms\Contracts\HasForms;
+use App\Models\DishType;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateDishForm extends Component implements HasForms
 {
@@ -31,34 +31,32 @@ class CreateDishForm extends Component implements HasForms
 
     protected function getFormSchema(): array
     {
-      return [
-         TextInput::make('state.name')
-            ->label('Nom du plat')
-            ->required()
-            ->autofocus()
-            ->placeholder('Salade, choux...'),
-            Select::make('state.dish_type_id')
-            ->label('Type de plat')
-            ->required()
-            ->placeholder('Choisissez un type de plat')
-            ->options(DishType::all()->pluck('name', 'id')),
-          Textarea::make('state.description')
-            ->label('Description')
-            ->required()
-            ->placeholder('Description du plat'),
+        return [
+           TextInput::make('state.name')
+              ->label('Nom du plat')
+              ->required()
+              ->autofocus()
+              ->placeholder('Salade, choux...'),
+              Select::make('state.dish_type_id')
+              ->label('Type de plat')
+              ->required()
+              ->placeholder('Choisissez un type de plat')
+              ->options(DishType::all()->pluck('name', 'id')),
+            Textarea::make('state.description')
+              ->label('Description')
+              ->placeholder('Description du plat'),
+            FileUpload::make('image_path')
+              ->label('Image')
+              ->required()
+              ->placeholder('Selectionnez une image pour ce plat')
 
-          FileUpload::make('image_path')
-            ->label('Image')
-            ->required()
-            ->placeholder('Selectionnez une image pour ce plat')
-
-      ];
+        ];
     }
 
     public function saveDish(CreateDishAction $createDishAction)
     {
         $this->validate([
-            'state.name' => ['required', 'string', 'max:255', function($attribute, $value, $fail){
+            'state.name' => ['required', 'string', 'max:255', function ($attribute, $value, $fail) {
                 if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->state['dish_type_id']])->exists()) {
                     $fail('Ce plat existe déjà !');
                 }
@@ -69,8 +67,8 @@ class CreateDishForm extends Component implements HasForms
         ]);
 
 
-        foreach($this->image_path as $image){
-          $this->state['image_path'] =  $image->store('dishes') ?? null;
+        foreach($this->image_path as $image) {
+            $this->state['image_path'] = $image->store('dishes') ?? null;
         }
 
 
@@ -78,6 +76,7 @@ class CreateDishForm extends Component implements HasForms
         $createDishAction->execute($this->state);
 
         flasher('success', 'Le plat a été ajouté avec succès !');
+
         return redirect()->route('dishes.index');
     }
 

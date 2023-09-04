@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Suggestions;
 
 use Livewire\Component;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 
 class CreateSuggestionForm extends Component implements HasForms
@@ -42,7 +43,7 @@ class CreateSuggestionForm extends Component implements HasForms
             ]);
 
         $this->suggestion = null;
-        session()->flash('success', 'Votre suggestion a été prise en compte');
+        Notification::make()->title('Nouvelle suggestion')->success()->body('Votre suggestion a été prise en compte')->send();
         return redirect()->route('suggestions-box.index');
     }
 

@@ -39,7 +39,6 @@ class EditPaymentMethodForm extends Component implements HasForms
                 ->rules('required', 'max:255'),
             Textarea::make('state.description')
                 ->label('Description')
-                ->required()
                 ->rules('required', 'max:255'),
         ];
     }

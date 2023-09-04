@@ -73,16 +73,9 @@ class UsersTable extends DataTableComponent
             }),
             Column::make('Email', 'email')->searchable(),
             Column::make('Contact', 'contact')->searchable(),
-            Column::make('Type de carte', 'accessCard.type')
+            Column::make("N° Carte", 'accessCard')
                 ->format(function($value, $column, $row) {
-                    switch($row->accessCard?->type) {
-                        case 'primary':
-                            return 'Carte primaire';
-                        case 'temporary':
-                            return 'Carte temporaire';
-                        default:
-                            return 'Aucune carte';
-                    }
+                    return $row->accessCard ? $row->accessCard->identifier : 'Aucune carte';
                 })
                 ->searchable(function ($builder, $term) {
                 return $builder
@@ -90,15 +83,8 @@ class UsersTable extends DataTableComponent
                         $query->where('type', 'like', '%' . $term . '%');
                     });
             }),
-            Column::make('Carte')->format(fn ($val, $col, User $user) => $user->accessCard ? $user->accessCard->identifier : 'Aucune carte')
-            ->searchable(function ($builder, $term) {
-                return $builder
-                    ->orWhereHas('accessCard', function ($query) use ($term) {
-                        $query->where('identifier', 'like', '%' . $term . '%');
-                    });
-            }),
             Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
-            Column::make('Etat du compte')->format(fn ($val, $col, User $user) => view('livewire.users.status', ['user' => $user])),
+            Column::make('Etat')->format(fn ($val, $col, User $user) => view('livewire.users.status', ['user' => $user])),
             Column::make('Actions')->format(fn ($val, $col, User $user) => view('livewire.users.table-actions', ['user' => $user])),
         ];
     }

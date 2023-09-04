@@ -15,8 +15,6 @@ class UpdatePaymentMethodAction
             'name' => $input['name'],
             'description' => $input['description'] ?? null,
         ]);
-
-
         DB::commit();
 
         return $paymentMethod;

@@ -23,7 +23,7 @@ class UserObserver
     private function logPasswordHistory(User $user): void
     {
         $user->passwordHistories()->create([
-            'password' => $user->password, // Password already hashed & saved so just take from model
+            'password' => $user->password,
         ]);
     }
 }

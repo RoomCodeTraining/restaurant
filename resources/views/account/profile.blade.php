@@ -165,8 +165,6 @@
                 </h3>
             </div>
             <!-- END Card Header: Change Password -->
-
-            <!-- Card Body: Change Password -->
             <div class="p-5 lg:p-6 flex-grow w-full md:flex md:space-x-5">
                 <p class="md:flex-none md:w-1/3 text-gray-500 text-sm mb-5">
                    Ce paramètre vous permet automatiquement de choisir l'heure de consommation de vos commandes.

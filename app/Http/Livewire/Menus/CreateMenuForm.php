@@ -68,13 +68,13 @@ class CreateMenuForm extends Component implements HasForms
     return [
       Grid::make(2)
       ->schema([
-        DateTimePicker::make('state.served_at')
-        ->displayFormat('d/m/Y')
-        ->label('Menu du')
-        ->columnSpan(2)
-        ->required()
-        ->autofocus()
-        ->placeholder('Jour...'),
+
+        DatePicker::make('state.served_at')
+          ->label('Menu du')
+          ->columnSpan(2)
+          ->minDate(now())
+          ->maxDate(now()->addDays(7))
+          ->format('d/m/Y'),
         Select::make('state.starter_id')
         ->label("Choississez l'entrée")
         ->required()

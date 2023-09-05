@@ -1,6 +1,6 @@
 <div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-8">
-        <a href='{{ route('today.orders.summary') }}'><x-statistic label="Commandes total" value="{{ $today_orders_count }}" icon="users" /></a>
+        <a href='{{ route('today.orders.summary') }}'><x-statistic label="Commandes totales" value="{{ $today_orders_count }}" icon="users" /></a>
         <a hre='#'><x-statistic label="Commande  jour" value="{{ $sun_orders_count }}" icon="cde" /></a>
         <a hre='#'><x-statistic label="Commande soir" value="{{ $journey_orders_count }}" icon="cde" /></a>
         @if($menu)

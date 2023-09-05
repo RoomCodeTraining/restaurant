@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Models\Dish;
-use Livewire\Component;
-use App\Models\DishType;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Select;
 use App\Actions\Dish\UpdateDishAction;
-use Filament\Forms\Contracts\HasForms;
+use App\Models\Dish;
+use App\Models\DishType;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditDishForm extends Component implements HasForms
 {
@@ -39,30 +39,29 @@ class EditDishForm extends Component implements HasForms
 
 
 
-     protected function getFormSchema(): array
+    protected function getFormSchema(): array
     {
-      return [
-         TextInput::make('state.name')
-            ->label('Nom du plat')
-            ->required()
-            ->autofocus()
-            ->placeholder('Salade, choux...'),
-            Select::make('state.dish_type_id')
-            ->label('Type de plat')
-            ->required()
-            ->placeholder('Choisissez un type de plat')
-            ->options(DishType::all()->pluck('name', 'id')),
-          Textarea::make('state.description')
-            ->label('Description')
-            ->required()
-            ->placeholder('Description du plat'),
+        return [
+           TextInput::make('state.name')
+              ->label('Nom du plat')
+              ->required()
+              ->autofocus()
+              ->placeholder('Salade, choux...'),
+              Select::make('state.dish_type_id')
+              ->label('Type de plat')
+              ->required()
+              ->placeholder('Choisissez un type de plat')
+              ->options(DishType::all()->pluck('name', 'id')),
+            Textarea::make('state.description')
+              ->label('Description')
+              ->placeholder('Description du plat'),
 
-          FileUpload::make('image_path')
-            ->label('Image')
-            ->required()
-            ->placeholder('Selectionnez une image pour ce plat')
+            FileUpload::make('image_path')
+              ->label('Image')
+              ->required()
+              ->placeholder('Selectionnez une image pour ce plat')
 
-      ];
+        ];
     }
 
 
@@ -80,6 +79,7 @@ class EditDishForm extends Component implements HasForms
         $updateDishAction->execute($this->dish, $this->state);
 
         flasher('success', 'Le plat a bien été modifié.');
+
         return redirect()->route('dishes.index');
     }
 

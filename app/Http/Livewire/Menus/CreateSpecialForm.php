@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire\Menus;
 
-use Livewire\Component;
-use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Livewire\Component;
 
 class CreateSpecialForm extends Component implements HasForms
 {
@@ -15,7 +16,8 @@ class CreateSpecialForm extends Component implements HasForms
         'dish_id' => null,
     ];
 
-    public function mount(){
+    public function mount()
+    {
         $this->form->fill($this->state);
     }
 
@@ -24,9 +26,12 @@ class CreateSpecialForm extends Component implements HasForms
         return [
             \Filament\Forms\Components\Grid::make(1)
                 ->schema([
-                    \Filament\Forms\Components\DateTimePicker::make('state.served_at')
+                    DatePicker::make('state.served_at')
                         ->label('Menu du')
-                        ->required(),
+                        ->columnSpan(2)
+                        ->minDate(now())
+                        ->maxDate(now()->addDays(7))
+                        ->format('d/m/Y'),
                     \Filament\Forms\Components\Select::make('state.dish_id')
                         ->label('Veuillez choisir le plat')
                         ->options(\App\Models\Dish::pluck('name', 'id')->toArray())
@@ -35,10 +40,11 @@ class CreateSpecialForm extends Component implements HasForms
         ];
     }
 
-    public function saveMenu(){
+    public function saveMenu()
+    {
         $this->validate([
-            'state.served_at' => ['required', 'date', 'after_or_equal:today', function($value, $attribute, $fail){
-                if(\App\Models\Menu::where('served_at', $value)->exists()){
+            'state.served_at' => ['required', 'date', 'after_or_equal:today', function ($value, $attribute, $fail) {
+                if(\App\Models\Menu::where('served_at', $value)->exists()) {
                     $fail('Un menu existe déjà pour cette date');
                 }
             }],
@@ -50,6 +56,7 @@ class CreateSpecialForm extends Component implements HasForms
         ]);
 
         flasher("success", "Le menu a été crée avec succès.");
+
         return redirect()->route('menus-specials.index');
     }
     public function render()

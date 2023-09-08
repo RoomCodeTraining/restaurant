@@ -2,18 +2,19 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Actions\Dish\CreateDishAction;
+use Livewire\Component;
 use App\Models\DishType;
-use Filament\Forms\Components\FileUpload;
+use Livewire\WithFileUploads;
+use Illuminate\Validation\Rule;
 use Filament\Forms\Components\Select;
+use App\Actions\Dish\CreateDishAction;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Validation\Rule;
-use Livewire\Component;
-use Livewire\WithFileUploads;
 
 class CreateDishForm extends Component implements HasForms
 {
@@ -47,7 +48,6 @@ class CreateDishForm extends Component implements HasForms
               ->placeholder('Description du plat'),
             FileUpload::make('image_path')
               ->label('Image')
-              ->required()
               ->placeholder('Selectionnez une image pour ce plat')
 
         ];
@@ -67,15 +67,19 @@ class CreateDishForm extends Component implements HasForms
         ]);
 
 
-        foreach($this->image_path as $image) {
-            $this->state['image_path'] = $image->store('dishes') ?? null;
-        }
+        // store new image if exists
+        $image = $this->image_path ? store_dish_image($this->image_path) : null;
+
+        $this->state['image_path'] = $image;
 
 
         //dd($this->state);
         $createDishAction->execute($this->state);
 
-        flasher('success', 'Le plat a été ajouté avec succès !');
+        Notification::make()
+            ->title('Plat ajouté')
+            ->body('Le plat a été ajouté avec succès.')
+            ->success()->send();
 
         return redirect()->route('dishes.index');
     }

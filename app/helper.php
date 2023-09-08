@@ -38,3 +38,13 @@ if(! function_exists('flasher')) {
         Notification::make()->success()->title($message)->iconColor($type)->send();
     }
 }
+
+if(! function_exists('store_dish_image')) {
+    function store_dish_image($image)
+    {
+        foreach($image as $key => $image) {
+            $imageLink =  $image->store('dishes') ?? null;
+        }
+        return $imageLink;
+    }
+}

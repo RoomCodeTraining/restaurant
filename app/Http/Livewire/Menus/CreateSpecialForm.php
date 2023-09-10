@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Menus;
 
+use Livewire\Component;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Livewire\Component;
+
 
 class CreateSpecialForm extends Component implements HasForms
 {
@@ -42,9 +44,18 @@ class CreateSpecialForm extends Component implements HasForms
 
     public function saveMenu()
     {
+        if(\App\Models\MenuSpecal::where('served_at', $this->state['served_at'])->exists()){
+            Notification::make()
+                ->title('Menu spécial non créé')
+                ->body("Un menu existe déjà pour cette date.")
+                ->danger()
+                ->send();
+            return redirect()->route('menus-specials.create');
+        }
+
         $this->validate([
             'state.served_at' => ['required', 'date', 'after_or_equal:today', function ($value, $attribute, $fail) {
-                if(\App\Models\Menu::where('served_at', $value)->exists()) {
+                if(\App\Models\MenuSpecal::where('served_at', $value)->exists()) {
                     $fail('Un menu existe déjà pour cette date');
                 }
             }],
@@ -55,7 +66,11 @@ class CreateSpecialForm extends Component implements HasForms
             'dish_id' => $this->state['dish_id'],
         ]);
 
-        flasher("success", "Le menu a été crée avec succès.");
+       Notification::make()
+            ->title('Menu spécial créé')
+            ->body("Le menu spécial a été créé avec succès.")
+            ->success()
+            ->send();
 
         return redirect()->route('menus-specials.index');
     }

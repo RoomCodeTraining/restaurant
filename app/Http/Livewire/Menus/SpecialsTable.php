@@ -3,9 +3,10 @@
 namespace App\Http\Livewire\Menus;
 
 use App\Models\MenuSpecal;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
 
 class SpecialsTable extends DataTableComponent
 {
@@ -13,8 +14,13 @@ class SpecialsTable extends DataTableComponent
     public $menuIdBeingDeleted;
     public $confirmingMenuDeletion = false;
 
+         protected $bulkActions = [
+            'exportMenu' =>'Exporter les menus'
+        ];
+
     public function columns(): array
     {
+
         return [
             Column::make('Date de création', 'created_at')
                 ->format(function($value, $column, $row) {
@@ -44,6 +50,10 @@ class SpecialsTable extends DataTableComponent
     public function query(): Builder
     {
         return MenuSpecal::query()->latest();
+    }
+
+     public function exportMenu(){
+        return Excel::download(new \App\Exports\SpecialMenuExport, 'liste-des-menus.xlsx');
     }
 
     public function confirmMenuDeletion($menuId)

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Menus;
 use App\Models\Menu;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Actions\Menu\DeleteMenuAction;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
@@ -65,7 +66,10 @@ class MenusTable extends DataTableComponent
 
         $this->menuIdBeingDeleted = null;
 
-        session()->flash('success', "Le menu a été supprimé avec succès !");
+      Notification::make()
+            ->title('Menu supprimé')
+            ->body('Le menu a été supprimé avec succès.')
+            ->success()->send();
 
         return redirect()->route('menus.index');
     }

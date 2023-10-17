@@ -3,21 +3,18 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use Maatwebsite\Excel\Concerns\WithTitle;
-use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class SpecialMenuExport implements  FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
+class SpecialMenuExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
-      /**
+    /**
     * @return \Illuminate\Support\Collection
     */
     public $menus;
@@ -25,23 +22,24 @@ class SpecialMenuExport implements  FromCollection, WithTitle, WithMapping, With
 
     public function headings(): array
     {
-      return [
-        'Menu du',
-        'Plat principal'
-        ];
+        return [
+          'Menu du',
+          'Plat principal'
+          ];
     }
 
     public function map($menu): array
     {
-      return [
-        \Carbon\Carbon::parse($menu->served_at)->format('d/m/Y'),
-        $menu->dish->name,
-      ];
+        return [
+          \Carbon\Carbon::parse($menu->served_at)->format('d/m/Y'),
+          $menu->dish->name,
+        ];
     }
 
 
-    public function title() : string{
-      return 'Liste des menus B';
+    public function title() : string
+    {
+        return 'Liste des menus B';
     }
 
 

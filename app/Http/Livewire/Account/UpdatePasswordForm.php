@@ -59,7 +59,6 @@ class UpdatePasswordForm extends Component implements HasForms
                     'different:current_password',
                     Password::min(8)
                         ->letters()
-                        ->mixedCase()
                         ->numbers()
                         ->symbols()
                         ->uncompromised(),
@@ -97,7 +96,9 @@ class UpdatePasswordForm extends Component implements HasForms
             'password.letters' => 'Le mot de passe doit contenir au moins une lettre.',
             'password.numbers' => 'Le mot de passe doit contenir au moins un chiffre.',
             'state.password.uncompromised' => 'Le mot de passe doit être plus sécurisé.',
+            'symbols' => 'Le mot de passe doit contenir au moins un caractère spécial.',
             'password.min' => 'Le mot de passe doit contenir au moins 8 caractères.',
+            'state.password_confirmation.same' => 'Les mots de passe ne correspondent pas.',
         ];
     }
 

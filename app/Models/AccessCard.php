@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Support\ActivityHelper;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class AccessCard extends Model
@@ -27,14 +27,14 @@ class AccessCard extends Model
 
     public function getDescriptionForEvent(string $eventName): string
     {
-      return ActivityHelper::getAction($eventName)." de carte RFID";
+        return ActivityHelper::getAction($eventName)." de carte RFID";
     }
-  
+
     public function getActivitylogOptions(): LogOptions
     {
-      return LogOptions::defaults()
-        ->logOnly(['name']);
-      // Chain fluent methods for configuration options
+        return LogOptions::defaults()
+          ->logOnly(['name']);
+        // Chain fluent methods for configuration options
     }
 
     public function getRouteKey()
@@ -63,27 +63,30 @@ class AccessCard extends Model
     }
 
 
-  /*
-  * Mettre à jour le nombre de rechargement de la carte(Petit dejeuner et dejeuner)
-  */
-  public function createReloadHistory(string $type_quota)
-  {
-    $this->increment($type_quota.'_reload_count');
-    $this->save();
-  }
+    /*
+    * Mettre à jour le nombre de rechargement de la carte(Petit dejeuner et dejeuner)
+    */
+    public function createReloadHistory(string $type_quota)
+    {
+        $this->increment($type_quota.'_reload_count');
+        $this->save();
+    }
 
 
-  public function reloadAccessCardHistory() : HasMany{
-    return $this->hasMany(ReloadAccessCardHistory::class)->orderByDesc('created_at');
-  }
+    public function reloadAccessCardHistory() : HasMany
+    {
+        return $this->hasMany(ReloadAccessCardHistory::class)->orderByDesc('created_at');
+    }
 
-  public function countLunchReload() : int {
-      return $this->reloadAccessCardHistory()->where('quota_type', self::LUNCH)->count();
-  }
+    public function countLunchReload() : int
+    {
+        return $this->reloadAccessCardHistory()->where('quota_type', self::LUNCH)->count();
+    }
 
-  public function countBreakfastReload() : int {
-      return $this->reloadAccessCardHistory()->where('quota_type', self::BREAKFAST)->count();
-  }
+    public function countBreakfastReload() : int
+    {
+        return $this->reloadAccessCardHistory()->where('quota_type', self::BREAKFAST)->count();
+    }
 
 
 }

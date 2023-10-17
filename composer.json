@@ -13,6 +13,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
+        "knuckleswtf/scribe": "^4.25",
         "laravel/framework": "^9.6",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
@@ -30,7 +31,6 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.3",
-        "knuckleswtf/scribe": "^4.19",
         "laravel/breeze": "^1.4",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.4",

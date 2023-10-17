@@ -20,6 +20,7 @@ class UpdateUserPassword
     public function update($user, array $data, $expired = false)
     {
         $user->password = Hash::make($data['password']);
+        dd($user->password);
 
         $user->forceFill([
         'password' => Hash::make($data['password']),

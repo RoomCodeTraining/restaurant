@@ -1,0 +1,318 @@
+name: 'Access Cards'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/cards
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Display a listing of the resource.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/cards/{identifier}'
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Display the specified resource.'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: CARD000
+        type: string
+        enumValues: []
+        custom: []
+    cleanUrlParameters:
+      identifier: CARD000
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/cards/current/assign
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Store a newly created resource in storage.'
+      description: '@authenticated'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        name: user_id
+        description: 'The user identifier or id'
+        required: true
+        example: consequuntur
+        type: string
+        enumValues: []
+        custom: []
+      identifier:
+        name: identifier
+        description: 'The card identifier'
+        required: true
+        example: enim
+        type: string
+        enumValues: []
+        custom: []
+      quota_breakfast:
+        name: quota_breakfast
+        description: 'The breakfast quota'
+        required: true
+        example: 14
+        type: integer
+        enumValues: []
+        custom: []
+      quota_lunch:
+        name: quota_lunch
+        description: 'The lunch quota'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        custom: []
+      payment_method_id:
+        name: payment_method_id
+        description: 'The payment method id'
+        required: true
+        example: 20
+        type: integer
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      user_id: consequuntur
+      identifier: enim
+      quota_breakfast: 14
+      quota_lunch: 3
+      payment_method_id: 20
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/cards/temporary/assign
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Assign a temporary card to a user'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        name: user_id
+        description: 'The user identifier or id'
+        required: true
+        example: quia
+        type: string
+        enumValues: []
+        custom: []
+      identifier:
+        name: identifier
+        description: 'The card identifier'
+        required: true
+        example: et
+        type: string
+        enumValues: []
+        custom: []
+      expires_at:
+        name: expires_at
+        description: 'The card expiration date'
+        required: true
+        example: corrupti
+        type: date
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      user_id: quia
+      identifier: et
+      expires_at: corrupti
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/reload/cards
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: sapiente
+        type: string
+        enumValues: []
+        custom: []
+      quota_type:
+        name: quota_type
+        description: ''
+        required: true
+        example: optio
+        type: string
+        enumValues: []
+        custom: []
+      quota:
+        name: quota
+        description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+        required: true
+        example: 14
+        type: integer
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      identifier: sapiente
+      quota_type: optio
+      quota: 14
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/cards/current
+    metadata:
+      groupName: 'Access Cards'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get the current access card of a users'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: nam
+        type: string
+        enumValues: []
+        custom: []
+    cleanBodyParameters:
+      identifier: nam
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

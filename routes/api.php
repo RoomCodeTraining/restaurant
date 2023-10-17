@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
+    // Route::post('/orders/confirm-order', [App\Http\Controllers\API\CompleteOrderController::class, 'complete']); // Deprecated
     Route::post('/orders/lunch-completed', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsLunchCompleted']);
     Route::post('orders/breakfast-completed', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsBreakfastCompleted']);
     Route::post('orders/cancel-validation', [App\Http\Controllers\API\MarkOrderAsCompleted::class, 'markAsConfirmed']);

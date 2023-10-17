@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use App\Actions\User\UpdateUserPassword;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use App\Models\User;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Actions\User\UpdateUserAction;
-use App\Actions\User\UpdateUserPassword;
+use Illuminate\Support\Facades\DB;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * @group Users
+ * @authenticated
+ * APIs for managing users
+ */
 class UsersController extends Controller
 {
     /**
@@ -24,7 +31,7 @@ class UsersController extends Controller
         $users = User::with('accessCard')->active()->get();
 
         $users = $users->filter(function ($user) {
-            return !$user->isFromLunchroom();
+            return ! $user->isFromLunchroom();
         });
 
         return UserResource::collection($users);
@@ -44,7 +51,7 @@ class UsersController extends Controller
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'first_name' =>  ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:225'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'contact' => ['required', 'string', 'max:255'],
@@ -65,7 +72,22 @@ class UsersController extends Controller
         ], 201);
     }
 
-    public function changePassword(Request $request, UpdateUserPassword $changeUserPassword){
+
+    /**
+     * Change the password of the authenticated user
+     * @bodyParam current_password string required The current password of the user
+    * @bodyParam password string required The new password of the user
+    * @bodyParam password_confirmation string required The new password confirmation of the user
+     * @param Request $request
+     * @param UpdateUserPassword $changeUserPassword
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
+
+    public function changePassword(Request $request, UpdateUserPassword $changeUserPassword)
+    {
         $request->validate([
             'current_password' => ['required', 'string', 'min:8'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -73,7 +95,7 @@ class UsersController extends Controller
         ]);
 
 
-   
+
         $passwordExpired = session()->pull('password_expired', false);
         $changeUserPassword->update(auth()->user(), $request->all(), $passwordExpired);
 
@@ -82,8 +104,14 @@ class UsersController extends Controller
         ], 201);
     }
 
-
-    public function userAuthenticate(Request $request){
+    /**
+     * Get the authenticated user
+     * @authenticated
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userAuthenticate(Request $request)
+    {
         return response()->json([
             "message" => "Information sur l'utilisateur connecté",
             "user" => new UserResource(Auth::user()),

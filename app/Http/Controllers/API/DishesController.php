@@ -10,20 +10,24 @@ class DishesController
 {
     use AuthorizesRequests;
 
+    /**
+     * List the dishes of the current menu.
+     * @authenticated
+     * @group Orders
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         //$this->authorize('viewAny', Menu::class);
-
         $todayMenu = Menu::query()->whereDate('served_at', today())->first();
 
-        if (!$todayMenu) {
+        if (! $todayMenu) {
             return response()->json([
                 'message' => 'Aucun menu n\'est disponible pour aujourd\'hui.',
                 'success' => false,
             ], 404);
         }
 
-    
         return DishResource::collection($todayMenu->mainDishes()->get());
     }
 }

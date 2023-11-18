@@ -19,17 +19,28 @@ class SuggestionBoxTable extends DataTableComponent
 
     public bool $showSearch = false;
 
+    public function configure(): void
+    {
+        $this->setDefaultSort('suggestion', 'desc');
+        $this->SetSortingString('suggestion', 'Suggestion');
+    }
+
     public function columns(): array
     {
         return [
-          Column::make('Date de création')->format(fn ($col, $val, SuggestionBox $row) => $row->created_at->format('d/m/Y'))->sortable(fn ($query, $search) => $query->whereRaw("DATE_FORMAT(created_at, '%d-%m-%Y') LIKE '%{$search}%'")),
-          Column::make('Suggerant')->format(fn ($col, $val, $row) => $row->user->full_name)->sortable(function (Builder $builder, $searchTerme) {
+          Column::make(
+              'Date de création'
+          )->format(fn ($col, $val, SuggestionBox $row) => $row->created_at->format('d/m/Y'))
+            ->sortable(fn ($query, $search) => $query->whereRaw("DATE_FORMAT(created_at, '%d-%m-%Y') LIKE '%{$search}%'"))->sortable(
+                fn (Builder $query, string $direction) => $query->orderBy('created_at', $direction ?? 'asc')
+            ),
+          Column::make('Suggerant')->format(fn ($col, $val, $row) => $row->user->full_name)->searchable(function (Builder $builder, $searchTerme) {
               $builder->whereHas('user', fn ($query) => $query->where('first_name', 'like', "%{$searchTerme}%"))->orWhere('last_name', 'like', "%{$searchTerme}%");
           }),
           Column::make('Objet', 'suggestion_type_id')->format(
               fn ($col, $val, $row) => $row->suggestionType?->name
           )->sortable(fn ($query, $search) => $query->whereHas('suggestionType', fn ($query) => $query->where('name', 'like', "%{$search}%"))),
-          Column::make('Suggestion', 'suggestion')->sortable(),
+          Column::make('Suggestion', 'suggestion')->sortable(fn ($query, $direction) => $query->orderBy('suggestion', $direction ?? 'asc')),
         ];
     }
 

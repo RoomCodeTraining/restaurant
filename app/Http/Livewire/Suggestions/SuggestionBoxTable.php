@@ -59,11 +59,6 @@ class SuggestionBoxTable extends DataTableComponent
 
     public function query(): Builder
     {
-        if (auth()->user()->hasRole(\App\Models\Role::ADMIN_RH)) {
-            return SuggestionBox::query()->with('suggestionType')->whereHas('suggestionType', function ($query) {
-                $query->whereId(SuggestionType::IMPROVEMENT_CANTEEN_SERVICE)->orWhere('user_id', auth()->user()->id);
-            });
-        }
 
         if(auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL)) {
             return SuggestionBox::query()->with('suggestionType')->whereHas('suggestionType', function ($query) {
@@ -71,7 +66,7 @@ class SuggestionBoxTable extends DataTableComponent
             });
         }
 
-        if(auth()->user()->hasRole(\App\Models\Role::ADMIN)) {
+        if(auth()->user()->hasRole(\App\Models\Role::ADMIN) || auth()->user()->hasRole(\App\Models\Role::ADMIN_RH)) {
             return SuggestionBox::query()
                      ->when($this->getFilter('created_at'), fn ($query, $created_at) => $query->whereDate('created_at', $created_at))
                      ->when($this->getFilter('suggestion_type_id'), fn ($query, $suggestion_type_id) => $query->where('suggestion_type_id', $suggestion_type_id))

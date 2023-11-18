@@ -28,7 +28,7 @@ class SuggestionBoxTable extends DataTableComponent
           }),
           Column::make('Objet', 'suggestion_type_id')->format(
               fn ($col, $val, $row) => $row->suggestionType?->name
-          )->sortable(),
+          )->sortable(fn ($query, $search) => $query->whereHas('suggestionType', fn ($query) => $query->where('name', 'like', "%{$search}%"))),
           Column::make('Suggestion', 'suggestion')->sortable(),
         ];
     }

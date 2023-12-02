@@ -9,10 +9,15 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class UpdatePasswordForm extends Component implements HasForms
 {
@@ -28,65 +33,89 @@ class UpdatePasswordForm extends Component implements HasForms
         'password_confirmation' => '',
     ];
 
+
+    /**
+     *
+     * @return void
+     */
     public function mount()
     {
         $this->form->fill($this->state);
     }
 
-    public function getFormSchema() : array
+
+    /**
+     *
+     * @return array
+     * @throws BindingResolutionException
+     */
+    public function getFormSchema(): array
     {
         return [
             Card::make()->schema([
-            Grid::make(2)->schema([
-                TextInput::make('state.current_password')
-                ->label('Mot de passe actuel')
-                ->required()
-                ->password()
-                ->rules([
-                    function () {
-                        return function ($attribute, $value, $fail) {
-                            if(! Hash::check($value, auth()->user()->password)) {
-                                $fail('Le mot de passe actuel est incorrect.');
-                            }
-                        };
-                    }
-                ]),
-            TextInput::make('state.password')
-                ->label('Nouveau mot de passe')
-                ->rules([
-                    'required',
-                    'confirmed',
-                    'different:current_password',
-                    Password::min(8)
-                        ->letters()
-                        ->numbers()
-                        ->symbols()
-                        ->uncompromised(),
-                    function () {
-                        return function ($attribute, $value, $fail) {
-                            if($this->passwordIsAlreadyUsed($value)) {
-                                $fail('Vous avez déjà utilisé ce mot de passe.');
-                            }
-                        };
-                    }
-                ])
-                ->password()
-                ->required(),
-            TextInput::make('state.password_confirmation')
-                ->label('Confirmer le nouveau mot de passe')
-                ->rules(['required'])
-                ->password()
-                ->required()
-            ])->columnSpan(2)
-            ])
+                Grid::make(2)
+                    ->schema([
+                        TextInput::make('state.current_password')
+                            ->label('Mot de passe actuel')
+                            ->required()
+                            ->password()
+                            ->rules([
+                                function () {
+                                    return function ($attribute, $value, $fail) {
+                                        if (! Hash::check($value, auth()->user()->password)) {
+                                            $fail('Le mot de passe actuel est incorrect.');
+                                        }
+                                    };
+                                },
+                            ]),
+                        TextInput::make('state.password')
+                            ->label('Nouveau mot de passe')
+                            ->rules([
+                                'required',
+                                'confirmed',
+                                'different:current_password',
+                                Password::min(8)
+                                    ->letters()
+                                    ->numbers()
+                                    ->symbols()
+                                    ->uncompromised(),
+                                function () {
+                                    return function ($attribute, $value, $fail) {
+                                        if ($this->passwordIsAlreadyUsed($value)) {
+                                            $fail('Vous avez déjà utilisé ce mot de passe.');
+                                        }
+                                    };
+                                },
+                            ])
+                            ->password()
+                            ->required(),
+                        TextInput::make('state.password_confirmation')
+                            ->label('Confirmer le nouveau mot de passe')
+                            ->rules(['required'])
+                            ->password()
+                            ->required(),
+                    ])
+                    ->columnSpan(2),
+            ]),
         ];
     }
 
-    public function passwordIsAlreadyUsed($password) : bool
+    /**
+     *
+     * @param mixed $password
+     * @return bool
+     * @throws BindingResolutionException
+     */
+    public function passwordIsAlreadyUsed($password): bool
     {
-        return (new PasswordHistoryChecker)->validatePassword(auth()->user(), $password);
+        return (new PasswordHistoryChecker())->validatePassword(auth()->user(), $password);
     }
 
+
+    /**
+     *
+     * @return string[]
+     */
     public function messages()
     {
         return [
@@ -103,6 +132,15 @@ class UpdatePasswordForm extends Component implements HasForms
     }
 
 
+    /**
+     *
+     * @param UpdateUserPassword $updater
+     * @return RedirectResponse|void
+     * @throws ValidationException
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     public function updatePassword(UpdateUserPassword $updater)
     {
         $this->validate();

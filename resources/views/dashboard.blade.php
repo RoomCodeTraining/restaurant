@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-order-suspended />
-    <div class='border-2 py-8 px-4 border-solid bg-white border-rounded'>
+    <div class='py-8 px-4'>
          @hasrole(\App\Models\Role::ADMIN)
         <livewire:dashboards.admin-dashboard>
         @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))

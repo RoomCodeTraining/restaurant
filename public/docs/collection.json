@@ -9,8 +9,8 @@
         }
     ],
     "info": {
-        "name": "Laravel",
-        "_postman_id": "c48847f6-140b-45ac-af6b-0ed895a67770",
+        "name": "Ciprel Cantine - Application de gestion de la cantine",
+        "_postman_id": "9a475cc4-f295-4c78-b050-c505c45e6103",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -139,7 +139,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"consequuntur\",\"identifier\":\"enim\",\"quota_breakfast\":14,\"quota_lunch\":3,\"payment_method_id\":20}"
+                            "raw": "{\"user_id\":\"asperiores\",\"identifier\":\"quis\",\"quota_breakfast\":11,\"quota_lunch\":14,\"payment_method_id\":15}"
                         },
                         "description": "@authenticated"
                     },
@@ -167,7 +167,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"quia\",\"identifier\":\"et\",\"expires_at\":\"corrupti\"}"
+                            "raw": "{\"user_id\":\"occaecati\",\"identifier\":\"vel\",\"expires_at\":\"quidem\"}"
                         },
                         "description": ""
                     },
@@ -195,7 +195,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"sapiente\",\"quota_type\":\"optio\",\"quota\":14}"
+                            "raw": "{\"identifier\":\"aperiam\",\"quota_type\":\"voluptate\",\"quota\":23}"
                         },
                         "description": ""
                     },
@@ -223,7 +223,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"nam\"}"
+                            "raw": "{\"identifier\":\"cupiditate\"}"
                         },
                         "description": ""
                     },
@@ -257,7 +257,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"ut\"}"
+                            "raw": "{\"identifier\":\"sit\"}"
                         },
                         "description": "",
                         "auth": {
@@ -288,7 +288,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"qui\"}"
+                            "raw": "{\"identifier\":\"repellat\"}"
                         },
                         "description": "",
                         "auth": {
@@ -319,7 +319,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_identifier\":\"voluptatem\"}"
+                            "raw": "{\"order_identifier\":\"delectus\"}"
                         },
                         "description": "",
                         "auth": {
@@ -454,7 +454,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"blanditiis\",\"identifier\":\"quibusdam\",\"expires_at\":\"2050-05-20\"}"
+                            "raw": "{\"user_id\":\"tempore\",\"identifier\":\"commodi\",\"expires_at\":\"2072-10-17\"}"
                         },
                         "description": "",
                         "auth": {
@@ -462,54 +462,6 @@
                         }
                     },
                     "response": []
-                },
-                {
-                    "name": "GET api\/dishes",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/dishes",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/dishes"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
                 },
                 {
                     "name": "POST api\/login",
@@ -567,7 +519,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"quod\",\"dish_id\":12}"
+                            "raw": "{\"identifier\":\"nulla\",\"dish_id\":13}"
                         },
                         "description": ""
                     },
@@ -581,6 +533,51 @@
                             "path": "api\/completed\/orders",
                             "query": [],
                             "raw": "{{baseUrl}}\/api\/completed\/orders"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": ""
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "List the dishes of the current menu.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/dishes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/dishes"
                         },
                         "method": "GET",
                         "header": [
@@ -681,7 +678,7 @@
                                 {
                                     "id": "identifier",
                                     "key": "identifier",
-                                    "value": "CTNY4",
+                                    "value": "IS9RH",
                                     "description": ""
                                 }
                             ]
@@ -744,7 +741,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"djlowxrlupbbg\",\"last_name\":\"ppdvgtswjahqsnshecaegstl\",\"email\":\"qhintz@example.net\",\"contact\":\"oyprtswxbfbiu\"}"
+                            "raw": "{\"first_name\":\"pzvsydw\",\"last_name\":\"pk\",\"email\":\"abruen@example.org\",\"contact\":\"flnqrlvrpzhvweeybmvrjehie\"}"
                         },
                         "description": ""
                     },
@@ -772,7 +769,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"rerum\",\"password\":\".Dmq?q.E8,>`N)\",\"password_confirmation\":\"cupiditate\"}"
+                            "raw": "{\"current_password\":\"ex\",\"password\":\"{{[,!tq\",\"password_confirmation\":\"quos\"}"
                         },
                         "description": ""
                     },

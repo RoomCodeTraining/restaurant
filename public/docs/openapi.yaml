@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Laravel
+  title: 'Ciprel Cantine - Application de gestion de la cantine'
   description: ''
   version: 1.0.0
 servers:
@@ -77,23 +77,23 @@ paths:
                 user_id:
                   type: string
                   description: 'The user identifier or id'
-                  example: consequuntur
+                  example: asperiores
                 identifier:
                   type: string
                   description: 'The card identifier'
-                  example: enim
+                  example: quis
                 quota_breakfast:
                   type: integer
                   description: 'The breakfast quota'
-                  example: 14
+                  example: 11
                 quota_lunch:
                   type: integer
                   description: 'The lunch quota'
-                  example: 3
+                  example: 14
                 payment_method_id:
                   type: integer
                   description: 'The payment method id'
-                  example: 20
+                  example: 15
               required:
                 - user_id
                 - identifier
@@ -119,15 +119,15 @@ paths:
                 user_id:
                   type: string
                   description: 'The user identifier or id'
-                  example: quia
+                  example: occaecati
                 identifier:
                   type: string
                   description: 'The card identifier'
-                  example: et
+                  example: vel
                 expires_at:
                   type: date
                   description: 'The card expiration date'
-                  example: corrupti
+                  example: quidem
               required:
                 - user_id
                 - identifier
@@ -151,15 +151,15 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: sapiente
+                  example: aperiam
                 quota_type:
                   type: string
                   description: ''
-                  example: optio
+                  example: voluptate
                 quota:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 14
+                  example: 23
               required:
                 - identifier
                 - quota_type
@@ -183,7 +183,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: nam
+                  example: cupiditate
               required:
                 - identifier
   /api/orders/lunch-completed:
@@ -205,7 +205,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: ut
+                  example: sit
               required:
                 - identifier
       security: []
@@ -228,7 +228,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: qui
+                  example: repellat
               required:
                 - identifier
       security: []
@@ -251,7 +251,7 @@ paths:
                 order_identifier:
                   type: string
                   description: ''
-                  example: voluptatem
+                  example: delectus
               required:
                 - order_identifier
       security: []
@@ -327,40 +327,18 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: blanditiis
+                  example: tempore
                 identifier:
                   type: string
                   description: ''
-                  example: quibusdam
+                  example: commodi
                 expires_at:
                   type: string
                   description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-                  example: '2050-05-20'
+                  example: '2072-10-17'
               required:
                 - user_id
                 - identifier
-      security: []
-  /api/dishes:
-    get:
-      summary: ''
-      operationId: getApiDishes
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - Endpoints
       security: []
   /api/login:
     post:
@@ -391,11 +369,11 @@ paths:
                 identifier:
                   type: string
                   description: 'The card identifier'
-                  example: quod
+                  example: nulla
                 dish_id:
                   type: integer
                   description: 'The dish id'
-                  example: 12
+                  example: 13
               required:
                 - identifier
                 - dish_id
@@ -403,6 +381,27 @@ paths:
     get:
       summary: 'Mark order as completed'
       operationId: markOrderAsCompleted
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Orders
+  /api/dishes:
+    get:
+      summary: 'List the dishes of the current menu.'
+      operationId: listTheDishesOfTheCurrentMenu
       description: ''
       parameters: []
       responses:
@@ -467,7 +466,7 @@ paths:
         in: path
         name: identifier
         description: ''
-        example: CTNY4
+        example: IS9RH
         required: true
         schema:
           type: string
@@ -490,19 +489,19 @@ paths:
                 first_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: djlowxrlupbbg
+                  example: pzvsydw
                 last_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 225 caractères.'
-                  example: ppdvgtswjahqsnshecaegstl
+                  example: pk
                 email:
                   type: string
                   description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
-                  example: qhintz@example.net
+                  example: abruen@example.org
                 contact:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: oyprtswxbfbiu
+                  example: flnqrlvrpzhvweeybmvrjehie
               required:
                 - first_name
                 - last_name
@@ -527,15 +526,15 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user'
-                  example: rerum
+                  example: ex
                 password:
                   type: string
                   description: 'The new password of the user'
-                  example: '.Dmq?q.E8,>`N)'
+                  example: '{{[,!tq'
                 password_confirmation:
                   type: string
                   description: 'The new password confirmation of the user'
-                  example: cupiditate
+                  example: quos
               required:
                 - current_password
                 - password

@@ -28,7 +28,7 @@ endpoints:
         name: identifier
         description: 'The card identifier'
         required: true
-        example: quod
+        example: nulla
         type: string
         enumValues: []
         custom: []
@@ -36,13 +36,13 @@ endpoints:
         name: dish_id
         description: 'The dish id'
         required: true
-        example: 12
+        example: 13
         type: integer
         enumValues: []
         custom: []
     cleanBodyParameters:
-      identifier: quod
-      dish_id: 12
+      identifier: nulla
+      dish_id: 13
     fileParameters: []
     responses: []
     responseFields: []
@@ -61,6 +61,45 @@ endpoints:
       subgroup: ''
       subgroupDescription: ''
       title: 'Mark order as completed'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/dishes
+    metadata:
+      groupName: Orders
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'List the dishes of the current menu.'
       description: ''
       authenticated: true
       custom: []

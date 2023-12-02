@@ -63,12 +63,12 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: CTNY4
+        example: IS9RH
         type: string
         enumValues: []
         custom: []
     cleanUrlParameters:
-      identifier: CTNY4
+      identifier: IS9RH
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -115,7 +115,7 @@ endpoints:
         name: first_name
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: djlowxrlupbbg
+        example: pzvsydw
         type: string
         enumValues: []
         custom: []
@@ -123,7 +123,7 @@ endpoints:
         name: last_name
         description: 'Le texte ne peut contenir plus de 225 caractères.'
         required: true
-        example: ppdvgtswjahqsnshecaegstl
+        example: pk
         type: string
         enumValues: []
         custom: []
@@ -131,7 +131,7 @@ endpoints:
         name: email
         description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: qhintz@example.net
+        example: abruen@example.org
         type: string
         enumValues: []
         custom: []
@@ -139,15 +139,15 @@ endpoints:
         name: contact
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: oyprtswxbfbiu
+        example: flnqrlvrpzhvweeybmvrjehie
         type: string
         enumValues: []
         custom: []
     cleanBodyParameters:
-      first_name: djlowxrlupbbg
-      last_name: ppdvgtswjahqsnshecaegstl
-      email: qhintz@example.net
-      contact: oyprtswxbfbiu
+      first_name: pzvsydw
+      last_name: pk
+      email: abruen@example.org
+      contact: flnqrlvrpzhvweeybmvrjehie
     fileParameters: []
     responses: []
     responseFields: []
@@ -181,7 +181,7 @@ endpoints:
         name: current_password
         description: 'The current password of the user'
         required: true
-        example: rerum
+        example: ex
         type: string
         enumValues: []
         custom: []
@@ -189,7 +189,7 @@ endpoints:
         name: password
         description: 'The new password of the user'
         required: true
-        example: '.Dmq?q.E8,>`N)'
+        example: '{{[,!tq'
         type: string
         enumValues: []
         custom: []
@@ -197,14 +197,14 @@ endpoints:
         name: password_confirmation
         description: 'The new password confirmation of the user'
         required: true
-        example: cupiditate
+        example: quos
         type: string
         enumValues: []
         custom: []
     cleanBodyParameters:
-      current_password: rerum
-      password: '.Dmq?q.E8,>`N)'
-      password_confirmation: cupiditate
+      current_password: ex
+      password: '{{[,!tq'
+      password_confirmation: quos
     fileParameters: []
     responses: []
     responseFields: []

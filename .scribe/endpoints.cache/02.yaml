@@ -115,7 +115,7 @@ endpoints:
         name: user_id
         description: 'The user identifier or id'
         required: true
-        example: consequuntur
+        example: asperiores
         type: string
         enumValues: []
         custom: []
@@ -123,7 +123,7 @@ endpoints:
         name: identifier
         description: 'The card identifier'
         required: true
-        example: enim
+        example: quis
         type: string
         enumValues: []
         custom: []
@@ -131,7 +131,7 @@ endpoints:
         name: quota_breakfast
         description: 'The breakfast quota'
         required: true
-        example: 14
+        example: 11
         type: integer
         enumValues: []
         custom: []
@@ -139,7 +139,7 @@ endpoints:
         name: quota_lunch
         description: 'The lunch quota'
         required: true
-        example: 3
+        example: 14
         type: integer
         enumValues: []
         custom: []
@@ -147,16 +147,16 @@ endpoints:
         name: payment_method_id
         description: 'The payment method id'
         required: true
-        example: 20
+        example: 15
         type: integer
         enumValues: []
         custom: []
     cleanBodyParameters:
-      user_id: consequuntur
-      identifier: enim
-      quota_breakfast: 14
-      quota_lunch: 3
-      payment_method_id: 20
+      user_id: asperiores
+      identifier: quis
+      quota_breakfast: 11
+      quota_lunch: 14
+      payment_method_id: 15
     fileParameters: []
     responses: []
     responseFields: []
@@ -190,7 +190,7 @@ endpoints:
         name: user_id
         description: 'The user identifier or id'
         required: true
-        example: quia
+        example: occaecati
         type: string
         enumValues: []
         custom: []
@@ -198,7 +198,7 @@ endpoints:
         name: identifier
         description: 'The card identifier'
         required: true
-        example: et
+        example: vel
         type: string
         enumValues: []
         custom: []
@@ -206,14 +206,14 @@ endpoints:
         name: expires_at
         description: 'The card expiration date'
         required: true
-        example: corrupti
+        example: quidem
         type: date
         enumValues: []
         custom: []
     cleanBodyParameters:
-      user_id: quia
-      identifier: et
-      expires_at: corrupti
+      user_id: occaecati
+      identifier: vel
+      expires_at: quidem
     fileParameters: []
     responses: []
     responseFields: []
@@ -247,7 +247,7 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: sapiente
+        example: aperiam
         type: string
         enumValues: []
         custom: []
@@ -255,7 +255,7 @@ endpoints:
         name: quota_type
         description: ''
         required: true
-        example: optio
+        example: voluptate
         type: string
         enumValues: []
         custom: []
@@ -263,14 +263,14 @@ endpoints:
         name: quota
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: true
-        example: 14
+        example: 23
         type: integer
         enumValues: []
         custom: []
     cleanBodyParameters:
-      identifier: sapiente
-      quota_type: optio
-      quota: 14
+      identifier: aperiam
+      quota_type: voluptate
+      quota: 23
     fileParameters: []
     responses: []
     responseFields: []
@@ -304,12 +304,12 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: nam
+        example: cupiditate
         type: string
         enumValues: []
         custom: []
     cleanBodyParameters:
-      identifier: nam
+      identifier: cupiditate
     fileParameters: []
     responses: []
     responseFields: []

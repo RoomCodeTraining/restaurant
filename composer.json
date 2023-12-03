@@ -10,6 +10,7 @@
         "fakerphp/faker": "^1.9.1",
         "filament/forms": "^3.0-stable",
         "filament/notifications": "^3.0-stable",
+        "filament/tables": "^3.0-stable",
         "guzzlehttp/guzzle": "^7.2",
         "knuckleswtf/scribe": "^4.25",
         "laravel/framework": "^10.10",

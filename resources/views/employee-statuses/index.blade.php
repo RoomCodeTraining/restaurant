@@ -18,6 +18,6 @@
     </x-section-header>
 
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:employee-statuses.employee-statuses-table />
+        <livewire:tables.category-table />
     </div>
 </x-app-layout>

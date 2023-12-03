@@ -17,6 +17,6 @@
         @endcan
     </x-section-header>
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:suggestions.suggestion-box-table />
+        <livewire:tables.suggestion-table />
     </div>
 </x-app-layout>

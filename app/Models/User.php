@@ -106,7 +106,7 @@ class User extends Authenticatable
         return new Attribute(
             get : function () {
                 if($this->current_access_card_id) {
-                    return $this->accessCards()->where('id', $this->current_access_card_id)->first() ?? 'Aucune carte';
+                    return $this->currentAccessCard->identifier ? $this->currentAccessCard->identifier : 'Aucune carte';
                 }
             }
         );

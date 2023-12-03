@@ -9,7 +9,6 @@ export default defineConfig(({ command, mode }) => {
                 input: ['resources/css/app.css', 'resources/js/app.js'],
                 refresh: [
                     ...refreshPaths,
-                    ...refreshPaths,
                 'app/Filament/**',
                 'app/Forms/Components/**',
                 'app/Livewire/**',

@@ -10,6 +10,7 @@
         "@tailwindcss/typography": "^0.5.9",
         "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
+        "daisyui": "^4.4.18",
         "flowbite": "^1.8.1",
         "laravel-vite-plugin": "^0.7.2",
         "postcss": "^8.4.6",

@@ -3,15 +3,11 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import colors from 'tailwindcss/colors';
 
-
-/** @type {import('tailwindcss').Config} */
 export default {
         // presets: [preset],
     content: [
         './app/Filament/**/*.php',
-        './resources/views/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         "./node_modules/flowbite/**/*.js",
@@ -95,8 +91,37 @@ export default {
         },
       },
 
-    plugins: [
-        forms,
-        require('flowbite/plugin')
-    ],
+      daisyui: {
+		styled: true,
+		rtl: false,
+		logs: false,
+		themes: [
+			{
+				default: {
+					primary: '#35567f',
+					'primary-focus': '#f07d00',
+					'primary-content': '#ffffff',
+					secondary: '#62b250',
+					'secondary-focus': '#50a93c',
+					'secondary-content': '#ffffff',
+					accent: '#35567f',
+					'accent-focus': '#1e4371',
+					'accent-content': '#ffffff',
+					neutral: '#bbbbbb',
+					'neutral-focus': '#b1b3b7',
+					'neutral-content': colors.gray[50],
+					'base-100': '#ffffff',
+					'base-200': '#f9fafb',
+					'base-300': '#d1d5db',
+					'base-content': '#1f2937',
+					info: '#2094f3',
+					success: '#009485',
+					warning: '#ff9900',
+					error: '#ff5724'
+				}
+			}
+		]
+	},
+
+	plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography'), require('daisyui')]
 };

@@ -18,6 +18,6 @@
     </x-section-header>
 
     <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:payment-methods.payment-method-table/>
+        <livewire:tables.payment-method-table/>
     </div>
 </x-app-layout>

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Tables;
 use App\Models\User;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
@@ -51,13 +52,14 @@ class UserTable extends Component implements HasTable, HasForms
                 ViewAction::make()
                     ->label('')
                     ->icon('heroicon-o-eye')
-                    ->tooltip('Voir')
+                    ->color('success')
+                    ->tooltip('Consulter')
                     ->url(function (User $user) {
                         return route('users.show', $user);
                     }),
                 EditAction::make()
                     ->label('')
-                    ->icon('heroicon-o-pencil')
+                    ->icon('heroicon-o-pencil-square')
                     ->color('info')
                     ->tooltip('Modifier')
                     ->url(function (User $user) {
@@ -66,9 +68,20 @@ class UserTable extends Component implements HasTable, HasForms
                 DeleteAction::make()
                     ->label('')
                     ->icon('heroicon-o-lock-closed')
+                    ->action(function (User $user) {
+                        $user->is_active = false;
+                        $user->save();
+                        Notification::make()
+                            ->title('Utilisateur désactivé')
+                            ->body('L\'utilisateur a été désactivé avec succès.')
+                            ->success()
+                            ->send();
+
+                        return redirect()->route('users.index');
+                    })
                     ->tooltip('Desactiver')
                     ->hidden(function (User $user) {
-                        return $user->id == auth()->user()->id && $user->isActive();
+                        return   ! $user->isActive() || $user->id == auth()->user()->id;
                     })
                     ->requiresConfirmation(),
                 Action::make('reactivate')
@@ -77,7 +90,37 @@ class UserTable extends Component implements HasTable, HasForms
                     ->tooltip('Activer')
                     ->hidden(function (User $user) {
                         return $user->isActive();
+                    })
+                    ->requiresConfirmation()
+                    ->action(function (User $user) {
+                        $user->is_active = true;
+                        $user->save();
+                        Notification::make()
+                            ->title('Utilisateur activé')
+                            ->body('L\'utilisateur a été activé avec succès.')
+                            ->success()
+                            ->send();
+
+                        return redirect()->route('users.index');
                     }),
+                DeleteAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-trash')
+                    ->action(function (User $user) {
+                        $user->delete();
+                        Notification::make()
+                            ->title('Utilisateur supprimé')
+                            ->body('L\'utilisateur a été supprimé avec succès.')
+                            ->success()
+                            ->send();
+
+                        return redirect()->route('users.index');
+                    })
+                    ->tooltip('Supprimer')
+                    ->hidden(function (User $user) {
+                        return $user->id == auth()->user()->id;
+                    })
+                    ->requiresConfirmation(),
             ]);
     }
 

@@ -112,6 +112,7 @@ class OrdersTable extends DataTableComponent
         }
         $this->confirmingOrderHourUpdate = false;
         session()->flash('success', "Votre commande a été modifiée avec succès !");
+
         return redirect()->route('orders.index');
     }
 

@@ -2,39 +2,39 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Events\UserLocked;
+use App\Events\UserUnlocked;
+use App\Exports\UserExport;
 use App\Models\Role;
 use App\Models\User;
-use App\Events\UserLocked;
-use App\Exports\UserExport;
-use Illuminate\Support\Str;
-use App\Events\UserUnlocked;
 use App\Notifications\PasswordResetNotification;
 use App\States\Order\Cancelled;
-use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
-use Rappasoft\LaravelLivewireTables\Views\Filter;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
+use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 
 class UsersTable extends DataTableComponent
 {
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
+    public string $tableName = 'users';
+
 
     public array $filterNames = [
         'type' => 'Profil',
         'active' => 'Etat du compte',
     ];
 
-     public array $bulkActions = [
-        'exportToUser' => 'Export en Excel',
-        'exportQuota' => 'Export quotas en Excel',
+    public array $bulkActions = [
+       'exportToUser' => 'Export en Excel',
+       'exportQuota' => 'Export quotas en Excel',
     ];
 
-    public string $defaultSortColumn = 'created_at';
-    public string $defaultSortDirection = 'desc';
+
 
     public $userIdBeingLocked;
     public $confirmingUserLocking = false;
@@ -54,48 +54,79 @@ class UsersTable extends DataTableComponent
     public $userIdAccessCardBeingReset;
     public $confirmingUserAccessCardReset = false;
 
-    public function query(): Builder
+
+    public function configure(): void
+    {
+        $this->setPrimaryKey('id')
+           ->setSingleSortingDisabled()
+           ->setHideReorderColumnUnlessReorderingEnabled()
+           ->setFilterLayoutSlideDown()
+           ->setRememberColumnSelectionDisabled()
+           ->setSecondaryHeaderTrAttributes(function ($rows) {
+               return ['class' => 'bg-gray-100'];
+           })
+           ->setSecondaryHeaderTdAttributes(function (Column $column, $rows) {
+               if ($column->isField('id')) {
+                   return ['class' => 'text-red-500'];
+               }
+
+               return ['default' => true];
+           })
+           ->setFooterTrAttributes(function ($rows) {
+               return ['class' => 'bg-gray-100'];
+           })
+           ->setFooterTdAttributes(function (Column $column, $rows) {
+               if ($column->isField('name')) {
+                   return ['class' => 'text-green-500'];
+               }
+
+               return ['default' => true];
+           })
+        //    ->setUseHeaderAsFooterEnabled()
+           ->setHideBulkActionsWhenEmptyEnabled();
+    }
+
+    public function builder(): Builder
     {
         return User::query()
-            ->with('role', 'accessCard')
-            ->when($this->getFilter('type'), fn ($query, $type) => $query->whereRelation('roles', 'name', $type))
-            ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
+            ->with('role', 'accessCard');
+        // ->when($this->getFilter('type'), fn ($query, $type) => $query->whereRelation('roles', 'name', $type))
+        // ->when($this->getFilter('active'), fn ($query, $active) => $query->where('is_active', $active === 'yes'));
     }
 
     public function columns(): array
     {
         return [
             Column::make('Matricule', 'identifier')->searchable(),
-            Column::make('Nom & Prénoms', 'full_name')->searchable(function ($builder, $term) {
-                return $builder
-                    ->orWhere('first_name', 'like', '%' . $term . '%')
-                    ->orWhere('last_name', 'like', '%' . $term . '%');
-            }),
-            Column::make('Email', 'email')->searchable(),
+            Column::make('Nom & Prénoms', 'full_name'),
+            Column::make('Email', 'email')->searchable()->sortable(),
             Column::make('Contact', 'contact')->searchable(),
-            Column::make("N° Carte", 'accessCard')
-                ->format(function($value, $column, $row) {
-                    return $row->accessCard ? $row->accessCard->identifier : 'Aucune carte';
-                })
-                ->searchable(function ($builder, $term) {
-                return $builder
-                    ->orWhereHas('accessCard', function ($query) use ($term) {
-                        $query->where('type', 'like', '%' . $term . '%');
-                    });
-            }),
-            Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
-            Column::make('Etat')->format(fn ($val, $col, User $user) => view('livewire.users.status', ['user' => $user])),
-            Column::make('Actions')->format(fn ($val, $col, User $user) => view('livewire.users.table-actions', ['user' => $user])),
+            Column::make("N° Carte", 'accessCard.identifier')->searchable(),
+                // ->format(function ($value, $column, User $row) {
+                //     dd($row);
+
+                //     return $row->accessCard ? $row->accessCard->identifier : 'Aucune carte';
+                // })
+                // ->searchable(function ($builder, $term) {
+                //     return $builder
+                //         ->orWhereHas('accessCard', function ($query) use ($term) {
+                //             $query->where('type', 'like', '%' . $term . '%');
+                //         });
+                // }),
+            // Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
+            Column::make('Etat', 'id')->format(fn ($value, User $row, Column $column) => view('livewire.users.status', ['user' => $row])),
+            Column::make('Actions', 'accessCard.id')->format(fn ($value, User $user, Column $column) => view('livewire.users.table-actions', ['user' => $user])),
         ];
     }
+
 
     public function filters(): array
     {
         return [
-            'type' => Filter::make('Profil')
-                ->select(array_merge(['' => 'Tous les types'], Role::pluck('name', 'name')->toArray())),
-            'active' => Filter::make('Etat du compte')
-                ->select(array_merge(['' => 'Tous les états'], [ 'yes' => 'Actif', 'no' => 'Inactif', ])),
+            // SelectFilter::make('Profil')
+            //     ->filter(array_merge(['' => 'Tous les types'], Role::pluck('name', 'name')->toArray())),
+            // SelectFilter::make('Etat du compte')
+            //     ->select(array_merge(['' => 'Tous les états'], [ 'yes' => 'Actif', 'no' => 'Inactif', ])),
         ];
     }
 
@@ -150,6 +181,7 @@ class UsersTable extends DataTableComponent
         $this->userIdAccessCardBeingReset = null;
 
         flasher('success', "La carte courante de l'utilisateur a été restauré!");
+
         return redirect()->route('users.index');
     }
 
@@ -163,7 +195,7 @@ class UsersTable extends DataTableComponent
 
         $this->userIdBeingLunch = null;
 
-       flasher('success', "L'utilisateur a été activé avec succès !");
+        flasher('success', "L'utilisateur a été activé avec succès !");
 
         return redirect()->route('users.index');
     }
@@ -192,6 +224,7 @@ class UsersTable extends DataTableComponent
         $this->userIdBeingReset = null;
 
         flasher('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
+
         return redirect()->route('users.index');
     }
 
@@ -201,9 +234,9 @@ class UsersTable extends DataTableComponent
 
         $user->update(['is_active' => false]);
         ActivityHelper::createActivity(
-          $user,
-          "Desactivation du compte de $user->full_name",
-          'Mise a jour de compte',
+            $user,
+            "Desactivation du compte de $user->full_name",
+            'Mise a jour de compte',
         );
         UserLocked::dispatch($user);
 
@@ -218,7 +251,8 @@ class UsersTable extends DataTableComponent
 
 
 
-    public function deleteUser(){
+    public function deleteUser()
+    {
         $user = User::find($this->userIdBeingDeletion);
 
         //Annulation des commandes de l"utilisateur a supprimer
@@ -235,9 +269,9 @@ class UsersTable extends DataTableComponent
         ]);
 
         ActivityHelper::createActivity(
-          $user,
-          "Suppression du compte de $user->full_name",
-          'Suppression de compte',
+            $user,
+            "Suppression du compte de $user->full_name",
+            'Suppression de compte',
         );
 
         $user->delete();
@@ -247,6 +281,7 @@ class UsersTable extends DataTableComponent
         $this->userIdBeingDeletion = null;
 
         session()->flash('success', "L'utilisateur a été supprimé avec succès !");
+
         return redirect()->route('users.index');
     }
 
@@ -263,9 +298,9 @@ class UsersTable extends DataTableComponent
         $user->update(['is_active' => true]);
 
         ActivityHelper::createActivity(
-          $user,
-          "Activation de compte de $user->full_name",
-          'MLise a jour de compte',
+            $user,
+            "Activation de compte de $user->full_name",
+            'MLise a jour de compte',
         );
 
         UserUnlocked::dispatch($user);
@@ -279,9 +314,10 @@ class UsersTable extends DataTableComponent
         return redirect()->route('users.index');
     }
 
-    public function exportQuota(){
-      return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
-  }
+    public function exportQuota()
+    {
+        return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
+    }
 
 
     public function exportToUser()

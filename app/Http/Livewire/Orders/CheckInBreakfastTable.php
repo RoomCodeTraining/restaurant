@@ -12,7 +12,13 @@ use Rappasoft\LaravelLivewireTables\Views\Column;
 class CheckInBreakfastTable extends DataTableComponent
 {
 
-    public bool $showSearch = false;
+    protected $model = Order::class;
+
+    public function configure(): void
+    {
+        $this->setPrimaryKey('id');
+    }
+
 
     public function columns(): array
     {
@@ -22,7 +28,7 @@ class CheckInBreakfastTable extends DataTableComponent
         ];
     }
 
-    public function query(): Builder
+    public function builder(): Builder
     {
         return \App\Models\Order::query()->whereState('state', Completed::class)->whereIn('type', ['lunch', 'breakfast'])->whereUserId(Auth::id())->withoutGlobalScope('lunch');
     }

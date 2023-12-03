@@ -3,9 +3,10 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
 import colors from 'tailwindcss/colors';
 
+
 /** @type {import('tailwindcss').Config} */
 export default {
-        presets: [preset],
+        // presets: [preset],
     content: [
         './app/Filament/**/*.php',
         './resources/views/**/*.blade.php',
@@ -71,9 +72,9 @@ export default {
               800: '#b9bbbc',
               900: '#b1b3b4'
             },
-            danger: colors.rose,
-            success: colors.emerald,
-            warning: colors.amber
+            // danger: colors.rose,
+            // success: colors.emerald,
+            // warning: colors.amber
           },
         },
         keyframes: {

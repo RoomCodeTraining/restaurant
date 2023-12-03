@@ -7,12 +7,18 @@ use App\Notifications\WelcomeNotification;
 use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
 use App\Support\HasProfilePhoto;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use InvalidArgumentException;
 use Laravel\Sanctum\HasApiTokens;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasPermissions;
@@ -188,17 +194,35 @@ class User extends Authenticatable
         $this->notify(new WelcomeNotification($validUntil));
     }
 
+    /**
+     *
+     * @param string $token
+     * @return void
+     * @throws BindingResolutionException
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PasswordResetNotification($token));
     }
 
+    /**
+     *
+     * @param AccessCard $accessCard
+     * @return void
+     * @throws InvalidArgumentException
+     * @throws InvalidCastException
+     */
     public function useCard(AccessCard $accessCard)
     {
         $this->current_access_card_id = $accessCard->id;
         $this->save();
     }
 
+
+    /**
+     *
+     * @return HasMany
+     */
     public function suggestions()
     {
         return $this->hasMany(SuggestionBox::class);
@@ -236,6 +260,13 @@ class User extends Authenticatable
         return false;
     }
 
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     * @throws NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     */
     public function hasOrderForToday(): bool
     {
         $todayOrder = Order::where('user_id', $this->id)
@@ -248,7 +279,10 @@ class User extends Authenticatable
         return (int)config('cantine.order.locked_at') > now()->hour && $todayOrder ? true : false;
     }
 
-
+    /**
+     *
+     * @return Attribute
+     */
     public function canOrderTwoDishes() : Attribute
     {
         return new Attribute(
@@ -260,6 +294,10 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     *
+     * @return bool
+     */
     public function canAccessInApp() : bool
     {
         if($this->organization?->family === Organization::GROUP_1) {
@@ -267,5 +305,14 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isActive() : bool
+    {
+        return $this->is_active;
     }
 }

@@ -18,7 +18,7 @@
 @endphp
 
 <th
-    {{ $attributes->class(['fi-ta-header-cell px-3 py-3.5 sm:first-of-type:ps-6 sm:last-of-type:pe-6']) }}
+    {{ $attributes->class(['fi-ta-header-cell px-2 py-3.5 sm:first-of-type:ps-6 sm:last-of-type:pe-6']) }}
 >
     <{{ $sortable ? 'button' : 'span' }}
         @if ($sortable)
@@ -46,7 +46,7 @@
         @endif
 
         <span
-            class="fi-ta-header-cell-label text-sm font-semibold text-gray-950 dark:text-white"
+            class="fi-ta-header-cell-label  text-xs text-white font-semibold uppercase dark:text-white"
         >
             {{ $slot }}
         </span>

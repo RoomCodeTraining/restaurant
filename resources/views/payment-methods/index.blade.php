@@ -17,7 +17,7 @@
         @endcan
     </x-section-header>
 
-    <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:payment-methods.payment-method-table/>
+        <div class="px-6 py-4">
+        <livewire:tables.payment-method-table/>
     </div>
 </x-app-layout>

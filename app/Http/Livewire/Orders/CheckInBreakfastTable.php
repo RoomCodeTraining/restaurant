@@ -2,19 +2,28 @@
 
 namespace App\Http\Livewire\Orders;
 
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Livewire\Component;
+use App\Models\Order;
+use App\States\Order\Completed;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
-class CheckInBreakfastTable extends Component implements HasForms, HasTable
+class CheckInBreakfastTable extends DataTableComponent
 {
 
-    use InteractsWithTable, InteractsWithForms;
+    public bool $showSearch = false;
 
-    public function render()
+    public function columns(): array
     {
-        return view('livewire.orders.check-in-breakfast-table');
+        return [
+            Column::make('Pointage du')->format(fn ($val, $col, $row) => $row->type == 'lunch' ? $row->menu->served_at->format('d/m/Y') : $row->created_at->format('d/m/Y')),
+            Column::make('Type')->format(fn ($val, $col, Order $row) => $row->type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
+        ];
+    }
+
+    public function query(): Builder
+    {
+        return \App\Models\Order::query()->whereState('state', Completed::class)->whereIn('type', ['lunch', 'breakfast'])->whereUserId(Auth::id())->withoutGlobalScope('lunch');
     }
 }

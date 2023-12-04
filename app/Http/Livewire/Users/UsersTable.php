@@ -115,7 +115,7 @@ class UsersTable extends DataTableComponent
                 // }),
             // Column::make('Profil')->format(fn ($val, $col, User $user) => $user->role->name),
             Column::make('Etat', 'id')->format(fn ($value, User $row, Column $column) => view('livewire.users.status', ['user' => $row])),
-            Column::make('Actions', 'accessCard.id')->format(fn ($value, User $user, Column $column) => view('livewire.users.table-actions', ['user' => $user])),
+                Column::make('Actions', 'accessCard.id')->format(fn ($value, User $user, Column $column) => view('livewire.users.table-actions', ['user' => $user])),
         ];
     }
 

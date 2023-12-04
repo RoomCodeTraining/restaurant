@@ -10,6 +10,5 @@
             </a>
         </x-slot>
     </x-section-header>
-
     <livewire:departments.edit-department-form :department="$department"/>
 </x-app-layout>

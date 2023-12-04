@@ -29,7 +29,7 @@
         </x-filament-tables::empty-state.heading>
 
         @if ($description)
-            <x-filament-tables::empty-state.description class="mt-1 text-2xl">
+            <x-filament-tables::empty-state.description class="mt-1">
                 {{ $description }}
             </x-filament-tables::empty-state.description>
         @endif

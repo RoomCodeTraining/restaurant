@@ -19,11 +19,12 @@ class DishTable extends Component implements HasTable, HasForms
     {
         return $table
             ->query(\App\Models\Dish::query())
+             ->paginated([10, 25, 50, 100, 'all'])
             ->columns([
                 TextColumn::make('created_at')->label('Date de création')->searchable()->sortable()->dateTime('d/m/Y'),
                 ImageColumn::make('image')->label('Image'),
                 TextColumn::make('name')->label('Nom'),
-                TextColumn::make('description')->label('Description'),
+                // TextColumn::make('description')->label('Description'),
             ]);
     }
 

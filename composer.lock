@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "e40ad5359f0039581b47530585e1b740",
+=======
+    "content-hash": "e3ed60ed02c6216cfb51ad837a8e3241",
+>>>>>>> aa418d7aed9403b30b2821c657121652a23ad361
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1530,6 +1534,7 @@
             "time": "2023-12-03T23:41:46+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "filament/filament",
             "version": "v3.1.9",
             "source": {
@@ -1604,6 +1609,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "filament/forms",
+            "version": "v3.1.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/forms.git",
+                "reference": "967b52ab2cf4fdcadf9bdf89df370765e284b6a1"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> aa418d7aed9403b30b2821c657121652a23ad361
                 "url": "https://api.github.com/repos/filamentphp/forms/zipball/967b52ab2cf4fdcadf9bdf89df370765e284b6a1",
                 "reference": "967b52ab2cf4fdcadf9bdf89df370765e284b6a1",
                 "shasum": ""
@@ -3940,16 +3956,16 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "724e712cac25c40455102f0b5abd002fd269433b"
+                "reference": "22a03ad1f36a683fac10801a34b7067802ad1b57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/724e712cac25c40455102f0b5abd002fd269433b",
-                "reference": "724e712cac25c40455102f0b5abd002fd269433b",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/22a03ad1f36a683fac10801a34b7067802ad1b57",
+                "reference": "22a03ad1f36a683fac10801a34b7067802ad1b57",
                 "shasum": ""
             },
             "require": {
@@ -4002,7 +4018,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v3.2.3"
+                "source": "https://github.com/livewire/livewire/tree/v3.2.4"
             },
             "funding": [
                 {
@@ -4010,7 +4026,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-02T18:55:31+00:00"
+            "time": "2023-12-04T13:12:45+00:00"
         },
         {
             "name": "maatwebsite/excel",

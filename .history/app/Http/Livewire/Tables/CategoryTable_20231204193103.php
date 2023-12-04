@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Tables;
 
 use Livewire\Component;
 use Filament\Tables\Table;
-use App\Models\EmployeeStatus;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;

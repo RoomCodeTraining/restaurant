@@ -46,7 +46,7 @@ class OrganizationTable extends Component implements HasTable, HasForms
                         ->action(fn (Organization $record) => $record->delete()),
 
                 ]),
-            ]);
+            ]);;
     }
 
     public function render()

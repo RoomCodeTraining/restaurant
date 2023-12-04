@@ -40,10 +40,10 @@ class UserTable extends Component implements HasTable, HasForms
                         return $row->current_access_card_id ? $row->accessCard->identifier : 'Aucune carte';
                     }),
 
-                TextColumn::make('role.name')->label('PROFIL'),
+                TextColumn::make('role.name')->label('Rôle'),
                 // TextColumn::make('department.name')->label('Département'),
                 TextColumn::make('is_active')
-                    ->label('ETAT')
+                    ->label('Statut')
                     ->badge()
                     ->color(fn (User $row) => $row->isActive() ? 'success' : 'danger')
                     ->formatStateUsing(function (User $row) {

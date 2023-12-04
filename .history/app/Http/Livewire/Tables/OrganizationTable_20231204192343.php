@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Tables;
 
 use Livewire\Component;
 use App\Models\Department;
-use App\Models\Organization;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
@@ -30,23 +29,23 @@ class OrganizationTable extends Component implements HasTable, HasForms
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
-                        ->url(fn (Organization $record): string => route('organizations.edit', $record))
+                        ->url(fn (Department $record): string => route('departments.edit', $record))
                         ->icon('heroicon-o-pencil'),
 
                     Action::make('Supprimer')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (Organization $record) {
+                        ->before(function (Department $record) {
                             //DepartmentDeleted::dispatch($record);
                             Notification::success('Departement supprimé avec succès');
                             return redirect()->route('departments.index');
                         })
-                        ->hidden(fn (Organization $record) => $record->users->count() > 0)
-                        ->action(fn (Organization $record) => $record->delete()),
+                        ->hidden(fn (Department $record) => $record->users->count() > 0)
+                        ->action(fn (Department $record) => $record->delete()),
 
                 ]),
-            ]);
+            ]);;
     }
 
     public function render()

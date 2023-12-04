@@ -2,17 +2,13 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
-use App\Models\EmployeeStatus;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class CategoryTable extends Component implements HasTable, HasForms
 {
@@ -26,16 +22,7 @@ class CategoryTable extends Component implements HasTable, HasForms
                 TextColumn::make('created_at')->label('Date de création')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('Nom'),
 
-                TextColumn::make('users_count')->label('NBR d\'EMPLOYES'),
-            ])
-            ->actions([
-                ActionGroup::make([
-                    Action::make('Editer')
-                        ->url(fn (EmployeeStatus $record): string => route('employeeStatuses.edit', $record))
-                        ->icon('heroicon-o-pencil'),
-
-
-                ]),
+                TextColumn::make('users_count')->label('Nombre d\'utilisateurs'),
             ]);
     }
 

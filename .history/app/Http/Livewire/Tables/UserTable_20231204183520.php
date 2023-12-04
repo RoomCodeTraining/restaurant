@@ -31,26 +31,23 @@ class UserTable extends Component implements HasTable, HasForms
                     ->label('Matricule')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('full_name')->label('NOM & PRENOMS'),
+                TextColumn::make('full_name')->label('Nom complet'),
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('contact'),
-                TextColumn::make('current_access_card_id')
-                    ->label('N° carte')
-                    ->formatStateUsing(function (User $row) {
-                        return $row->current_access_card_id ? $row->accessCard->identifier : 'Aucune carte';
-                    }),
-
-                TextColumn::make('role.name')->label('PROFIL'),
-                // TextColumn::make('department.name')->label('Département'),
+                TextColumn::make('department.name')->label('Département'),
                 TextColumn::make('is_active')
-                    ->label('ETAT')
+                    ->label('Statut')
                     ->badge()
                     ->color(fn (User $row) => $row->isActive() ? 'success' : 'danger')
                     ->formatStateUsing(function (User $row) {
                         return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
-
-
+                TextColumn::make('current_access_card_id')
+                    ->label('N° carte')
+                    ->formatStateUsing(function (User $row) {
+                        return $row->current_access_card_id ? $row->accessCard->identifier : 'Aucune carte';
+                    }),
+                TextColumn::make('role.name')->label('Rôle'),
             ])
             ->actions([
                 ViewAction::make()

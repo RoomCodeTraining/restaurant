@@ -4,25 +4,20 @@ namespace App\Http\Livewire\Tables;
 
 use Livewire\Component;
 use App\Models\Department;
-use App\Models\Organization;
-use Filament\Tables\Table;
-use Filament\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Notifications\Notification;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class OrganizationTable extends Component implements HasTable, HasForms
+class DepartmentTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
-    public function table(Table $table): Table
+    public function table($table)
     {
         return $table
-            ->query(\App\Models\Organization::query()->withCount('users'))
+            ->query(\App\Models\Department::query()->withCount('users'))
             ->columns([
                 TextColumn::make('created_at')->label('Date de création')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('Nom'),
@@ -30,27 +25,24 @@ class OrganizationTable extends Component implements HasTable, HasForms
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
-                        ->url(fn (Organization $record): string => route('organizations.edit', $record))
+                        ->url(fn (Department $record): string => route('departments.edit', $record))
                         ->icon('heroicon-o-pencil'),
-
                     Action::make('Supprimer')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (Organization $record) {
-                            //DepartmentDeleted::dispatch($record);
-                            Notification::success('Departement supprimé avec succès');
+                        ->before(function (Department $record) {
+                            DepartmentDeleted::dispatch($record);
+                            Flashy::success('Departement supprimé avec succès');
                             return redirect()->route('departments.index');
                         })
-                        ->hidden(fn (Organization $record) => $record->users->count() > 0)
-                        ->action(fn (Organization $record) => $record->delete()),
-
+                        ->hidden(fn (Department $record) => $record->users->count() > 0)
+                        ->action(fn (Department $record) => $record->delete()),
                 ]),
             ]);
     }
-
     public function render()
     {
-        return view('livewire.tables.organization-table');
+        return view('livewire.tables.department-table');
     }
 }

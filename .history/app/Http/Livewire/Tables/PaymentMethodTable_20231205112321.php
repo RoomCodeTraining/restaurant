@@ -20,14 +20,12 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-
         return $table
-            ->query(\App\Models\PaymentMethod::query()->withCount('accessCards'))
+            ->query(\App\Models\PaymentMethod::query())
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM'),
-                TextColumn::make('id')->label('DESCRIPTION')
-                    ->formatStateUsing(fn ($record) => $record->description ? $record->description : 'Aucune description'),
+                TextColumn::make('description')->label('DESCRIPTION'),
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
@@ -44,7 +42,7 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
 
                             return redirect()->route('paymentMethods.index');
                         })
-                        ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
+
                         ->action(fn (PaymentMethod $record) => $record->delete()),
 
                 ]),

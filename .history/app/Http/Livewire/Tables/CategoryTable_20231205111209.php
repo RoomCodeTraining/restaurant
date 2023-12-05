@@ -32,6 +32,8 @@ class CategoryTable extends Component implements HasTable, HasForms
                     Action::make('Editer')
                         ->url(fn (EmployeeStatus $record): string => route('employeeStatuses.edit', $record))
                         ->icon('heroicon-o-pencil'),
+
+
                 ]),
             ]);
     }

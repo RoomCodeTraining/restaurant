@@ -25,13 +25,15 @@ class CategoryTable extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM'),
-                TextColumn::make('users_count')->label('NBR D\'ÉMPLOYÉS'),
+                TextColumn::make('users_count')->label('NBR d\'ÉMPLOYÉS'),
             ])
             ->actions([
                 ActionGroup::make([
                     Action::make('Editer')
                         ->url(fn (EmployeeStatus $record): string => route('employeeStatuses.edit', $record))
                         ->icon('heroicon-o-pencil'),
+
+
                 ]),
             ]);
     }

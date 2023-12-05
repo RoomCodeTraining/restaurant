@@ -45,7 +45,7 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
                             return redirect()->route('paymentMethods.index');
                         })
                         ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
-                        ->action(fn (PaymentMethod $record) => $record->delete()),
+                        > action(fn (PaymentMethod $record) => $record->delete()),
 
                 ]),
             ]);

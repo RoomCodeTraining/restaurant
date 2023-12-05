@@ -65,7 +65,7 @@ class SuggestionTable extends Component implements HasTable, HasForms
                             return null;
                         }
 
-                        return 'Suggestion du ' . Carbon::parse($data['date'])->toFormattedDateString();
+                        return 'Created at ' . Carbon::parse($data['date'])->toFormattedDateString();
                     })
             ])
             ->headerActions([

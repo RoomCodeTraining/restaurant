@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Tables;
 
 use Livewire\Component;
+use App\Models\UserType;
 use Filament\Tables\Table;
-use App\Models\PaymentMethod;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
@@ -14,45 +14,43 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 
-class PaymentMethodTable extends Component implements HasTable, HasForms
+class UserTypeTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
     public function table(Table $table): Table
     {
-
         return $table
-            ->query(\App\Models\PaymentMethod::query()->withCount('accessCards'))
+            ->query(\App\Models\UserType::query())
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM'),
-                TextColumn::make('id')->label('DESCRIPTION')
-                    ->formatStateUsing(fn ($record) => $record->description ? $record->description : 'Aucune description'),
+                TextColumn::make('users_count')->label('NBR D\'ÉMPLOYÉS'),
+
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
-                        ->url(fn (PaymentMethod $record): string => route('paymentMethods.edit', $record))
+                        ->url(fn (UserType $record): string => route('organizations.edit', $record))
                         ->icon('heroicon-o-pencil'),
 
                     Action::make('Supprimer')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (PaymentMethod $record) {
+                        ->before(function (UserType $record) {
                             //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Méthode de paiement supprimé avec succès !')->danger()->send();
+                            Notification::make()->title('Departement supprimé avec succès !')->danger()->send();
 
-                            return redirect()->route('paymentMethods.index');
+                            return redirect()->route('departments.index');
                         })
-                        ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
-                        ->action(fn (PaymentMethod $record) => $record->delete()),
+                        ->hidden(fn (UserType $record) => $record->users->count() > 0)
+                        ->action(fn (UserType $record) => $record->delete()),
 
                 ]),
             ]);
     }
-
     public function render()
     {
-        return view('livewire.tables.payment-method-table');
+        return view('livewire.tables.user-type-table');
     }
 }

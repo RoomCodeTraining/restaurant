@@ -57,15 +57,14 @@ class SuggestionTable extends Component implements HasTable, HasForms
                     ->relationship('suggestionType', 'name'),
 
                 Filter::make('created_at')
-                    ->label('Date')
-                    ->form([
-                        DatePicker::make('date')->default(now())
-                    ])->indicateUsing(function (array $data): ?string {
+                    ->form([DatePicker::make('date')])
+                    // ...
+                    ->indicateUsing(function (array $data): ?string {
                         if (!$data['date']) {
                             return null;
                         }
 
-                        return 'Suggestion du ' . Carbon::parse($data['date'])->toFormattedDateString();
+                        return 'Created at ' . Carbon::parse($data['date'])->toFormattedDateString();
                     })
             ])
             ->headerActions([

@@ -2,17 +2,13 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
-use App\Models\UserType;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class UserTypeTable extends Component implements HasTable, HasForms
 {
@@ -21,7 +17,7 @@ class UserTypeTable extends Component implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->query(\App\Models\UserType::query()->withCount('users'))
+            ->query(\App\Models\UserType::query())
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM'),
@@ -30,21 +26,20 @@ class UserTypeTable extends Component implements HasTable, HasForms
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
-                        ->url(fn (UserType $record): string => route('userTypes.edit', $record))
+                        ->url(fn (Organization $record): string => route('organizations.edit', $record))
                         ->icon('heroicon-o-pencil'),
 
                     Action::make('Supprimer')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (UserType $record) {
+                        ->before(function (Organization $record) {
                             //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Type d\'utilisateur supprimé avec succès !')->danger()->send();
-
-                            return redirect()->route('userTypes.index');
+                            Notification::success('Departement supprimé avec succès');
+                            return redirect()->route('departments.index');
                         })
-                        ->hidden(fn (UserType $record) => $record->users->count() > 0)
-                        ->action(fn (UserType $record) => $record->delete()),
+                        ->hidden(fn (Organization $record) => $record->users->count() > 0)
+                        ->action(fn (Organization $record) => $record->delete()),
 
                 ]),
             ]);

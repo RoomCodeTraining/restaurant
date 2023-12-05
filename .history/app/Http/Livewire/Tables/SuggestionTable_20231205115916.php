@@ -2,22 +2,15 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use Livewire\Component;
 use App\Models\SuggestionBox;
 use App\Models\SuggestionType;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use Filament\Tables\Contracts\HasTable;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component;
 
 class SuggestionTable extends Component implements HasTable, HasForms
 {
@@ -50,31 +43,16 @@ class SuggestionTable extends Component implements HasTable, HasForms
                 TextColumn::make('user.full_name')->label('SUGGERANT'),
                 TextColumn::make('suggestionType.name')->label('OBJET'),
                 TextColumn::make('suggestion')->label('SUGGESTIONS'),
-            ])
-            ->filters([
-                SelectFilter::make('suggestionType')
-                    ->label('Objet')
-                    ->relationship('suggestionType', 'name'),
+            ])->filters(Filter::make('created_at')
+                ->form([DatePicker::make('date')])
+                // ...
+                ->indicateUsing(function (array $data): ?string {
+                    if (!$data['date']) {
+                        return null;
+                    }
 
-                Filter::make('created_at')
-                    ->label('Date')
-                    ->form([
-                        DatePicker::make('date')->default(now())
-                    ])->indicateUsing(function (array $data): ?string {
-                        if (!$data['date']) {
-                            return null;
-                        }
-
-                        return 'Suggestion du ' . Carbon::parse($data['date'])->toFormattedDateString();
-                    })
-            ])
-            ->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- Suggestions - export'),
-                ]),
-            ]);
+                    return 'Created at ' . Carbon::parse($data['date'])->toFormattedDateString();
+                }));
     }
     public function render()
     {

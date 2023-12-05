@@ -20,18 +20,16 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-
         return $table
-            ->query(\App\Models\PaymentMethod::query()->withCount('accessCards'))
+            ->query(\App\Models\PaymentMethod::query())
             ->columns([
-                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('NOM'),
-                TextColumn::make('id')->label('DESCRIPTION')
-                    ->formatStateUsing(fn ($record) => $record->description ? $record->description : 'Aucune description'),
+                TextColumn::make('created_at')->label('Date de création')->searchable()->sortable()->dateTime('d/m/Y'),
+                TextColumn::make('name')->label('Nom'),
+                TextColumn::make('description')->label('Description'),
             ])->actions([
                 ActionGroup::make([
                     Action::make('Editer')
-                        ->url(fn (PaymentMethod $record): string => route('paymentMethods.edit', $record))
+                        ->url(fn (PaymentMethod $record): string => route('PaymentMethods.edit', $record))
                         ->icon('heroicon-o-pencil'),
 
                     Action::make('Supprimer')
@@ -42,9 +40,9 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
                             //DepartmentDeleted::dispatch($record);
                             Notification::make()->title('Méthode de paiement supprimé avec succès !')->danger()->send();
 
-                            return redirect()->route('paymentMethods.index');
+                            return redirect()->route('.index');
                         })
-                        ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
+                        ->hidden(fn (PaymentMethod $record) => $record->users->count() > 0)
                         ->action(fn (PaymentMethod $record) => $record->delete()),
 
                 ]),

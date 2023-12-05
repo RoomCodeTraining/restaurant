@@ -24,14 +24,16 @@ class CategoryTable extends Component implements HasTable, HasForms
             ->query(\App\Models\EmployeeStatus::query()->withCount('users'))
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('NOM'),
-                TextColumn::make('users_count')->label('NBR D\'ÉMPLOYÉS'),
+                TextColumn::make('name')->label('Nom'),
+                TextColumn::make('users_count')->label('NBR d\'ÉMPLOYÉS'),
             ])
             ->actions([
                 ActionGroup::make([
                     Action::make('Editer')
                         ->url(fn (EmployeeStatus $record): string => route('employeeStatuses.edit', $record))
                         ->icon('heroicon-o-pencil'),
+
+
                 ]),
             ]);
     }

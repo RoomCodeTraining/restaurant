@@ -13,7 +13,7 @@ class DayliOrderTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
-    public function table(Table $table): Table
+    public function table(Table $table) : Table
     {
         return $table
             ->query(
@@ -27,14 +27,14 @@ class DayliOrderTable extends Component implements HasTable, HasForms
             )
             ->columns([
                 TextColumn::make('menu_served_at')
-                    ->label('MENU DU')
+                    ->label('Menu du')
                     ->searchable()
                     ->sortable()
                     ->dateTime('d/m/Y'),
-                TextColumn::make('dish.name')
-                    ->label('PLAT'),
-                // ->formatStateUsing(fn ($row) => dishName($row)),
-                TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
+                TextColumn::make('dish_id')
+                    ->label('Plat')
+                    ->formatStateUsing(fn ($row) => dishName($row)),
+                TextColumn::make('total_orders')->label('Nbr. de commandes'),
             ]);
     }
 

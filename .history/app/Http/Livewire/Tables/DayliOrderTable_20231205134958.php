@@ -34,7 +34,7 @@ class DayliOrderTable extends Component implements HasTable, HasForms
                 TextColumn::make('dish.name')
                     ->label('PLAT'),
                 // ->formatStateUsing(fn ($row) => dishName($row)),
-                TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
+                TextColumn::make('total_orders')->label('NBR DE COMMANDE'),
             ]);
     }
 

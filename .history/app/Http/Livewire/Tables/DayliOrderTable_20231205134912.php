@@ -27,14 +27,14 @@ class DayliOrderTable extends Component implements HasTable, HasForms
             )
             ->columns([
                 TextColumn::make('menu_served_at')
-                    ->label('MENU DU')
+                    ->label('Menu du')
                     ->searchable()
                     ->sortable()
                     ->dateTime('d/m/Y'),
                 TextColumn::make('dish.name')
-                    ->label('PLAT'),
-                // ->formatStateUsing(fn ($row) => dishName($row)),
-                TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
+                    ->label('Plat')
+                    ->formatStateUsing(fn ($row) => dishName($row)),
+                TextColumn::make('total_orders')->label('Nbr. de commandes'),
             ]);
     }
 

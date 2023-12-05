@@ -23,22 +23,22 @@ class QuotaExport implements FromCollection, WithTitle, WithMapping, WithHeading
     public function headings(): array
     {
         return [
-            'Date de vérification',
-            'Matricule/identifiant',
-            'Nom & Prénoms',
-            'Quota petit déjeuner',
-            'Quota déjeuner',
+          'Date de verification',
+          'Matricule/identifiant',
+          'Nom & Prénoms',
+          'Quota petit dejeuner',
+          'Quota dejeuner',
         ];
     }
 
     public function map($user): array
     {
         return [
-            now()->format('d/m/Y'),
-            $user->identifier,
-            $user->full_name,
-            (string) $user->accessCard->quota_breakfast,
-            (string) $user->accessCard->quota_lunch,
+          now()->format('d/m/Y'),
+          $user->identifier,
+          $user->full_name,
+          (string) $user->accessCard->quota_breakfast,
+          (string) $user->accessCard->quota_lunch,
         ];
     }
 
@@ -66,19 +66,19 @@ class QuotaExport implements FromCollection, WithTitle, WithMapping, WithHeading
         $sheet->setAutoFilter('A1:E' . $sheet->getHighestRow());
 
         $sheet->getStyle('A1:E1')->applyFromArray([
-            'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
-            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
+          'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 11],
+          'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(15);
 
         $sheet->getStyle('A2:E' . $sheet->getHighestRow())->applyFromArray([
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => Border::BORDER_THIN,
-                    'color' => ['rgb' => '000000'],
-                ],
+          'borders' => [
+            'allBorders' => [
+              'borderStyle' => Border::BORDER_THIN,
+              'color' => ['rgb' => '000000'],
             ],
+          ],
         ]);
     }
 }

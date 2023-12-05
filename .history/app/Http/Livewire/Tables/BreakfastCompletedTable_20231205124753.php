@@ -13,10 +13,8 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\DatePicker;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 class BreakfastCompletedTable extends Component implements HasTable, HasForms
 {
@@ -57,15 +55,16 @@ class BreakfastCompletedTable extends Component implements HasTable, HasForms
                         }
 
                         return $indicators;
-                    })
+                    })->headerActions([
+                        ExportAction::make()->exports([
+                            ExcelExport::make()
+                                ->fromTable()
+                                ->withFilename(date('d-m-Y') . '- breakfastReporting - export'),
+                        ]),
+                    ])
 
-            ])->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- HistoriquesPointages - export'),
-                ]),
             ])
+
             ->emptyStateHeading('Aucun historique de pointage disponible pour le moment');
     }
 

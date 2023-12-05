@@ -57,15 +57,16 @@ class BreakfastCompletedTable extends Component implements HasTable, HasForms
                         }
 
                         return $indicators;
-                    })
+                    })->headerActions([
+                        ExportAction::make()->exports([
+                            ExcelExport::make()
+                                ->fromTable()
+                                ->withFilename(date('d-m-Y') . '- HistoriquesPointages - export'),
+                        ]),
+                    ])
 
-            ])->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- HistoriquesPointages - export'),
-                ]),
             ])
+
             ->emptyStateHeading('Aucun historique de pointage disponible pour le moment');
     }
 

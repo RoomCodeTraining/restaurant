@@ -66,6 +66,7 @@ class BreakfastCompletedTable extends Component implements HasTable, HasForms
                         ->withFilename(date('d-m-Y') . '- HistoriquesPointages - export'),
                 ]),
             ])
+
             ->emptyStateHeading('Aucun historique de pointage disponible pour le moment');
     }
 

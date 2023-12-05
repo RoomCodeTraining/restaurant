@@ -21,11 +21,9 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Notifications\PasswordResetNotification;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 class UserTable extends Component implements HasTable, HasForms
 {
@@ -104,9 +102,8 @@ class UserTable extends Component implements HasTable, HasForms
                 ExportAction::make()->exports([
                     ExcelExport::make()
                         ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                        ->withFilename(date('d-m-Y') . '- breakfastReporting - export'),
                 ]),
-
             ])
             ->filters([
                 SelectFilter::make('user_type_id')

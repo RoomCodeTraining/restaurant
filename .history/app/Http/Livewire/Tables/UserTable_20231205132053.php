@@ -3,68 +3,22 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\User;
-use Livewire\Component;
-use App\Events\UserLocked;
-use Filament\Tables\Table;
-use App\Exports\UserExport;
-use Illuminate\Support\Str;
-use App\Events\UserUnlocked;
-use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\SelectFilter;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use App\Notifications\PasswordResetNotification;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class UserTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
-
-
-    public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
-    public string $tableName = 'users';
-
-
-    public array $filterNames = [
-        'type' => 'Profil',
-        'active' => 'Etat du compte',
-    ];
-
-    public array $bulkActions = [
-        'exportToUser' => 'Export en Excel',
-        'exportQuota' => 'Export quotas en Excel',
-    ];
-
-
-
-    public $userIdBeingLocked;
-    public $confirmingUserLocking = false;
-
-    public $userIdBeingUnlocked;
-    public $confirmingUserUnlocking = false;
-
-    public $userIdBeingDeletion;
-    public $confirmingUserDeletion = false;
-
-    public $userIdBeingLunch;
-    public $confirmingUserLunch = false;
-
-    public $userIdBeingReset;
-    public $confirmingUserReset = false;
-
-    public $userIdAccessCardBeingReset;
-    public $confirmingUserAccessCardReset = false;
 
     public function table(Table $table): Table
     {
@@ -99,25 +53,6 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('accessCard.id')->label('Actions')->formatStateUsing(fn (User $user) => view('livewire.users.table-actions', ['user' => $user]))
 
 
-            ])
-            ->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-                ]),
-
-            ])
-            ->filters([
-                SelectFilter::make('user_type_id')
-                    ->relationship('role', 'name'),
-
-                SelectFilter::make('is_active')
-                    ->options([
-                        '1' => 'Actif',
-                        '0' => 'Inactif',
-
-                    ])
             ]);
         // ->actions([
         //     ViewAction::make()
@@ -263,137 +198,6 @@ class UserTable extends Component implements HasTable, HasForms
         flasher('success', "L'utilisateur a été activé avec succès !");
 
         return redirect()->route('users.index');
-    }
-
-    public function confirmUserReset($userId)
-    {
-        $this->userIdBeingReset = $userId;
-        $this->confirmingUserReset = true;
-    }
-
-    public function confirmPasswordReset()
-    {
-        $user = User::find($this->userIdBeingReset);
-        $newPassword = Str::random(8);
-        $user->update([
-            'password' => bcrypt($newPassword),
-            'password_changed_at' => now(),
-        ]);
-
-        $user->passwordHistories()->create([
-            'password' => Hash::make($newPassword),
-        ]);
-
-        $user->notify(new PasswordResetNotification($newPassword));
-        $this->confirmingUserReset = false;
-        $this->userIdBeingReset = null;
-
-        flasher('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
-
-        return redirect()->route('users.index');
-    }
-
-    public function lockUser()
-    {
-        $user = User::find($this->userIdBeingLocked);
-
-        $user->update(['is_active' => false]);
-        ActivityHelper::createActivity(
-            $user,
-            "Désactivation du compte de $user->full_name",
-            'Mise à jour de compte',
-        );
-        UserLocked::dispatch($user);
-
-        $this->confirmingUserLocking = false;
-        $this->userIdBeingLocked = null;
-
-        flasher('success', "L'utilisateur a été désactivé avec succès !");
-
-        return redirect()->route('users.index');
-    }
-
-
-
-
-    public function deleteUser()
-    {
-        $user = User::find($this->userIdBeingDeletion);
-
-        //Annulation des commandes de l"utilisateur a supprimer
-
-        $user->orders->filter(function ($order) {
-            return $order->state->title() === "Commande effectuée";
-        })->each(fn ($order) => $order->update(['state' => Cancelled::class]));
-
-
-        $identifier = Str::random(60);
-        $user->update([
-            'identifier' => $identifier,
-            'email' => $identifier . '@' . $identifier . '.com',
-        ]);
-
-        ActivityHelper::createActivity(
-            $user,
-            "Suppression du compte de $user->full_name",
-            'Suppression de compte',
-        );
-
-        $user->delete();
-
-        $this->confirmingUserDeletion = false;
-
-        $this->userIdBeingDeletion = null;
-
-        session()->flash('success', "L'utilisateur a été supprimé avec succès !");
-
-        return redirect()->route('users.index');
-    }
-
-    public function confirmUserUnlocking($userId)
-    {
-        $this->userIdBeingUnlocked = $userId;
-        $this->confirmingUserUnlocking = true;
-    }
-
-    public function unlockUser()
-    {
-        $user = User::find($this->userIdBeingUnlocked);
-
-        $user->update(['is_active' => true]);
-
-        ActivityHelper::createActivity(
-            $user,
-            "Activation de compte de $user->full_name",
-            'MLise a jour de compte',
-        );
-
-        UserUnlocked::dispatch($user);
-
-        $this->confirmingUserUnlocking = false;
-
-        $this->userIdBeingUnlocked = null;
-
-        session()->flash('success', "L'utilisateur a été activé avec succès !");
-
-        return redirect()->route('users.index');
-    }
-
-    public function exportQuota()
-    {
-        return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
-    }
-
-
-    public function exportToUser()
-    {
-        return Excel::download(new UserExport(), 'utilisateurs.xlsx');
-    }
-
-
-    public function modalsView(): string
-    {
-        return 'livewire.users.modals';
     }
 
     public function render()

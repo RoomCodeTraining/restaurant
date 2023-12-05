@@ -13,10 +13,8 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\DatePicker;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 
 class BreakfastCompletedTable extends Component implements HasTable, HasForms
 {
@@ -39,33 +37,28 @@ class BreakfastCompletedTable extends Component implements HasTable, HasForms
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
+                        DatePicker::make('from'),
+                        DatePicker::make('until'),
                     ])
                     // ...
                     ->indicateUsing(function (array $data): array {
                         $indicators = [];
 
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du ' . Carbon::parse($data['Du'])->toFormattedDateString())
-                                ->removeField('Du');
+                        if ($data['from'] ?? null) {
+                            $indicators[] = Indicator::make('Created from ' . Carbon::parse($data['from'])->toFormattedDateString())
+                                ->removeField('from');
                         }
 
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Jusqu\'au ' . Carbon::parse($data['Au'])->toFormattedDateString())
-                                ->removeField('Au');
+                        if ($data['until'] ?? null) {
+                            $indicators[] = Indicator::make('Created until ' . Carbon::parse($data['until'])->toFormattedDateString())
+                                ->removeField('until');
                         }
 
                         return $indicators;
                     })
 
-            ])->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- HistoriquesPointages - export'),
-                ]),
             ])
+
             ->emptyStateHeading('Aucun historique de pointage disponible pour le moment');
     }
 

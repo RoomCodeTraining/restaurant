@@ -32,29 +32,28 @@ class OrderTable extends Component implements HasTable, HasForms
 
                 TextColumn::make('state')->label('Statut')
                     ->formatStateUsing(fn (Order $record) => view('livewire.orders.state', ['order' => $record])),
-                TextColumn::make('id')->label('Actions')->formatStateUsing(fn (Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
+                TextColumn::make('Actions')->formatStateUsing(fn (Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
+                //TextColumn::make('id')->label('Actions')->format(fn (Order $record) => view('livewire.orders.table-actions', ['order' => $record])),
+            ])->actions([
+                ActionGroup::make([
+                    Action::make('Editer')
+                        ->url(fn (Order $record): string => route('orders.edit', $record))
+                        ->icon('heroicon-o-pencil'),
 
+                    Action::make('Supprimer')
+                        ->requiresConfirmation()
+                        ->icon('heroicon-o-trash')
+                        ->color('danger')
+                        ->before(function (Order $record) {
+                            //DepartmentDeleted::dispatch($record);
+                            Notification::make()->title('Commande annuler avec succès !')->danger()->send();
+                            return redirect()->route('orders.index');
+                        })
+                        //->hidden(fn (Order $record) => $record->users->count() > 0)
+                        ->action(fn (Order $record) => $record->delete()),
+
+                ]),
             ]);
-        // ->actions([
-        //     ActionGroup::make([
-        //         Action::make('Editer')
-        //             ->url(fn (Order $record): string => route('orders.edit', $record))
-        //             ->icon('heroicon-o-pencil'),
-
-        //         Action::make('Supprimer')
-        //             ->requiresConfirmation()
-        //             ->icon('heroicon-o-trash')
-        //             ->color('danger')
-        //             ->before(function (Order $record) {
-        //                 //DepartmentDeleted::dispatch($record);
-        //                 Notification::make()->title('Commande annuler avec succès !')->danger()->send();
-        //                 return redirect()->route('orders.index');
-        //             })
-        //             //->hidden(fn (Order $record) => $record->users->count() > 0)
-        //             ->action(fn (Order $record) => $record->delete()),
-
-        //     ]),
-        // ]);
     }
     public function render()
     {

@@ -3,68 +3,22 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\User;
-use Livewire\Component;
-use App\Events\UserLocked;
-use Filament\Tables\Table;
-use App\Exports\UserExport;
-use Illuminate\Support\Str;
-use App\Events\UserUnlocked;
-use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\SelectFilter;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use App\Notifications\PasswordResetNotification;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class UserTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
-
-
-    public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
-    public string $tableName = 'users';
-
-
-    public array $filterNames = [
-        'type' => 'Profil',
-        'active' => 'Etat du compte',
-    ];
-
-    public array $bulkActions = [
-        'exportToUser' => 'Export en Excel',
-        'exportQuota' => 'Export quotas en Excel',
-    ];
-
-
-
-    public $userIdBeingLocked;
-    public $confirmingUserLocking = false;
-
-    public $userIdBeingUnlocked;
-    public $confirmingUserUnlocking = false;
-
-    public $userIdBeingDeletion;
-    public $confirmingUserDeletion = false;
-
-    public $userIdBeingLunch;
-    public $confirmingUserLunch = false;
-
-    public $userIdBeingReset;
-    public $confirmingUserReset = false;
-
-    public $userIdAccessCardBeingReset;
-    public $confirmingUserAccessCardReset = false;
 
     public function table(Table $table): Table
     {
@@ -99,25 +53,6 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('accessCard.id')->label('Actions')->formatStateUsing(fn (User $user) => view('livewire.users.table-actions', ['user' => $user]))
 
 
-            ])
-            ->headerActions([
-                ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-                ]),
-
-            ])
-            ->filters([
-                SelectFilter::make('user_type_id')
-                    ->relationship('role', 'name'),
-
-                SelectFilter::make('is_active')
-                    ->options([
-                        '1' => 'Actif',
-                        '0' => 'Inactif',
-
-                    ])
             ]);
         // ->actions([
         //     ViewAction::make()
@@ -300,8 +235,8 @@ class UserTable extends Component implements HasTable, HasForms
         $user->update(['is_active' => false]);
         ActivityHelper::createActivity(
             $user,
-            "Désactivation du compte de $user->full_name",
-            'Mise à jour de compte',
+            "Desactivation du compte de $user->full_name",
+            'Mise a jour de compte',
         );
         UserLocked::dispatch($user);
 

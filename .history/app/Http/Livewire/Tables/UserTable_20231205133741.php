@@ -106,7 +106,6 @@ class UserTable extends Component implements HasTable, HasForms
                         ->fromTable()
                         ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
                 ]),
-
             ])
             ->filters([
                 SelectFilter::make('user_type_id')

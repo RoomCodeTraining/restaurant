@@ -32,8 +32,8 @@ class OrderTable extends Component implements HasTable, HasForms
 
                 TextColumn::make('state')->label('Statut')
                     ->formatStateUsing(fn (Order $record) => view('livewire.orders.state', ['order' => $record])),
-                TextColumn::make('id')->label('Actions')->formatStateUsing(fn (Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
-
+                TextColumn::make('id')->->label('Actions')->formatStateUsing(fn (Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
+                //TextColumn::make('id')->label('Actions')->format(fn (Order $record) => view('livewire.orders.table-actions', ['order' => $record])),
             ]);
         // ->actions([
         //     ActionGroup::make([

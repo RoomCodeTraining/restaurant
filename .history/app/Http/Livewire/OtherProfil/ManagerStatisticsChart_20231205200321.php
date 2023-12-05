@@ -25,15 +25,7 @@ class ManagerStatisticsChart extends ChartWidget
 
 
 
-  // $dishByOrders = Order::select('dish_id',DB::raw('YEAR(created_at) as annee'),DB::raw('WEEK(created_at) as semaine'),DB::raw('count(*) as total_orders'))
-        // ->groupBy('dish_id','annee','semaine')
-        // -
 
-        $dishByOrders = DB::table('orders')
-            ->select('dish_id', DB::raw('WEEK(created_at) as semaine'), DB::raw('COUNT(*) as nombre_commandes'))
-            ->groupBy('dish_id', 'semaine')
-            ->orderBy('semaine')
-            ->get();
         // $chartData = $dishByOrders->groupBy('dish_id', '')->map(function ($item) {
         //     return $item->pluck('nombre_commandes', 'semaine', 'dish_id')->unique()->toArray();
         // })->toArray();
@@ -138,3 +130,5 @@ class ManagerStatisticsChart extends ChartWidget
         ];
     }
 }
+
+

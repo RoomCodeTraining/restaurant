@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 class HighConsumptionChart extends ChartWidget
 {
     protected static ?string $heading = 'Évolution mensuelle des périodes de forte / faible consommation ';
-    protected static ?string $maxHeight = '500px';
+    protected static ?string $maxHeight = '300px';
 
     protected function getData(): array
     {
@@ -27,9 +27,6 @@ class HighConsumptionChart extends ChartWidget
                 return $order->created_at->format('M');
             });
 
-
-
-
         return [
             'datasets' => [
                 [
@@ -37,10 +34,6 @@ class HighConsumptionChart extends ChartWidget
                     'data' => $orders->map(function ($order) {
                         return $order->count() . '';
                     })->toArray(),
-                    'backgroundColor' => '#36A2EB',
-                    'borderColor' => '#9BD0F5',
-                    'borderColor' => 'rgb(75, 192, 192)',
-                    'tension' => '0.1'
                 ],
             ],
 

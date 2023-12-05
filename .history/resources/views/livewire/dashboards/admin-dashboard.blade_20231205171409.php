@@ -37,7 +37,7 @@
                     @livewire(\App\Http\Livewire\OtherProfil\ManagerStatisticsChart::class)
                 </div>
                 <div class="shadow rounded  border bg-white" style="height: 22rem;">
-                    @livewire(\App\Http\Livewire\OtherProfil\HighConsumptionChart::class)
+                    {{-- @livewire(\App\Http\Livewire\OtherProfil\HighConsumptionChart::class) --}}
                 </div>
                 <div class="shadow rounded  border bg-white " style="height: 22rem;">
                     {{-- @livewire(\App\Http\Livewire\OtherProfil\CategoryEmployeeConsumptionChart::class) --}}

@@ -1,0 +1,74 @@
+<?php
+
+namespace App\Http\Livewire\OtherProfil;
+
+use Carbon\Carbon;
+use App\Models\Order;
+use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
+
+class HighConsumptionChart extends ChartWidget
+{
+    protected static ?string $heading = 'Période de forte / faible consommation';
+    protected static ?string $maxHeight = '250px';
+
+    protected function getData(): array
+    {
+
+        // $month =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        //     ->join('menus', 'orders.menu_id', 'menus.id')
+        //     ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+        //     ->whereNotState('state', [Cancelled::class, Suspended::class])
+        //     ->groupBy('dish_id', 'menu_served_at')
+        //     ->orderBy('menu_served_at', 'DESC')
+        //     ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
+
+        // dd($month);
+
+        // $orders = Order::groupBy('dish_id')
+        //     ->select('dish_id', DB::raw('count(*) as total_orders'))
+        //     ->get();
+
+        $orders = DB::table('orders')
+            ->select('dish_id', DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as total_orders'))
+            ->groupBy('month')
+            ->havingRaw('COUNT(*)  < ?', [10])
+            //->select('dish_id', DB::raw('COUNT(*) as total_orders'))
+            // ->groupBy('dish_id', 'created_at')->orderBy('total_orders')
+
+            ->get();
+
+        //dd($orders);
+
+        $labels = [];
+        $data = [];
+
+        foreach ($orders as $order) {
+            $mois = $this->convertirMonth($order->month);
+            $commande = $order->total_orders;
+
+            $labels[] = $mois;
+            $data[] = $commande;
+        }
+
+        return [
+            'datasets' => [
+                [
+                    'label' => $labels,
+                    'data' => $data,
+                ],
+            ],
+            'labels' => $labels,
+        ];
+    }
+
+    private function convertirMonth($mois)
+    {
+        return date("F", mktime(0, 0, 0, $mois, 1));
+    }
+
+    protected function getType(): string
+    {
+        return 'line';
+    }
+}

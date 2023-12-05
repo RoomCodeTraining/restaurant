@@ -27,9 +27,6 @@ class HighConsumptionChart extends ChartWidget
                 return $order->created_at->format('M');
             });
 
-
-
-
         return [
             'datasets' => [
                 [

@@ -33,28 +33,7 @@ class ManagerStatisticsChart extends ChartWidget
             ->orderBy('semaine')
             ->get();
 
-
-        // $chartData = $dishByOrders->groupBy('dish_id', '')->map(function ($item) {
-        //     return $item->pluck('nombre_commandes', 'semaine', 'dish_id')->unique()->toArray();
-        // })->toArray();
-
-        // dd($chartData);
-
-
-        // $platsPopulairesParSemaine = DB::table('commandes')
-        //     ->select('plat_id', DB::raw('WEEK(date_commande) as semaine'), DB::raw('COUNT(*) as nombre_commandes'))
-        //     ->groupBy('plat_id', 'semaine')
-        //     ->orderBy('semaine')
-        //     ->orderByDesc('nombre_commandes')
-        //     ->get();
-
-        // // Filtrer uniquement les plats ayant reçu le plus de commandes par semaine
-        // $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine')->map(function ($group) {
-        //     return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
-        // });
-
-        // $platsLesPlusPopulaires est maintenant une collection des plats les plus populaires par semaine
-
+        dd($dishByOrders);
 
 
         $labels = [];
@@ -75,7 +54,9 @@ class ManagerStatisticsChart extends ChartWidget
                 [
                     'data' => $data,
 
-
+                    $chartData = $data->groupBy('plat_id')->map(function ($item) {
+                        return $item->pluck('nombre_commandes')->toArray();
+                    })->toArray();
 
 
                     'data' => $orders->groupBy('dish_id')->map(function ($item) {

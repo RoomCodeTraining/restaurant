@@ -27,9 +27,6 @@ class HighConsumptionChart extends ChartWidget
                 return $order->created_at->format('M');
             });
 
-
-
-
         return [
             'datasets' => [
                 [
@@ -39,8 +36,6 @@ class HighConsumptionChart extends ChartWidget
                     })->toArray(),
                     'backgroundColor' => '#36A2EB',
                     'borderColor' => '#9BD0F5',
-                    'borderColor' => 'rgb(75, 192, 192)',
-                    'tension' => '0.1'
                 ],
             ],
 

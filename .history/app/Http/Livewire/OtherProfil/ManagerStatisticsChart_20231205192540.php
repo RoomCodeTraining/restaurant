@@ -34,11 +34,11 @@ class ManagerStatisticsChart extends ChartWidget
             ->get();
 
 
-        // $chartData = $dishByOrders->groupBy('dish_id', '')->map(function ($item) {
-        //     return $item->pluck('nombre_commandes', 'semaine', 'dish_id')->unique()->toArray();
-        // })->toArray();
+        $chartData = $dishByOrders->groupBy('dish_id', '')->map(function ($item) {
+            return $item->pluck('nombre_commandes', 'semaine', 'dish_id')->unique()->toArray();
+        })->toArray();
 
-        // dd($chartData);
+        dd($chartData);
 
 
         // $platsPopulairesParSemaine = DB::table('commandes')

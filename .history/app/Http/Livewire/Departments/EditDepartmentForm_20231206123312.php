@@ -15,7 +15,7 @@ use App\Actions\Department\UpdateDepartmentAction;
 class EditDepartmentForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public Department $department;
+    public $department;
     public ?array $datInteractsWithFormsa = [];
 
 
@@ -23,14 +23,14 @@ class EditDepartmentForm extends Component implements HasForms
         'name' => null,
     ];
 
-    public function mount(): void
+    public function mount(Department $department)
     {
-
+        $this->department = $department;
 
         //dd($department);
 
         $this->form->fill([
-            'name' => $this->department->name,
+            'state.name' => $department->name,
         ]);
     }
 

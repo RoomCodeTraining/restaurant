@@ -15,22 +15,18 @@ use App\Actions\Department\UpdateDepartmentAction;
 class EditDepartmentForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public Department $department;
-    public ?array $datInteractsWithFormsa = [];
-
+    public $department;
 
     public $state = [
         'name' => null,
     ];
 
-    public function mount(): void
+    public function mount(Department $department)
     {
-
-
-        //dd($department);
+        $this->department = $department;
 
         $this->form->fill([
-            'name' => $this->department->name,
+            'state.name' => $department->name,
         ]);
     }
 
@@ -38,30 +34,27 @@ class EditDepartmentForm extends Component implements HasForms
     {
         return $form
             ->schema([
-
-                Section::make('Modification des informations liées au département')
-                    ->description('Veuillez saisir des noms de départements corrects pour une meilleure affiliation au personnel')
+                Section::make('Rate limiting')
+                    ->description('Prevent abuse by limiting the number of requests per period')
                     ->aside()
                     ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
+                        // ...
                     ])
                 // ...
-            ])->statePath('state');
+            ])
+            ->statePath('data');
     }
 
 
-    // protected function getFormSchema(): array
-    // {
-    //     return [
-    //         TextInput::make('state.name')
-    //             ->label('Nom')
-    //             ->required()
-    //             ->rules('required', 'max:255'),
-    //     ];
-    // }
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+        ];
+    }
 
     public function saveDepartment(UpdateDepartmentAction $action)
     {

@@ -25,12 +25,12 @@ class EditDepartmentForm extends Component implements HasForms
 
     public function mount(): void
     {
-
+        $this->department = $department;
 
         //dd($department);
 
         $this->form->fill([
-            'name' => $this->department->name,
+            'state.name' => $department->name,
         ]);
     }
 

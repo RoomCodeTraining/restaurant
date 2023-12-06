@@ -15,7 +15,7 @@ use App\Actions\Department\UpdateDepartmentAction;
 class EditDepartmentForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public Department $department;
+    public $department;
     public ?array $datInteractsWithFormsa = [];
 
 
@@ -23,14 +23,14 @@ class EditDepartmentForm extends Component implements HasForms
         'name' => null,
     ];
 
-    public function mount(): void
+    public function mount(Department $department)
     {
+        $this->department = $department;
 
-
-        //dd($department);
+        dd($department);
 
         $this->form->fill([
-            'name' => $this->department->name,
+            'state.name' => $department->name,
         ]);
     }
 
@@ -43,7 +43,7 @@ class EditDepartmentForm extends Component implements HasForms
                     ->description('Veuillez saisir des noms de départements corrects pour une meilleure affiliation au personnel')
                     ->aside()
                     ->schema([
-                        TextInput::make('name')
+                        TextInput::make('state.name')
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),

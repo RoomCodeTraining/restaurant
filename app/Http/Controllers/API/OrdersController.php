@@ -40,7 +40,7 @@ class OrdersController extends Controller
           'dish_id' => ['required', Rule::exists('dishes', 'id')],
         ]);
 
-        $todayMenu = Menu::with('dishes')->today()->first();
+        $todayMenu = Menu::with('dishes')->whereDate('served_at', today())->first();
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 

@@ -37,8 +37,8 @@ class EditPaymentMethodForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification des informations liées au mode de paiement')
-                    ->description('Veuillez saisir des modes de paiements corrects pour une meilleure transaction financière')
+                Section::make('Modification des informations liées au type de d\'utilisateur')
+                    ->description('Veuillez saisir des types d\'utilisateurs corrects pour une meilleure affiliation au personnel')
                     ->aside()
                     ->schema([
                         TextInput::make('name')

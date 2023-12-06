@@ -23,9 +23,9 @@ class UserTypeTable extends Component implements HasTable, HasForms
         return $table
             ->query(\App\Models\UserType::query()->withCount('users'))
             ->columns([
-                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->dateTime('d/m/Y'),
+                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM')->searchable(),
-                TextColumn::make('users_count')->label('NBR D\'ÉMPLOYÉS'),
+                TextColumn::make('users_count')->label('NBR D\'ÉMPLOYÉS')->searchable(),
 
             ])->actions([
                 ActionGroup::make([

@@ -4,8 +4,6 @@ namespace App\Http\Livewire\UserTypes;
 
 use Livewire\Component;
 use App\Models\UserType;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
@@ -16,42 +14,32 @@ use Filament\Forms\Concerns\InteractsWithForms;
 class EditUserTypeForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public UserType $userType;
-
-    public ?array $datInteractsWithFormsa = [];
+    public $userType;
 
     public $state = [
         'name' => null,
         'auto_identifier' => null,
     ];
 
-    public function mount(): void
+    public function mount(UserType $userType)
     {
+        $this->userType = $userType;
 
         $this->form->fill([
-            'name' => $this->userType->name,
-            'auto_identifier' => $this->userType->auto_identifier,
+            'state.name' => $userType->name,
+            'state.auto_identifier' => $userType->auto_identifier,
         ]);
     }
 
-    public function form(Form $form): Form
+    protected function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                Section::make('Modification des informations liées au type de d\'utilisateur')
-                    ->description('Veuillez saisir des types d\'utilisateurs corrects pour une meilleure affiliation au personnel')
-                    ->aside()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
-                    ])
-                // ...
-            ])->statePath('state');
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255')
+        ];
     }
-
-
 
     public function saveUserType(UpdateUserTypeAction $action)
     {

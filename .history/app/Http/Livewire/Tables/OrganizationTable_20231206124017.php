@@ -24,12 +24,12 @@ class OrganizationTable extends Component implements HasTable, HasForms
         return $table
             ->query(\App\Models\Organization::query()->withCount('users'))
             ->columns([
-                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('NOM')->searchable(),
-                TextColumn::make('id')->label('DESCRIPTION')
-                    ->formatStateUsing(function ($record) {
-                        return  $record->description ?  $record->description : 'Aucune description';
-                    }),
+                TextColumn::make('created_at')->label('Date de création')->searchable()->sortable()->dateTime('d/m/Y'),
+                TextColumn::make('name')->label('Nom'),
+                TextColumn::make('description')->label('Description')->formatStateUsing(function ($record) {
+                    dd($record->description);
+                    return $record->description ? $record->description : 'Aucune description';
+                }),
                 TextColumn::make('users_count')->label('NBR D\'EMPLOYES'),
             ])->actions([
                 ActionGroup::make([

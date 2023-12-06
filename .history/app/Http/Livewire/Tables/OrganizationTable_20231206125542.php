@@ -26,10 +26,10 @@ class OrganizationTable extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('NOM')->searchable(),
-                TextColumn::make('id')->label('DESCRIPTION')
-                    ->formatStateUsing(function ($record) {
-                        return  $record->description ?  $record->description : 'Aucune description';
-                    }),
+                // TextColumn::make('description')->label('DESCRIPTION')
+                //     ->formatStateUsing(function ($record) {
+                //         return  $record->description ?  $record->description : 'Aucune description';
+                //     }),
                 TextColumn::make('users_count')->label('NBR D\'EMPLOYES'),
             ])->actions([
                 ActionGroup::make([

@@ -17,7 +17,6 @@ class EditUserTypeForm extends Component implements HasForms
 {
     use InteractsWithForms;
     public UserType $userType;
-
     public ?array $datInteractsWithFormsa = [];
 
     public $state = [
@@ -30,7 +29,7 @@ class EditUserTypeForm extends Component implements HasForms
 
         $this->form->fill([
             'name' => $this->userType->name,
-            'auto_identifier' => $this->userType->auto_identifier,
+            //'state.auto_identifier' => $this->userType->auto_identifier,
         ]);
     }
 
@@ -51,7 +50,15 @@ class EditUserTypeForm extends Component implements HasForms
             ])->statePath('state');
     }
 
-
+    // protected function getFormSchema(): array
+    // {
+    //     return [
+    //         TextInput::make('state.name')
+    //             ->label('Nom')
+    //             ->required()
+    //             ->rules('required', 'max:255')
+    //     ];
+    // }
 
     public function saveUserType(UpdateUserTypeAction $action)
     {

@@ -5,10 +5,10 @@ namespace App\Http\Livewire\PaymentMethods;
 use Livewire\Component;
 use Filament\Forms\Form;
 use App\Models\PaymentMethod;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\Section;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Actions\PaymentMethods\UpdatePaymentMethodAction;
 
@@ -37,8 +37,8 @@ class EditPaymentMethodForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification des informations liées au mode de paiement')
-                    ->description('Veuillez saisir des modes de paiements corrects pour une meilleure transaction financière')
+                Section::make('Modification des informations liées au type de d\'utilisateur')
+                    ->description('Veuillez saisir des types d\'utilisateurs corrects pour une meilleure affiliation au personnel')
                     ->aside()
                     ->schema([
                         TextInput::make('name')

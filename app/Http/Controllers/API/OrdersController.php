@@ -53,11 +53,11 @@ class OrdersController extends Controller
 
 
 
-        if ($menuHasDish) {
-            throw ValidationException::withMessages([
-              'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
-            ]);
-        }
+        // if (! $menuHasDish) {
+        //     throw ValidationException::withMessages([
+        //       'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
+        //     ]);
+        // }
 
         if ($accessCard->quota_lunch <= 0) {
             throw ValidationException::withMessages([

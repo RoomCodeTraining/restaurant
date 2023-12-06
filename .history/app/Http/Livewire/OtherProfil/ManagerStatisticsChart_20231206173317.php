@@ -14,33 +14,31 @@ class ManagerStatisticsChart extends ChartWidget
 
     protected function getData(): array
     {
-        // $dishByOrders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
-        //     ->join('menus', 'orders.menu_id', 'menus.id')
-        //     ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-        //     ->whereNotState('state', [Cancelled::class, Suspended::class])
-        //     ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'))
-        //     ->groupBy('dish_id', 'menu_served_at')
-        //     ->orderBy('menu_served_at', 'DESC', 'semaine')
-        //     ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
+        $dishByOrders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
+            ->join('menus', 'orders.menu_id', 'menus.id')
+            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
+            ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'))
+            ->groupBy('dish_id', 'menu_served_at')
+            ->orderBy('menu_served_at', 'DESC', 'semaine')
+            ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
 
 
-        $platsPopulairesParSemaine = DB::table('orders')
-            ->join('dishes', 'orders.dish_id', 'dishes.id')
-            ->whereNotIn('state', [Cancelled::class, Suspended::class])
-            ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'), DB::raw('COUNT(*) as nombre_commandes'))
-            ->groupBy('dish_id', 'semaine')
-            ->orderBy('semaine')
-            ->orderByDesc('nombre_commandes')
-            ->selectRaw('dish_id, COUNT(*) as nombre_commandes')->get();
-
-        // dd($platsPopulairesParSemaine);
+        // $platsPopulairesParSemaine = DB::table('orders')
+        //     ->join('dishes', 'orders.dish_id', 'dishes.id')
+        //     ->whereNotIn('state', [Cancelled::class, Suspended::class])
+        //     ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'), DB::raw('COUNT(*) as nombre_commandes'))
+        //     ->groupBy('dish_id', 'semaine')
+        //     ->orderBy('semaine')
+        //     ->orderByDesc('nombre_commandes')->get();
 
         // // Filtrer uniquement les plats ayant reçu le plus de commandes par semaine
-        $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine')->map(function ($group) {
+        // $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine', 'dish_id')->map(function ($group) {
+        //     return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
+        // });
 
-            return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
-        });
-
+        // dd($platsLesPlusPopulaires);
+        // $platsLesPlusPopulaires est maintenant une collection des plats les plus populaires par semaine
 
 
 
@@ -48,15 +46,16 @@ class ManagerStatisticsChart extends ChartWidget
         $labels = [];
         $data = [];
 
-        foreach ($platsLesPlusPopulaires as $orders) {
+        foreach ($dishByOrders as $orders) {
 
-            //dd($orders->dish->name);
+            dd($orders->dish->name);
 
             $total = $orders->semaine;
-            // $namePlat = $orders->dish->name;
+            $namePlat = $orders->dish->name;
             $week = $orders->nombre_commandes;
 
-            $labels[] = $week;
+            // dd($this->convertirMonth($orders->semaine));
+            $labels[] = $namePlat;
             $data[] = $total;
         }
 

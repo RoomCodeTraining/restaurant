@@ -53,10 +53,11 @@ class ManagerStatisticsChart extends ChartWidget
             //dd($orders->dish->name);
 
             $total = $orders->semaine;
-            // $namePlat = $orders->dish->name;
+            $namePlat = $orders->dish->name;
             $week = $orders->nombre_commandes;
 
-            $labels[] = $week;
+
+            $labels[] = $namePlat;
             $data[] = $total;
         }
 

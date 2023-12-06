@@ -37,7 +37,7 @@ class ManagerStatisticsChart extends ChartWidget
 
         // // Filtrer uniquement les plats ayant reçu le plus de commandes par semaine
         $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine')->map(function ($group) {
-
+           
             return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
         });
 
@@ -53,10 +53,11 @@ class ManagerStatisticsChart extends ChartWidget
             //dd($orders->dish->name);
 
             $total = $orders->semaine;
-            // $namePlat = $orders->dish->name;
+            $namePlat = $orders->dish->name;
             $week = $orders->nombre_commandes;
 
-            $labels[] = $week;
+
+            $labels[] = $namePlat;
             $data[] = $total;
         }
 

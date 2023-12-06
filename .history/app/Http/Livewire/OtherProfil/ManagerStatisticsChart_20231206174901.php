@@ -14,14 +14,14 @@ class ManagerStatisticsChart extends ChartWidget
 
     protected function getData(): array
     {
-        // $dishByOrders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
-        //     ->join('menus', 'orders.menu_id', 'menus.id')
-        //     ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-        //     ->whereNotState('state', [Cancelled::class, Suspended::class])
-        //     ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'))
-        //     ->groupBy('dish_id', 'menu_served_at')
-        //     ->orderBy('menu_served_at', 'DESC', 'semaine')
-        //     ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
+        $dishByOrders =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
+            ->join('menus', 'orders.menu_id', 'menus.id')
+            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
+            ->select('dish_id', DB::raw('WEEK(orders.created_at) as semaine'))
+            ->groupBy('dish_id', 'menu_served_at')
+            ->orderBy('menu_served_at', 'DESC', 'semaine')
+            ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
 
 
         $platsPopulairesParSemaine = DB::table('orders')
@@ -36,8 +36,8 @@ class ManagerStatisticsChart extends ChartWidget
         // dd($platsPopulairesParSemaine);
 
         // // Filtrer uniquement les plats ayant reçu le plus de commandes par semaine
-        $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine')->map(function ($group) {
-
+        $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine', 'dish_id')->map(function ($group) {
+           
             return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
         });
 
@@ -53,10 +53,11 @@ class ManagerStatisticsChart extends ChartWidget
             //dd($orders->dish->name);
 
             $total = $orders->semaine;
-            // $namePlat = $orders->dish->name;
+            $namePlat = $orders->dish->name;
             $week = $orders->nombre_commandes;
 
-            $labels[] = $week;
+
+            $labels[] = $namePlat;
             $data[] = $total;
         }
 

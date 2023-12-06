@@ -3,9 +3,7 @@
 namespace App\Http\Livewire\UserTypes;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -26,23 +24,15 @@ class CreateUserTypeForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    protected function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                Section::make('Ajout d\'un type d\'utilisateur ')
-                    ->description('Veuillez saisir des type d\'utilisateurs  corrects pour une meilleure affiliation')
-                    ->aside()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
-                    ])
-                // ...
-            ])->statePath('state');
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255')
+        ];
     }
-
 
     public function saveUserType(CreateUserTypeAction $createUserTypeAction)
     {

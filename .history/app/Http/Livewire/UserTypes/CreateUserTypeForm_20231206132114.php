@@ -3,9 +3,7 @@
 namespace App\Http\Livewire\UserTypes;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -38,10 +36,14 @@ class CreateUserTypeForm extends Component implements HasForms
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),
+
+
                     ])
                 // ...
             ])->statePath('state');
     }
+
+
 
 
     public function saveUserType(CreateUserTypeAction $createUserTypeAction)

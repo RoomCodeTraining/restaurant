@@ -5,11 +5,9 @@ namespace App\Http\Livewire\Tables;
 use Livewire\Component;
 use App\Models\Department;
 use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -36,14 +34,13 @@ class DepartmentTable extends Component implements HasTable, HasForms
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (Department $record) {
+                        ->before(function (Organization $record) {
                             //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Département supprimé supprimé avec succès !')->danger()->send();
-                            return redirect()->route('departments.index');
+                            Notification::make()->title('Sociéte supprimé supprimé avec succès !')->danger()->send();
+                            return redirect()->route('organizations.index');
                         })
-                        ->hidden(fn (Department $record) => $record->users->count() > 0)
-                        ->hidden(!Auth::user()->isAdmin())
-                        ->action(fn (Department $record) => $record->delete()),
+                        ->hidden(fn (Organization $record) => $record->users->count() > 0)
+                        ->action(fn (Organization $record) => $record->delete()),
 
                 ]),
             ]);

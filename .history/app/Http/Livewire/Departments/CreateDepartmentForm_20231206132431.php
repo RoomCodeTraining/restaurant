@@ -26,8 +26,8 @@ class CreateDepartmentForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Ajout d\'un nouveau département ')
-                    ->description('Veuillez saisir des noms de départements corrects pour une meilleure affiliation')
+                Section::make('Ajout d\'un mode de paiement ')
+                    ->description('Veuillez saisir des modes de paiement corrects pour une meilleure transaction financière')
                     ->aside()
                     ->schema([
                         TextInput::make('name')

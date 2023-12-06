@@ -11,7 +11,7 @@ class CreateUserTypeAction
     {
         $userType = UserType::create([
             'name' => $data['name'],
-            'auto_identifier' => $data['auto_identifier'] ?? 'null'
+            'auto_identifier' => $data['auto_identifier']
         ]);
 
         UserTypeCreated::dispatch($userType);

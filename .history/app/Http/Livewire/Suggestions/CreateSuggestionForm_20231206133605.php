@@ -19,6 +19,10 @@ class CreateSuggestionForm extends Component implements HasForms
     public $suggestion;
     public $suggestion_type_id;
 
+    public $state = [
+        'suggestion' => null,
+        'suggestion_type_id' => null,
+    ];
 
 
     public function mount()
@@ -48,7 +52,7 @@ class CreateSuggestionForm extends Component implements HasForms
 
                     ])
                 // ...
-            ]);
+            ])->statePath('state');
     }
 
 

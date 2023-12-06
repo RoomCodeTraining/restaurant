@@ -1,24 +1,22 @@
 <?php
 
-namespace App\Http\Livewire\PaymentMethods;
+namespace App\Http\Livewire\UserTypes;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
+use App\Actions\UserType\CreateUserTypeAction;
 use Filament\Forms\Concerns\InteractsWithForms;
-use App\Actions\PaymentMethods\CreatePaymentMethodAction;
 
-class CreatePaymentMethodForm extends Component implements HasForms
+class CreateUserTypeForm extends Component implements HasForms
 {
     use InteractsWithForms;
+
     public $state = [
         'name' => null,
-        'description' => null,
+        'auto_identifier' => false
     ];
 
     public function mount()
@@ -30,7 +28,7 @@ class CreatePaymentMethodForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Ajout d\'un mode de paiement ')
+                Section::make('Ajout d\'un type d\'utilisateur ')
                     ->description('Veuillez saisir des modes de paiement corrects pour une meilleure transaction financière')
                     ->aside()
                     ->schema([
@@ -38,29 +36,36 @@ class CreatePaymentMethodForm extends Component implements HasForms
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),
-                        Textarea::make('description')
-                            ->label('Description')
-                            ->rules('required', 'max:255'),
+
 
                     ])
                 // ...
             ])->statePath('state');
     }
 
-    public function savePaymentMethod(CreatePaymentMethodAction $action)
+
+
+
+    public function saveUserType(CreateUserTypeAction $createUserTypeAction)
     {
         $this->validate([
-            'state.name' => ['required', Rule::unique('payment_methods', 'name'), Rule::unique('payment_methods', 'id')]
+            'state.name' => ['required', 'string', Rule::unique('user_types', 'name')],
+            'state.auto_identifier' => ['nullable']
         ]);
-        $action->execute($this->state);
 
-        flasher("success", "Le moyen de paiement a bien été créé.");
+        $createUserTypeAction->execute($this->state);
 
-        return redirect()->route('paymentMethods.index');
+        Notification::make()
+            ->title('Le type d\'utilisateur a été créé avec succès')
+            ->icon('heroicon-o-check-circle')
+            ->iconColor('success')
+            ->send();
+
+        return redirect()->route('userTypes.index');
     }
 
     public function render()
     {
-        return view('livewire.payment-methods.create-payment-method-form');
+        return view('livewire.user-types.create-user-type-form');
     }
 }

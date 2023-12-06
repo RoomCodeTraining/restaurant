@@ -47,7 +47,7 @@ class SuggestionTable extends Component implements HasTable, HasForms
             ->query(self::getTableQuery())
             ->columns([
                 TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->sortable()->dateTime('d/m/Y'),
-                TextColumn::make('user.full_name')->label('SUGGÉRANT'),
+                TextColumn::make('user.full_name')->label('SUGGERANT'),
                 TextColumn::make('suggestionType.name')->label('OBJET'),
                 TextColumn::make('suggestion')->label('SUGGESTIONS'),
             ])

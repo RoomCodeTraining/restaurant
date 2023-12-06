@@ -2,14 +2,12 @@
 
 namespace App\Http\Livewire\Departments;
 
-use Livewire\Component;
-use Filament\Forms\Form;
-use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
+use App\Actions\Department\CreateDepartmentAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
-use App\Actions\Department\CreateDepartmentAction;
+use Filament\Forms\Contracts\HasForms;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class CreateDepartmentForm extends Component implements HasForms
 {
@@ -22,23 +20,15 @@ class CreateDepartmentForm extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+
+    protected function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                Section::make('Ajout d\'un nouveau département ')
-                    ->description('Veuillez saisir des noms de départements corrects pour une meilleure affiliation')
-                    ->aside()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
-
-
-                    ])
-                // ...
-            ])->statePath('state');
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+        ];
     }
 
     public function saveDepartment(CreateDepartmentAction $action)

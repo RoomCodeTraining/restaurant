@@ -38,7 +38,7 @@ class DepartmentTable extends Component implements HasTable, HasForms
                         ->color('danger')
                         ->before(function (Department $record) {
                             //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Département supprimé supprimé avec succès !')->danger()->send();
+                            Notification::make()->title('Sociéte supprimé supprimé avec succès !')->danger()->send();
                             return redirect()->route('departments.index');
                         })
                         ->hidden(fn (Department $record) => $record->users->count() > 0)

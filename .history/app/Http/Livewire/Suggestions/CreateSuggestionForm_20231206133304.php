@@ -19,21 +19,32 @@ class CreateSuggestionForm extends Component implements HasForms
     public $suggestion;
     public $suggestion_type_id;
 
-
-
     public function mount()
     {
         $this->form->fill();
     }
 
-
+    protected function getFormSchema(): array
+    {
+        return [
+            \Filament\Forms\Components\Select::make('suggestion_type_id')
+                ->label('Objet')
+                ->required()
+                ->placeholder('Choisissez un type de suggestion')
+                ->options(\App\Models\SuggestionType::all()->pluck('name', 'id')),
+            \Filament\Forms\Components\Textarea::make('suggestion')
+                ->label('Suggestion')
+                ->required()
+                ->placeholder('Votre suggestion'),
+        ];
+    }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Ajout d\'une suggestion ')
-                    ->description('Vos suggestions nous permettrons d\'apporter des corrections pour une meilleure utilisation')
+                Section::make('Ajout d\'un mode de paiement ')
+                    ->description('Veuillez saisir des modes de paiement corrects pour une meilleure transaction financière')
                     ->aside()
                     ->schema([
                         Select::make('suggestion_type_id')
@@ -48,7 +59,7 @@ class CreateSuggestionForm extends Component implements HasForms
 
                     ])
                 // ...
-            ]);
+            ])->statePath('state');
     }
 
 

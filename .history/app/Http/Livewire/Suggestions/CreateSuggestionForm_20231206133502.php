@@ -19,8 +19,6 @@ class CreateSuggestionForm extends Component implements HasForms
     public $suggestion;
     public $suggestion_type_id;
 
-
-
     public function mount()
     {
         $this->form->fill();
@@ -48,7 +46,7 @@ class CreateSuggestionForm extends Component implements HasForms
 
                     ])
                 // ...
-            ]);
+            ])->statePath('state');
     }
 
 

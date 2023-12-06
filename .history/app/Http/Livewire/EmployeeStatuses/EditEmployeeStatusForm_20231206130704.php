@@ -3,14 +3,12 @@
 namespace App\Http\Livewire\EmployeeStatuses;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use App\Models\EmployeeStatus;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Actions\EmployeeStatus\UpdateEmployeeStatusAction;
+use Filament\Notifications\Notification;
 
 class EditEmployeeStatusForm extends Component implements HasForms
 {
@@ -32,18 +30,31 @@ class EditEmployeeStatusForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification des informations à la catégorie professionnelle')
-                    ->description('Veuillez saisir des noms de catégorie professionnelle corrects pour une meilleure affiliation')
+                Section::make('Modification des informations liées au mode de paiement')
+                    ->description('Veuillez saisir des modes de paiements corrects pour une meilleure transaction financière')
                     ->aside()
                     ->schema([
                         TextInput::make('name')
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),
-
+                        Textarea::make('description')
+                            ->label('Description')
+                            ->rules('required', 'max:255'),
                     ])
                 // ...
             ])->statePath('state');
+    }
+
+
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+        ];
     }
 
     public function saveEmployeeStatus(UpdateEmployeeStatusAction $action)

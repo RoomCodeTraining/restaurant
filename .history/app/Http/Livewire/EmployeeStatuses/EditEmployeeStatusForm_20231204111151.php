@@ -3,47 +3,39 @@
 namespace App\Http\Livewire\EmployeeStatuses;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use App\Models\EmployeeStatus;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Actions\EmployeeStatus\UpdateEmployeeStatusAction;
+use Filament\Notifications\Notification;
 
 class EditEmployeeStatusForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public EmployeeStatus $employeeStatus;
+    public $employeeStatus;
 
     public $state = [
         'name' => null,
     ];
 
-    public function mount(): void
+    public function mount(EmployeeStatus $employeeStatus)
     {
+        $this->employeeStatus = $employeeStatus;
+
         $this->form->fill([
-            'name' => $this->employeeStatus->name,
+            'state.name' => $employeeStatus->name,
         ]);
     }
 
-    public function form(Form $form): Form
+    protected function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                Section::make('Modification des informations à la catégorie professionnelle')
-                    ->description('Veuillez saisir des noms de catégorie professionnelle corrects pour une meilleure affiliation')
-                    ->aside()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
-
-                    ])
-                // ...
-            ])->statePath('state');
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+        ];
     }
 
     public function saveEmployeeStatus(UpdateEmployeeStatusAction $action)

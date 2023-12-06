@@ -40,11 +40,24 @@ class EditEmployeeStatusForm extends Component implements HasForms
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),
-
+                        // Textarea::make('description')
+                        //     ->label('Description')
+                        //     ->rules('required', 'max:255'),
                     ])
                 // ...
             ])->statePath('state');
     }
+
+
+    // protected function getFormSchema(): array
+    // {
+    //     return [
+    //         TextInput::make('state.name')
+    //             ->label('Nom')
+    //             ->required()
+    //             ->rules('required', 'max:255'),
+    //     ];
+    // }
 
     public function saveEmployeeStatus(UpdateEmployeeStatusAction $action)
     {

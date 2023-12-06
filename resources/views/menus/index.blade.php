@@ -15,7 +15,7 @@
         </x-slot>
     </x-section-header>
 
-    <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:menus.menus-table />
+    <div class="px-6 py-4 rounded-md">
+        <livewire:tables.menu-table />
     </div>
 </x-app-layout>

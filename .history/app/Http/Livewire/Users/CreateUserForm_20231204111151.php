@@ -58,58 +58,57 @@ class CreateUserForm extends Component implements HasForms
     protected function getFormSchema(): array
     {
         return [
-            Grid::make()
-                ->schema([
-                    TextInput::make('state.identifier')
-                        ->label('Matricule/Identifiant')
-                        ->autofocus()
-                        ->placeholder('TKOL8'),
-                    TextInput::make('state.first_name')
-                        ->label('Nom')
-                        ->required()
-                        ->autofocus(),
-                    TextInput::make('state.last_name')
-                        ->label('Prénoms')
-                        ->required()
-                        ->autofocus(),
-                    TextInput::make('state.email')
-                        ->label('E-mail')
-                        ->required()
-                        ->autofocus(),
-                    TextInput::make('state.contact')
-                        ->label('Contact')
-                        ->required()
-                        ->numeric()
-                        ->autofocus(),
-                    Select::make('role')
-                        ->label('Role')
-                        ->options(Role::pluck('name', "id"))
-                        ->autofocus(),
-                    Select::make('state.employee_status_id')
-                        ->label('Catégorie professionnelle')
-                        ->required()
-                        ->options(EmployeeStatus::pluck('name', "id"))
-                        ->autofocus(),
-                    Select::make('state.organization_id')
-                        ->label('Société')
-                        ->options(Organization::pluck('name', "id"))
-                        ->required()
-                        ->autofocus(),
-                    Select::make('state.department_id')
-                        ->label('Departément')
-                        ->options(Department::pluck('name', "id"))
-                        ->required()
-                        ->autofocus(),
-                    Select::make('state.user_type_id')
-                        ->label('Type de collaborateur')
-                        ->options(UserType::pluck('name', "id"))
-                        ->required()
-                        ->autofocus(),
-                    Toggle::make('state.is_entitled_breakfast')
-                        ->label('Le collaborateur a droit au petit déjeuner ?')
-                        ->onColor('success')
-                        ->offColor('danger'),
-                ])->columns(2)
+          Grid::make()
+            ->schema([
+                TextInput::make('state.identifier')
+                ->label('Matricule/Identifiant')
+                ->autofocus()
+                ->placeholder('TKOL8'),
+               TextInput::make('state.first_name')
+                ->label('Nom')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.last_name')
+                ->label('Prénoms')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.email')
+                ->label('E-mail')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.contact')
+                ->label('Contact')
+                ->required()
+                ->autofocus(),
+            Select::make('role')
+                ->label('Role')
+                ->options(Role::pluck('name', "id"))
+                ->autofocus(),
+            Select::make('state.employee_status_id')
+                ->label('Catégorie professionnelle')
+                ->required()
+                ->options(EmployeeStatus::pluck('name', "id"))
+                ->autofocus(),
+              Select::make('state.organization_id')
+                ->label('Société')
+                ->options(Organization::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+            Select::make('state.department_id')
+                ->label('Departément')
+                ->options(Department::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+              Select::make('state.user_type_id')
+                ->label('Type de collaborateur')
+                ->options(UserType::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+            Toggle::make('state.is_entitled_breakfast')
+                ->label('Le collaborateur a droit au petit déjeuner ?')
+                ->onColor('success')
+                ->offColor('danger'),
+          ])->columns(2)
         ];
     }
 

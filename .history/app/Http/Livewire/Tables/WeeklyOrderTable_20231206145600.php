@@ -32,7 +32,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->query(
                 Order::join('dishes', 'orders.dish_id', 'dishes.id')
                     ->join('menus', 'orders.menu_id', 'menus.id')
-                    ->whereDate('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+                    ->whereDtae('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
                     ->whereNotState('state', [Cancelled::class, Suspended::class])
                     ->groupBy('dish_id', 'menu_served_at')
                     ->orderBy('menu_served_at', 'DESC')

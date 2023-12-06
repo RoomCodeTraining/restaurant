@@ -27,16 +27,9 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
 
-
         return $table
             ->query(
-                Order::join('dishes', 'orders.dish_id', 'dishes.id')
-                    ->join('menus', 'orders.menu_id', 'menus.id')
-                    ->whereDate('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-                    ->whereNotState('state', [Cancelled::class, Suspended::class])
-                    ->groupBy('dish_id', 'menu_served_at')
-                    ->orderBy('menu_served_at', 'DESC')
-                    ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders'),
+                Order::latest(),
             )
             ->columns([
                 TextColumn::make('menu_served_at')
@@ -47,7 +40,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 TextColumn::make('dish.name')
                     ->label('PLAT'),
                 TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
-                TextColumn::make('id')->formatStateUsing(fn (Order $row) => view('orders.summary.table-actions', ['row' => $row]))
+                TextColumn::make('id')->formatStateUsing(fn ($val, $col, $row) => view('orders.summary.table-actions', ['row' => $row]))
             ]);
     }
 
@@ -60,10 +53,14 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 
     public function showUsers($row)
     {
+
         $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
             ->whereDate('served_at', $date)
             ->first();
+
+
+
         $data = $menu->orders()->whereNotState('state', [Cancelled::class, Suspended::class])->with('user')->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
         $this->showingUsers = true;

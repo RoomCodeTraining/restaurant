@@ -137,8 +137,8 @@ class OrderTable extends Component implements HasTable, HasForms
 
         return redirect()->route('orders.index');
     }
-    // public function render()
-    // {
-    //     return view('livewire.tables.order-table');
-    // }
+    public function render()
+    {
+        return view('livewire.tables.order-table');
+    }
 }

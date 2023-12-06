@@ -27,12 +27,18 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
 
-
+        dd(Order::join('dishes', 'orders.dish_id', 'dishes.id')
+            ->join('menus', 'orders.menu_id', 'menus.id')
+            ->where('menus.served_at', now())
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
+            ->groupBy('dish_id', 'menu_served_at')
+            ->orderBy('menu_served_at', 'DESC')
+            ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get());
         return $table
             ->query(
                 Order::join('dishes', 'orders.dish_id', 'dishes.id')
                     ->join('menus', 'orders.menu_id', 'menus.id')
-                    ->whereDate('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+                    ->where('menus.served_at', now())
                     ->whereNotState('state', [Cancelled::class, Suspended::class])
                     ->groupBy('dish_id', 'menu_served_at')
                     ->orderBy('menu_served_at', 'DESC')

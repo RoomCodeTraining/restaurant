@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Tables;
 use App\Models\Order;
 use Livewire\Component;
 use Filament\Tables\Table;
-use App\Support\ActivityHelper;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\Column;
 use Filament\Forms\Contracts\HasForms;
@@ -69,76 +68,8 @@ class OrderTable extends Component implements HasTable, HasForms
         //     ]),
         // ]);
     }
-
-    public function confirmOrderCancellation($orderId)
+    public function render()
     {
-        $this->orderIdBeingCancelled = $orderId;
-        $this->confirmingOrderCancellation = true;
+        return view('livewire.tables.order-table');
     }
-
-    public function confirmOrderHourUpdate($orderId)
-    {
-        $this->orderIdHourBeingUpdated = $orderId;
-        $this->confirmingOrderHourUpdate = true;
-    }
-
-    public function updateHour()
-    {
-        $order = Order::find($this->orderIdHourBeingUpdated);
-        if ($order->is_for_the_evening) {
-            $order->update(['is_for_the_evening' => false]);
-        } else {
-            $order->update(['is_for_the_evening' => true]);
-        }
-        $this->confirmingOrderHourUpdate = false;
-        session()->flash('success', "Votre commande a été modifiée avec succès !");
-
-        return redirect()->route('orders.index');
-    }
-
-    public function cancelOrder()
-    {
-        $order = Order::find($this->orderIdBeingCancelled);
-
-        $order->state->transitionTo(Cancelled::class);
-
-        $this->confirmingOrderCancellation = false;
-        ActivityHelper::createActivity(
-            $order,
-            'Annulation de la commande du ' . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-            'Annulation de la commande',
-        );
-        session()->flash('success', "Votre commande a été annulée avec succès !");
-
-        return redirect()->route('orders.index');
-    }
-
-    public function confirmOrderUpdate($orderId)
-    {
-        $this->orderIdBeingUpdated = $orderId;
-        $this->selectedOrder = Order::with('user')->find($orderId);
-        $this->dishId = $this->selectedOrder->dish_id;
-        $this->confirmingOrderUpdate = true;
-    }
-
-    public function updateOrder()
-    {
-        $order = Order::find($this->orderIdBeingUpdated);
-
-        $order->update(['dish_id' => $this->dishId]);
-
-        if ($order->state->canTransitionTo(Confirmed::class)) {
-            $order->state->transitionTo(Confirmed::class);
-        }
-
-        $this->confirmingOrderUpdate = false;
-
-        session()->flash('success', "Votre commande a été modifiée avec succès !");
-
-        return redirect()->route('orders.index');
-    }
-    // public function render()
-    // {
-    //     return view('livewire.tables.order-table');
-    // }
 }

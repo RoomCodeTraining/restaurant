@@ -2,8 +2,6 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use App\Models\Menu;
 use App\Models\Order;
 use Livewire\Component;
 use Filament\Tables\Table;
@@ -26,8 +24,6 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 
     public function table(Table $table): Table
     {
-
-
         return $table
             ->query(
                 Order::join('dishes', 'orders.dish_id', 'dishes.id')
@@ -47,10 +43,8 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 TextColumn::make('dish.name')
                     ->label('PLAT'),
                 TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
-                TextColumn::make('id')->formatStateUsing(fn (Order $row) => view('orders.summary.table-actions', ['row' => $row]))
             ]);
     }
-
 
 
     public function modalsView(): string
@@ -60,10 +54,14 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 
     public function showUsers($row)
     {
+
         $date = Carbon::parse($row['menu_served_at']);
         $menu = Menu::query()
             ->whereDate('served_at', $date)
             ->first();
+
+
+
         $data = $menu->orders()->whereNotState('state', [Cancelled::class, Suspended::class])->with('user')->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
         $this->showingUsers = true;

@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Tables;
 use App\Models\Order;
 use Livewire\Component;
 use Filament\Tables\Table;
-use App\Support\ActivityHelper;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\Column;
 use Filament\Forms\Contracts\HasForms;
@@ -137,8 +136,8 @@ class OrderTable extends Component implements HasTable, HasForms
 
         return redirect()->route('orders.index');
     }
-    // public function render()
-    // {
-    //     return view('livewire.tables.order-table');
-    // }
+    public function render()
+    {
+        return view('livewire.tables.order-table');
+    }
 }

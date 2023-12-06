@@ -47,7 +47,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 TextColumn::make('dish.name')
                     ->label('PLAT'),
                 TextColumn::make('total_orders')->label('NBRS DE COMMANDES'),
-                TextColumn::make('id')->formatStateUsing(fn (Order $row) => view('orders.summary.table-actions', ['row' => $row]))
+                TextColumn::make('id')->formatStateUsing(fn ($val, $col, $row) => view('orders.summary.table-actions', ['row' => $row]))
             ]);
     }
 

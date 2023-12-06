@@ -7,7 +7,7 @@ use Filament\Widgets\ChartWidget;
 class CategoryEmployeeConsumptionChart extends ChartWidget
 {
 
-    protected static ?string $heading = 'Évolution mensuelle des consommations par type d\'utilisateurs  ';
+    protected static ?string $heading = 'Évolution mensuelle des type d\'utilisateurs ';
     protected static ?string $maxHeight = '500px';
 
     protected function getData(): array

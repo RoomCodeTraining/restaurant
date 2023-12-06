@@ -34,11 +34,11 @@ class CreatePaymentMethodForm extends Component implements HasForms
                     ->description('Veuillez saisir des modes de paiement corrects pour une meilleure transaction financière')
                     ->aside()
                     ->schema([
-                        TextInput::make('name')
+                        TextInput::make('state.name')
                             ->label('Nom')
                             ->required()
                             ->rules('required', 'max:255'),
-                        Textarea::make('description')
+                        Textarea::make('state.description')
                             ->label('Description')
                             ->rules('required', 'max:255'),
 

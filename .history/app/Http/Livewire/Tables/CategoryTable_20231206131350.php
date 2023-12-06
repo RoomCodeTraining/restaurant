@@ -6,7 +6,6 @@ use Livewire\Component;
 use Filament\Tables\Table;
 use App\Models\EmployeeStatus;
 use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -45,7 +44,6 @@ class CategoryTable extends Component implements HasTable, HasForms
                             return redirect()->route('employeeStatuses.index');
                         })
                         ->hidden(fn (EmployeeStatus $record) => $record->users->count() > 0)
-                        ->hidden(!Auth::user()->isAdmin())
                         ->action(fn (EmployeeStatus $record) => $record->delete()),
 
                 ]),

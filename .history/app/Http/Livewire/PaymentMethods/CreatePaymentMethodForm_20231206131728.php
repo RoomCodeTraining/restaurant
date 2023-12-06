@@ -37,28 +37,25 @@ class CreatePaymentMethodForm extends Component implements HasForms
                         TextInput::make('name')
                             ->label('Nom')
                             ->required()
-                            ->rules('required', 'max:255'),
-                        Textarea::make('description')
-                            ->label('Description')
-                            ->rules('required', 'max:255'),
+                            ->rules('required', 'max:255', 'unique:employee_statuses,name'),
 
                     ])
                 // ...
             ])->statePath('state');
     }
 
-    // protected function getFormSchema(): array
-    // {
-    //     return [
-    //         TextInput::make('state.name')
-    //             ->label('Nom')
-    //             ->required()
-    //             ->rules('required', 'max:255'),
-    //         Textarea::make('state.description')
-    //             ->label('Description')
-    //             ->rules('required', 'max:255'),
-    //     ];
-    // }
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+            Textarea::make('state.description')
+                ->label('Description')
+                ->rules('required', 'max:255'),
+        ];
+    }
 
     public function savePaymentMethod(CreatePaymentMethodAction $action)
     {

@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Livewire\EmployeeStatuses;
+namespace App\Http\Livewire\PaymentMethods;
 
 use Livewire\Component;
-use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
-use App\Actions\EmployeeStatus\CreateEmployeeStatusAction;
+use App\Actions\PaymentMethods\CreatePaymentMethodAction;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 
-class CreateEmployeeStatusForm extends Component implements HasForms
+class CreatePaymentMethodForm extends Component implements HasForms
 {
     use InteractsWithForms;
     public $state = [
         'name' => null,
+        'description' => null,
     ];
 
     public function mount()
@@ -42,20 +42,33 @@ class CreateEmployeeStatusForm extends Component implements HasForms
             ])->statePath('state');
     }
 
-    public function saveEmployeeStatus(CreateEmployeeStatusAction $action)
+    protected function getFormSchema(): array
+    {
+        return [
+            TextInput::make('state.name')
+                ->label('Nom')
+                ->required()
+                ->rules('required', 'max:255'),
+            Textarea::make('state.description')
+                ->label('Description')
+                ->rules('required', 'max:255'),
+        ];
+    }
+
+    public function savePaymentMethod(CreatePaymentMethodAction $action)
     {
         $this->validate([
-            'state.name' => ['required', 'string', Rule::unique('employee_statuses', 'name')],
+            'state.name' => ['required', Rule::unique('payment_methods', 'name'), Rule::unique('payment_methods', 'id')]
         ]);
-
         $action->execute($this->state);
 
-        flasher("success", "Le statut a bien été créé avec suuccès.");
-        return redirect()->route('employeeStatuses.index');
+        flasher("success", "Le moyen de paiement a bien été créé.");
+
+        return redirect()->route('paymentMethods.index');
     }
 
     public function render()
     {
-        return view('livewire.employee-statuses.create-employee-status-form');
+        return view('livewire.payment-methods.create-payment-method-form');
     }
 }

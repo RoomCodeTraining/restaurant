@@ -42,6 +42,16 @@ class CreateEmployeeStatusForm extends Component implements HasForms
             ])->statePath('state');
     }
 
+    // protected function getFormSchema(): array
+    // {
+    //     return [
+    //         TextInput::make('state.name')
+    //             ->label('Nom')
+    //             ->required()
+    //             ->rules('required', 'max:255', 'unique:employee_statuses,name'),
+    //     ];
+    // }
+
     public function saveEmployeeStatus(CreateEmployeeStatusAction $action)
     {
         $this->validate([

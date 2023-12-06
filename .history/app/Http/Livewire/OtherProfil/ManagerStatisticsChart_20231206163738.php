@@ -24,6 +24,22 @@ class ManagerStatisticsChart extends ChartWidget
             ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
 
 
+        $platsPopulairesParSemaine = DB::table('commandes')
+            ->select('plat_id', DB::raw('WEEK(date_commande) as semaine'), DB::raw('COUNT(*) as nombre_commandes'))
+            ->groupBy('plat_id', 'semaine')
+            ->orderBy('semaine')
+            ->orderByDesc('nombre_commandes')
+            ->get();
+
+        dd($platsPopulairesParSemaine);
+
+        // Filtrer uniquement les plats ayant reçu le plus de commandes par semaine
+        $platsLesPlusPopulaires = $platsPopulairesParSemaine->groupBy('semaine')->map(function ($group) {
+            return $group->first(); // Prendre le premier plat de chaque semaine (celui avec le plus de commandes)
+        });
+
+        // $platsLesPlusPopulaires est maintenant une collection des plats les plus populaires par semaine
+
 
 
 

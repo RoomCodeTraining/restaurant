@@ -23,6 +23,8 @@ class CategoryEmployeeConsumptionChart extends ChartWidget
             return $userByCategory->count();
         });
 
+        //dd($ordersByCategoryUser);
+
         return [
 
             'datasets' => [

@@ -16,12 +16,21 @@ class CategoryEmployeeConsumptionChart extends ChartWidget
     protected function getData(): array
     {
 
+        // $ordersByUserCategory = DB::table('orders')
+        //     ->join('users', 'orders.user_id', 'users.id')
+        //     ->select('dish_id', 'users.user_type_id', DB::raw('MONTH(orders.created_at) as month'), DB::raw('COUNT(*) as total_orders'))
+        //     ->groupBy('users.user_type_id')->get();
+
+        // dd($ordersByUserCategory);
+
         $ordersByUserCategory = Order::where('user_id', '!=', null)
             ->get()->groupBy('user.userType.name');
 
         $ordersByCategoryUser = $ordersByUserCategory->map(function ($userByCategory) {
             return $userByCategory->count();
         });
+
+        //dd($ordersByCategoryUser);
 
         return [
 

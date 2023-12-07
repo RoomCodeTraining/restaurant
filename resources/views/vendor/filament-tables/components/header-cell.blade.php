@@ -46,7 +46,7 @@
         @endif
 
         <span
-            class="fi-ta-header-cell-label text-sm font-semibold text-gray-950 dark:text-white"
+            class="fi-ta-header-cell-label text-sm font-semibold text-white dark:text-white"
         >
             {{ $slot }}
         </span>

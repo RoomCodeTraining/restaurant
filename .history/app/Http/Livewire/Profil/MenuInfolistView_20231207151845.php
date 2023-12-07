@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Http\Livewire\Profil;
+
+use App\Models\Menu;
+use Livewire\Component;
+use Filament\Infolists\Infolist;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+
+class MenuInfolistView extends Component implements HasInfolists, HasForms
+{
+    use InteractsWithForms, InteractsWithInfolists;
+
+    public Menu $menu;
+
+    public function mount(Menu $menu)
+    {
+        $this->menu = $menu;
+    }
+
+    public function userViewProfil(Infolist $infolist): Infolist
+    {
+        return $infolist->record($this->user)->schema([
+            Section::make('Les informations de votre compte')
+                ->description('Ces informations concerne vos données personnelles en tant que employé, et vos accès pour les commandes')
+                ->aside()
+                ->schema([]);
+        ]);
+    }
+    public function render()
+    {
+        return view('livewire.profil.menu-infolist-view');
+    }
+}

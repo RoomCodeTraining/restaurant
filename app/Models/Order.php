@@ -5,16 +5,13 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use App\Support\ActivityHelper;
-use App\Support\DateTimeHelper;
 use App\States\Order\OrderState;
-use Spatie\ModelStates\HasStates;
-use Illuminate\Database\Eloquent\Model;
+use App\Support\DateTimeHelper;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Activitylog\LogOptions;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\ModelStates\HasStates;
 
 class Order extends Model
 {
@@ -71,11 +68,13 @@ class Order extends Model
 
 
 
-    public function scopeFilter($query, $period){
+    public function scopeFilter($query, $period)
+    {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
     }
 
-    public function scopeBreakfastPeriodFilter($query, $period){
+    public function scopeBreakfastPeriodFilter($query, $period)
+    {
         return $query->where('created_at', DateTimeHelper::inThePeriod($period));
     }
 
@@ -133,7 +132,8 @@ class Order extends Model
     }
 
 
-    public function getOrderTypeAttribute(){
+    public function getOrderTypeAttribute()
+    {
         return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
     }
 

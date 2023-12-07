@@ -33,7 +33,6 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -66,6 +65,7 @@ endpoints:
         example: IS9RH
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
       identifier: IS9RH
@@ -81,7 +81,6 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -115,39 +114,43 @@ endpoints:
         name: first_name
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: pzvsydw
+        example: ixmpsxxozgfzgxysllzzzohdu
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       last_name:
         name: last_name
         description: 'Le texte ne peut contenir plus de 225 caractères.'
         required: true
-        example: pk
+        example: lsewwvgteiibddhduuxjk
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       email:
         name: email
         description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: abruen@example.org
+        example: oreilly.nakia@example.com
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       contact:
         name: contact
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: flnqrlvrpzhvweeybmvrjehie
+        example: wz
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: pzvsydw
-      last_name: pk
-      email: abruen@example.org
-      contact: flnqrlvrpzhvweeybmvrjehie
+      first_name: ixmpsxxozgfzgxysllzzzohdu
+      last_name: lsewwvgteiibddhduuxjk
+      email: oreilly.nakia@example.com
+      contact: wz
     fileParameters: []
     responses: []
     responseFields: []
@@ -181,30 +184,33 @@ endpoints:
         name: current_password
         description: 'The current password of the user'
         required: true
-        example: ex
+        example: quasi
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       password:
         name: password
         description: 'The new password of the user'
         required: true
-        example: '{{[,!tq'
+        example: ZP@yNU|
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       password_confirmation:
         name: password_confirmation
         description: 'The new password confirmation of the user'
         required: true
-        example: quos
+        example: vero
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: ex
-      password: '{{[,!tq'
-      password_confirmation: quos
+      current_password: quasi
+      password: ZP@yNU|
+      password_confirmation: vero
     fileParameters: []
     responses: []
     responseFields: []

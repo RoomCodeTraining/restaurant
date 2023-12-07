@@ -7,185 +7,6 @@ servers:
   -
     url: 'https://cantine-ciprel.ci.ddev.site'
 paths:
-  /api/cards:
-    get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - 'Access Cards'
-  '/api/cards/{identifier}':
-    get:
-      summary: 'Display the specified resource.'
-      operationId: displayTheSpecifiedResource
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - 'Access Cards'
-    parameters:
-      -
-        in: path
-        name: identifier
-        description: ''
-        example: CARD000
-        required: true
-        schema:
-          type: string
-  /api/cards/current/assign:
-    post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
-      description: '@authenticated'
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Access Cards'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
-                  description: 'The user identifier or id'
-                  example: asperiores
-                identifier:
-                  type: string
-                  description: 'The card identifier'
-                  example: quis
-                quota_breakfast:
-                  type: integer
-                  description: 'The breakfast quota'
-                  example: 11
-                quota_lunch:
-                  type: integer
-                  description: 'The lunch quota'
-                  example: 14
-                payment_method_id:
-                  type: integer
-                  description: 'The payment method id'
-                  example: 15
-              required:
-                - user_id
-                - identifier
-                - quota_breakfast
-                - quota_lunch
-                - payment_method_id
-  /api/cards/temporary/assign:
-    post:
-      summary: 'Assign a temporary card to a user'
-      operationId: assignATemporaryCardToAUser
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Access Cards'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
-                  description: 'The user identifier or id'
-                  example: occaecati
-                identifier:
-                  type: string
-                  description: 'The card identifier'
-                  example: vel
-                expires_at:
-                  type: date
-                  description: 'The card expiration date'
-                  example: quidem
-              required:
-                - user_id
-                - identifier
-                - expires_at
-  /api/reload/cards:
-    post:
-      summary: ''
-      operationId: postApiReloadCards
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Access Cards'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                identifier:
-                  type: string
-                  description: ''
-                  example: aperiam
-                quota_type:
-                  type: string
-                  description: ''
-                  example: voluptate
-                quota:
-                  type: integer
-                  description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 23
-              required:
-                - identifier
-                - quota_type
-                - quota
-  /api/cards/current:
-    post:
-      summary: 'Get the current access card of a users'
-      operationId: getTheCurrentAccessCardOfAUsers
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - 'Access Cards'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                identifier:
-                  type: string
-                  description: ''
-                  example: cupiditate
-              required:
-                - identifier
   /api/orders/lunch-completed:
     post:
       summary: ''
@@ -205,7 +26,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: sit
+                  example: aut
               required:
                 - identifier
       security: []
@@ -228,7 +49,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: repellat
+                  example: quis
               required:
                 - identifier
       security: []
@@ -251,7 +72,7 @@ paths:
                 order_identifier:
                   type: string
                   description: ''
-                  example: delectus
+                  example: debitis
               required:
                 - order_identifier
       security: []
@@ -327,24 +148,24 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: tempore
+                  example: aspernatur
                 identifier:
                   type: string
                   description: ''
-                  example: commodi
+                  example: et
                 expires_at:
                   type: string
                   description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-                  example: '2072-10-17'
+                  example: '2049-01-02'
               required:
                 - user_id
                 - identifier
       security: []
   /api/login:
     post:
-      summary: ''
-      operationId: postApiLogin
-      description: ''
+      summary: 'Nouvelle connexion'
+      operationId: nouvelleConnexion
+      description: "Cette endpoint permet de se connecter à l'application mobile"
       parameters: []
       responses: {  }
       tags:
@@ -352,13 +173,13 @@ paths:
       security: []
   /api/orders:
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
-      description: ''
+      summary: 'Effectuer une commande pour un tiers'
+      operationId: effectuerUneCommandePourUnTiers
+      description: 'Cette endpoint permet de passer une commande pour un tiers'
       parameters: []
       responses: {  }
       tags:
-        - Orders
+        - 'Gesion des commandes'
       requestBody:
         required: true
         content:
@@ -368,19 +189,19 @@ paths:
               properties:
                 identifier:
                   type: string
-                  description: 'The card identifier'
-                  example: nulla
+                  description: ''
+                  example: enim
                 dish_id:
-                  type: integer
-                  description: 'The dish id'
-                  example: 13
+                  type: string
+                  description: ''
+                  example: rerum
               required:
                 - identifier
                 - dish_id
   /api/completed/orders:
     get:
-      summary: 'Mark order as completed'
-      operationId: markOrderAsCompleted
+      summary: ''
+      operationId: getApiCompletedOrders
       description: ''
       parameters: []
       responses:
@@ -397,12 +218,196 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Orders
+        - 'Gesion des commandes'
+  /api/cards:
+    get:
+      summary: 'Retourne la liste des cartes RFID'
+      operationId: retourneLaListeDesCartesRFID
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Gestion des cartes'
+  '/api/cards/{identifier}':
+    get:
+      summary: "Afficher les informations d'une carte RFID"
+      operationId: afficherLesInformationsDuneCarteRFID
+      description: "Cette endpoint permet d'afficher les informations d'une carte RFID"
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Gestion des cartes'
+    parameters:
+      -
+        in: path
+        name: identifier
+        description: ''
+        example: CARD000
+        required: true
+        schema:
+          type: string
+  /api/cards/current/assign:
+    post:
+      summary: 'Assignation de Carte primaire'
+      operationId: assignationDeCartePrimaire
+      description: "Cette endpoint permet d'assigner une carte primaire(Carte courante) à un utilisateur"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des cartes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: ''
+                  example: sint
+                identifier:
+                  type: string
+                  description: 'Le texte ne peut contenir plus de 255 caractères.'
+                  example: derhoaxfebkcpwysuvdfulrxx
+                quota_breakfast:
+                  type: integer
+                  description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+                  example: 15
+                quota_lunch:
+                  type: integer
+                  description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+                  example: 11
+                payment_method_id:
+                  type: string
+                  description: ''
+                  example: null
+              required:
+                - user_id
+                - identifier
+  /api/cards/temporary/assign:
+    post:
+      summary: 'Assigner une carte temporaire'
+      operationId: assignerUneCarteTemporaire
+      description: "Cette endpoint permet d'assigner une carte temporaire à un utilisateur"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des cartes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: 'The user identifier or id'
+                  example: libero
+                access_card_identifier:
+                  type: string
+                  description: 'Le texte ne peut contenir plus de 255 caractères.'
+                  example: xcktzczkulqdsarh
+                expires_at:
+                  type: date
+                  description: 'The card expiration date'
+                  example: ut
+                identifier:
+                  type: string
+                  description: 'The card identifier'
+                  example: consequatur
+              required:
+                - user_id
+                - access_card_identifier
+                - expires_at
+                - identifier
+  /api/reload/cards:
+    post:
+      summary: 'Recharger une carte RFID'
+      operationId: rechargerUneCarteRFID
+      description: 'Cette endpoint permet de recharger une carte RFID'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des cartes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_card_identifier:
+                  type: string
+                  description: ''
+                  example: commodi
+                quota_type:
+                  type: string
+                  description: ''
+                  example: quota_breakfast
+                  enum:
+                    - quota_lunch
+                    - quota_breakfast
+                quota:
+                  type: integer
+                  description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+                  example: 7
+              required:
+                - access_card_identifier
+                - quota_type
+                - quota
+  /api/cards/current:
+    post:
+      summary: "Recuperer de la carte courante de l'utilisateur"
+      operationId: recupererDeLaCarteCouranteDeLutilisateur
+      description: "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des cartes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                  description: ''
+                  example: eaque
+              required:
+                - identifier
   /api/dishes:
     get:
-      summary: 'List the dishes of the current menu.'
-      operationId: listTheDishesOfTheCurrentMenu
-      description: ''
+      summary: 'Liste des plats'
+      operationId: listeDesPlats
+      description: 'Cette endpoint permet de récupérer la liste des plats du jour'
       parameters: []
       responses:
         401:
@@ -418,7 +423,7 @@ paths:
                     type: string
                     example: Unauthenticated.
       tags:
-        - Orders
+        - 'Gestion des plats'
   /api/users:
     get:
       summary: 'Display a listing of the resource.'
@@ -489,19 +494,19 @@ paths:
                 first_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: pzvsydw
+                  example: ixmpsxxozgfzgxysllzzzohdu
                 last_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 225 caractères.'
-                  example: pk
+                  example: lsewwvgteiibddhduuxjk
                 email:
                   type: string
                   description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
-                  example: abruen@example.org
+                  example: oreilly.nakia@example.com
                 contact:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: flnqrlvrpzhvweeybmvrjehie
+                  example: wz
               required:
                 - first_name
                 - last_name
@@ -526,15 +531,15 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user'
-                  example: ex
+                  example: quasi
                 password:
                   type: string
                   description: 'The new password of the user'
-                  example: '{{[,!tq'
+                  example: ZP@yNU|
                 password_confirmation:
                   type: string
                   description: 'The new password confirmation of the user'
-                  example: quos
+                  example: vero
               required:
                 - current_password
                 - password
@@ -550,14 +555,17 @@ paths:
         - Users
 tags:
   -
-    name: 'Access Cards'
-    description: ''
-  -
     name: Endpoints
     description: ''
   -
-    name: Orders
+    name: 'Gesion des commandes'
+    description: "\nEndpoints pour la gestion des commandes"
+  -
+    name: 'Gestion des cartes'
     description: ''
+  -
+    name: 'Gestion des plats'
+    description: "\nEndpoints pour la gestion des plats de la cantine"
   -
     name: Users
     description: ''

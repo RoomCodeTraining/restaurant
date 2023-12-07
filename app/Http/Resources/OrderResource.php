@@ -16,8 +16,7 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'served_at' => $this->served_at,
-            'menu' => new MenuResource($this->menu),
+            'menu' => $this->menu->served_at->format('d/m/Y'),
             'dish' => new DishResource($this->dish),
         ];
     }

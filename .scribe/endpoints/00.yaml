@@ -26,12 +26,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: sit
+        example: aut
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: sit
+      identifier: aut
     fileParameters: []
     responses: []
     responseFields: []
@@ -65,12 +66,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: repellat
+        example: quis
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: repellat
+      identifier: quis
     fileParameters: []
     responses: []
     responseFields: []
@@ -104,12 +106,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: delectus
+        example: debitis
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: delectus
+      order_identifier: debitis
     fileParameters: []
     responses: []
     responseFields: []
@@ -148,7 +151,6 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -181,6 +183,7 @@ endpoints:
         example: 1
         type: integer
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
       id: 1
@@ -196,7 +199,6 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -230,30 +232,33 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: tempore
+        example: aspernatur
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       identifier:
         name: identifier
         description: ''
         required: true
-        example: commodi
+        example: et
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       expires_at:
         name: expires_at
         description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
         required: false
-        example: '2072-10-17'
+        example: '2049-01-02'
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: tempore
-      identifier: commodi
-      expires_at: '2072-10-17'
+      user_id: aspernatur
+      identifier: et
+      expires_at: '2049-01-02'
     fileParameters: []
     responses: []
     responseFields: []
@@ -271,8 +276,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: 'Nouvelle connexion'
+      description: "Cette endpoint permet de se connecter à l'application mobile"
       authenticated: false
       custom: []
     headers:

@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Support\ActivityHelper;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Menu extends Model
 {
@@ -13,7 +11,7 @@ class Menu extends Model
 
     protected $guarded = [];
 
-    
+
 
     protected $casts = [
         'served_at' => 'date',

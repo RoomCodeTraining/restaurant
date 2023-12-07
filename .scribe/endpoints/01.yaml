@@ -1,17 +1,21 @@
-name: Orders
-description: ''
+name: 'Gesion des commandes'
+description: |-
+
+  Endpoints pour la gestion des commandes
 endpoints:
   -
     httpMethods:
       - POST
     uri: api/orders
     metadata:
-      groupName: Orders
-      groupDescription: ''
+      groupName: 'Gesion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
       subgroup: ''
       subgroupDescription: ''
-      title: 'Store a newly created resource in storage.'
-      description: ''
+      title: 'Effectuer une commande pour un tiers'
+      description: 'Cette endpoint permet de passer une commande pour un tiers'
       authenticated: true
       custom: []
     headers:
@@ -24,23 +28,25 @@ endpoints:
     bodyParameters:
       identifier:
         name: identifier
-        description: 'The card identifier'
+        description: ''
         required: true
-        example: nulla
+        example: enim
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       dish_id:
         name: dish_id
-        description: 'The dish id'
+        description: ''
         required: true
-        example: 13
-        type: integer
+        example: rerum
+        type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: nulla
-      dish_id: 13
+      identifier: enim
+      dish_id: rerum
     fileParameters: []
     responses: []
     responseFields: []
@@ -54,11 +60,13 @@ endpoints:
       - GET
     uri: api/completed/orders
     metadata:
-      groupName: Orders
-      groupDescription: ''
+      groupName: 'Gesion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
       subgroup: ''
       subgroupDescription: ''
-      title: 'Mark order as completed'
+      title: ''
       description: ''
       authenticated: true
       custom: []
@@ -79,46 +87,6 @@ endpoints:
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/dishes
-    metadata:
-      groupName: Orders
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'List the dishes of the current menu.'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []

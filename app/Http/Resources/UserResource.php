@@ -19,6 +19,8 @@ class UserResource extends JsonResource
             'identifier' => $this->identifier,
             'full_name' => $this->full_name,
             'email' => $this->email,
+            'contact' => $this->contact,
+
             'department' => new DepartmentResource($this->whenLoaded('department')),
             'organization' => new OrganizationResource($this->whenLoaded('organization')),
             'accessCards' => new AccessCardResource($this->accessCard)

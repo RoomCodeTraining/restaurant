@@ -27,7 +27,6 @@
                     {{ $heading }}
                 </h3>
             @endif
-
             @if ($description)
                 <p
                     class="fi-ta-header-description text-sm text-gray-600 dark:text-gray-400"

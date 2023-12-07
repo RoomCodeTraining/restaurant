@@ -49,7 +49,7 @@ class MenuTable extends Component implements HasForms, HasTable
 
                     Action::make('Consulter')
                         ->url(fn (Menu $record): string => route('menus.show', $record))
-
+                        ->size('lg')
                         ->icon('heroicon-o-eye'),
 
                     Action::make('Editer')

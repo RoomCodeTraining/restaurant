@@ -31,14 +31,14 @@ class EditMenuForm extends Component implements HasForms
         'dessert_id' => null,
     ];
 
-    public function mount()
+    public function mount(): void
     {
-        //$this->menu = $menu;
+
         $this->state = [
             'starter_id' => $this->menu->starter->id,
             'main_dish_id' => $this->menu->main_dish->id,
-            'second_dish_id' => $this->menu->second_dish?->id,
-            'dessert_id' => $this->menu->dessert->id,
+            'second_dish_id' =>  $this->menu->second_dish?->id,
+            'dessert_id' =>  $this->menu->dessert->id,
         ];
     }
 
@@ -73,43 +73,6 @@ class EditMenuForm extends Component implements HasForms
     //     ];
     // }
 
-    public function form(Form $form): Form
-    {
-        return $form
-            ->schema([
-                Section::make('Modification du menu')
-                    ->aside()
-                    ->description('Veuillez saisir des informations correctes lors de la modification')
-                    ->schema([
-                        DatePicker::make('served_at')
-                            ->label('Menu du')
-                            ->columnSpan(2)
-                            ->minDate(now())
-                            ->maxDate(now()->addDays(7))
-                            ->format('d/m/Y'),
-                        Select::make('starter_id')
-                            ->label("Choississez l'entrée")
-                            ->required()
-                            ->options(Dish::starter()->pluck('name', 'id')),
-                        Select::make('dessert_id')
-                            ->label("Choississez le dessert")
-                            ->required()
-                            ->options(Dish::dessert()->pluck('name', 'id')),
-                        Select::make('main_dish_id')
-                            ->label("Choississez le plat principal 1")
-                            ->required()
-                            ->options(Dish::main()->pluck('name', 'id')),
-                        Select::make('second_dish_id')
-                            ->label("Choississez le plat principal 2")
-                            ->options(Dish::main()->pluck('name', 'id')),
-                    ]),
-
-
-                // ...
-            ])
-            ->statePath('state');
-    }
-
 
     public function saveMenu(UpdateMenuAction $action)
     {
@@ -125,6 +88,7 @@ class EditMenuForm extends Component implements HasForms
         ]);
 
         $menu = $action->execute($this->menu, $this->state);
+        // dd($menu);
 
         Notification::send(
             User::query()->whereRelation('orders', 'menu_id', $menu->id)->get(),

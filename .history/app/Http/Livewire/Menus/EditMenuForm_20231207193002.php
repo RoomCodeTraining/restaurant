@@ -31,55 +31,55 @@ class EditMenuForm extends Component implements HasForms
         'dessert_id' => null,
     ];
 
-    public function mount()
+    public function mount(): void
     {
-        //$this->menu = $menu;
+
         $this->state = [
             'starter_id' => $this->menu->starter->id,
             'main_dish_id' => $this->menu->main_dish->id,
-            'second_dish_id' => $this->menu->second_dish?->id,
-            'dessert_id' => $this->menu->dessert->id,
+            'second_dish_id' =>  $this->menu->second_dish?->id,
+            'dessert_id' =>  $this->menu->dessert->id,
         ];
     }
 
-    // public function getFormSchema(): array
-    // {
-    //     return [
-    //         Grid::make(2)
-    //             ->schema([
-    //                 DateTimePicker::make('state.served_at')
-    //                     ->displayFormat('d/m/Y')
-    //                     ->label('Menu du')
-    //                     ->columnSpan(2)
-    //                     ->required()
-    //                     ->autofocus()
-    //                     ->placeholder('Jour...'),
-    //                 Select::make('state.starter_id')
-    //                     ->label("Choississez l'entrée")
-    //                     ->required()
-    //                     ->options(Dish::starter()->pluck('name', 'id')),
-    //                 Select::make('state.dessert_id')
-    //                     ->label("Choississez le dessert")
-    //                     ->required()
-    //                     ->options(Dish::dessert()->pluck('name', 'id')),
-    //                 Select::make('state.main_dish_id')
-    //                     ->label("Choississez le plat principal 1")
-    //                     ->required()
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //                 Select::make('state.second_dish_id')
-    //                     ->label("Choississez le plat principal 2")
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //             ])
-    //     ];
-    // }
+    public function getFormSchema(): array
+    {
+        return [
+            Grid::make(2)
+                ->schema([
+                    DateTimePicker::make('state.served_at')
+                        ->displayFormat('d/m/Y')
+                        ->label('Menu du')
+                        ->columnSpan(2)
+                        ->required()
+                        ->autofocus()
+                        ->placeholder('Jour...'),
+                    Select::make('state.starter_id')
+                        ->label("Choississez l'entrée")
+                        ->required()
+                        ->options(Dish::starter()->pluck('name', 'id')),
+                    Select::make('state.dessert_id')
+                        ->label("Choississez le dessert")
+                        ->required()
+                        ->options(Dish::dessert()->pluck('name', 'id')),
+                    Select::make('state.main_dish_id')
+                        ->label("Choississez le plat principal 1")
+                        ->required()
+                        ->options(Dish::main()->pluck('name', 'id')),
+                    Select::make('state.second_dish_id')
+                        ->label("Choississez le plat principal 2")
+                        ->options(Dish::main()->pluck('name', 'id')),
+                ])
+        ];
+    }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Modification du menu')
+                Section::make('Ajouter un nouveau menu B')
                     ->aside()
-                    ->description('Veuillez saisir des informations correctes lors de la modification')
+                    ->description('Veuillez saisir des informations correctes lors de l\'ajout du menu')
                     ->schema([
                         DatePicker::make('served_at')
                             ->label('Menu du')
@@ -109,7 +109,6 @@ class EditMenuForm extends Component implements HasForms
             ])
             ->statePath('state');
     }
-
 
     public function saveMenu(UpdateMenuAction $action)
     {

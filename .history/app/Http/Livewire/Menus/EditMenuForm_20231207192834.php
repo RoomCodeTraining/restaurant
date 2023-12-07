@@ -6,15 +6,12 @@ use App\Models\Dish;
 use App\Models\Menu;
 use App\Models\User;
 use Livewire\Component;
-use Filament\Forms\Form;
 use Illuminate\Validation\Rule;
 use App\Notifications\MenuChanged;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use App\Actions\Menu\UpdateMenuAction;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\DatePicker;
 use Illuminate\Support\Facades\Notification;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -22,7 +19,7 @@ use Filament\Forms\Concerns\InteractsWithForms;
 class EditMenuForm extends Component implements HasForms
 {
     use InteractsWithForms;
-    public Menu $menu;
+    public $menu;
 
     public $state = [
         'starter_id' => null,
@@ -31,55 +28,55 @@ class EditMenuForm extends Component implements HasForms
         'dessert_id' => null,
     ];
 
-    public function mount()
+    public function mount(Menu $menu)
     {
-        //$this->menu = $menu;
+        $this->menu = $menu;
         $this->state = [
-            'starter_id' => $this->menu->starter->id,
-            'main_dish_id' => $this->menu->main_dish->id,
-            'second_dish_id' => $this->menu->second_dish?->id,
-            'dessert_id' => $this->menu->dessert->id,
+            'starter_id' => $menu->starter->id,
+            'main_dish_id' => $menu->main_dish->id,
+            'second_dish_id' => $menu->second_dish?->id,
+            'dessert_id' => $menu->dessert->id,
         ];
     }
 
-    // public function getFormSchema(): array
-    // {
-    //     return [
-    //         Grid::make(2)
-    //             ->schema([
-    //                 DateTimePicker::make('state.served_at')
-    //                     ->displayFormat('d/m/Y')
-    //                     ->label('Menu du')
-    //                     ->columnSpan(2)
-    //                     ->required()
-    //                     ->autofocus()
-    //                     ->placeholder('Jour...'),
-    //                 Select::make('state.starter_id')
-    //                     ->label("Choississez l'entrée")
-    //                     ->required()
-    //                     ->options(Dish::starter()->pluck('name', 'id')),
-    //                 Select::make('state.dessert_id')
-    //                     ->label("Choississez le dessert")
-    //                     ->required()
-    //                     ->options(Dish::dessert()->pluck('name', 'id')),
-    //                 Select::make('state.main_dish_id')
-    //                     ->label("Choississez le plat principal 1")
-    //                     ->required()
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //                 Select::make('state.second_dish_id')
-    //                     ->label("Choississez le plat principal 2")
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //             ])
-    //     ];
-    // }
+    public function getFormSchema(): array
+    {
+        return [
+            Grid::make(2)
+                ->schema([
+                    DateTimePicker::make('state.served_at')
+                        ->displayFormat('d/m/Y')
+                        ->label('Menu du')
+                        ->columnSpan(2)
+                        ->required()
+                        ->autofocus()
+                        ->placeholder('Jour...'),
+                    Select::make('state.starter_id')
+                        ->label("Choississez l'entrée")
+                        ->required()
+                        ->options(Dish::starter()->pluck('name', 'id')),
+                    Select::make('state.dessert_id')
+                        ->label("Choississez le dessert")
+                        ->required()
+                        ->options(Dish::dessert()->pluck('name', 'id')),
+                    Select::make('state.main_dish_id')
+                        ->label("Choississez le plat principal 1")
+                        ->required()
+                        ->options(Dish::main()->pluck('name', 'id')),
+                    Select::make('state.second_dish_id')
+                        ->label("Choississez le plat principal 2")
+                        ->options(Dish::main()->pluck('name', 'id')),
+                ])
+        ];
+    }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Modification du menu')
+                Section::make('Ajouter un nouveau menu B')
                     ->aside()
-                    ->description('Veuillez saisir des informations correctes lors de la modification')
+                    ->description('Veuillez saisir des informations correctes lors de l\'ajout du menu')
                     ->schema([
                         DatePicker::make('served_at')
                             ->label('Menu du')
@@ -109,7 +106,6 @@ class EditMenuForm extends Component implements HasForms
             ])
             ->statePath('state');
     }
-
 
     public function saveMenu(UpdateMenuAction $action)
     {

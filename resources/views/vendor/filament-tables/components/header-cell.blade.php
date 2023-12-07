@@ -40,7 +40,7 @@
             </span>
         @endif
 
-        <span class="fi-ta-header-cell-label text-sm font-semibold text-white uppercase dark:text-white">
+        <span style='font-size: 11px;' class="fi-ta-header-cell-label font-semibold text-white uppercase dark:text-white">
             {{ $slot }}
         </span>
 

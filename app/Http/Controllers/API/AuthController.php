@@ -34,7 +34,7 @@ class AuthController extends Controller
         ActivityHelper::createActivity($user, 'Connexion a l\'application mobile', 'Nouvelle connexion');
 
         return $this->responseSuccess(__('Nouvelle connexion'), [
-            'user' => new UserResource($user),
+            'user' => new UserResource($user->load('organization')),
             'token' => $user->createToken('bearer-token')->plainTextToken,
         ]);
     }

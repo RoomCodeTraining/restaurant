@@ -2,17 +2,17 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
 use App\Models\Department;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class DepartmentTable extends Component implements HasTable, HasForms
 {
@@ -39,10 +39,11 @@ class DepartmentTable extends Component implements HasTable, HasForms
                         ->before(function (Department $record) {
                             //DepartmentDeleted::dispatch($record);
                             Notification::make()->title('Département supprimé supprimé avec succès !')->danger()->send();
+
                             return redirect()->route('departments.index');
                         })
                         ->hidden(fn (Department $record) => $record->users->count() > 0)
-                        ->hidden(!Auth::user()->isAdmin())
+                        ->hidden(! Auth::user()->isAdmin())
                         ->action(fn (Department $record) => $record->delete()),
 
                 ]),

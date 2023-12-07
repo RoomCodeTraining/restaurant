@@ -98,7 +98,9 @@ class Order extends Model
 
     public function markAsCompleted()
     {
-        $this->state->transitionTo(Completed::class);
+        if($this->state->canTransitionTo(Completed::class)) {
+            $this->state->transitionTo(Completed::class);
+        }
     }
 
     public function markAsConfirmed()

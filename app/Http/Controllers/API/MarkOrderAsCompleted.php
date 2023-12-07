@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\AccessCard;
 use App\Models\Order;
+use App\States\Order\Completed;
+use App\States\Order\Confirmed;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -21,8 +23,7 @@ class MarkOrderAsCompleted extends Controller
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
-        $order = Order::today()->firstWhere('user_id', $accessCard->user_id);
-
+        $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         if(! $order) {
             return response()->json([
                 'message' => "Vous n'avez pas de commande pour aujourd'hui.",
@@ -31,12 +32,12 @@ class MarkOrderAsCompleted extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        if($order->state === 'completed') {
+        if(! $order->state->canTransitionTo(Completed::class)) {
             return response()->json([
-                'message' => "Vous avez déjà récupéré votre commande de ce jour.",
+                'message' => "Votre commande a déjà été marquée comme récupérée.",
                 "success" => false,
                 "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         if($order->is_for_the_evening && now()->hour <= 18) {

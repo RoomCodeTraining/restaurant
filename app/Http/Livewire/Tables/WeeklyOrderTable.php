@@ -9,6 +9,7 @@ use App\States\Order\Suspended;
 use Carbon\Carbon;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -34,9 +35,9 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                     ->sortable()
                     ->dateTime('d/m/Y'),
                 TextColumn::make('dish_id')
-                    ->label('Plat')
+                    ->label(__('Plat'))
                     ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
-                TextColumn::make('total_orders')->label('Nbr. de commandes'),
+                TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
             ])
             ->actions([
                 Action::make('show')
@@ -45,8 +46,8 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                     ->tooltip(__('Consulter les utilisateurs'))
                     ->modalHeading(fn (Order $row) => 'Utilisateurs ayant commandé le plat ' . dishName($row['dish_id']) . ' le ' . Carbon::parse($row['menu_served_at'])->format('d/m/Y'))
                     ->modalContent(fn (Order $row) => view('orders.summary.modals', ['dish_id' => $row->dish_id, 'served_at' => $row->menu_served_at]))
+                    ->modalWidth(MaxWidth::TwoExtraLarge)
                     ->modalSubmitAction(false)
-                    ->slideOver(),
             ]);
     }
 

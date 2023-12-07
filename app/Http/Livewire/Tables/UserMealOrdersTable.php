@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Tables;
 
+use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
@@ -28,6 +30,7 @@ class UserMealOrdersTable extends Component implements HasTable, HasForms
         return $table->query(
             \App\Models\Order::where('dish_id', $this->dish_id)
             ->with('user')
+            ->whereNotIn('state', [Cancelled::class, Suspended::class])
             ->whereHas('menu', function ($query) {
                 $query->where('served_at', $this->served_at);
             })->latest()

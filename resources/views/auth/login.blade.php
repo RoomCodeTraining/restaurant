@@ -39,8 +39,7 @@
                             <div class="flex w-full items-center justify-between mt-4 mb-12">
                                 <div class="">
                                     <label for="remember_me" class="inline-flex items-center">
-                                        <input id="remember_me" type="checkbox"
-                                        checked
+                                        <input id="remember_me" type="checkbox" checked
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             name="remember">
                                         <span class="ml-2 text-sm text-gray-600">{{ __(' Resté connecté ?') }}</span>

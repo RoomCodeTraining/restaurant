@@ -14,19 +14,19 @@
             </x-slot>
         </x-section-header>
         <livewire:profil.user-profil-view :user="$user" />
-        <div class="mt-8 mb-4">
-            @if (!auth()->user()->isFromLunchroom())
-                <div class="flex flex-col rounded shadow-sm  overflow-hidden">
-                    <div class="p-5 lg:p-6 flex-grow w-full md:flex md:space-x-5">
-                        <livewire:account.order-config-form />
-                    </div>
-                </div>
-            @endif
-            <div class="flex flex-col rounded shadow-sm overflow-hidden">
-                <div class="p-5 lg:p-6 flex-grow w-full md:flex md:space-x-5">
-                    <livewire:account.update-password-form />
-                </div>
-            </div>
-        </div>
+
+
+        <!-- END Card: User Profile -->
+        @if (!auth()->user()->isFromLunchroom())
+            <livewire:account.order-config-form />
+        @endif
+        <!-- Card: Change Password -->
+
+        <livewire:account.update-password-form />
+
+
+        <!-- END Card: Change Password -->
+
     </div>
+
 </x-app-layout>

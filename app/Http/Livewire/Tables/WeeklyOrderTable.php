@@ -20,26 +20,10 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 {
     use InteractsWithForms, InteractsWithTable;
 
-    public $dish_id;
-    public $server_at;
 
-    public function mount($dish_id, $server_at)
-    {
-        $this->dish_id = $dish_id;
-        $this->server_at = $server_at;
-    }
 
     public function table(Table $table): Table
     {
-        $allUsers = Order::query()
-            ->where('dish_id', $this->dish_id)
-            ->whereDate('served_at', $this->server_at)
-            ->whereNotIn('state', [Cancelled::class, Suspended::class])
-            ->with('user')
-            ->get()
-            ->pluck('user');
-
-        dd($allUsers);
 
         return $table
             ->query(self::getTableQuery())

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Support\ActivityHelper;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -21,25 +22,20 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        $user = User::with('role')->where('email', $request->email)->orWhere('username', $request->email)->first();
+        $user = User::with('role')
+            ->where('email', $request->email)
+            ->orWhere('username', $request->email)
+            ->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            return response([
-                'message' => ['E-mail ou mot de passe incorrect']
-            ], 404);
+            return $this->responseError(__('Identifiants incorrects'));
         }
 
-        $token = $user->createToken('bearer-token')->plainTextToken;
+        ActivityHelper::createActivity($user, 'Connexion a l\'application mobile', 'Nouvelle connexion');
 
-        ActivityHelper::createActivity(
-            $user,
-            'Connexion a l\'application mobile',
-            'Nouvelle connexion',
-        );
-
-        return response([
-            'user' => $user,
-            'token' => $token
+        return $this->responseSuccess(__('Nouvelle connexion'), [
+            'user' => new UserResource($user),
+            'token' => $user->createToken('bearer-token')->plainTextToken,
         ]);
     }
 }

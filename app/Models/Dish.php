@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use App\Support\HasImage;
-use App\Support\ActivityHelper;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Dish extends Model
 {
@@ -14,11 +13,12 @@ class Dish extends Model
 
     use HasImage;
 
+
     protected $fillable = [
         'name', 'description', 'dish_type_id', 'image_path',
     ];
 
-  
+
 
     public function getPositionAttribute()
     {
@@ -68,9 +68,7 @@ class Dish extends Model
 
     protected function defaultImageUrl()
     {
-        $img = asset("storage/".$this->attributes['image_path']); //Image chargée lors de la creation du plat
-
-        
+        $img = asset("storage/".$this->attributes['image_path']);
         switch ($this->dish_type_id) {
             case DishType::STARTER:
                 return $this->attributes['image_path'] ? $img : asset('images/entree1.png');
@@ -83,13 +81,21 @@ class Dish extends Model
         };
     }
 
+    public function image() : Attribute
+    {
+        return new Attribute(
+            fn () => $this->defaultImageUrl(),
+        );
+    }
+
     public function canBeOrdered(): bool
     {
         return $this->dishType->is_orderable;
     }
 
 
-    public function orders(){
-      return $this->hasMany(\App\Models\Order::class);
+    public function orders()
+    {
+        return $this->hasMany(\App\Models\Order::class);
     }
 }

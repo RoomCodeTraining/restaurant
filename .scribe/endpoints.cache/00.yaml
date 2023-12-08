@@ -28,12 +28,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: sit
+        example: laboriosam
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: sit
+      identifier: laboriosam
     fileParameters: []
     responses: []
     responseFields: []
@@ -67,12 +68,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: repellat
+        example: a
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: repellat
+      identifier: a
     fileParameters: []
     responses: []
     responseFields: []
@@ -106,12 +108,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: delectus
+        example: illo
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: delectus
+      order_identifier: illo
     fileParameters: []
     responses: []
     responseFields: []
@@ -146,11 +149,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -183,6 +185,7 @@ endpoints:
         example: 1
         type: integer
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
       id: 1
@@ -194,11 +197,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -232,30 +234,33 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: tempore
+        example: in
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       identifier:
         name: identifier
         description: ''
         required: true
-        example: commodi
+        example: nisi
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       expires_at:
         name: expires_at
         description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
         required: false
-        example: '2072-10-17'
+        example: '2095-02-12'
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: tempore
-      identifier: commodi
-      expires_at: '2072-10-17'
+      user_id: in
+      identifier: nisi
+      expires_at: '2095-02-12'
     fileParameters: []
     responses: []
     responseFields: []

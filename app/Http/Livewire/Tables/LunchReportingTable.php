@@ -2,19 +2,19 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
+use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class LunchReportingTable extends Component implements HasTable, HasForms
 {
@@ -69,7 +69,8 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                     })
             ])
             ->emptyStateHeading('Aucun déjeuner trouvé')
-            ->emptyStateIcon('heroicon-o-moon');;
+            ->emptyStateIcon('heroicon-o-moon');
+        ;
     }
 
 

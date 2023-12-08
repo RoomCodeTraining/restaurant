@@ -2,18 +2,17 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
-use App\Models\Department;
 use App\Models\Organization;
-use Filament\Tables\Table;
-use Filament\Actions\Action;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Actions\ActionGroup;
+use App\Support\ActivityHelper;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class OrganizationTable extends Component implements HasTable, HasForms
 {
@@ -24,32 +23,36 @@ class OrganizationTable extends Component implements HasTable, HasForms
         return $table
             ->query(\App\Models\Organization::query()->withCount('users')->latest())
             ->columns([
-                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('NOM')->searchable(),
-                TextColumn::make('id')->label('DESCRIPTION')
+                TextColumn::make('created_at')->label('Date de création')->searchable()->dateTime('d/m/Y'),
+                TextColumn::make('name')->label('Nom')->searchable(),
+                TextColumn::make('id')->label('Description')
                     ->formatStateUsing(function ($record) {
                         return  $record->description ?  $record->description : 'Aucune description';
                     }),
                 TextColumn::make('users_count')->label('NBR D\'EMPLOYES'),
             ])->actions([
-                ActionGroup::make([
                     Action::make('Editer')
                         ->url(fn (Organization $record): string => route('organizations.edit', $record))
-                        ->icon('heroicon-o-pencil'),
+                        ->color('info')
+                        ->label('')
+                        ->tooltip('Editer la sociéte')
+                        ->icon('heroicon-o-pencil-square'),
 
-                    Action::make('Supprimer')
+                    Action::make('delete')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
                         ->color('danger')
-                        ->before(function (Organization $record) {
-                            //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Sociéte supprimé supprimé avec succès !')->danger()->send();
-                            return redirect()->route('organizations.index');
-                        })
+                        ->label('')
+                        ->tooltip('Supprimer la sociéte')
+                        ->requiresConfirmation()
+                        ->modalHeading('Supprimer la sociéte')
+                        ->modalDescription('Etes-vous sûr de vouloir supprimer cette sociéte ?')
                         ->hidden(fn (Organization $record) => $record->users->count() > 0)
-                        ->action(fn (Organization $record) => $record->delete()),
-
-                ]),
+                        ->action(function (Organization $record) {
+                            $record->delete();
+                            ActivityHelper::createActivity($record, 'Suppression du departement '.$record->name, 'Suppression du departement');
+                            Notification::make()->title('Suppression du departement')->success()->body('Le departement a été supprimé avec succès !')->send($record->user);
+                        }),
             ]);
     }
 

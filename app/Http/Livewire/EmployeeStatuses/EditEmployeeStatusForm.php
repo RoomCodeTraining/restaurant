@@ -2,15 +2,13 @@
 
 namespace App\Http\Livewire\EmployeeStatuses;
 
-use Livewire\Component;
-use Filament\Forms\Form;
-use App\Models\EmployeeStatus;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Forms\Concerns\InteractsWithForms;
 use App\Actions\EmployeeStatus\UpdateEmployeeStatusAction;
+use App\Models\EmployeeStatus;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Livewire\Component;
 
 class EditEmployeeStatusForm extends Component implements HasForms
 {
@@ -32,29 +30,24 @@ class EditEmployeeStatusForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification des informations à la catégorie professionnelle')
-                    ->description('Veuillez saisir des noms de catégorie professionnelle corrects pour une meilleure affiliation')
-                    ->aside()
-                    ->schema([
-                        TextInput::make('name')
-                            ->label('Nom')
-                            ->required()
-                            ->rules('required', 'max:255'),
-
-                    ])
-                // ...
-            ])->statePath('state');
+                TextInput::make('name')
+                    ->label('Nom')
+                    ->required()
+                    ->rules('required', 'max:255'),
+            ])
+            ->statePath('state');
     }
 
     public function saveEmployeeStatus(UpdateEmployeeStatusAction $action)
     {
         $this->validate([
-            'state.name' => ['required', 'string'],
+            'state.name' => ['required', 'string', 'unique:employee_statuses,name,' . $this->employeeStatus->id . ',id'],
         ]);
 
         $action->execute($this->employeeStatus, $this->state);
 
-        flasher("success", "Le statut a bien été modifié avec succès.");
+        flasher('success', 'Le statut a bien été modifié avec succès.');
+
         return redirect()->route('employeeStatuses.index');
     }
 

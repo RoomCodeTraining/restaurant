@@ -10,6 +10,5 @@
             </a>
         </x-slot>
     </x-section-header>
-
     <livewire:user-types.edit-user-type-form :userType="$userType" />
 </x-app-layout>

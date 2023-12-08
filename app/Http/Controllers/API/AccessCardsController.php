@@ -6,17 +6,21 @@ use App\Actions\AccessCard\CreateAccessCardAction;
 use App\Actions\AccessCard\LogActionMessage;
 use App\Events\UpdatedAccessCard;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReloadCardRequest;
+use App\Http\Requests\StoreCurrentCardRequest;
+use App\Http\Requests\StoreTemporaryCardRequest;
 use App\Http\Resources\AccessCardResource;
 use App\Models\AccessCard;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use InvalidArgumentException;
 
 /**
- * @group Access Cards
+ * @group  Gestion des cartes
  * @authenticated
- * APIs for managing NFC cards
+ * Resource API pour la gestion des cartes RFID des collaborateurs
  */
 class AccessCardsController extends Controller
 {
@@ -26,8 +30,8 @@ class AccessCardsController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @authenticated
+     * Retourne la liste des cartes RFID
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -36,26 +40,16 @@ class AccessCardsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *  @authenticated
+     * Assignation de Carte primaire
+     *
+     * Cette endpoint permet d'assigner une carte primaire(Carte courante) à un utilisateur
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-      * @bodyParam user_id string required The user identifier or id
-      * @bodyParam identifier string required The card identifier
-      * @bodyParam quota_breakfast integer required The breakfast quota
-      * @bodyParam quota_lunch integer required The lunch quota
-      * @bodyParam payment_method_id integer required The payment method id
      */
-    public function assignCurrentCarrd(Request $request, CreateAccessCardAction $createAccessCardAction)
+    public function assignCurrentCarrd(StoreCurrentCardRequest $request, CreateAccessCardAction $createAccessCardAction)
     {
         $this->authorize('create', AccessCard::class);
-        $validated = $request->validate([
-          'user_id' => ['required', Rule::exists('users', 'id')],
-          'identifier' => ['required', 'string', 'max:255', Rule::unique('access_cards', 'identifier')],
-          'quota_breakfast' => ['nullable', Rule::requiredIf(! $request->is_temporary), 'integer', 'min:0', 'max:25'],
-          'quota_lunch' => ['nullable', Rule::requiredIf(! $request->is_temporary), 'integer', 'min:0', 'max:25'],
-          'payment_method_id' => ['nullable', Rule::exists('payment_methods', 'id')],
-        ]);
+        $validated = $request->validated();
 
         $user = User::where('id', $validated['user_id'])->orWhere('identifier', $validated['user_id'])->with('userType.paymentMethod')->first();
 
@@ -96,14 +90,15 @@ class AccessCardsController extends Controller
     }
 
     /**
-    * Assign a temporary card to a user
-    * @authenticated
+    *  Assigner une carte temporaire
+    *
+    * Cette endpoint permet d'assigner une carte temporaire à un utilisateur
     * @param  \Illuminate\Http\Request  $request
     * @bodyParam user_id string required The user identifier or id
     * @bodyParam identifier string required The card identifier
     * @bodyParam expires_at date required The card expiration date
     */
-    public function assignTemporaryCard(Request $request, CreateAccessCardAction $createAccessCardAction)
+    public function assignTemporaryCard(StoreTemporaryCardRequest $request, CreateAccessCardAction $createAccessCardAction)
     {
         $this->authorize('create', AccessCard::class);
 
@@ -166,8 +161,9 @@ class AccessCardsController extends Controller
 
 
     /**
-     * Display the specified resource.
-     * @authenticated
+     * Afficher les informations d'une carte RFID
+     *
+     * Cette endpoint permet d'afficher les informations d'une carte RFID
      * @param  \App\Models\AccessCard  $card
      * @return \Illuminate\Http\Response
      */
@@ -176,32 +172,26 @@ class AccessCardsController extends Controller
         return new AccessCardResource($card->load('user', 'paymentMethod'));
     }
 
-    public function reloadAccessCard(Request $request, LogActionMessage $action)
+    /**
+     * Recharger une carte RFID
+     *
+     * Cette endpoint permet de recharger une carte RFID
+     * @param Request $request
+     * @param LogActionMessage $action
+     * @return JsonResponse
+     */
+    public function reloadAccessCard(ReloadCardRequest $request, LogActionMessage $action)
     {
+        $validated = $request->validated();
 
-
-        $request->validate([
-          'identifier' => ['required', function ($attrubute, $value, $fail) {
-              if (! AccessCard::whereIdentifier($value)) {
-                  $fail("Cette Carte RFID n'existe pas. Veuillez verifier l'identifiant entré");
-              }
-          }],
-          'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
-          'quota' => ['required', 'integer', 'min:0', 'max:25'],
-        ]);
-
-
-
-        $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $request->identifier)->first();
+        $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $validated['access_card_identifier'])->first();
         $old_quota = $card[$request->quota_type];
-
-
 
         /*
         * Mise a jour du nombre de fois le quota a été rechargé
         */
 
-        $type = $request->quota_type == 'quota_lunch' ? 'lunch' : 'breakfast';
+        $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
 
         $card->createReloadHistory($type);
 
@@ -215,7 +205,7 @@ class AccessCardsController extends Controller
 
 
 
-        $card->update([$request->quota_type => $request->quota + $old_quota]);
+        $card->update([$validated['quota_type'] => $request->quota + $old_quota]);
 
         $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
 
@@ -224,7 +214,7 @@ class AccessCardsController extends Controller
         activity()
           ->causedBy(Auth()->user())
           ->performedOn($card)
-          ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par ".auth()->user()->full_name.". Le nouveau quota de {$quota_title} est de {$request->quota}.")
+          ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par ".auth()->user()->full_name.". Le nouveau quota de {$quota_title} est de {$validated['quota']}.")
           ->log('Rechargement de carte RFID');
 
         return response()->json([
@@ -235,8 +225,9 @@ class AccessCardsController extends Controller
     }
 
     /**
-     * Get the current access card of a users
-      * @authenticated
+     * Recuperer de la carte courante de l'utilisateur
+     *
+     * Cette endpoint permet de recuperer la carte courante d'un utilisateur
      * @param Request $request
      * @return AccessCardResource
      * @throws InvalidArgumentException

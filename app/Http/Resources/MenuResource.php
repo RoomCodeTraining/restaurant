@@ -14,6 +14,10 @@ class MenuResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'menu_du_jour' => $this->served_at->format('d/m/Y'),
+            'plats' => DishResource::collection($this->mainDishes()->get()),
+        ];
     }
 }

@@ -68,9 +68,9 @@ export default {
               800: '#b9bbbc',
               900: '#b1b3b4'
             },
-            // danger: colors.rose,
-            // success: colors.emerald,
-            // warning: colors.amber
+            danger: colors.rose,
+            success: colors.emerald,
+            warning: colors.amber
           },
         },
         keyframes: {

@@ -10,227 +10,11 @@
     ],
     "info": {
         "name": "Ciprel Cantine - Application de gestion de la cantine",
-        "_postman_id": "9a475cc4-f295-4c78-b050-c505c45e6103",
+        "_postman_id": "75c14f01-ecaf-4527-818b-b1853c3fbe47",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
-        {
-            "name": "Access Cards",
-            "description": "",
-            "item": [
-                {
-                    "name": "Display a listing of the resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Display the specified resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards\/:identifier",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards\/:identifier",
-                            "variable": [
-                                {
-                                    "id": "identifier",
-                                    "key": "identifier",
-                                    "value": "CARD000",
-                                    "description": ""
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": ""
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Store a newly created resource in storage.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards\/current\/assign",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards\/current\/assign"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"user_id\":\"asperiores\",\"identifier\":\"quis\",\"quota_breakfast\":11,\"quota_lunch\":14,\"payment_method_id\":15}"
-                        },
-                        "description": "@authenticated"
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Assign a temporary card to a user",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards\/temporary\/assign",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards\/temporary\/assign"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"user_id\":\"occaecati\",\"identifier\":\"vel\",\"expires_at\":\"quidem\"}"
-                        },
-                        "description": ""
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/reload\/cards",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/reload\/cards",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/reload\/cards"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"identifier\":\"aperiam\",\"quota_type\":\"voluptate\",\"quota\":23}"
-                        },
-                        "description": ""
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Get the current access card of a users",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards\/current",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards\/current"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"identifier\":\"cupiditate\"}"
-                        },
-                        "description": ""
-                    },
-                    "response": []
-                }
-            ]
-        },
         {
             "name": "Endpoints",
             "description": "",
@@ -257,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"sit\"}"
+                            "raw": "{\"identifier\":\"laboriosam\"}"
                         },
                         "description": "",
                         "auth": {
@@ -288,7 +72,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"repellat\"}"
+                            "raw": "{\"identifier\":\"a\"}"
                         },
                         "description": "",
                         "auth": {
@@ -319,7 +103,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_identifier\":\"delectus\"}"
+                            "raw": "{\"order_identifier\":\"illo\"}"
                         },
                         "description": "",
                         "auth": {
@@ -358,20 +142,16 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -414,20 +194,16 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -454,7 +230,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"tempore\",\"identifier\":\"commodi\",\"expires_at\":\"2072-10-17\"}"
+                            "raw": "{\"user_id\":\"in\",\"identifier\":\"nisi\",\"expires_at\":\"2095-02-12\"}"
                         },
                         "description": "",
                         "auth": {
@@ -494,11 +270,11 @@
             ]
         },
         {
-            "name": "Orders",
-            "description": "",
+            "name": "Gesion des commandes",
+            "description": "\nEndpoints pour la gestion des commandes",
             "item": [
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "Effectuer une commande pour un tiers",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -519,14 +295,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"nulla\",\"dish_id\":13}"
+                            "raw": "{\"identifier\":\"id\",\"dish_id\":\"consectetur\"}"
                         },
-                        "description": ""
+                        "description": "Cette endpoint permet de passer une commande pour un tiers"
                     },
                     "response": []
                 },
                 {
-                    "name": "Mark order as completed",
+                    "name": "GET api\/completed\/orders",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -552,32 +328,34 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "name": "Gestion des cartes",
+            "description": "",
+            "item": [
                 {
-                    "name": "List the dishes of the current menu.",
+                    "name": "Retourne la liste des cartes RFID",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
-                            "path": "api\/dishes",
+                            "path": "api\/cards",
                             "query": [],
-                            "raw": "{{baseUrl}}\/api\/dishes"
+                            "raw": "{{baseUrl}}\/api\/cards"
                         },
                         "method": "GET",
                         "header": [
@@ -597,20 +375,224 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Afficher les informations d'une carte RFID",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/cards\/:identifier",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/cards\/:identifier",
+                            "variable": [
+                                {
+                                    "id": "identifier",
+                                    "key": "identifier",
+                                    "value": "CARD000",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Cette endpoint permet d'afficher les informations d'une carte RFID"
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Assignation de Carte primaire",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/cards\/current\/assign",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/cards\/current\/assign"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":\"minima\",\"identifier\":\"prhp\",\"quota_breakfast\":10,\"quota_lunch\":21}"
+                        },
+                        "description": "Cette endpoint permet d'assigner une carte primaire(Carte courante) \u00e0 un utilisateur"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Assigner une carte temporaire",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/cards\/temporary\/assign",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/cards\/temporary\/assign"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":\"eligendi\",\"access_card_identifier\":\"gvqkxfou\",\"expires_at\":\"autem\",\"identifier\":\"facere\"}"
+                        },
+                        "description": "Cette endpoint permet d'assigner une carte temporaire \u00e0 un utilisateur"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Recharger une carte RFID",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/reload\/cards",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/reload\/cards"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"access_card_identifier\":\"voluptate\",\"quota_type\":\"quota_breakfast\",\"quota\":7}"
+                        },
+                        "description": "Cette endpoint permet de recharger une carte RFID"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Recuperer de la carte courante de l'utilisateur",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/cards\/current",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/cards\/current"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"identifier\":\"et\"}"
+                        },
+                        "description": "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Gestion des plats",
+            "description": "\nEndpoints pour la gestion des plats de la cantine",
+            "item": [
+                {
+                    "name": "Liste des plats",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/dishes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/dishes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Cette endpoint permet de r\u00e9cup\u00e9rer la liste des plats du jour"
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -648,20 +630,16 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -678,7 +656,7 @@
                                 {
                                     "id": "identifier",
                                     "key": "identifier",
-                                    "value": "IS9RH",
+                                    "value": "4BHGJ",
                                     "description": ""
                                 }
                             ]
@@ -701,20 +679,16 @@
                         {
                             "header": [
                                 {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
                                     "key": "cache-control",
                                     "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -741,7 +715,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"pzvsydw\",\"last_name\":\"pk\",\"email\":\"abruen@example.org\",\"contact\":\"flnqrlvrpzhvweeybmvrjehie\"}"
+                            "raw": "{\"first_name\":\"ipqccskafelqnwrzyehd\",\"last_name\":\"drbgzgmrcgveivlszduu\",\"email\":\"jamar.kuhlman@example.net\",\"contact\":\"gwbevvtosa\"}"
                         },
                         "description": ""
                     },
@@ -769,7 +743,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"ex\",\"password\":\"{{[,!tq\",\"password_confirmation\":\"quos\"}"
+                            "raw": "{\"current_password\":\"autem\",\"password\":\"h<Y-@+'RYbZ2]pV!HB}5\",\"password_confirmation\":\"asperiores\"}"
                         },
                         "description": ""
                     },

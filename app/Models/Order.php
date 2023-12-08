@@ -5,16 +5,13 @@ namespace App\Models;
 use App\States\Order\Cancelled;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use App\Support\ActivityHelper;
-use App\Support\DateTimeHelper;
 use App\States\Order\OrderState;
-use Spatie\ModelStates\HasStates;
-use Illuminate\Database\Eloquent\Model;
+use App\Support\DateTimeHelper;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Activitylog\LogOptions;
-
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\ModelStates\HasStates;
 
 class Order extends Model
 {
@@ -25,9 +22,7 @@ class Order extends Model
     use SoftDeletes;
     protected static $recordEvents = [];
 
-
     protected $guarded = [];
-
 
     protected $casts = [
         'state' => OrderState::class,
@@ -36,10 +31,8 @@ class Order extends Model
         'is_decrement' => 'boolean',
     ];
 
-    public const LUNCH = "Commande pour midi";
-    public const EVENING = "Commande pour le soir";
-
-
+    public const LUNCH = 'Commande pour midi';
+    public const EVENING = 'Commande pour le soir';
 
     protected static function booted()
     {
@@ -63,19 +56,18 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
     }
 
-
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
     }
 
-
-
-    public function scopeFilter($query, $period){
+    public function scopeFilter($query, $period)
+    {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
     }
 
-    public function scopeBreakfastPeriodFilter($query, $period){
+    public function scopeBreakfastPeriodFilter($query, $period)
+    {
         return $query->where('created_at', DateTimeHelper::inThePeriod($period));
     }
 
@@ -99,7 +91,10 @@ class Order extends Model
 
     public function markAsCompleted()
     {
-        $this->state->transitionTo(Completed::class);
+        if ($this->state->canTransitionTo(Completed::class)) {
+            $this->state->transitionTo(Completed::class);
+            $this->setPointingAt();
+        }
     }
 
     public function markAsConfirmed()
@@ -132,9 +127,9 @@ class Order extends Model
         return $this->belongsTo(AccessCard::class);
     }
 
-
-    public function getOrderTypeAttribute(){
-        return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
+    public function getOrderTypeAttribute()
+    {
+        return $this->type == 'lunch' ? 'Dejeuner' : 'Pétit dejeuner';
     }
 
     public function isToday()
@@ -142,4 +137,27 @@ class Order extends Model
         return $this->menu->served_at->isCurrentDay();
     }
 
+    public function isCurrentState($state): bool
+    {
+        return $this->state instanceof $state;
+    }
+
+    public function getStateColor()
+    {
+        // dd($this->state);
+        match ($this->state) {
+            $this->isCurrentState(Confirmed::class) => 'gray',
+            $this->isCurrentState(Cancelled::class) => 'danger',
+            $this->isCurrentState(Completed::class) => 'success',
+            default => 'danger',
+        };
+    }
+
+
+    public function setPointingAt() : self
+    {
+        $this->update(['pointing_at' => now()]);
+
+        return $this;
+    }
 }

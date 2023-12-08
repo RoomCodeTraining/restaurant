@@ -14,8 +14,7 @@
             </a>
         </x-slot>
     </x-section-header>
-
-    <div class="bg-white px-6 py-4 rounded-md shadow-lg">
+    <div class="px-6 py-4 rounded-md">
         <livewire:tables.menu-table />
     </div>
 </x-app-layout>

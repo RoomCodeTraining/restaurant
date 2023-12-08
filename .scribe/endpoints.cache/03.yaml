@@ -29,11 +29,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -63,12 +62,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: IS9RH
+        example: 4BHGJ
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      identifier: IS9RH
+      identifier: 4BHGJ
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -77,11 +77,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
         description: null
         custom: []
     responseFields: []
@@ -115,39 +114,43 @@ endpoints:
         name: first_name
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: pzvsydw
+        example: ipqccskafelqnwrzyehd
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       last_name:
         name: last_name
         description: 'Le texte ne peut contenir plus de 225 caractères.'
         required: true
-        example: pk
+        example: drbgzgmrcgveivlszduu
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       email:
         name: email
         description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: abruen@example.org
+        example: jamar.kuhlman@example.net
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       contact:
         name: contact
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: flnqrlvrpzhvweeybmvrjehie
+        example: gwbevvtosa
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: pzvsydw
-      last_name: pk
-      email: abruen@example.org
-      contact: flnqrlvrpzhvweeybmvrjehie
+      first_name: ipqccskafelqnwrzyehd
+      last_name: drbgzgmrcgveivlszduu
+      email: jamar.kuhlman@example.net
+      contact: gwbevvtosa
     fileParameters: []
     responses: []
     responseFields: []
@@ -181,30 +184,33 @@ endpoints:
         name: current_password
         description: 'The current password of the user'
         required: true
-        example: ex
+        example: autem
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       password:
         name: password
         description: 'The new password of the user'
         required: true
-        example: '{{[,!tq'
+        example: "h<Y-@+'RYbZ2]pV!HB}5"
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
       password_confirmation:
         name: password_confirmation
         description: 'The new password confirmation of the user'
         required: true
-        example: quos
+        example: asperiores
         type: string
         enumValues: []
+        exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: ex
-      password: '{{[,!tq'
-      password_confirmation: quos
+      current_password: autem
+      password: "h<Y-@+'RYbZ2]pV!HB}5"
+      password_confirmation: asperiores
     fileParameters: []
     responses: []
     responseFields: []

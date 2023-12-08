@@ -16,6 +16,7 @@
             </x-slot>
         @endcan
     </x-section-header>
+
     <div class="px-6 py-4">
         <livewire:tables.user-type-table />
     </div>

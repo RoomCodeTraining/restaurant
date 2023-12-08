@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Essa\APIToolKit\Exceptions\Handler as APIHandler;
 use Throwable;
 
-class Handler extends ExceptionHandler
+class Handler extends APIHandler
 {
     /**
      * A list of the exception types that are not reported.

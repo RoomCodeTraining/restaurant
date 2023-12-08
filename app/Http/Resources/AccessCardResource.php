@@ -23,8 +23,8 @@ class AccessCardResource extends JsonResource
             'lunch_reload_count' => $this->lunch_reload_count,
             'breakfast_reload_count' => $this->breakfast_reload_count,
             'expires_at' => $this->expires_at,
-            'payment_method' => new PaymentMethodResource($this->paymentMethod),
-            'user' => new UserResource($this->user),
+            'payment_method' => new PaymentMethodResource($this->whenLoaded('paymentMethod')),
+            'user' => new UserResource($this->whenLoaded('user')),
         ];
     }
 }

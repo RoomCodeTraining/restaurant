@@ -6,14 +6,21 @@ use App\Http\Resources\DishResource;
 use App\Models\Menu;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+/**
+ * @group Gestion des plats
+ *
+ * Endpoints pour la gestion des plats de la cantine
+ * @authenticated
+ * @package App\Http\Controllers\API
+ */
 class DishesController
 {
     use AuthorizesRequests;
 
     /**
-     * List the dishes of the current menu.
-     * @authenticated
-     * @group Orders
+     * Liste des plats
+     *
+     * Cette endpoint permet de récupérer la liste des plats du jour
      * @return \Illuminate\Http\Response
      */
     public function index()

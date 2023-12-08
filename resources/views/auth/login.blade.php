@@ -56,7 +56,7 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full py-3 text-white font-medium bg-primary-900 text-gray-100  focus:outline-none">
+                                class="w-full py-3 font-medium bg-primary-900  text-white  focus:outline-none">
                                 Connectez-vous
                             </button>
                         </div>

@@ -12,7 +12,6 @@
                     Retour
                 </a>
             </x-slot>
-
         </x-section-header>
         <livewire:profil.user-profil-view :user="$user" />
 

@@ -31,10 +31,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []

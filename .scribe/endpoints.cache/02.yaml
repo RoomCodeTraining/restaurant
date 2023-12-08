@@ -29,10 +29,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -77,10 +77,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -114,7 +114,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: sint
+        example: minima
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -123,7 +123,7 @@ endpoints:
         name: identifier
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: derhoaxfebkcpwysuvdfulrxx
+        example: prhp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -132,7 +132,7 @@ endpoints:
         name: quota_breakfast
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: false
-        example: 15
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -141,7 +141,7 @@ endpoints:
         name: quota_lunch
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: false
-        example: 11
+        example: 21
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -156,10 +156,10 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: sint
-      identifier: derhoaxfebkcpwysuvdfulrxx
-      quota_breakfast: 15
-      quota_lunch: 11
+      user_id: minima
+      identifier: prhp
+      quota_breakfast: 10
+      quota_lunch: 21
     fileParameters: []
     responses: []
     responseFields: []
@@ -193,7 +193,7 @@ endpoints:
         name: user_id
         description: 'The user identifier or id'
         required: true
-        example: libero
+        example: eligendi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -202,7 +202,7 @@ endpoints:
         name: access_card_identifier
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: xcktzczkulqdsarh
+        example: gvqkxfou
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -211,7 +211,7 @@ endpoints:
         name: expires_at
         description: 'The card expiration date'
         required: true
-        example: ut
+        example: autem
         type: date
         enumValues: []
         exampleWasSpecified: false
@@ -220,16 +220,16 @@ endpoints:
         name: identifier
         description: 'The card identifier'
         required: true
-        example: consequatur
+        example: facere
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: libero
-      access_card_identifier: xcktzczkulqdsarh
-      expires_at: ut
-      identifier: consequatur
+      user_id: eligendi
+      access_card_identifier: gvqkxfou
+      expires_at: autem
+      identifier: facere
     fileParameters: []
     responses: []
     responseFields: []
@@ -263,7 +263,7 @@ endpoints:
         name: access_card_identifier
         description: ''
         required: true
-        example: commodi
+        example: voluptate
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -289,7 +289,7 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      access_card_identifier: commodi
+      access_card_identifier: voluptate
       quota_type: quota_breakfast
       quota: 7
     fileParameters: []
@@ -325,13 +325,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: eaque
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: eaque
+      identifier: et
     fileParameters: []
     responses: []
     responseFields: []

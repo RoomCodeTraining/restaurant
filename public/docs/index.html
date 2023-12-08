@@ -382,10 +382,10 @@
                                                                     <div class="expandable">
                                         <div class="sl-flex sl-items-center sl-h-md sl-pr-4 sl-pl-8 sl-bg-canvas-100 hover:sl-bg-canvas-200 sl-cursor-pointer sl-select-none"
                                              id="toc-item-endpoints-POSTapi-login">
-                                            <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="Nouvelle connexion">
+                                            <div class="sl-flex-1 sl-items-center sl-truncate sl-mr-1.5 sl-p-0" title="POST api/login">
                                                 <a class="ElementsTableOfContentsItem sl-block sl-no-underline"
                                                    href="#endpoints-POSTapi-login">
-                                                    Nouvelle connexion
+                                                    POST api/login
                                                 </a>
                                             </div>
                                                                                     </div>
@@ -641,7 +641,7 @@
 
         </div>
         <div class="sl-flex sl-items-center sl-px-4 sl-py-3 sl-border-t">
-            Last updated: December 7, 2023
+            Last updated: December 8, 2023
         </div>
 
         <div class="sl-flex sl-items-center sl-px-4 sl-py-3 sl-border-t">
@@ -791,7 +791,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        aut
+                        laboriosam
                     </div>
                 </div>
             </div>
@@ -885,7 +885,7 @@ You can switch the language used with the tabs at the top right (or from the nav
                                      id="json-body-POSTapi-orders-lunch-completed"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "aut"
+    "identifier": "laboriosam"
 }</div>
                             </div>
                                             </div>
@@ -981,7 +981,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"aut\"
+    \"identifier\": \"laboriosam\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -1000,7 +1000,7 @@ const headers = {
 };
 
 let body = {
-    "identifier": "aut"
+    "identifier": "laboriosam"
 };
 
 fetch(url, {
@@ -1118,7 +1118,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quis
+                        a
                     </div>
                 </div>
             </div>
@@ -1212,7 +1212,7 @@ fetch(url, {
                                      id="json-body-POSTapi-orders-breakfast-completed"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "quis"
+    "identifier": "a"
 }</div>
                             </div>
                                             </div>
@@ -1308,7 +1308,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"quis\"
+    \"identifier\": \"a\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -1327,7 +1327,7 @@ const headers = {
 };
 
 let body = {
-    "identifier": "quis"
+    "identifier": "a"
 };
 
 fetch(url, {
@@ -1445,7 +1445,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        debitis
+                        illo
                     </div>
                 </div>
             </div>
@@ -1539,7 +1539,7 @@ fetch(url, {
                                      id="json-body-POSTapi-orders-cancel-validation"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "order_identifier": "debitis"
+    "order_identifier": "illo"
 }</div>
                             </div>
                                             </div>
@@ -1635,7 +1635,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"order_identifier\": \"debitis\"
+    \"order_identifier\": \"illo\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -1654,7 +1654,7 @@ const headers = {
 };
 
 let body = {
-    "order_identifier": "debitis"
+    "order_identifier": "illo"
 };
 
 fetch(url, {
@@ -1974,16 +1974,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -2359,16 +2365,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -2479,7 +2491,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        aspernatur
+                        in
                     </div>
                 </div>
             </div>
@@ -2503,7 +2515,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        et
+                        nisi
                     </div>
                 </div>
             </div>
@@ -2528,7 +2540,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        2049-01-02
+                        2095-02-12
                     </div>
                 </div>
             </div>
@@ -2622,9 +2634,9 @@ fetch(url, {
                                      id="json-body-POSTapi-cards-link-temporary-card"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": "aspernatur",
-    "identifier": "et",
-    "expires_at": "2049-01-02"
+    "user_id": "in",
+    "identifier": "nisi",
+    "expires_at": "2095-02-12"
 }</div>
                             </div>
                                             </div>
@@ -2720,9 +2732,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"aspernatur\",
-    \"identifier\": \"et\",
-    \"expires_at\": \"2049-01-02\"
+    \"user_id\": \"in\",
+    \"identifier\": \"nisi\",
+    \"expires_at\": \"2095-02-12\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -2741,9 +2753,9 @@ const headers = {
 };
 
 let body = {
-    "user_id": "aspernatur",
-    "identifier": "et",
-    "expires_at": "2049-01-02"
+    "user_id": "in",
+    "identifier": "nisi",
+    "expires_at": "2095-02-12"
 };
 
 fetch(url, {
@@ -2765,7 +2777,7 @@ fetch(url, {
             <div class="sl-stack sl-stack--horizontal sl-stack--5 sl-flex sl-flex-row sl-items-center">
                 <h2 class="sl-text-3xl sl-leading-tight sl-font-prose sl-text-heading sl-mt-5 sl-mb-1"
                     id="endpoints-POSTapi-login">
-                    Nouvelle connexion
+                    POST api/login
                 </h2>
             </div>
         </div>
@@ -2788,7 +2800,7 @@ fetch(url, {
                                     </div>
         </div>
 
-        <p>Cette endpoint permet de se connecter à l'application mobile</p>
+        
     </div>
     <div class="sl-flex">
         <div data-testid="two-column-left" class="sl-flex-1 sl-w-0">
@@ -3134,7 +3146,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        enim
+                        id
                     </div>
                 </div>
             </div>
@@ -3158,7 +3170,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        rerum
+                        consectetur
                     </div>
                 </div>
             </div>
@@ -3288,8 +3300,8 @@ fetch(url, {
                                      id="json-body-POSTapi-orders"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "enim",
-    "dish_id": "rerum"
+    "identifier": "id",
+    "dish_id": "consectetur"
 }</div>
                             </div>
                                             </div>
@@ -3385,8 +3397,8 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"enim\",
-    \"dish_id\": \"rerum\"
+    \"identifier\": \"id\",
+    \"dish_id\": \"consectetur\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -3405,8 +3417,8 @@ const headers = {
 };
 
 let body = {
-    "identifier": "enim",
-    "dish_id": "rerum"
+    "identifier": "id",
+    "dish_id": "consectetur"
 };
 
 fetch(url, {
@@ -3766,16 +3778,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -4136,16 +4154,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -4558,16 +4582,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -4682,7 +4712,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        sint
+                        minima
                     </div>
                 </div>
             </div>
@@ -4709,7 +4739,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        derhoaxfebkcpwysuvdfulrxx
+                        prhp
                     </div>
                 </div>
             </div>
@@ -4734,7 +4764,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        15
+                        10
                     </div>
                 </div>
             </div>
@@ -4759,7 +4789,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        11
+                        21
                     </div>
                 </div>
             </div>
@@ -4903,10 +4933,10 @@ fetch(url, {
                                      id="json-body-POSTapi-cards-current-assign"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": "sint",
-    "identifier": "derhoaxfebkcpwysuvdfulrxx",
-    "quota_breakfast": 15,
-    "quota_lunch": 11,
+    "user_id": "minima",
+    "identifier": "prhp",
+    "quota_breakfast": 10,
+    "quota_lunch": 21,
     "payment_method_id": null
 }</div>
                             </div>
@@ -5003,10 +5033,10 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"sint\",
-    \"identifier\": \"derhoaxfebkcpwysuvdfulrxx\",
-    \"quota_breakfast\": 15,
-    \"quota_lunch\": 11
+    \"user_id\": \"minima\",
+    \"identifier\": \"prhp\",
+    \"quota_breakfast\": 10,
+    \"quota_lunch\": 21
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -5025,10 +5055,10 @@ const headers = {
 };
 
 let body = {
-    "user_id": "sint",
-    "identifier": "derhoaxfebkcpwysuvdfulrxx",
-    "quota_breakfast": 15,
-    "quota_lunch": 11
+    "user_id": "minima",
+    "identifier": "prhp",
+    "quota_breakfast": 10,
+    "quota_lunch": 21
 };
 
 fetch(url, {
@@ -5153,7 +5183,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        libero
+                        eligendi
                     </div>
                 </div>
             </div>
@@ -5180,7 +5210,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        xcktzczkulqdsarh
+                        gvqkxfou
                     </div>
                 </div>
             </div>
@@ -5207,7 +5237,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        ut
+                        autem
                     </div>
                 </div>
             </div>
@@ -5234,7 +5264,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        consequatur
+                        facere
                     </div>
                 </div>
             </div>
@@ -5364,10 +5394,10 @@ fetch(url, {
                                      id="json-body-POSTapi-cards-temporary-assign"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": "libero",
-    "access_card_identifier": "xcktzczkulqdsarh",
-    "expires_at": "ut",
-    "identifier": "consequatur"
+    "user_id": "eligendi",
+    "access_card_identifier": "gvqkxfou",
+    "expires_at": "autem",
+    "identifier": "facere"
 }</div>
                             </div>
                                             </div>
@@ -5463,10 +5493,10 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"libero\",
-    \"access_card_identifier\": \"xcktzczkulqdsarh\",
-    \"expires_at\": \"ut\",
-    \"identifier\": \"consequatur\"
+    \"user_id\": \"eligendi\",
+    \"access_card_identifier\": \"gvqkxfou\",
+    \"expires_at\": \"autem\",
+    \"identifier\": \"facere\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -5485,10 +5515,10 @@ const headers = {
 };
 
 let body = {
-    "user_id": "libero",
-    "access_card_identifier": "xcktzczkulqdsarh",
-    "expires_at": "ut",
-    "identifier": "consequatur"
+    "user_id": "eligendi",
+    "access_card_identifier": "gvqkxfou",
+    "expires_at": "autem",
+    "identifier": "facere"
 };
 
 fetch(url, {
@@ -5610,7 +5640,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        commodi
+                        voluptate
                     </div>
                 </div>
             </div>
@@ -5793,7 +5823,7 @@ fetch(url, {
                                      id="json-body-POSTapi-reload-cards"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "access_card_identifier": "commodi",
+    "access_card_identifier": "voluptate",
     "quota_type": "quota_breakfast",
     "quota": 7
 }</div>
@@ -5891,7 +5921,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"access_card_identifier\": \"commodi\",
+    \"access_card_identifier\": \"voluptate\",
     \"quota_type\": \"quota_breakfast\",
     \"quota\": 7
 }"
@@ -5912,7 +5942,7 @@ const headers = {
 };
 
 let body = {
-    "access_card_identifier": "commodi",
+    "access_card_identifier": "voluptate",
     "quota_type": "quota_breakfast",
     "quota": 7
 };
@@ -6036,7 +6066,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        eaque
+                        et
                     </div>
                 </div>
             </div>
@@ -6166,7 +6196,7 @@ fetch(url, {
                                      id="json-body-POSTapi-cards-current"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "eaque"
+    "identifier": "et"
 }</div>
                             </div>
                                             </div>
@@ -6262,7 +6292,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"eaque\"
+    \"identifier\": \"et\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -6281,7 +6311,7 @@ const headers = {
 };
 
 let body = {
-    "identifier": "eaque"
+    "identifier": "et"
 };
 
 fetch(url, {
@@ -6649,16 +6679,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -7019,16 +7055,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -7139,7 +7181,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        IS9RH
+                        4BHGJ
                     </div>
                 </div>
             </div>
@@ -7272,7 +7314,7 @@ fetch(url, {
                                         <input aria-label="identifier" name="identifier"
                                                id="urlparam-GETapi-users--identifier--identifier"
                                                placeholder=""
-                                               value="IS9RH" data-component="url"
+                                               value="4BHGJ" data-component="url"
                                                class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border">
                                     </div>
                                 </div>
@@ -7368,7 +7410,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "https://cantine-ciprel.ci.ddev.site/api/users/IS9RH" \
+    --get "https://cantine-ciprel.ci.ddev.site/api/users/4BHGJ" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -7378,7 +7420,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "https://cantine-ciprel.ci.ddev.site/api/users/IS9RH"
+    "https://cantine-ciprel.ci.ddev.site/api/users/4BHGJ"
 );
 
 const headers = {
@@ -7441,16 +7483,22 @@ fetch(url, {
                                                         Headers
                                                     </small>
                                                 </summary>
-                                                <pre><code class="language-http">                                                            cache-control
+                                                <pre><code class="language-http">                                                            content-type
+                                                            : application/problem+json
+                                                                                                                    cache-control
                                                             : no-cache, private
-                                                                                                                    content-type
-                                                            : application/json
                                                          </code></pre>
                                             </details>
                                                                                                                                                                         
                                             <pre><code style="max-height: 300px;"
                                                        class="language-json sl-overflow-x-auto sl-overflow-y-auto">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
+    &quot;errors&quot;: [
+        {
+            &quot;status&quot;: 401,
+            &quot;title&quot;: &quot;Unauthenticated!&quot;,
+            &quot;detail&quot;: &quot;Unauthenticated.&quot;
+        }
+    ]
 }</code></pre>
                                                                             </div>
                                 </div>
@@ -7568,7 +7616,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        ixmpsxxozgfzgxysllzzzohdu
+                        ipqccskafelqnwrzyehd
                     </div>
                 </div>
             </div>
@@ -7595,7 +7643,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        lsewwvgteiibddhduuxjk
+                        drbgzgmrcgveivlszduu
                     </div>
                 </div>
             </div>
@@ -7622,7 +7670,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        oreilly.nakia@example.com
+                        jamar.kuhlman@example.net
                     </div>
                 </div>
             </div>
@@ -7649,7 +7697,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        wz
+                        gwbevvtosa
                     </div>
                 </div>
             </div>
@@ -7779,10 +7827,10 @@ fetch(url, {
                                      id="json-body-POSTapi-users-profile-update"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "first_name": "ixmpsxxozgfzgxysllzzzohdu",
-    "last_name": "lsewwvgteiibddhduuxjk",
-    "email": "oreilly.nakia@example.com",
-    "contact": "wz"
+    "first_name": "ipqccskafelqnwrzyehd",
+    "last_name": "drbgzgmrcgveivlszduu",
+    "email": "jamar.kuhlman@example.net",
+    "contact": "gwbevvtosa"
 }</div>
                             </div>
                                             </div>
@@ -7878,10 +7926,10 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"first_name\": \"ixmpsxxozgfzgxysllzzzohdu\",
-    \"last_name\": \"lsewwvgteiibddhduuxjk\",
-    \"email\": \"oreilly.nakia@example.com\",
-    \"contact\": \"wz\"
+    \"first_name\": \"ipqccskafelqnwrzyehd\",
+    \"last_name\": \"drbgzgmrcgveivlszduu\",
+    \"email\": \"jamar.kuhlman@example.net\",
+    \"contact\": \"gwbevvtosa\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -7900,10 +7948,10 @@ const headers = {
 };
 
 let body = {
-    "first_name": "ixmpsxxozgfzgxysllzzzohdu",
-    "last_name": "lsewwvgteiibddhduuxjk",
-    "email": "oreilly.nakia@example.com",
-    "contact": "wz"
+    "first_name": "ipqccskafelqnwrzyehd",
+    "last_name": "drbgzgmrcgveivlszduu",
+    "email": "jamar.kuhlman@example.net",
+    "contact": "gwbevvtosa"
 };
 
 fetch(url, {
@@ -8028,7 +8076,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quasi
+                        autem
                     </div>
                 </div>
             </div>
@@ -8055,7 +8103,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        ZP@yNU|
+                        h&lt;Y-@+&#039;RYbZ2]pV!HB}5
                     </div>
                 </div>
             </div>
@@ -8082,7 +8130,7 @@ fetch(url, {
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        vero
+                        asperiores
                     </div>
                 </div>
             </div>
@@ -8212,9 +8260,9 @@ fetch(url, {
                                      id="json-body-POSTapi-users-change-password"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "current_password": "quasi",
-    "password": "ZP@yNU|",
-    "password_confirmation": "vero"
+    "current_password": "autem",
+    "password": "h<Y-@+'RYbZ2]pV!HB}5",
+    "password_confirmation": "asperiores"
 }</div>
                             </div>
                                             </div>
@@ -8310,9 +8358,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"current_password\": \"quasi\",
-    \"password\": \"ZP@yNU|\",
-    \"password_confirmation\": \"vero\"
+    \"current_password\": \"autem\",
+    \"password\": \"h&lt;Y-@+\'RYbZ2]pV!HB}5\",
+    \"password_confirmation\": \"asperiores\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -8331,9 +8379,9 @@ const headers = {
 };
 
 let body = {
-    "current_password": "quasi",
-    "password": "ZP@yNU|",
-    "password_confirmation": "vero"
+    "current_password": "autem",
+    "password": "h&lt;Y-@+'RYbZ2]pV!HB}5",
+    "password_confirmation": "asperiores"
 };
 
 fetch(url, {

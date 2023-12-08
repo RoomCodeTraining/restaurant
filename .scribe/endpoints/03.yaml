@@ -27,10 +27,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -60,13 +60,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: IS9RH
+        example: 4BHGJ
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      identifier: IS9RH
+      identifier: 4BHGJ
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -75,10 +75,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -112,7 +112,7 @@ endpoints:
         name: first_name
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: ixmpsxxozgfzgxysllzzzohdu
+        example: ipqccskafelqnwrzyehd
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -121,7 +121,7 @@ endpoints:
         name: last_name
         description: 'Le texte ne peut contenir plus de 225 caractères.'
         required: true
-        example: lsewwvgteiibddhduuxjk
+        example: drbgzgmrcgveivlszduu
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -130,7 +130,7 @@ endpoints:
         name: email
         description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: oreilly.nakia@example.com
+        example: jamar.kuhlman@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -139,16 +139,16 @@ endpoints:
         name: contact
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: wz
+        example: gwbevvtosa
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: ixmpsxxozgfzgxysllzzzohdu
-      last_name: lsewwvgteiibddhduuxjk
-      email: oreilly.nakia@example.com
-      contact: wz
+      first_name: ipqccskafelqnwrzyehd
+      last_name: drbgzgmrcgveivlszduu
+      email: jamar.kuhlman@example.net
+      contact: gwbevvtosa
     fileParameters: []
     responses: []
     responseFields: []
@@ -182,7 +182,7 @@ endpoints:
         name: current_password
         description: 'The current password of the user'
         required: true
-        example: quasi
+        example: autem
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -191,7 +191,7 @@ endpoints:
         name: password
         description: 'The new password of the user'
         required: true
-        example: ZP@yNU|
+        example: "h<Y-@+'RYbZ2]pV!HB}5"
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -200,15 +200,15 @@ endpoints:
         name: password_confirmation
         description: 'The new password confirmation of the user'
         required: true
-        example: vero
+        example: asperiores
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: quasi
-      password: ZP@yNU|
-      password_confirmation: vero
+      current_password: autem
+      password: "h<Y-@+'RYbZ2]pV!HB}5"
+      password_confirmation: asperiores
     fileParameters: []
     responses: []
     responseFields: []

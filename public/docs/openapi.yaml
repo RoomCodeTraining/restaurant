@@ -26,7 +26,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: aut
+                  example: laboriosam
               required:
                 - identifier
       security: []
@@ -49,7 +49,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: quis
+                  example: a
               required:
                 - identifier
       security: []
@@ -72,7 +72,7 @@ paths:
                 order_identifier:
                   type: string
                   description: ''
-                  example: debitis
+                  example: illo
               required:
                 - order_identifier
       security: []
@@ -90,11 +90,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - Endpoints
       security: []
@@ -112,11 +132,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - Endpoints
       security: []
@@ -148,24 +188,24 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: aspernatur
+                  example: in
                 identifier:
                   type: string
                   description: ''
-                  example: et
+                  example: nisi
                 expires_at:
                   type: string
                   description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-                  example: '2049-01-02'
+                  example: '2095-02-12'
               required:
                 - user_id
                 - identifier
       security: []
   /api/login:
     post:
-      summary: 'Nouvelle connexion'
-      operationId: nouvelleConnexion
-      description: "Cette endpoint permet de se connecter à l'application mobile"
+      summary: ''
+      operationId: postApiLogin
+      description: ''
       parameters: []
       responses: {  }
       tags:
@@ -190,11 +230,11 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: enim
+                  example: id
                 dish_id:
                   type: string
                   description: ''
-                  example: rerum
+                  example: consectetur
               required:
                 - identifier
                 - dish_id
@@ -212,11 +252,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - 'Gesion des commandes'
   /api/cards:
@@ -233,11 +293,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - 'Gestion des cartes'
   '/api/cards/{identifier}':
@@ -254,11 +334,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - 'Gestion des cartes'
     parameters:
@@ -289,19 +389,19 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: sint
+                  example: minima
                 identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: derhoaxfebkcpwysuvdfulrxx
+                  example: prhp
                 quota_breakfast:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 15
+                  example: 10
                 quota_lunch:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 11
+                  example: 21
                 payment_method_id:
                   type: string
                   description: ''
@@ -328,19 +428,19 @@ paths:
                 user_id:
                   type: string
                   description: 'The user identifier or id'
-                  example: libero
+                  example: eligendi
                 access_card_identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: xcktzczkulqdsarh
+                  example: gvqkxfou
                 expires_at:
                   type: date
                   description: 'The card expiration date'
-                  example: ut
+                  example: autem
                 identifier:
                   type: string
                   description: 'The card identifier'
-                  example: consequatur
+                  example: facere
               required:
                 - user_id
                 - access_card_identifier
@@ -365,7 +465,7 @@ paths:
                 access_card_identifier:
                   type: string
                   description: ''
-                  example: commodi
+                  example: voluptate
                 quota_type:
                   type: string
                   description: ''
@@ -400,7 +500,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: eaque
+                  example: et
               required:
                 - identifier
   /api/dishes:
@@ -417,11 +517,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - 'Gestion des plats'
   /api/users:
@@ -438,11 +558,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - Users
   '/api/users/{identifier}':
@@ -459,11 +599,31 @@ paths:
               schema:
                 type: object
                 example:
-                  message: Unauthenticated.
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
                 properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
       tags:
         - Users
     parameters:
@@ -471,7 +631,7 @@ paths:
         in: path
         name: identifier
         description: ''
-        example: IS9RH
+        example: 4BHGJ
         required: true
         schema:
           type: string
@@ -494,19 +654,19 @@ paths:
                 first_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: ixmpsxxozgfzgxysllzzzohdu
+                  example: ipqccskafelqnwrzyehd
                 last_name:
                   type: string
                   description: 'Le texte ne peut contenir plus de 225 caractères.'
-                  example: lsewwvgteiibddhduuxjk
+                  example: drbgzgmrcgveivlszduu
                 email:
                   type: string
                   description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
-                  example: oreilly.nakia@example.com
+                  example: jamar.kuhlman@example.net
                 contact:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: wz
+                  example: gwbevvtosa
               required:
                 - first_name
                 - last_name
@@ -531,15 +691,15 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user'
-                  example: quasi
+                  example: autem
                 password:
                   type: string
                   description: 'The new password of the user'
-                  example: ZP@yNU|
+                  example: "h<Y-@+'RYbZ2]pV!HB}5"
                 password_confirmation:
                   type: string
                   description: 'The new password confirmation of the user'
-                  example: vero
+                  example: asperiores
               required:
                 - current_password
                 - password

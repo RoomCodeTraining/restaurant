@@ -14,7 +14,7 @@
             </a>
         </x-slot>
     </x-section-header>
-    <div class="px-6 py-4g">
+    <div class="px-6 py-4">
         <livewire:tables.department-table />
     </div>
 </x-app-layout>

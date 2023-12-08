@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "Ciprel Cantine - Application de gestion de la cantine",
-        "_postman_id": "750c96fd-dba8-4618-a628-85c83f142fba",
+        "_postman_id": "75c14f01-ecaf-4527-818b-b1853c3fbe47",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -41,7 +41,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"aut\"}"
+                            "raw": "{\"identifier\":\"laboriosam\"}"
                         },
                         "description": "",
                         "auth": {
@@ -72,7 +72,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"quis\"}"
+                            "raw": "{\"identifier\":\"a\"}"
                         },
                         "description": "",
                         "auth": {
@@ -103,7 +103,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_identifier\":\"debitis\"}"
+                            "raw": "{\"order_identifier\":\"illo\"}"
                         },
                         "description": "",
                         "auth": {
@@ -142,16 +142,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -194,16 +194,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -230,7 +230,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"aspernatur\",\"identifier\":\"et\",\"expires_at\":\"2049-01-02\"}"
+                            "raw": "{\"user_id\":\"in\",\"identifier\":\"nisi\",\"expires_at\":\"2095-02-12\"}"
                         },
                         "description": "",
                         "auth": {
@@ -240,7 +240,7 @@
                     "response": []
                 },
                 {
-                    "name": "Nouvelle connexion",
+                    "name": "POST api\/login",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -260,7 +260,7 @@
                             }
                         ],
                         "body": null,
-                        "description": "Cette endpoint permet de se connecter \u00e0 l'application mobile",
+                        "description": "",
                         "auth": {
                             "type": "noauth"
                         }
@@ -295,7 +295,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"enim\",\"dish_id\":\"rerum\"}"
+                            "raw": "{\"identifier\":\"id\",\"dish_id\":\"consectetur\"}"
                         },
                         "description": "Cette endpoint permet de passer une commande pour un tiers"
                     },
@@ -328,16 +328,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -375,16 +375,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -424,16 +424,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -460,7 +460,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"sint\",\"identifier\":\"derhoaxfebkcpwysuvdfulrxx\",\"quota_breakfast\":15,\"quota_lunch\":11}"
+                            "raw": "{\"user_id\":\"minima\",\"identifier\":\"prhp\",\"quota_breakfast\":10,\"quota_lunch\":21}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte primaire(Carte courante) \u00e0 un utilisateur"
                     },
@@ -488,7 +488,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"libero\",\"access_card_identifier\":\"xcktzczkulqdsarh\",\"expires_at\":\"ut\",\"identifier\":\"consequatur\"}"
+                            "raw": "{\"user_id\":\"eligendi\",\"access_card_identifier\":\"gvqkxfou\",\"expires_at\":\"autem\",\"identifier\":\"facere\"}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte temporaire \u00e0 un utilisateur"
                     },
@@ -516,7 +516,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"access_card_identifier\":\"commodi\",\"quota_type\":\"quota_breakfast\",\"quota\":7}"
+                            "raw": "{\"access_card_identifier\":\"voluptate\",\"quota_type\":\"quota_breakfast\",\"quota\":7}"
                         },
                         "description": "Cette endpoint permet de recharger une carte RFID"
                     },
@@ -544,7 +544,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"eaque\"}"
+                            "raw": "{\"identifier\":\"et\"}"
                         },
                         "description": "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
                     },
@@ -583,16 +583,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -630,16 +630,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -656,7 +656,7 @@
                                 {
                                     "id": "identifier",
                                     "key": "identifier",
-                                    "value": "IS9RH",
+                                    "value": "4BHGJ",
                                     "description": ""
                                 }
                             ]
@@ -679,16 +679,16 @@
                         {
                             "header": [
                                 {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
                                 },
                                 {
-                                    "key": "content-type",
-                                    "value": "application\/json"
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
                                 }
                             ],
                             "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
                             "name": ""
                         }
                     ]
@@ -715,7 +715,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"ixmpsxxozgfzgxysllzzzohdu\",\"last_name\":\"lsewwvgteiibddhduuxjk\",\"email\":\"oreilly.nakia@example.com\",\"contact\":\"wz\"}"
+                            "raw": "{\"first_name\":\"ipqccskafelqnwrzyehd\",\"last_name\":\"drbgzgmrcgveivlszduu\",\"email\":\"jamar.kuhlman@example.net\",\"contact\":\"gwbevvtosa\"}"
                         },
                         "description": ""
                     },
@@ -743,7 +743,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"quasi\",\"password\":\"ZP@yNU|\",\"password_confirmation\":\"vero\"}"
+                            "raw": "{\"current_password\":\"autem\",\"password\":\"h<Y-@+'RYbZ2]pV!HB}5\",\"password_confirmation\":\"asperiores\"}"
                         },
                         "description": ""
                     },

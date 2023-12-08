@@ -2,21 +2,22 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Filters\Filter;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
+use App\States\Order\Completed;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class BreakfastCompletedTable extends Component implements HasTable, HasForms
 {
@@ -33,8 +34,9 @@ class BreakfastCompletedTable extends Component implements HasTable, HasForms
                     ->withoutGlobalScope('lunch'),
             )
             ->columns([
-                TextColumn::make('id')->label('Pointage du')->formatStateUsing(fn ($val, $col, $row) => $row->type == 'lunch' ? $row->menu->served_at->format('d/m/Y') : $row->created_at->format('d/m/Y')),
-                TextColumn::make('type')->label('Type')->formatStateUsing(fn ($val, $col, Order $row) => $row->type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
+                TextColumn::make('id')->label('Pointage du')->formatStateUsing(fn (Order $row) => $row->type == 'lunch' ? $row->menu->served_at->format('d/m/Y') : $row->created_at->format('d/m/Y')),
+                TextColumn::make('pointed_at')->label('Pointé le')->formatStateUsing(fn (Order $row) => $row->pointed_at->format('d/m/Y H:i:s')),
+                TextColumn::make('type')->label('Type')->formatStateUsing(fn (Order $row) => $row->type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner'),
             ])
             ->filters([
                 Filter::make('created_at')

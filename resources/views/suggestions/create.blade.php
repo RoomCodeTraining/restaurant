@@ -13,9 +13,6 @@
                 </a>
             </x-slot>
         </x-section-header>
-        <div class='alert alert-info mb-2'>
-          Votre suggestion nous permettrons d'améliorer l'application ou le service de la cantine.
-        </div>
         <livewire:suggestions.create-suggestion-form />
     </section>
 </x-app-layout>

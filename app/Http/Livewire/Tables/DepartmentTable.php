@@ -3,15 +3,14 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Department;
+use App\Support\ActivityHelper;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class DepartmentTable extends Component implements HasTable, HasForms
@@ -27,26 +26,29 @@ class DepartmentTable extends Component implements HasTable, HasForms
                 TextColumn::make('name')->label('NOM')->searchable(),
                 TextColumn::make('users_count')->label('NBR D\'EMPLOYES'),
             ])->actions([
-                ActionGroup::make([
                     Action::make('Editer')
                         ->url(fn (Department $record): string => route('departments.edit', $record))
-                        ->icon('heroicon-o-pencil'),
-
+                        ->label('')
+                        ->tooltip('Editer le département')
+                        ->color('info')
+                        ->icon('heroicon-o-pencil-square'),
                     Action::make('Supprimer')
                         ->requiresConfirmation()
                         ->icon('heroicon-o-trash')
+                        ->label('')
+                        ->tooltip('Supprimer le département')
                         ->color('danger')
-                        ->before(function (Department $record) {
-                            //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Département supprimé supprimé avec succès !')->danger()->send();
-
-                            return redirect()->route('departments.index');
-                        })
+                        ->modalHeading('Supprimer le département')
+                        ->modalDescription('Êtes-vous sûr de vouloir supprimer ce département ?')
                         ->hidden(fn (Department $record) => $record->users->count() > 0)
-                        ->hidden(! Auth::user()->isAdmin())
-                        ->action(fn (Department $record) => $record->delete()),
+                        ->action(function (Department $record) {
+                            $record->delete();
 
-                ]),
+                            ActivityHelper::createActivity($record, 'Suppression du departement '.$record->name, 'Suppression du departement');
+                            Notification::make()->title('Suppression du departement')->success()->body('Le departement a été supprimé avec succès !')->send($record->user);
+
+                        }),
+
             ]);
     }
     public function render()

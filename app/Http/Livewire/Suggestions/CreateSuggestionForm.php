@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\Suggestions;
 
-use Livewire\Component;
-use Filament\Forms\Form;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Livewire\Component;
 
 class CreateSuggestionForm extends Component implements HasForms
 {
@@ -32,9 +31,10 @@ class CreateSuggestionForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Ajout d\'une suggestion ')
+                Section::make('Soumettre une suggestion')
                     ->description('Vos suggestions nous permettrons d\'apporter des corrections pour une meilleure utilisation')
-                    ->aside()
+                    ->icon('heroicon-o-light-bulb')
+                    ->columns(1)
                     ->schema([
                         Select::make('suggestion_type_id')
                             ->label('Objet')
@@ -45,7 +45,6 @@ class CreateSuggestionForm extends Component implements HasForms
                             ->label('Suggestion')
                             ->required()
                             ->placeholder('Votre suggestion'),
-
                     ])
                 // ...
             ]);
@@ -63,6 +62,7 @@ class CreateSuggestionForm extends Component implements HasForms
 
         $this->suggestion = null;
         Notification::make()->title('Nouvelle suggestion')->success()->body('Votre suggestion a été prise en compte')->send();
+
         return redirect()->route('suggestions-box.index');
     }
 

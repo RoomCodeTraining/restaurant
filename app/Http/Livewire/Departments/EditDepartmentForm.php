@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire\Departments;
 
-use Livewire\Component;
-use Filament\Forms\Form;
+use App\Actions\Department\UpdateDepartmentAction;
 use App\Models\Department;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Forms\Concerns\InteractsWithForms;
-use App\Actions\Department\UpdateDepartmentAction;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Livewire\Component;
 
 class EditDepartmentForm extends Component implements HasForms
 {
@@ -39,9 +38,7 @@ class EditDepartmentForm extends Component implements HasForms
         return $form
             ->schema([
 
-                Section::make('Modification des informations liées au département')
-                    ->description('Veuillez saisir des noms de départements corrects pour une meilleure affiliation au personnel')
-                    ->aside()
+                Section::make()
                     ->schema([
                         TextInput::make('name')
                             ->label('Nom')

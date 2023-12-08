@@ -30,7 +30,7 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: enim
+        example: id
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -39,14 +39,14 @@ endpoints:
         name: dish_id
         description: ''
         required: true
-        example: rerum
+        example: consectetur
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: enim
-      dish_id: rerum
+      identifier: id
+      dish_id: consectetur
     fileParameters: []
     responses: []
     responseFields: []
@@ -83,10 +83,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []

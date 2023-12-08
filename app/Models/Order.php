@@ -93,6 +93,7 @@ class Order extends Model
     {
         if ($this->state->canTransitionTo(Completed::class)) {
             $this->state->transitionTo(Completed::class);
+            $this->setPointingAt();
         }
     }
 
@@ -150,5 +151,13 @@ class Order extends Model
             $this->isCurrentState(Completed::class) => 'success',
             default => 'danger',
         };
+    }
+
+
+    public function setPointingAt() : self
+    {
+        $this->update(['pointing_at' => now()]);
+
+        return $this;
     }
 }

@@ -50,6 +50,7 @@ class MarkOrderAsCompleted extends Controller
 
         $order->markAsCompleted();
 
+
         return response()->json([
             'message' => "Bonjour {$accessCard->user->first_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.",
             "success" => true,

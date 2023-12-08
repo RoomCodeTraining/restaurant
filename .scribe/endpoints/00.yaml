@@ -26,13 +26,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: aut
+        example: laboriosam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: aut
+      identifier: laboriosam
     fileParameters: []
     responses: []
     responseFields: []
@@ -66,13 +66,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: quis
+        example: a
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: quis
+      identifier: a
     fileParameters: []
     responses: []
     responseFields: []
@@ -106,13 +106,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: debitis
+        example: illo
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: debitis
+      order_identifier: illo
     fileParameters: []
     responses: []
     responseFields: []
@@ -147,10 +147,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -195,10 +195,10 @@ endpoints:
     responses:
       -
         status: 401
-        content: '{"message":"Unauthenticated."}'
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
         headers:
+          content-type: application/problem+json
           cache-control: 'no-cache, private'
-          content-type: application/json
         description: null
         custom: []
     responseFields: []
@@ -232,7 +232,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: aspernatur
+        example: in
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -241,7 +241,7 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: et
+        example: nisi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -250,15 +250,15 @@ endpoints:
         name: expires_at
         description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
         required: false
-        example: '2049-01-02'
+        example: '2095-02-12'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: aspernatur
-      identifier: et
-      expires_at: '2049-01-02'
+      user_id: in
+      identifier: nisi
+      expires_at: '2095-02-12'
     fileParameters: []
     responses: []
     responseFields: []
@@ -276,8 +276,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Nouvelle connexion'
-      description: "Cette endpoint permet de se connecter à l'application mobile"
+      title: ''
+      description: ''
       authenticated: false
       custom: []
     headers:

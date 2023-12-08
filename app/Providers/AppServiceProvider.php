@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
             'primary' => Color::Orange,
             'success' => Color::Green,
             'warning' => Color::Amber,
+            'secondary' => Color::hex('#0b1357')
         ]);
         RedirectResponse::macro('banner', function ($message) {
             return $this->with('flash', [

@@ -30,10 +30,8 @@ class UserTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
-
     public string $emptyMessage = "Aucun élément trouvé. Essayez d'élargir votre recherche.";
     public string $tableName = 'users';
-
 
     public array $filterNames = [
         'type' => 'Profil',
@@ -44,8 +42,6 @@ class UserTable extends Component implements HasTable, HasForms
         'exportToUser' => 'Export en Excel',
         'exportQuota' => 'Export quotas en Excel',
     ];
-
-
 
     public $userIdBeingLocked;
     public $confirmingUserLocking = false;
@@ -67,7 +63,6 @@ class UserTable extends Component implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-
         return $table
             ->query(\App\Models\User::query()->latest())
             // ->paginated([10, 25, 50, 100, 'all'])
@@ -78,14 +73,14 @@ class UserTable extends Component implements HasTable, HasForms
                     ->sortable(),
                 TextColumn::make('full_name')->label('NOM & PRENOMS'),
                 TextColumn::make('email')->label('Email'),
-                TextColumn::make('contact'),
-                TextColumn::make('current_access_card_id')
-                    ->label('N° carte')
-                    ->formatStateUsing(function (User $row) {
-                        return $row->current_access_card_id ? $row->accessCard->identifier : 'Aucune carte';
-                    }),
+                // TextColumn::make('contact'),
+                // TextColumn::make('current_access_card_id')
+                //     ->label('N° carte')
+                //     ->formatStateUsing(function (User $row) {
+                //         return $row->current_access_card_id ? $row->accessCard->identifier : 'Aucune carte';
+                //     }),
 
-                TextColumn::make('role.name')->label('PROFIL'),
+                TextColumn::make('role.name')->label('Profil'),
                 // TextColumn::make('department.name')->label('Département'),
                 TextColumn::make('is_active')
                     ->label('ETAT')
@@ -101,114 +96,159 @@ class UserTable extends Component implements HasTable, HasForms
                         ->fromTable()
                         ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
                 ]),
-
             ])
             ->filters([
-                SelectFilter::make('user_type_id')
-                    ->relationship('role', 'name'),
+                SelectFilter::make('user_type_id')->relationship('role', 'name'),
 
-                SelectFilter::make('is_active')
-                    ->options([
-                        '1' => 'Actif',
-                        '0' => 'Inactif',
-                    ])
+                SelectFilter::make('is_active')->options([
+                    '1' => 'Actif',
+                    '0' => 'Inactif',
+                ]),
             ])
-        ->actions([
-            ViewAction::make()
-                ->label('')
-                ->icon('heroicon-o-eye')
-                ->color('success')
-                ->tooltip('Consulter')
-                ->url(function (User $user) {
-                    return route('users.show', $user);
-                }),
-            EditAction::make()
-                ->label('')
-                ->icon('heroicon-o-pencil-square')
-                ->color('info')
-                ->tooltip('Modifier')
-                ->url(function (User $user) {
-                    return route('users.edit', $user);
-                }),
-            Action::make('lock')
-                ->label('')
-                ->icon('heroicon-o-lock-closed')
-                ->color('danger')
-                ->tooltip('Désactiver le compte')
-                ->modalHeading('Désactiver le compte')
-                ->modalDescription('Etes-vous sûr de vouloir désactiver ce compte ?')
-                ->action(function (User $user) {
-                    $this->lockUser($user);
-                    Notification::make()
-                        ->title('Utilisateur désactivé')
-                        ->body('L\'utilisateur a été désactivé avec succès.')
-                        ->success()
-                        ->send();
+            ->actions([
+                ViewAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-eye')
+                    ->color('success')
+                    ->tooltip('Consulter')
+                    ->url(function (User $user) {
+                        return route('users.show', $user);
+                    }),
+                EditAction::make()
+                    ->label('')
+                    ->icon('heroicon-o-pencil-square')
+                    ->color('info')
+                    ->tooltip('Modifier')
+                    ->url(function (User $user) {
+                        return route('users.edit', $user);
+                    }),
+                Action::make('lock')
+                    ->label('')
+                    ->icon('heroicon-o-lock-closed')
+                    ->color('danger')
+                    ->tooltip('Désactiver le compte')
+                    ->modalHeading('Désactiver le compte')
+                    ->modalDescription('Etes-vous sûr de vouloir désactiver ce compte ?')
+                    ->action(function (User $user) {
+                        $this->lockUser($user);
+                        Notification::make()
+                            ->title('Utilisateur désactivé')
+                            ->body('L\'utilisateur a été désactivé avec succès.')
+                            ->success()
+                            ->send();
 
-                    return redirect()->route('users.index');
-                })
-                ->tooltip('Desactiver')
-                ->hidden(function (User $user) {
-                    return   ! $user->isActive() || $user->id == auth()->user()->id;
-                })
-                ->requiresConfirmation(),
-            Action::make('reactivate')
-                ->label('')
-                ->icon('heroicon-o-lock-open')
-                ->tooltip('Activer')
-                ->hidden(function (User $user) {
-                    return $user->isActive();
-                })
-                ->requiresConfirmation()
-                ->modalHeading('Activer le compte')
-                ->modalDescription('Etes-vous sûr de vouloir activer ce compte ?')
-                ->color('success')
-                ->action(function (User $user) {
-                    $this->unlockUser($user);
-                    Notification::make()
-                        ->title('Utilisateur activé')
-                        ->body('L\'utilisateur a été activé avec succès.')
-                        ->success()
-                        ->send();
+                        return redirect()->route('users.index');
+                    })
+                    ->tooltip('Desactiver')
+                    ->hidden(function (User $user) {
+                        return ! $user->isActive() || $user->id == auth()->user()->id;
+                    })
+                    ->requiresConfirmation(),
+                Action::make('reactivate')
+                    ->label('')
+                    ->icon('heroicon-o-lock-open')
+                    ->tooltip('Activer')
+                    ->hidden(function (User $user) {
+                        return $user->isActive();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Activer le compte')
+                    ->modalDescription('Etes-vous sûr de vouloir activer ce compte ?')
+                    ->color('success')
+                    ->action(function (User $user) {
+                        $this->unlockUser($user);
+                        Notification::make()
+                            ->title('Utilisateur activé')
+                            ->body('L\'utilisateur a été activé avec succès.')
+                            ->success()
+                            ->send();
 
-                    return redirect()->route('users.index');
-                }),
-            Action::make('delete')
-                ->label('')
-                ->icon('heroicon-o-trash')
-                ->action(function (User $user) {
-                    $this->deleteUser($user);
+                        return redirect()->route('users.index');
+                    }),
 
-                    Notification::make()
-                        ->title('Utilisateur supprimé')
-                        ->body('L\'utilisateur a été supprimé avec succès.')
-                        ->success()
-                        ->send();
+                Action::make('reset_password')
+                    ->label('')
+                    ->icon('heroicon-o-arrow-path')
+                    ->tooltip('Réinitialiser le mot de passe')
+                    ->color('warning')
+                    ->hidden(function (User $user) {
+                        return $user->id == auth()->user()->id || ! $user->isActive();
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Réinitialiser le mot de passe')
+                    ->modalDescription('Etes-vous sûr de vouloir réinitialiser le mot de passe de cet utilisateur ?')
+                    ->action(function (User $user) {
+                        $this->confirmPasswordReset($user);
 
-                    return redirect()->route('users.index');
-                })
-                ->tooltip('Supprimer le compte')
-                ->color('danger')
-                ->modalHeading('Supprimer le compte')
-                ->modalDescription('Etes-vous sûr de vouloir supprimer ce compte ?')
-                ->hidden(function (User $user) {
-                    return $user->id == auth()->user()->id;
-                })
-                ->requiresConfirmation(),
-        ]);
+                        Notification::make()
+                            ->title('Réinitialisation du mot de passe')
+                            ->success()
+                            ->body('Le mot de passe de l\'utilisateur a été réinitialisé avec succès !')
+                            ->send();
+                    }),
+
+                Action::make('restore_current_card')
+                    ->label('')
+                    ->icon('heroicon-o-credit-card')
+                    ->tooltip('Restaurer la carte courante')
+                    ->color('secondary')
+                    ->hidden(function (User $user) {
+                        if($user->currentAccessCard && $user->isActive()) {
+                            return  $user->currentAccessCard->isCurrent() ? true : false;
+                        }
+
+                        return true;
+                    })
+                    ->requiresConfirmation()
+                    ->modalHeading('Restaurer la carte')
+                    ->modalDescription('Etes-vous sûr de vouloir restaurer  la carte courante de cet utilisateur ?')
+                    ->action(function (User $user) {
+                        $this->restoreCurrentCard($user);
+                        Notification::make()
+                            ->title('Restauration de la carte courante')
+                            ->success()
+                            ->body('La carte de l\'utilisateur a été restaurée avec succès !')
+                            ->send();
+                    }),
+                Action::make('delete')
+                    ->label('')
+                    ->icon('heroicon-o-trash')
+                    ->action(function (User $user) {
+                        $this->deleteUser($user);
+
+                        Notification::make()
+                            ->title('Utilisateur supprimé')
+                            ->body('L\'utilisateur a été supprimé avec succès.')
+                            ->success()
+                            ->send();
+
+                        return redirect()->route('users.index');
+                    })
+                    ->tooltip('Supprimer le compte')
+                    ->color('danger')
+                    ->modalHeading('Supprimer le compte')
+                    ->modalDescription('Etes-vous sûr de vouloir supprimer ce compte ?')
+                    ->hidden(function (User $user) {
+                        return $user->id == auth()->user()->id;
+                    })
+                    ->requiresConfirmation(),
+            ]);
     }
 
-
-    public function restoreCurrentCard()
+    public function restoreCurrentCard(User $user): void
     {
-        $user = User::find($this->userIdAccessCardBeingReset);
-
-        $temporaryCard = \App\Models\AccessCard::where('user_id', $user->id)->where('type', 'temporary')->latest()->first();
-        $currentCard = $user->accessCards()->where('type', 'primary')->latest()->first();
+        $temporaryCard = \App\Models\AccessCard::where('user_id', $user->id)
+            ->where('type', 'temporary')
+            ->latest()
+            ->first();
+        $currentCard = $user
+            ->accessCards()
+            ->where('type', 'primary')
+            ->latest()
+            ->first();
 
         $user->current_access_card_id = $currentCard->id;
         $user->save();
-
 
         $currentCard->update([
             'quota_lunch' => $temporaryCard->quota_lunch,
@@ -220,32 +260,17 @@ class UserTable extends Component implements HasTable, HasForms
             'quota_lunch' => 0,
             'quota_breakfast' => 0,
         ]);
-
-
-        flasher('success', "La carte courante de l'utilisateur a été restauré!");
-
-        return redirect()->route('users.index');
     }
 
-    public function confirmLunch()
+    public function confirmLunch(User $user)
     {
-        $user = User::find($this->userIdBeingLunch);
-
         $user->update(['is_entitled_breakfast' => true]);
 
-        $this->confirmingUserLunch = false;
-
-        $this->userIdBeingLunch = null;
-
-        flasher('success', "L'utilisateur a été activé avec succès !");
-
-        return redirect()->route('users.index');
+        ActivityHelper::createActivity($user, "Autorisation au collaborateur $user->full_name de prendre le déjeuner", 'Permission de prendre le petit déjeuner');
     }
 
-
-    public function confirmPasswordReset()
+    public function confirmPasswordReset(User $user): void
     {
-        $user = User::find($this->userIdBeingReset);
         $newPassword = Str::random(8);
         $user->update([
             'password' => bcrypt($newPassword),
@@ -257,35 +282,24 @@ class UserTable extends Component implements HasTable, HasForms
         ]);
 
         $user->notify(new PasswordResetNotification($newPassword));
-        $this->confirmingUserReset = false;
-        $this->userIdBeingReset = null;
-
-        flasher('success', "Le mot de passe de l'utilisateur a été réinitialisé avec succès !");
-
-        return redirect()->route('users.index');
     }
 
-    public function lockUser(User $user) : void
+    public function lockUser(User $user): void
     {
         $user->update(['is_active' => false]);
 
-        ActivityHelper::createActivity(
-            $user,
-            "Désactivation du compte de $user->full_name",
-            'Mise à jour de compte',
-        );
+        ActivityHelper::createActivity($user, "Désactivation du compte de $user->full_name", 'Mise à jour de compte');
 
         UserLocked::dispatch($user);
     }
 
-
-    public function deleteUser(User $user) : void
+    public function deleteUser(User $user): void
     {
-
-        $user->orders->filter(function ($order) {
-            return $order->state instanceof \App\States\Order\Confirmed;
-        })->each(fn ($order) => $order->update(['state' => Cancelled::class]));
-
+        $user->orders
+            ->filter(function ($order) {
+                return $order->state instanceof \App\States\Order\Confirmed;
+            })
+            ->each(fn ($order) => $order->update(['state' => Cancelled::class]));
 
         $identifier = Str::random(60);
 
@@ -294,34 +308,24 @@ class UserTable extends Component implements HasTable, HasForms
             'email' => $identifier . '@' . $identifier . '.com',
         ]);
 
-        ActivityHelper::createActivity(
-            $user,
-            "Suppression du compte de $user->full_name",
-            'Suppression de compte',
-        );
+        ActivityHelper::createActivity($user, "Suppression du compte de $user->full_name", 'Suppression de compte');
 
         $user->delete();
     }
 
-    public function unlockUser(User $user) : void
+    public function unlockUser(User $user): void
     {
-
         $user->update(['is_active' => true]);
 
-        ActivityHelper::createActivity(
-            $user,
-            "Activation de compte de $user->full_name",
-            'MLise a jour de compte',
-        );
+        ActivityHelper::createActivity($user, "Activation de compte de $user->full_name", 'MLise a jour de compte');
 
         UserUnlocked::dispatch($user);
     }
 
     public function exportQuota()
     {
-        return Excel::download(new \App\Exports\QuotaExport, 'quotas.xlsx');
+        return Excel::download(new \App\Exports\QuotaExport(), 'quotas.xlsx');
     }
-
 
     public function exportToUser()
     {

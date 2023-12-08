@@ -53,7 +53,6 @@ class OrganizationTable extends Component implements HasTable, HasForms
                             ActivityHelper::createActivity($record, 'Suppression du departement '.$record->name, 'Suppression du departement');
                             Notification::make()->title('Suppression du departement')->success()->body('Le departement a été supprimé avec succès !')->send($record->user);
                         }),
-
             ]);
     }
 

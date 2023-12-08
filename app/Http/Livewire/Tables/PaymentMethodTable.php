@@ -2,17 +2,16 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Models\PaymentMethod;
-use Filament\Tables\Actions\Action;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
+use App\Support\ActivityHelper;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class PaymentMethodTable extends Component implements HasTable, HasForms
 {
@@ -20,34 +19,37 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
 
     public function table(Table $table): Table
     {
-
         return $table
-            ->query(\App\Models\PaymentMethod::query()->withCount('accessCards'))
+            ->query(\App\Models\PaymentMethod::query()->withCount('accessCards')->latest())
             ->columns([
-                TextColumn::make('created_at')->label('DATE DE CRÉATION')->searchable()->dateTime('d/m/Y H:i:s'),
-                TextColumn::make('name')->label('NOM')->searchable(),
-                TextColumn::make('id')->label('DESCRIPTION')
+                TextColumn::make('created_at')
+                    ->label('Date de création')
+                    ->searchable()
+                    ->dateTime('d/m/Y H:i:s'),
+                TextColumn::make('name')
+                    ->label('Nom')
+                    ->searchable(),
+                TextColumn::make('id')
+                    ->label('Description')
                     ->formatStateUsing(fn ($record) => $record->description ? $record->description : 'Aucune description'),
-            ])->actions([
-                ActionGroup::make([
-                    Action::make('Editer')
-                        ->url(fn (PaymentMethod $record): string => route('paymentMethods.edit', $record))
-                        ->icon('heroicon-o-pencil'),
-
-                    Action::make('Supprimer')
-                        ->requiresConfirmation()
-                        ->icon('heroicon-o-trash')
-                        ->color('danger')
-                        ->before(function (PaymentMethod $record) {
-                            //DepartmentDeleted::dispatch($record);
-                            Notification::make()->title('Méthode de paiement supprimé avec succès !')->danger()->send();
-
-                            return redirect()->route('paymentMethods.index');
-                        })
-                        ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
-                        ->action(fn (PaymentMethod $record) => $record->delete()),
-
-                ]),
+            ])
+            ->actions([
+                Action::make('edit')->label('')
+                    ->tooltip('Editer le moyen de paiement')
+                    ->url(fn (PaymentMethod $record): string => route('paymentMethods.edit', $record))
+                    ->icon('heroicon-o-pencil-square')
+                    ->color('info'),
+                Action::make('Supprimer')
+                    ->requiresConfirmation()
+                    ->label('')
+                    ->tooltip('Supprimer le moyen de paiement')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
+                    ->action(function (PaymentMethod $record) {
+                        $record->delete();
+                        ActivityHelper::createActivity($record, 'Suppression du moyen de paiement ' . $record->name, 'Suppression du moyen de paiement');
+                    }),
             ]);
     }
 

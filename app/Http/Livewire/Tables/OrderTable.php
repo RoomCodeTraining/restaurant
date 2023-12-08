@@ -3,18 +3,18 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
+use App\States\Order\Cancelled;
+use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Columns\Column;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class OrderTable extends Component implements HasTable, HasForms
 {
@@ -31,43 +31,66 @@ class OrderTable extends Component implements HasTable, HasForms
     public $orderIdBeingUpdated;
     public $confirmingOrderUpdate = false;
 
-
     public function table(Table $table): Table
     {
         return $table
             ->query(\App\Models\Order::query())
             ->columns([
-                TextColumn::make('created_at')->label('EFFECTUÉ LE')->dateTime('d/m/Y'),
-                TextColumn::make('menu.served_at')->label('MENU DU ')->searchable()->dateTime('d/m/Y'),
-                TextColumn::make('dish.name')->label('PLAT'),
-                TextColumn::make('is_for_the_evening')->label('COMMANDE')
-                    ->formatStateUsing(fn (Order $record) => view('livewire.orders.hour', ['order' => $record])),
+                TextColumn::make('created_at')
+                    ->label(__('Effectué le'))
+                    ->dateTime('d/m/Y'),
+                TextColumn::make('menu.served_at')
+                    ->label(__('Menu du'))
+                    ->searchable()
+                    ->dateTime('d/m/Y'),
+                TextColumn::make('dish.name')->label(__('Plat')),
+                TextColumn::make('is_for_the_evening')
+                    ->label(__('Type de commande'))
+                    ->badge()
+                    ->color(fn (Order $record) => ! $record->is_for_the_evening ? 'gray' : 'primary')
+                    ->formatStateUsing(fn (Order $record) => ! $record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
+                    ->icon(fn (Order $record) => ! $record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
+                TextColumn::make('state')
+                    ->label('Statut')
+                    ->badge()
+                    ->color(function (Order $record) {
+                        if ($record->isCurrentState(Confirmed::class)) {
+                            return 'gray';
+                        } elseif ($record->isCurrentState(Cancelled::class)) {
+                            return 'danger';
+                        } else {
+                            return 'success';
+                        }
+                    })
+                    ->formatStateUsing(fn (Order $record) => $record->state->title()),
+            ])
+            ->actions([
+                // Action::make('Editer')
+                //     ->url(fn (Order $record): string => route('orders.edit', $record))
+                //     ->icon('heroicon-o-pencil'),
 
-                TextColumn::make('state')->label('Statut')
-                    ->formatStateUsing(fn (Order $record) => view('livewire.orders.state', ['order' => $record])),
-                TextColumn::make('id')->label('Actions')->formatStateUsing(fn (Order $row) => view('livewire.orders.table-actions', ['order' => $row])),
+                Action::make('delete')
+                    ->label('')
+                    ->requiresConfirmation()
+                    ->icon('heroicon-o-x-mark')
+                    ->color('danger')
+                    ->modalHeading('Annulation de la commande')
+                    ->modalDescription('Êtes-vous sûr de vouloir annuler cette commande ?')
+                    ->requiresConfirmation()
+                    ->tooltip('Annuler la commande')
+                    ->hidden(fn (Order $record) => ! $record->isCurrentState(Confirmed::class))
+                    ->action(function (Order $record) {
+                        $record->state->transitionTo(Cancelled::class);
+                        ActivityHelper::createActivity($record, 'Annulation de la commande du ' . \Carbon\Carbon::parse($record->menu->served_at)->format('d-m-Y'), 'Annulation de la commande');
 
+                        Notification::make()
+                            ->title('Commande annulée')
+                            ->success()
+                            ->body('Votre commande du ' . \Carbon\Carbon::parse($record->menu->served_at)->format('d-m-Y') . ' a été annulée.')
+                            ->icon('heroicon-o-x-mark')
+                            ->send($record->user);
+                    }),
             ]);
-        // ->actions([
-        //     ActionGroup::make([
-        //         Action::make('Editer')
-        //             ->url(fn (Order $record): string => route('orders.edit', $record))
-        //             ->icon('heroicon-o-pencil'),
-
-        //         Action::make('Supprimer')
-        //             ->requiresConfirmation()
-        //             ->icon('heroicon-o-trash')
-        //             ->color('danger')
-        //             ->before(function (Order $record) {
-        //                 //DepartmentDeleted::dispatch($record);
-        //                 Notification::make()->title('Commande annuler avec succès !')->danger()->send();
-        //                 return redirect()->route('orders.index');
-        //             })
-        //             //->hidden(fn (Order $record) => $record->users->count() > 0)
-        //             ->action(fn (Order $record) => $record->delete()),
-
-        //     ]),
-        // ]);
     }
 
     public function confirmOrderCancellation($orderId)
@@ -91,7 +114,7 @@ class OrderTable extends Component implements HasTable, HasForms
             $order->update(['is_for_the_evening' => true]);
         }
         $this->confirmingOrderHourUpdate = false;
-        session()->flash('success', "Votre commande a été modifiée avec succès !");
+        session()->flash('success', 'Votre commande a été modifiée avec succès !');
 
         return redirect()->route('orders.index');
     }
@@ -103,12 +126,8 @@ class OrderTable extends Component implements HasTable, HasForms
         $order->state->transitionTo(Cancelled::class);
 
         $this->confirmingOrderCancellation = false;
-        ActivityHelper::createActivity(
-            $order,
-            'Annulation de la commande du ' . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-            'Annulation de la commande',
-        );
-        session()->flash('success', "Votre commande a été annulée avec succès !");
+        ActivityHelper::createActivity($order, 'Annulation de la commande du ' . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'), 'Annulation de la commande');
+        session()->flash('success', 'Votre commande a été annulée avec succès !');
 
         return redirect()->route('orders.index');
     }
@@ -133,7 +152,7 @@ class OrderTable extends Component implements HasTable, HasForms
 
         $this->confirmingOrderUpdate = false;
 
-        session()->flash('success', "Votre commande a été modifiée avec succès !");
+        session()->flash('success', 'Votre commande a été modifiée avec succès !');
 
         return redirect()->route('orders.index');
     }

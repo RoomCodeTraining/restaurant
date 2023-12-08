@@ -22,9 +22,7 @@ class Order extends Model
     use SoftDeletes;
     protected static $recordEvents = [];
 
-
     protected $guarded = [];
-
 
     protected $casts = [
         'state' => OrderState::class,
@@ -33,10 +31,8 @@ class Order extends Model
         'is_decrement' => 'boolean',
     ];
 
-    public const LUNCH = "Commande pour midi";
-    public const EVENING = "Commande pour le soir";
-
-
+    public const LUNCH = 'Commande pour midi';
+    public const EVENING = 'Commande pour le soir';
 
     protected static function booted()
     {
@@ -60,13 +56,10 @@ class Order extends Model
         return $query->whereHas('menu', fn ($query) => $query->whereDate('served_at', '>=', today()));
     }
 
-
     public function scopeMonthly($query)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', [now()->startOfMonth(), now()->endOfMonth()]));
     }
-
-
 
     public function scopeFilter($query, $period)
     {
@@ -98,7 +91,7 @@ class Order extends Model
 
     public function markAsCompleted()
     {
-        if($this->state->canTransitionTo(Completed::class)) {
+        if ($this->state->canTransitionTo(Completed::class)) {
             $this->state->transitionTo(Completed::class);
         }
     }
@@ -133,10 +126,9 @@ class Order extends Model
         return $this->belongsTo(AccessCard::class);
     }
 
-
     public function getOrderTypeAttribute()
     {
-        return $this->type == 'lunch' ? 'Dejeuner' :  'Pétit dejeuner';
+        return $this->type == 'lunch' ? 'Dejeuner' : 'Pétit dejeuner';
     }
 
     public function isToday()
@@ -144,4 +136,19 @@ class Order extends Model
         return $this->menu->served_at->isCurrentDay();
     }
 
+    public function isCurrentState($state): bool
+    {
+        return $this->state instanceof $state;
+    }
+
+    public function getStateColor()
+    {
+        // dd($this->state);
+        match ($this->state) {
+            $this->isCurrentState(Confirmed::class) => 'gray',
+            $this->isCurrentState(Cancelled::class) => 'danger',
+            $this->isCurrentState(Completed::class) => 'success',
+            default => 'danger',
+        };
+    }
 }

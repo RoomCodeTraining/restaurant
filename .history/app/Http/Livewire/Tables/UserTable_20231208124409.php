@@ -92,7 +92,7 @@ class UserTable extends Component implements HasTable, HasForms
             ->filters([
                 SelectFilter::make('user_type_id')->label('Type de collaborateur')->relationship('role', 'name'),
 
-                SelectFilter::make('is_active')->label('Statut')->options([
+                SelectFilter::make('is_active')->options([
                     '1' => 'Actif',
                     '0' => 'Inactif',
                 ]),

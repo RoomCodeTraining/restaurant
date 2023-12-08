@@ -98,9 +98,12 @@ class UserTable extends Component implements HasTable, HasForms
                 ]),
             ])
             ->filters([
-                SelectFilter::make('user_type_id')->relationship('role', 'name'),
-
-                SelectFilter::make('is_active')->options([
+                SelectFilter::make('user_type_id')
+                ->label('Profil')
+                ->relationship('role', 'name'),
+                SelectFilter::make('is_active')
+                ->label('Etat du compte')
+                ->options([
                     '1' => 'Actif',
                     '0' => 'Inactif',
                 ]),
@@ -193,8 +196,8 @@ class UserTable extends Component implements HasTable, HasForms
                     ->tooltip('Restaurer la carte courante')
                     ->color('secondary')
                     ->hidden(function (User $user) {
-                        if($user->currentAccessCard && $user->isActive()) {
-                            return  $user->currentAccessCard->isCurrent() ? true : false;
+                        if ($user->currentAccessCard && $user->isActive()) {
+                            return $user->currentAccessCard->isCurrent() ? true : false;
                         }
 
                         return true;
@@ -215,7 +218,6 @@ class UserTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-o-trash')
                     ->action(function (User $user) {
                         $this->deleteUser($user);
-
                         Notification::make()
                             ->title('Utilisateur supprimé')
                             ->body('L\'utilisateur a été supprimé avec succès.')

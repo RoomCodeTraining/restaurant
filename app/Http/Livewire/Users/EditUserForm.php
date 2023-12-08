@@ -2,23 +2,24 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Actions\User\UpdateUserAction;
+use App\Models\Department;
+use App\Models\EmployeeStatus;
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use Livewire\Component;
 use App\Models\UserType;
-use App\Models\Department;
-use App\Models\Organization;
-use Livewire\WithFileUploads;
-use App\Models\EmployeeStatus;
-use Illuminate\Validation\Rule;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use App\Actions\User\UpdateUserAction;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditUserForm extends Component implements HasForms
 {
@@ -54,62 +55,62 @@ class EditUserForm extends Component implements HasForms
         $this->role = $this->user->roles->first()->id ?? \App\Models\Role::USER;
     }
 
-     protected function getFormSchema(): array
-  {
-    return [
-      Grid::make()
-        ->schema([
-            TextInput::make('state.identifier')
-            ->label('Matricule/Identifiant')
-            ->autofocus()
-            ->placeholder('TKOL8'),
-           TextInput::make('state.first_name')
-            ->label('Nom')
-            ->required()
-            ->autofocus(),
-        TextInput::make('state.last_name')
-            ->label('Prénoms')
-            ->required()
-            ->autofocus(),
-        TextInput::make('state.email')
-            ->label('E-mail')
-            ->required()
-            ->autofocus(),
-        TextInput::make('state.contact')
-            ->label('Contact')
-            ->required()
-            ->autofocus(),
-        Select::make('state.role')
-            ->label('Rôle')
-            ->options(Role::pluck('name', "id"))
-            ->autofocus(),
-        Select::make('state.employee_status_id')
-            ->label('Catégorie professionnelle')
-            ->required()
-            ->options(EmployeeStatus::pluck('name', "id"))
-            ->autofocus(),
-          Select::make('state.organization_id')
-            ->label('Société')
-            ->options(Organization::pluck('name', "id"))
-            ->required()
-            ->autofocus(),
-        Select::make('state.department_id')
-            ->label('Departement')
-            ->options(Department::pluck('name', "id"))
-            ->required()
-            ->autofocus(),
-          Select::make('state.user_type_id')
-            ->label('Type de collaborateur')
-            ->options(UserType::pluck('name', "id"))
-            ->required()
-            ->autofocus(),
-        Toggle::make('state.is_entitled_breakfast')
-            ->label('Le collaborateur a droit au petit déjeuner ?')
-            ->onColor('success')
-            ->offColor('danger'),
-      ])->columns(2)
-    ];
-  }
+    protected function getFormSchema(): array
+    {
+        return [
+          Grid::make()
+            ->schema([
+                TextInput::make('state.identifier')
+                ->label('Matricule/Identifiant')
+                ->autofocus()
+                ->placeholder('TKOL8'),
+               TextInput::make('state.first_name')
+                ->label('Nom')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.last_name')
+                ->label('Prénoms')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.email')
+                ->label('E-mail')
+                ->required()
+                ->autofocus(),
+            TextInput::make('state.contact')
+                ->label('Contact')
+                ->required()
+                ->autofocus(),
+            Select::make('state.role')
+                ->label('Rôle')
+                ->options(Role::pluck('name', "id"))
+                ->autofocus(),
+            Select::make('state.employee_status_id')
+                ->label('Catégorie professionnelle')
+                ->required()
+                ->options(EmployeeStatus::pluck('name', "id"))
+                ->autofocus(),
+              Select::make('state.organization_id')
+                ->label('Société')
+                ->options(Organization::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+            Select::make('state.department_id')
+                ->label('Departement')
+                ->options(Department::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+              Select::make('state.user_type_id')
+                ->label('Type de collaborateur')
+                ->options(UserType::pluck('name', "id"))
+                ->required()
+                ->autofocus(),
+            Toggle::make('state.is_entitled_breakfast')
+                ->label('Le collaborateur a droit au petit déjeuner ?')
+                ->onColor('success')
+                ->offColor('danger'),
+          ])->columns(2)
+        ];
+    }
 
     public function confirmUpdate()
     {
@@ -139,7 +140,12 @@ class EditUserForm extends Component implements HasForms
             $user->updateProfilePhoto($this->profile_photo);
         }
 
-        session()->flash('success', "L'utilisateur a modifié avec succès!");
+        Notification::make()
+             ->title('Utilisateur modifié')
+             ->success()
+             ->body('L\'utilisateur ' . $user->full_name . ' a été modifié avec succès.')
+             ->icon('heroicon-o-check-circle')
+             ->send($user);
 
         return redirect()->route('users.index');
     }

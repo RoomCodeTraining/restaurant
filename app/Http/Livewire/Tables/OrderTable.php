@@ -41,7 +41,6 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->dateTime('d/m/Y'),
                 TextColumn::make('menu.served_at')
                     ->label(__('Menu du'))
-                    ->searchable()
                     ->dateTime('d/m/Y'),
                 TextColumn::make('dish.name')->label(__('Plat')),
                 TextColumn::make('is_for_the_evening')

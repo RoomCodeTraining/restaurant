@@ -312,8 +312,8 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive() : bool
     {
-        return $this->is_active;
+        return $this->is_active ? true : false;
     }
 }

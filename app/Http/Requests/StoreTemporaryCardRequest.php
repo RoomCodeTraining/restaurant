@@ -23,8 +23,8 @@ class StoreTemporaryCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'user_id' => ['required', Rule::exists('users', 'id')],
-          'access_card_identifier' => ['required', 'string', 'max:255', Rule::unique('access_cards', 'identifier')],
+          'user_id' => ['required', Rule::exists('users', 'id')],
+          'access_card_identifier' => ['required', 'string', 'max:255'],
           'expires_at' => ['nullable', Rule::requiredIf((bool) $this->is_temporary), 'date', 'after_or_equal:today'],
         ];
     }

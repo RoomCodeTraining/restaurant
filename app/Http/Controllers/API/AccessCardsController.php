@@ -102,12 +102,6 @@ class AccessCardsController extends Controller
     {
         $this->authorize('create', AccessCard::class);
 
-        $validated = $request->validate([
-          'user_id' => ['required', Rule::exists('users', 'id')],
-          'identifier' => ['required', 'string', 'max:255'],
-          'expires_at' => ['nullable', Rule::requiredIf((bool) $request->is_temporary), 'date', 'after_or_equal:today'],
-        ]);
-
         $card = AccessCard::where(['identifier' => $request->identifier, 'type' => 'temporary'])->first();
 
         if($card && $card->is_used) {

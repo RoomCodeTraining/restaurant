@@ -8,7 +8,6 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Notifications\Notification;
@@ -41,7 +40,8 @@ class MenuTable extends Component implements HasForms, HasTable
 
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),
 
-
+                IconColumn::make('status')
+    ->size(IconColumn\IconColumnSize::Medium)
 
             ])->filters([
                 // ...

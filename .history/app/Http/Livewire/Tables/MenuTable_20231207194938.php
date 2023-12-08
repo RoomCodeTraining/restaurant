@@ -41,7 +41,7 @@ class MenuTable extends Component implements HasForms, HasTable
 
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),
 
-
+                IconColumn::make('id')->size(IconColumn\IconColumnSize::Medium)
 
             ])->filters([
                 // ...

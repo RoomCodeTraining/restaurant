@@ -89,4 +89,8 @@ class AccessCard extends Model
     }
 
 
+    public function isCurrent() : bool
+    {
+        return $this->type == self::TYPE_PRIMARY;
+    }
 }

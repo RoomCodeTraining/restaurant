@@ -2,29 +2,28 @@
 
 namespace App\Models;
 
-use App\Models\Role;
-use InvalidArgumentException;
+use App\Notifications\PasswordResetNotification;
+use App\Notifications\WelcomeNotification;
 use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
 use App\Support\HasProfilePhoto;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Notifications\Notifiable;
-use App\Notifications\WelcomeNotification;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Permission\Traits\HasPermissions;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
-use App\Notifications\PasswordResetNotification;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use InvalidArgumentException;
+use Laravel\Sanctum\HasApiTokens;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasPermissions;
+use Spatie\Permission\Traits\HasRoles;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
-use Illuminate\Contracts\Container\BindingResolutionException;
 
 class User extends Authenticatable
 {
@@ -198,7 +197,6 @@ class User extends Authenticatable
     {
         $this->notify(new WelcomeNotification($validUntil));
     }
-
     /**
      *
      * @param string $token
@@ -223,7 +221,6 @@ class User extends Authenticatable
         $this->save();
     }
 
-
     /**
      *
      * @return HasMany
@@ -246,7 +243,6 @@ class User extends Authenticatable
     /*
       * Compter le nombre de commande en cours de l'utilisateur en cours
       */
-
     public function countOrderConfirmed(): int
     {
         return $this->orders()->futurOrder()->whereState('state', Confirmed::class)->count();

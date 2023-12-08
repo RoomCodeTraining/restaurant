@@ -43,6 +43,8 @@ class DishTable extends Component implements HasTable, HasForms
             ->actions([
                 Action::make('edit')
                     ->icon('pencil')
+                    ->url(fn (Dish $record): string => route('dishes.edit', $record))
+                    ->tooltip(__('Editer le plat'))
                     ->label(''),
                 Action::make('delete')
                     ->icon('trash')

@@ -28,7 +28,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::with('accessCard')->active()->get();
+        $users = User::with('accessCard', 'role', 'organization')->active()->get();
 
         $users = $users->filter(function ($user) {
             return ! $user->isFromLunchroom();

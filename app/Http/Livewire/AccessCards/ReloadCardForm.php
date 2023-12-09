@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Livewire\Component;
 
 class ReloadCardForm extends Component implements HasForms
@@ -30,7 +31,7 @@ class ReloadCardForm extends Component implements HasForms
         $this->accessCard = $accessCard;
         $this->form->fill($this->state);
 
-        if ($this->accessCard->quota_breakfast != 0 || $this->accessCard->quota_lunch != 0) {
+        if ($this->accessCard->quota_breakfast != 0 && $this->accessCard->quota_lunch != 0) {
             $this->showReloadButton = false;
         }
 
@@ -71,7 +72,7 @@ class ReloadCardForm extends Component implements HasForms
         $this->accessCard->payment_method_id = $this->state['payment_method_id'];
         $this->accessCard->save();
 
-        session()->flash('success', 'Le quota a été rechargé et mis a jour avec succès.');
+        Notification::make()->title('Quota mis à jour')->body('Le quota de la carte a été mis à jour avec succès.')->success()->send();
 
         return redirect()->route('access-cards.reloads.history');
     }

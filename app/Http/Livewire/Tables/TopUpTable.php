@@ -54,6 +54,7 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->sortable(),
         ]);
     }
+
     public function render()
     {
         return view('livewire.tables.top-up-table');

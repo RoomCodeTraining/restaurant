@@ -7,7 +7,7 @@
       </a>
   </x-slot>
   </x-section-header>
-  <div class="bg-white px-6 py-4 rounded-md shadow-lg">
+  <div class="px-6 py-4">
     <livewire:access-cards.reload-card-form :accessCard="$accessCard" />
   </div>
 </x-app-layout>

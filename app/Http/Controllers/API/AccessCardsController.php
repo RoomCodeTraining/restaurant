@@ -46,7 +46,7 @@ class AccessCardsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function assignCurrentCarrd(StoreCurrentCardRequest $request, CreateAccessCardAction $createAccessCardAction)
+    public function assignCurrentCard(StoreCurrentCardRequest $request, CreateAccessCardAction $createAccessCardAction)
     {
         $this->authorize('create', AccessCard::class);
         $validated = $request->validated();

@@ -2,10 +2,10 @@
 
 namespace App\Actions\User;
 
-use App\Models\Role;
-use App\Models\User;
 use App\Events\UserCreated;
 use App\Models\Organization;
+use App\Models\Role;
+use App\Models\User;
 use App\Support\ActivityHelper;
 use Illuminate\Support\Facades\DB;
 
@@ -34,9 +34,9 @@ class CreateUserAction
         $organization = $user->organization;
 
         ActivityHelper::createActivity(
-          $user,
-          "Creation du compte de $user->full_name",
-          'Creation de nouveau menu',
+            $user,
+            "Creation du compte de $user->full_name",
+            'Creation de nouveau menu',
         );
 
         $user->syncRoles($data['roles'] ?? [Role::USER]);
@@ -46,8 +46,8 @@ class CreateUserAction
         UserCreated::dispatch($user);
 
         // checkin pour s'assurer que l'utilisateur recoit le mail de bienvenue pour acceder a l'application
-        if($organization->family === Organization::GROUP_1){
-          $user->sendWelcomeNotification(now()->addWeek());
+        if($organization->family === Organization::GROUP_1) {
+            $user->sendWelcomeNotification(now()->addWeek());
         }
 
         return $user;

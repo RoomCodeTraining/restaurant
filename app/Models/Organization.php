@@ -23,4 +23,14 @@ class Organization extends Model
     {
         return ucfirst($value);
     }
+
+    public function isGroup1()
+    {
+        return $this->family === self::GROUP_1;
+    }
+
+    public function isGroup2()
+    {
+        return $this->family === self::GROUP_2;
+    }
 }

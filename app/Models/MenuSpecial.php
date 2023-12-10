@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class MenuSpecal extends Pivot
+class MenuSpecial extends Pivot
 {
     protected $guarded = [];
+
+    protected $table = 'menu_specal';
 
     public function dish() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

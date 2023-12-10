@@ -29,7 +29,11 @@ class OrganizationTable extends Component implements HasTable, HasForms
                     ->formatStateUsing(function ($record) {
                         return  $record->description ?  $record->description : 'Aucune description';
                     }),
-                TextColumn::make('users_count')->label('NBR D\'EMPLOYES'),
+                TextColumn::make('family')->label('Famille')
+                ->searchable()
+                ->badge()
+                ->color(fn (Organization $record) => $record->family == Organization::GROUP_1 ? 'primary' : 'gray'),
+                TextColumn::make('users_count')->label('Nombre d\'utilisateurs')->searchable(),
             ])->actions([
                     Action::make('Editer')
                         ->url(fn (Organization $record): string => route('organizations.edit', $record))

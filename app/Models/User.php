@@ -316,4 +316,17 @@ class User extends Authenticatable
     {
         return $this->is_active ? true : false;
     }
+
+    /**
+     * Verifier si l'utilisateur peut prendre le petit dejeuner
+     * @return bool
+     */
+    public function canTakeBreakfast(): bool
+    {
+        if ($this->organization->family == Organization::GROUP_2) {
+            return false;
+        }
+
+        return true;
+    }
 }

@@ -323,7 +323,7 @@ class User extends Authenticatable
      */
     public function canTakeBreakfast(): bool
     {
-        if ($this->organization->family == Organization::GROUP_2) {
+        if ($this->is_entitled_breakfast) {
             return false;
         }
 

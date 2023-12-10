@@ -46,7 +46,7 @@ class PaymentMethodTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-o-trash')
                     ->modalHeading('Suppression du moyen de paiement')
                     ->modalDescription('Êtes-vous sûr de vouloir supprimer ce moyen de paiement ?')
-                    ->color('danger')
+                        ->color('danger')
                     ->hidden(fn (PaymentMethod $record) => $record->access_cards_count > 0)
                     ->action(function (PaymentMethod $record) {
                         $record->delete();

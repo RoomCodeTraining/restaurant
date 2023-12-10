@@ -57,7 +57,9 @@ class DishTable extends Component implements HasTable, HasForms
                     ->modalHeading(__('Suppression du plat'))
                     ->modalDescription(__('Êtes-vous sûr de vouloir supprimer ce plat ?'))
                     ->modalSubmitActionLabel(__('Supprimer'))
-                    ->action(fn (Dish $record) => $record->forceDelete()),
+                    ->action(function (Dish $record){
+                        $dish->menu
+                    }),
                 // ->successMessage(__('Le plat a bien été supprimé'))
                 // ])
             ])

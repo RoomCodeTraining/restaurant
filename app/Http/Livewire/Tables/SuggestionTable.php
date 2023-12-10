@@ -113,7 +113,7 @@ class SuggestionTable extends Component implements HasTable, HasForms
                             ->title('Suggestion supprimée')
                             ->success()
                             ->body('La suggestion a été supprimée avec succès !')
-                            ->icon('heroicon-o-trash')
+                                ->icon('heroicon-o-trash')
                             ->send($suggestion->user);
                     }),
             ])

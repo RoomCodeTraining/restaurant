@@ -113,12 +113,12 @@ class AccessCardsController extends Controller
 
         $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
 
-        if (! $user->accessCard) {
-            return response()->json([
-              'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
-              'success' => false,
-            ], 422);
-        }
+        // if (! $user->accessCard) {
+        //     return response()->json([
+        //       'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
+        //       'success' => false,
+        //     ], 422);
+        // }
 
         if (! $user) {
             return response()->json([

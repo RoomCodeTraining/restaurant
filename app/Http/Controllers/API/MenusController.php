@@ -6,11 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MenuResource;
 use App\Models\Menu;
 
+/**
+ * @group Gestion des menus
+ *
+ * Endpoints pour la gestion des menus de la cantine
+ * @authenticated
+ * @package App\Http\Controllers\API
+ */
 class MenusController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Recuperation du menu du jour
      *
+     * Cette endpoint permet de récupérer le menu du jour
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -21,16 +29,5 @@ class MenusController extends Controller
             ->get();
 
         return MenuResource::collection($menus);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Menu  $menu
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Menu $menu)
-    {
-        return new MenuResource($menu->load('dishes'));
     }
 }

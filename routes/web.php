@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\MenuSpecalController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\Menu;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
@@ -59,6 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::view('access-cards/reloads-history', 'access-cards.reloads-history')->name('access-cards.reloads.history');
     Route::get('access-cards/reloads-history/{accessCard?}', [App\Http\Controllers\AccessCardsController::class, 'reload'])->name('reload.card');
     Route::get('access-cards/temporary/detach/{accessCard?}', [App\Http\Controllers\AccessCardsController::class, 'detach'])->name('detach.card');
+    Route::view('access-cards/histories', 'access-cards.histories')->name('access-cards.histories');
+    Route::view('access-cards', 'access-cards.index')->name('access-cards.index');
 });
 
 

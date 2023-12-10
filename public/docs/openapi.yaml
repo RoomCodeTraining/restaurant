@@ -1,217 +1,72 @@
 openapi: 3.0.3
 info:
-  title: 'Ciprel Cantine - Application de gestion de la cantine'
-  description: ''
+  title: 'API Cantine Ciprel'
+  description: 'Cette documentation vise à fournir toutes les informations dont vous avez besoin pour travailler avec notre API.'
   version: 1.0.0
 servers:
   -
     url: 'https://cantine-ciprel.ci.ddev.site'
 paths:
-  /api/orders/lunch-completed:
-    post:
-      summary: ''
-      operationId: postApiOrdersLunchCompleted
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                identifier:
-                  type: string
-                  description: ''
-                  example: laboriosam
-              required:
-                - identifier
-      security: []
-  /api/orders/breakfast-completed:
-    post:
-      summary: ''
-      operationId: postApiOrdersBreakfastCompleted
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                identifier:
-                  type: string
-                  description: ''
-                  example: a
-              required:
-                - identifier
-      security: []
-  /api/orders/cancel-validation:
-    post:
-      summary: ''
-      operationId: postApiOrdersCancelValidation
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                order_identifier:
-                  type: string
-                  description: ''
-                  example: illo
-              required:
-                - order_identifier
-      security: []
-  /api/menus:
-    get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  errors:
-                    -
-                      status: 401
-                      title: Unauthenticated!
-                      detail: Unauthenticated.
-                properties:
-                  errors:
-                    type: array
-                    example:
-                      -
-                        status: 401
-                        title: Unauthenticated!
-                        detail: Unauthenticated.
-                    items:
-                      type: object
-                      properties:
-                        status:
-                          type: integer
-                          example: 401
-                        title:
-                          type: string
-                          example: Unauthenticated!
-                        detail:
-                          type: string
-                          example: Unauthenticated.
-      tags:
-        - Endpoints
-      security: []
-  '/api/menus/{id}':
-    get:
-      summary: 'Display the specified resource.'
-      operationId: displayTheSpecifiedResource
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  errors:
-                    -
-                      status: 401
-                      title: Unauthenticated!
-                      detail: Unauthenticated.
-                properties:
-                  errors:
-                    type: array
-                    example:
-                      -
-                        status: 401
-                        title: Unauthenticated!
-                        detail: Unauthenticated.
-                    items:
-                      type: object
-                      properties:
-                        status:
-                          type: integer
-                          example: 401
-                        title:
-                          type: string
-                          example: Unauthenticated!
-                        detail:
-                          type: string
-                          example: Unauthenticated.
-      tags:
-        - Endpoints
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the menu.'
-        example: 1
-        required: true
-        schema:
-          type: integer
-  /api/cards/link-temporary-card:
-    post:
-      summary: ''
-      operationId: postApiCardsLinkTemporaryCard
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                user_id:
-                  type: string
-                  description: ''
-                  example: in
-                identifier:
-                  type: string
-                  description: ''
-                  example: nisi
-                expires_at:
-                  type: string
-                  description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-                  example: '2095-02-12'
-              required:
-                - user_id
-                - identifier
-      security: []
   /api/login:
     post:
-      summary: ''
-      operationId: postApiLogin
-      description: ''
+      summary: 'Authentifier un utilisateur'
+      operationId: authentifierUnUtilisateur
+      description: "Cette endpoint permet d'authentifier un utilisateur7"
       parameters: []
       responses: {  }
       tags:
-        - Endpoints
+        - Authentification
       security: []
+  /api/logout:
+    post:
+      summary: 'Déconnecter un utilisateur'
+      operationId: dconnecterUnUtilisateur
+      description: 'Cette endpoint permet de déconnecter un utilisateur'
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentification
   /api/orders:
+    get:
+      summary: 'Historiques des commandes du jour'
+      operationId: historiquesDesCommandesDuJour
+      description: "Cette Api's liste les commandes consommées et non consommé"
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
+                properties:
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
+      tags:
+        - 'Gesion des commandes'
     post:
       summary: 'Effectuer une commande pour un tiers'
       operationId: effectuerUneCommandePourUnTiers
@@ -230,11 +85,11 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: id
+                  example: autem
                 dish_id:
                   type: string
                   description: ''
-                  example: consectetur
+                  example: quasi
               required:
                 - identifier
                 - dish_id
@@ -389,19 +244,19 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: minima
+                  example: et
                 identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: prhp
+                  example: mziierlw
                 quota_breakfast:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 10
+                  example: 16
                 quota_lunch:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 21
+                  example: 9
                 payment_method_id:
                   type: string
                   description: ''
@@ -428,19 +283,19 @@ paths:
                 user_id:
                   type: string
                   description: 'The user identifier or id'
-                  example: eligendi
+                  example: eum
                 access_card_identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: gvqkxfou
+                  example: kajhecwuhnjthcurorsso
                 expires_at:
                   type: date
                   description: 'The card expiration date'
-                  example: autem
+                  example: cumque
                 identifier:
                   type: string
                   description: 'The card identifier'
-                  example: facere
+                  example: laudantium
               required:
                 - user_id
                 - access_card_identifier
@@ -465,18 +320,18 @@ paths:
                 access_card_identifier:
                   type: string
                   description: ''
-                  example: voluptate
+                  example: explicabo
                 quota_type:
                   type: string
                   description: ''
-                  example: quota_breakfast
+                  example: quota_lunch
                   enum:
                     - quota_lunch
                     - quota_breakfast
                 quota:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 7
+                  example: 3
               required:
                 - access_card_identifier
                 - quota_type
@@ -500,9 +355,118 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: et
+                  example: accusantium
               required:
                 - identifier
+  /api/orders/lunch-completed:
+    post:
+      summary: 'Marquer la commande dejeuner comme récupérée'
+      operationId: marquerLaCommandeDejeunerCommeRcupre
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme récupérée'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des commandes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                  description: ''
+                  example: est
+              required:
+                - identifier
+      security: []
+  /api/orders/breakfast-completed:
+    post:
+      summary: 'Pointage petit dejeuner'
+      operationId: pointagePetitDejeuner
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme récupérée'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des commandes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                identifier:
+                  type: string
+                  description: ''
+                  example: atque
+              required:
+                - identifier
+  /api/orders/cancel-validation:
+    post:
+      summary: 'Marquer la commande dejeuner comme non récupérée'
+      operationId: marquerLaCommandeDejeunerCommeNonRcupre
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme non récupérée'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Gestion des commandes'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                order_identifier:
+                  type: string
+                  description: ''
+                  example: veniam
+              required:
+                - order_identifier
+      security: []
+  /api/menus:
+    get:
+      summary: 'Recuperation du menu du jour'
+      operationId: recuperationDuMenuDuJour
+      description: 'Cette endpoint permet de récupérer le menu du jour'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  errors:
+                    -
+                      status: 401
+                      title: Unauthenticated!
+                      detail: Unauthenticated.
+                properties:
+                  errors:
+                    type: array
+                    example:
+                      -
+                        status: 401
+                        title: Unauthenticated!
+                        detail: Unauthenticated.
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: integer
+                          example: 401
+                        title:
+                          type: string
+                          example: Unauthenticated!
+                        detail:
+                          type: string
+                          example: Unauthenticated.
+      tags:
+        - 'Gestion des menus'
   /api/dishes:
     get:
       summary: 'Liste des plats'
@@ -546,8 +510,8 @@ paths:
         - 'Gestion des plats'
   /api/users:
     get:
-      summary: 'Display a listing of the resource.'
-      operationId: displayAListingOfTheResource
+      summary: "Lister les utilisateurs de l'application"
+      operationId: listerLesUtilisateursDeLapplication
       description: ''
       parameters: []
       responses:
@@ -584,11 +548,11 @@ paths:
                           type: string
                           example: Unauthenticated.
       tags:
-        - Users
+        - 'Gestion des utilisateurs'
   '/api/users/{identifier}':
     get:
-      summary: 'Display the specified resource.'
-      operationId: displayTheSpecifiedResource
+      summary: "Afficher les informations d'un utilisateur"
+      operationId: afficherLesInformationsDunUtilisateur
       description: ''
       parameters: []
       responses:
@@ -625,25 +589,25 @@ paths:
                           type: string
                           example: Unauthenticated.
       tags:
-        - Users
+        - 'Gestion des utilisateurs'
     parameters:
       -
         in: path
         name: identifier
         description: ''
-        example: 4BHGJ
+        example: UQB2Z
         required: true
         schema:
           type: string
   /api/users/profile-update:
     post:
-      summary: ''
-      operationId: postApiUsersProfileUpdate
-      description: ''
+      summary: "Mettre à jour le profil de l'utilisateur connecté"
+      operationId: mettreJourLeProfilDeLutilisateurConnect
+      description: "Cette endpoint permet de mettre à jour le profil de l'utilisateur connecté"
       parameters: []
       responses: {  }
       tags:
-        - Users
+        - 'Gestion des utilisateurs'
       requestBody:
         required: true
         content:
@@ -653,20 +617,20 @@ paths:
               properties:
                 first_name:
                   type: string
-                  description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: ipqccskafelqnwrzyehd
+                  description: "Le prénom de l'utilisateur"
+                  example: nostrum
                 last_name:
                   type: string
-                  description: 'Le texte ne peut contenir plus de 225 caractères.'
-                  example: drbgzgmrcgveivlszduu
+                  description: "Le nom de l'utilisateur"
+                  example: quia
                 email:
                   type: string
-                  description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
-                  example: jamar.kuhlman@example.net
+                  description: "L'adresse email de l'utilisateur"
+                  example: gilbert.predovic@example.net
                 contact:
                   type: string
-                  description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: gwbevvtosa
+                  description: "Le contact de l'utilisateur"
+                  example: enim
               required:
                 - first_name
                 - last_name
@@ -674,13 +638,13 @@ paths:
                 - contact
   /api/users/change-password:
     post:
-      summary: 'Change the password of the authenticated user'
-      operationId: changeThePasswordOfTheAuthenticatedUser
+      summary: "Changer le mot de passe de l'utilisateur connecté"
+      operationId: changerLeMotDePasseDeLutilisateurConnect
       description: ''
       parameters: []
       responses: {  }
       tags:
-        - Users
+        - 'Gestion des utilisateurs'
       requestBody:
         required: true
         content:
@@ -690,32 +654,32 @@ paths:
               properties:
                 current_password:
                   type: string
-                  description: 'The current password of the user'
-                  example: autem
+                  description: "Le mot de passe actuel de l'utilisateur"
+                  example: expedita
                 password:
                   type: string
-                  description: 'The new password of the user'
-                  example: "h<Y-@+'RYbZ2]pV!HB}5"
+                  description: "Le nouveau mot de passe de l'utilisateur"
+                  example: 'S)-/0%%@C8uH=e7:G?!)'
                 password_confirmation:
                   type: string
-                  description: 'The new password confirmation of the user'
-                  example: asperiores
+                  description: "La confirmation du nouveau mot de passe de l'utilisateur\n\nCette endpoint permet de changer le mot de passe de l'utilisateur connecté"
+                  example: et
               required:
                 - current_password
                 - password
                 - password_confirmation
   /api/users/current:
     post:
-      summary: 'Get the authenticated user'
-      operationId: getTheAuthenticatedUser
+      summary: "Récupérer l'utilisateur connecté"
+      operationId: rcuprerLutilisateurConnect
       description: ''
       parameters: []
       responses: {  }
       tags:
-        - Users
+        - 'Gestion des utilisateurs'
 tags:
   -
-    name: Endpoints
+    name: Authentification
     description: ''
   -
     name: 'Gesion des commandes'
@@ -724,8 +688,14 @@ tags:
     name: 'Gestion des cartes'
     description: ''
   -
+    name: 'Gestion des commandes'
+    description: "\nEndpoints pour la gestion des commandes"
+  -
+    name: 'Gestion des menus'
+    description: "\nEndpoints pour la gestion des menus de la cantine"
+  -
     name: 'Gestion des plats'
     description: "\nEndpoints pour la gestion des plats de la cantine"
   -
-    name: Users
+    name: 'Gestion des utilisateurs'
     description: ''

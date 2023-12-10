@@ -1,16 +1,16 @@
-name: Users
+name: 'Gestion des cartes'
 description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/users
+    uri: api/cards
     metadata:
-      groupName: Users
+      groupName: 'Gestion des cartes'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display a listing of the resource.'
+      title: 'Retourne la liste des cartes RFID'
       description: ''
       authenticated: true
       custom: []
@@ -42,14 +42,14 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'api/users/{identifier}'
+    uri: 'api/cards/{identifier}'
     metadata:
-      groupName: Users
+      groupName: 'Gestion des cartes'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
+      title: "Afficher les informations d'une carte RFID"
+      description: "Cette endpoint permet d'afficher les informations d'une carte RFID"
       authenticated: true
       custom: []
     headers:
@@ -60,13 +60,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: 4BHGJ
+        example: CARD000
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      identifier: 4BHGJ
+      identifier: CARD000
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -90,14 +90,14 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/users/profile-update
+    uri: api/cards/current/assign
     metadata:
-      groupName: Users
+      groupName: 'Gestion des cartes'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: 'Assignation de Carte primaire'
+      description: "Cette endpoint permet d'assigner une carte primaire(Carte courante) à un utilisateur"
       authenticated: true
       custom: []
     headers:
@@ -108,47 +108,56 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      first_name:
-        name: first_name
+      user_id:
+        name: user_id
+        description: ''
+        required: true
+        example: et
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      identifier:
+        name: identifier
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: ipqccskafelqnwrzyehd
+        example: mziierlw
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      last_name:
-        name: last_name
-        description: 'Le texte ne peut contenir plus de 225 caractères.'
-        required: true
-        example: drbgzgmrcgveivlszduu
-        type: string
+      quota_breakfast:
+        name: quota_breakfast
+        description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+        required: false
+        example: 16
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      email:
-        name: email
-        description: 'Ce champ doit être une adresse e-mail valide. Le texte ne peut contenir plus de 255 caractères.'
-        required: true
-        example: jamar.kuhlman@example.net
-        type: string
+      quota_lunch:
+        name: quota_lunch
+        description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+        required: false
+        example: 9
+        type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      contact:
-        name: contact
-        description: 'Le texte ne peut contenir plus de 255 caractères.'
-        required: true
-        example: gwbevvtosa
+      payment_method_id:
+        name: payment_method_id
+        description: ''
+        required: false
+        example: null
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: ipqccskafelqnwrzyehd
-      last_name: drbgzgmrcgveivlszduu
-      email: jamar.kuhlman@example.net
-      contact: gwbevvtosa
+      user_id: et
+      identifier: mziierlw
+      quota_breakfast: 16
+      quota_lunch: 9
     fileParameters: []
     responses: []
     responseFields: []
@@ -160,14 +169,14 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/users/change-password
+    uri: api/cards/temporary/assign
     metadata:
-      groupName: Users
+      groupName: 'Gestion des cartes'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Change the password of the authenticated user'
-      description: ''
+      title: 'Assigner une carte temporaire'
+      description: "Cette endpoint permet d'assigner une carte temporaire à un utilisateur"
       authenticated: true
       custom: []
     headers:
@@ -178,37 +187,47 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      current_password:
-        name: current_password
-        description: 'The current password of the user'
+      user_id:
+        name: user_id
+        description: 'The user identifier or id'
         required: true
-        example: autem
+        example: eum
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      password:
-        name: password
-        description: 'The new password of the user'
+      access_card_identifier:
+        name: access_card_identifier
+        description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: "h<Y-@+'RYbZ2]pV!HB}5"
+        example: kajhecwuhnjthcurorsso
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      password_confirmation:
-        name: password_confirmation
-        description: 'The new password confirmation of the user'
+      expires_at:
+        name: expires_at
+        description: 'The card expiration date'
         required: true
-        example: asperiores
+        example: cumque
+        type: date
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      identifier:
+        name: identifier
+        description: 'The card identifier'
+        required: true
+        example: laudantium
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: autem
-      password: "h<Y-@+'RYbZ2]pV!HB}5"
-      password_confirmation: asperiores
+      user_id: eum
+      access_card_identifier: kajhecwuhnjthcurorsso
+      expires_at: cumque
+      identifier: laudantium
     fileParameters: []
     responses: []
     responseFields: []
@@ -220,14 +239,14 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/users/current
+    uri: api/reload/cards
     metadata:
-      groupName: Users
+      groupName: 'Gestion des cartes'
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get the authenticated user'
-      description: ''
+      title: 'Recharger une carte RFID'
+      description: 'Cette endpoint permet de recharger une carte RFID'
       authenticated: true
       custom: []
     headers:
@@ -237,8 +256,80 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      access_card_identifier:
+        name: access_card_identifier
+        description: ''
+        required: true
+        example: explicabo
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      quota_type:
+        name: quota_type
+        description: ''
+        required: true
+        example: quota_lunch
+        type: string
+        enumValues:
+          - quota_lunch
+          - quota_breakfast
+        exampleWasSpecified: false
+        custom: []
+      quota:
+        name: quota
+        description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      access_card_identifier: explicabo
+      quota_type: quota_lunch
+      quota: 3
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/cards/current
+    metadata:
+      groupName: 'Gestion des cartes'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Recuperer de la carte courante de l'utilisateur"
+      description: "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: accusantium
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      identifier: accusantium
     fileParameters: []
     responses: []
     responseFields: []

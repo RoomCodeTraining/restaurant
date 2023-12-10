@@ -189,28 +189,19 @@ class UserTableAction
     public function restoreCurrentCard(User $user): void
     {
         $temporaryCard = \App\Models\AccessCard::where('user_id', $user->id)
-            ->where('type', 'temporary')
-            ->latest()
-            ->first();
+                    ->where('type', 'temporary')
+                    ->latest()
+                    ->first();
+
         $currentCard = $user
             ->accessCards()
             ->where('type', 'primary')
             ->latest()
             ->first();
 
-        $user->current_access_card_id = $currentCard->id;
-        $user->save();
+        $user->dettachAccessCard($temporaryCard);
+        $user->switchAccessCard($currentCard);
 
-        $currentCard->update([
-            'quota_lunch' => $temporaryCard->quota_lunch,
-            'quota_breakfast' => $temporaryCard->quota_breakfast,
-        ]);
-
-        $temporaryCard->update([
-            'is_used' => false,
-            'quota_lunch' => 0,
-            'quota_breakfast' => 0,
-        ]);
     }
 
     public function confirmLunch(User $user)

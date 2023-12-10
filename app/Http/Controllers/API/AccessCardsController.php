@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\AccessCard\AssignOldCardAction;
 use App\Actions\AccessCard\CreateAccessCardAction;
 use App\Actions\AccessCard\LogActionMessage;
 use App\Events\UpdatedAccessCard;
@@ -60,37 +61,25 @@ class AccessCardsController extends Controller
             ->with('userType.paymentMethod')
             ->first();
 
+        $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
+
         if ($user->accessCard) {
-            return response()->json(
-                [
-                    'message' => 'Cet utilisateur a déjà une carte associée à son compte',
-                    'success' => false,
-                ],
-                422,
-            );
+            return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
         }
 
         if (! $user) {
-            return response()->json(
-                [
-                    'message' => 'Cet utilisateur n\'existe pas',
-                    'success' => false,
-                ],
-                422,
-            );
+            return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
 
         if ($user->isFromlunchroom()) {
-            return response()->json(
-                [
-                    'message' => 'Cet utilisateur ne peut pas disposer d\'une carte',
-                    'success' => false,
-                ],
-                422,
-            );
+            return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
         }
 
-        $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
+        if(! $accessCard) {
+            $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
+        } else {
+            (new AssignOldCardAction())->handle($user, $accessCard, $validated);
+        }
 
         if ($accessCard->quota_lunch > 0) {
             event(new UpdatedAccessCard($accessCard, 'lunch'));
@@ -102,7 +91,7 @@ class AccessCardsController extends Controller
             $accessCard->createReloadHistory('breakfast');
         }
 
-        return new AccessCardResource($accessCard);
+        return $this->responseCreated("Attribution réussie de la carte primaire.", new AccessCardResource($accessCard));
     }
 
     /**

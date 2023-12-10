@@ -20,6 +20,8 @@ class CreateTemporaryCardAction
             'expires_at' => $input['expires_at'],
         ]);
 
+        $user->attachCard($accessCard);
+
         return $accessCard;
     }
 }

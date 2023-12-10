@@ -7,6 +7,46 @@ description: |-
 endpoints:
   -
     httpMethods:
+      - GET
+    uri: api/orders
+    metadata:
+      groupName: 'Gesion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Historiques des commandes du jour'
+      description: "Cette Api's liste les commandes consommées et non consommé"
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
+        headers:
+          content-type: application/problem+json
+          cache-control: 'no-cache, private'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
       - POST
     uri: api/orders
     metadata:
@@ -32,7 +72,7 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: id
+        example: autem
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -41,14 +81,14 @@ endpoints:
         name: dish_id
         description: ''
         required: true
-        example: consectetur
+        example: quasi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: id
-      dish_id: consectetur
+      identifier: autem
+      dish_id: quasi
     fileParameters: []
     responses: []
     responseFields: []

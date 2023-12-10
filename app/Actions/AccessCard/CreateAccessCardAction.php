@@ -23,13 +23,14 @@ class CreateAccessCardAction
 
         if ($input['is_temporary'] == true) {
             $accessCard = $this->createTemporaryCardAction->handle($user, $input);
-        } else{
+        } else {
             $accessCard = $this->createPrimaryCardAction->handle($user, $input);
         }
 
         $user->useCard($accessCard);
 
         DB::commit();
+
         return $accessCard;
     }
 }

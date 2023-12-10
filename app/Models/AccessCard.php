@@ -93,4 +93,9 @@ class AccessCard extends Model
     {
         return $this->type == self::TYPE_PRIMARY;
     }
+
+    public function histories() : HasMany
+    {
+        return $this->hasMany(AccessCardHistory::class);
+    }
 }

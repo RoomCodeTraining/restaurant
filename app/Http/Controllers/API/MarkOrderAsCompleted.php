@@ -9,14 +9,33 @@ use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use InvalidArgumentException;
 
+/**
+ * @group Gestion des commandes
+ *
+ * Endpoints pour la gestion des commandes
+ * @package App\Http\Controllers\API
+ */
 class MarkOrderAsCompleted extends Controller
 {
     use AuthorizesRequests;
 
+    /**
+     * Marquer la commande dejeuner comme récupérée
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme récupérée
+     * @param Request $request
+     * @return JsonResponse
+     * @throws InvalidArgumentException
+     * @throws MassAssignmentException
+     */
     public function markAsLunchCompleted(Request $request)
     {
         $request->validate([
@@ -94,8 +113,14 @@ class MarkOrderAsCompleted extends Controller
 
 
 
-    //APi pour marquer les commandes confirmés en cas de reclamation
-
+    /**
+     * Marquer la commande dejeuner comme non récupérée
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme non récupérée
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
     public function markAsConfirmed(Request $request)
     {
 
@@ -114,6 +139,17 @@ class MarkOrderAsCompleted extends Controller
         ]);
     }
 
+
+    /**
+     * Pointage petit dejeuner
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme récupérée
+     * @authenticated
+     * @param Request $request
+     * @return JsonResponse
+     * @throws InvalidArgumentException
+     * @throws MassAssignmentException
+     */
     public function markAsBreakfastCompleted(Request $request)
     {
         $request->validate([

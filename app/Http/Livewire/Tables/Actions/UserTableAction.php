@@ -11,6 +11,7 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -232,6 +233,8 @@ class UserTableAction
         ]);
 
         $user->notify(new PasswordResetNotification($newPassword));
+
+        ActivityHelper::createActivity(auth()->user(), "Réinitialisation du compte de $user->full_name", 'Réinitialisation de compte');
     }
 
     public function lockUser(User $user): void

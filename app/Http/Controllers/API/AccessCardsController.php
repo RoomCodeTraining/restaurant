@@ -121,7 +121,7 @@ class AccessCardsController extends Controller
         $card = AccessCard::where(['identifier' => $request->identifier, 'type' => 'temporary'])->first();
 
         if ($card && $card->is_used) {
-            return $this->responseBadRequest('Cette carte est déjà utilisée', 'Carte utilisée');
+            return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
         }
 
         $user = User::with('userType.paymentMethod')
@@ -130,15 +130,15 @@ class AccessCardsController extends Controller
             ->first();
 
         if (! $user) {
-            return $this->responseNotFound("L'utilisateur n'a pas été trouvé", 'Utilisateur inexistant');
+            return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
 
         if ($user->isFromlunchroom()) {
-            return $this->responseBadRequest('Cet utilisateur ne peut pas avoir une carte', 'Erreur');
+            return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
         }
 
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
-            return $this->responseBadRequest('Cet utilisateur dispose déjà de carte temporaire', 'Erreur');
+            return $this->responseBadRequest("Cet utilisateur possède déjà une carte temporaire.", "Erreur lors de l'assignation");
         }
 
         $accessCard = $createAccessCardAction->handle($user, array_merge($request->validated(), ['is_temporary' => true]));
@@ -149,7 +149,7 @@ class AccessCardsController extends Controller
             ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
             ->log('Rechargement de carte RFID');
 
-        return $this->responseCreated('Carte temporaire attribuée avec succès', new AccessCardResource($accessCard));
+        return $this->responseCreated("Attribution réussie de la carte temporaire.", new AccessCardResource($accessCard));
     }
 
     /**

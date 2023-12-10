@@ -29,26 +29,4 @@
             <x-statistic label="Utilisateurs inactifs" value="{{ $inactive_users_count }}" icon="inactifuser" />
         </a>
     </div>
-
-    <div class="flex">
-        <div class="container mx-auto space-y-4  sm:p-0 mt-8">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div class="shadow rounded  border bg-white" style="height: 22rem;">
-                    @livewire(\App\Http\Livewire\OtherProfil\ManagerStatisticsChart::class)
-                </div>
-                <div class="shadow rounded  border bg-white" style="height: 22rem;">
-                    @livewire(\App\Http\Livewire\OtherProfil\HighConsumptionChart::class)
-                </div>
-                <div class="shadow rounded  border bg-white " style="height: 22rem;">
-                    @livewire(\App\Http\Livewire\OtherProfil\CategoryEmployeeConsumptionChart::class)
-                </div>
-
-                {{-- <div class="shadow rounded  border bg-white" style="height: 22rem;">
-                    @livewire(\App\Http\Livewire\OtherProfil\ManagerStatisticsChart::class)
-                </div> --}}
-
-            </div>
-        </div>
-    </div>
-
 </div>

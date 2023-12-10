@@ -23,6 +23,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OrdersController extends Controller
 {
+
+    /**
+    * Historiques des commandes du jour
+    *
+    * Cette Api's liste les commandes consommées et non consommé
+     */
+
+    public function index()
+    {
+        $orders = Order::query()->today()->with('user.accessCard')->whereState('state', [Confirmed::class, Completed::class])->get();
+
+        return OrderResource::collection($orders);
+    }
+
     /**
      * Effectuer une commande pour un tiers
      *

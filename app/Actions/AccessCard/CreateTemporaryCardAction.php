@@ -11,7 +11,7 @@ class CreateTemporaryCardAction
     {
 
         $accessCard = $user->accessCards()->create([
-            'identifier' => $input['identifier'],
+            'identifier' => $input['access_card_identifier'],
             'quota_breakfast' => $user->currentAccessCard->quota_breakfast,
             'quota_lunch' => $user->currentAccessCard->quota_lunch,
             'payment_method_id' => $user->accessCard->paymentMethod->id,

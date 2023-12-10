@@ -36,7 +36,11 @@ class AccessCardsController extends Controller
      */
     public function index()
     {
-        return AccessCardResource::collection(AccessCard::with('user', 'paymentMethod')->latest()->paginate());
+        return AccessCardResource::collection(
+            AccessCard::with('user', 'paymentMethod')
+                ->latest()
+                ->paginate(),
+        );
     }
 
     /**
@@ -51,37 +55,49 @@ class AccessCardsController extends Controller
         $this->authorize('create', AccessCard::class);
         $validated = $request->validated();
 
-        $user = User::where('id', $validated['user_id'])->orWhere('identifier', $validated['user_id'])->with('userType.paymentMethod')->first();
+        $user = User::where('id', $validated['user_id'])
+            ->orWhere('identifier', $validated['user_id'])
+            ->with('userType.paymentMethod')
+            ->first();
 
-        if($user->accessCard) {
-            return response()->json([
-              'message' => 'Cet utilisateur a déjà une carte associée à son compte',
-              'success' => false,
-            ], 422);
+        if ($user->accessCard) {
+            return response()->json(
+                [
+                    'message' => 'Cet utilisateur a déjà une carte associée à son compte',
+                    'success' => false,
+                ],
+                422,
+            );
         }
 
-        if(! $user) {
-            return response()->json([
-              'message' => 'Cet utilisateur n\'existe pas',
-              'success' => false,
-            ], 422);
+        if (! $user) {
+            return response()->json(
+                [
+                    'message' => 'Cet utilisateur n\'existe pas',
+                    'success' => false,
+                ],
+                422,
+            );
         }
 
-        if($user->isFromlunchroom()) {
-            return response()->json([
-              'message' => 'Cet utilisateur ne peut pas disposer d\'une carte',
-              'success' => false,
-            ], 422);
+        if ($user->isFromlunchroom()) {
+            return response()->json(
+                [
+                    'message' => 'Cet utilisateur ne peut pas disposer d\'une carte',
+                    'success' => false,
+                ],
+                422,
+            );
         }
 
         $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
 
-        if($accessCard->quota_lunch > 0) {
+        if ($accessCard->quota_lunch > 0) {
             event(new UpdatedAccessCard($accessCard, 'lunch'));
             $accessCard->createReloadHistory('lunch');
         }
 
-        if($accessCard->quota_breakfast > 0) {
+        if ($accessCard->quota_breakfast > 0) {
             event(new UpdatedAccessCard($accessCard, 'breakfast'));
             $accessCard->createReloadHistory('breakfast');
         }
@@ -90,69 +106,51 @@ class AccessCardsController extends Controller
     }
 
     /**
-    *  Assigner une carte temporaire
-    *
-    * Cette endpoint permet d'assigner une carte temporaire à un utilisateur
-    * @param  \Illuminate\Http\Request  $request
-    * @bodyParam user_id string required The user identifier or id
-    * @bodyParam identifier string required The card identifier
-    * @bodyParam expires_at date required The card expiration date
-    */
+     *  Assigner une carte temporaire
+     *
+     * Cette endpoint permet d'assigner une carte temporaire à un utilisateur
+     * @param  \Illuminate\Http\Request  $request
+     * @bodyParam user_id string required The user identifier or id
+     * @bodyParam identifier string required The card identifier
+     * @bodyParam expires_at date required The card expiration date
+     */
     public function assignTemporaryCard(StoreTemporaryCardRequest $request, CreateAccessCardAction $createAccessCardAction)
     {
         $this->authorize('create', AccessCard::class);
 
         $card = AccessCard::where(['identifier' => $request->identifier, 'type' => 'temporary'])->first();
 
-        if($card && $card->is_used) {
-            return response()->json([
-              'message' => 'Cette carte est déjà utilisée',
-              'success' => false,
-            ], 422);
+        if ($card && $card->is_used) {
+            return $this->responseBadRequest('Cette carte est déjà utilisée', 'Carte utilisée');
         }
 
-        $user = User::with('userType.paymentMethod')->where('identifier', $request->user_id)->orWhere('id', $request->user_id)->first();
-
-        // if (! $user->accessCard) {
-        //     return response()->json([
-        //       'message' => "Cet utilisateur ne peut disposer de carte temporaire car il n'a pas de carte RFID",
-        //       'success' => false,
-        //     ], 422);
-        // }
+        $user = User::with('userType.paymentMethod')
+            ->where('identifier', $request->user_id)
+            ->orWhere('id', $request->user_id)
+            ->first();
 
         if (! $user) {
-            return response()->json([
-              'message' => "Cet utilisateur n'existe pas",
-              'success' => false,
-            ], 422);
+            return $this->responseNotFound("L'utilisateur n'a pas été trouvé", 'Utilisateur inexistant');
         }
 
-
         if ($user->isFromlunchroom()) {
-            return response()->json([
-              'message' => "Cet utilisateur ne peut disposer d'une carte RFID",
-              'success' => false,
-            ], 422);
+            return $this->responseBadRequest('Cet utilisateur ne peut pas avoir une carte', 'Erreur');
         }
 
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
-            return response()->json([
-              'message' => 'Cet utilisateur a déjà une carte temporaire associée à son compte',
-              'success' => false,
-            ], 422);
+            return $this->responseBadRequest('Cet utilisateur dispose déjà de carte temporaire', 'Erreur');
         }
 
-        $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => true]));
+        $accessCard = $createAccessCardAction->handle($user, array_merge($request->validated(), ['is_temporary' => true]));
 
         activity()
-          ->causedBy(Auth()->user())
-          ->performedOn($accessCard)
-          ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
-          ->log('Rechargement de carte RFID');
+            ->causedBy(Auth()->user())
+            ->performedOn($accessCard)
+            ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
+            ->log('Rechargement de carte RFID');
 
-        return new AccessCardResource($accessCard);
+        return $this->responseCreated('Carte temporaire attribuée avec succès', new AccessCardResource($accessCard));
     }
-
 
     /**
      * Afficher les informations d'une carte RFID
@@ -178,26 +176,29 @@ class AccessCardsController extends Controller
     {
         $validated = $request->validated();
 
-        $card = AccessCard::with('user', 'paymentMethod')->where('identifier', $validated['access_card_identifier'])->first();
+        $card = AccessCard::with('user', 'paymentMethod')
+            ->where('identifier', $validated['access_card_identifier'])
+            ->first();
         $old_quota = $card[$request->quota_type];
 
         /*
-        * Mise a jour du nombre de fois le quota a été rechargé
-        */
+         * Mise a jour du nombre de fois le quota a été rechargé
+         */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
 
         $card->createReloadHistory($type);
 
         if ($old_quota > 0) {
-            return response()->json([
-              'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
-              'success' => false,
-              'data' => new AccessCardResource($card),
-            ], 422);
+            return response()->json(
+                [
+                    'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
+                    'success' => false,
+                    'data' => new AccessCardResource($card),
+                ],
+                422,
+            );
         }
-
-
 
         $card->update([$validated['quota_type'] => $request->quota + $old_quota]);
 
@@ -206,15 +207,15 @@ class AccessCardsController extends Controller
         UpdatedAccessCard::dispatch($card, $type);
 
         activity()
-          ->causedBy(Auth()->user())
-          ->performedOn($card)
-          ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par ".auth()->user()->full_name.". Le nouveau quota de {$quota_title} est de {$validated['quota']}.")
-          ->log('Rechargement de carte RFID');
+            ->causedBy(Auth()->user())
+            ->performedOn($card)
+            ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par " . auth()->user()->full_name . ". Le nouveau quota de {$quota_title} est de {$validated['quota']}.")
+            ->log('Rechargement de carte RFID');
 
         return response()->json([
-          'message' => "Le quota a été rechargé avec succès.",
-          "success" => true,
-          "data" => new AccessCardResource($card),
+            'message' => 'Le quota a été rechargé avec succès.',
+            'success' => true,
+            'data' => new AccessCardResource($card),
         ]);
     }
 
@@ -229,10 +230,12 @@ class AccessCardsController extends Controller
     public function currentAccessCard(Request $request)
     {
         $request->validate([
-          'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
+            'identifier' => ['required', 'string', Rule::exists('users', 'identifier')],
         ]);
 
-        $user = User::with('currentAccessCard')->where('identifier', $request->identifier)->first();
+        $user = User::with('currentAccessCard')
+            ->where('identifier', $request->identifier)
+            ->first();
 
         return new AccessCardResource($user->currentAccessCard);
     }

@@ -34,7 +34,7 @@ class OrderTable extends Component implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->query(\App\Models\Order::query())
+            ->query(\App\Models\Order::query()->whereUserId(auth()->user()->id)->latest())
             ->columns([
                 TextColumn::make('created_at')
                     ->label(__('Effectué le'))

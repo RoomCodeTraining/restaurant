@@ -163,7 +163,7 @@ class MarkOrderAsCompleted extends Controller
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $user = $accessCard->user->load('organization');
 
-        if(! $user->canTakeBreakfast()) {
+        if(! $user->is_entitled_breakfast) {
             return $this->responseBadRequest("Vous n'êtes pas autorisé à prendre le petit dejeuner.", "Non autorisé");
         }
 

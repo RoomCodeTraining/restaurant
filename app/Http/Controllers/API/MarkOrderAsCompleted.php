@@ -156,6 +156,10 @@ class MarkOrderAsCompleted extends Controller
           'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ]);
 
+        if(now()->hour > config('cantine.menu.locked_at')) {
+            return $this->responseBadRequest("Vous ne pouvez pas récupérer votre petit déjeuner après ".config('cantine.menu.locked_at').'H', "Non autorisé");
+        }
+
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $user = $accessCard->user->load('organization');
 

@@ -34,6 +34,8 @@ class AuthController extends Controller
      * @throws CouldNotLogActivity
      * @throws InvalidCastException
      * @throws ClassMorphViolationException
+     * @bodyParam email string required L'adresse e-mail de l'utilisateur
+     * @bodyParam password string required Le mot de passe de l'utilisateur
      */
     public function login(Request $request)
     {

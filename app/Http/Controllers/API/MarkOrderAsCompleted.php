@@ -38,14 +38,14 @@ class MarkOrderAsCompleted extends Controller
      */
     public function markAsLunchCompleted(Request $request)
     {
-        $request->validate([
-            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
-        ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         $user = $accessCard->user->load('organization');
 
+        if(! $accessCard->is_used) {
+            return $this->responseBadRequest("Cette carte n'est plus associée a vote compte.", "Carte non associée");
+        }
 
 
         if($user->organization->isGroup2()) {
@@ -156,10 +156,20 @@ class MarkOrderAsCompleted extends Controller
           'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ]);
 
+
+
+        if(now()->hour > config('cantine.menu.locked_at')) {
+            return $this->responseBadRequest("Vous ne pouvez pas récupérer votre petit déjeuner après ".config('cantine.menu.locked_at').'H', "Non autorisé");
+        }
+
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $user = $accessCard->user->load('organization');
 
-        if(! $user->canTakeBreakfast()) {
+        if(! $accessCard->is_used) {
+            return $this->responseBadRequest("Cette carte n'est plus associée a vote compte.", "Carte non associée");
+        }
+
+        if(! $user->is_entitled_breakfast) {
             return $this->responseBadRequest("Vous n'êtes pas autorisé à prendre le petit dejeuner.", "Non autorisé");
         }
 

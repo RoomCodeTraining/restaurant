@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "API Cantine Ciprel",
-        "_postman_id": "3a1386bf-4b5c-44f9-bec9-b96725369159",
+        "_postman_id": "1ecab2db-77ea-4977-8e20-88fab29bc115",
         "description": "Cette documentation vise \u00e0 fournir toutes les informations dont vous avez besoin pour travailler avec notre API.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -141,7 +141,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"autem\",\"dish_id\":\"quasi\"}"
+                            "raw": "{\"identifier\":\"quasi\",\"dish_id\":\"recusandae\"}"
                         },
                         "description": "Cette endpoint permet de passer une commande pour un tiers"
                     },
@@ -306,7 +306,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"et\",\"identifier\":\"mziierlw\",\"quota_breakfast\":16,\"quota_lunch\":9}"
+                            "raw": "{\"user_id\":\"voluptas\",\"identifier\":\"axhbwaruujalhwk\",\"quota_breakfast\":3,\"quota_lunch\":25}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte primaire(Carte courante) \u00e0 un utilisateur"
                     },
@@ -334,7 +334,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"eum\",\"access_card_identifier\":\"kajhecwuhnjthcurorsso\",\"expires_at\":\"cumque\",\"identifier\":\"laudantium\"}"
+                            "raw": "{\"user_id\":\"modi\",\"access_card_identifier\":\"wbaklgymvmuvlvzcosjri\",\"expires_at\":\"2037-09-20\"}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte temporaire \u00e0 un utilisateur"
                     },
@@ -362,7 +362,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"access_card_identifier\":\"explicabo\",\"quota_type\":\"quota_lunch\",\"quota\":3}"
+                            "raw": "{\"access_card_identifier\":\"dolor\",\"quota_type\":\"quota_lunch\",\"quota\":17}"
                         },
                         "description": "Cette endpoint permet de recharger une carte RFID"
                     },
@@ -390,7 +390,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"accusantium\"}"
+                            "raw": "{\"identifier\":\"placeat\"}"
                         },
                         "description": "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
                     },
@@ -424,7 +424,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"est\"}"
+                            "raw": "{\"identifier\":\"quibusdam\"}"
                         },
                         "description": "Cette endpoint permet de marquer la commande dejeuner comme r\u00e9cup\u00e9r\u00e9e",
                         "auth": {
@@ -455,7 +455,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"atque\"}"
+                            "raw": "{\"identifier\":\"quaerat\"}"
                         },
                         "description": "Cette endpoint permet de marquer la commande dejeuner comme r\u00e9cup\u00e9r\u00e9e"
                     },
@@ -483,7 +483,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"order_identifier\":\"veniam\"}"
+                            "raw": "{\"order_identifier\":\"repellat\"}"
                         },
                         "description": "Cette endpoint permet de marquer la commande dejeuner comme non r\u00e9cup\u00e9r\u00e9e",
                         "auth": {
@@ -704,7 +704,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"nostrum\",\"last_name\":\"quia\",\"email\":\"gilbert.predovic@example.net\",\"contact\":\"enim\"}"
+                            "raw": "{\"first_name\":\"aliquid\",\"last_name\":\"aperiam\",\"email\":\"ladarius86@example.org\",\"contact\":\"unde\"}"
                         },
                         "description": "Cette endpoint permet de mettre \u00e0 jour le profil de l'utilisateur connect\u00e9"
                     },
@@ -732,7 +732,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"expedita\",\"password\":\"S)-\\\/0%%@C8uH=e7:G?!)\",\"password_confirmation\":\"et\"}"
+                            "raw": "{\"current_password\":\"placeat\",\"password\":\")9F$;S&aXw)\",\"password_confirmation\":\"quaerat\"}"
                         },
                         "description": ""
                     },

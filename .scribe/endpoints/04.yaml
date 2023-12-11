@@ -112,7 +112,7 @@ endpoints:
         name: first_name
         description: "Le prénom de l'utilisateur"
         required: true
-        example: nostrum
+        example: aliquid
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -121,7 +121,7 @@ endpoints:
         name: last_name
         description: "Le nom de l'utilisateur"
         required: true
-        example: quia
+        example: aperiam
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -130,7 +130,7 @@ endpoints:
         name: email
         description: "L'adresse email de l'utilisateur"
         required: true
-        example: gilbert.predovic@example.net
+        example: ladarius86@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -139,16 +139,16 @@ endpoints:
         name: contact
         description: "Le contact de l'utilisateur"
         required: true
-        example: enim
+        example: unde
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: nostrum
-      last_name: quia
-      email: gilbert.predovic@example.net
-      contact: enim
+      first_name: aliquid
+      last_name: aperiam
+      email: ladarius86@example.org
+      contact: unde
     fileParameters: []
     responses: []
     responseFields: []
@@ -182,7 +182,7 @@ endpoints:
         name: current_password
         description: "Le mot de passe actuel de l'utilisateur"
         required: true
-        example: expedita
+        example: placeat
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -191,7 +191,7 @@ endpoints:
         name: password
         description: "Le nouveau mot de passe de l'utilisateur"
         required: true
-        example: 'S)-/0%%@C8uH=e7:G?!)'
+        example: ')9F$;S&aXw)'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -203,15 +203,15 @@ endpoints:
 
           Cette endpoint permet de changer le mot de passe de l'utilisateur connecté
         required: true
-        example: et
+        example: quaerat
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: expedita
-      password: 'S)-/0%%@C8uH=e7:G?!)'
-      password_confirmation: et
+      current_password: placeat
+      password: ')9F$;S&aXw)'
+      password_confirmation: quaerat
     fileParameters: []
     responses: []
     responseFields: []

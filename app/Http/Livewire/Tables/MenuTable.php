@@ -29,15 +29,10 @@ class MenuTable extends Component implements HasForms, HasTable
             ->columns([
                 TextColumn::make('served_at')->label('MENU DU')->dateTime('d/m/Y')->searchable()->sortable(),
 
-
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
-
-                TextColumn::make('served_at')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
-
-
+                TextColumn::make('id')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),
-
 
             ])->filters([
                 // ...

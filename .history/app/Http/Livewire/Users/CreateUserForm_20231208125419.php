@@ -82,7 +82,7 @@ class CreateUserForm extends Component implements HasForms
                         ->numeric()
                         ->autofocus(),
                     Select::make('role')
-                        ->label('Rôle')
+                        ->label('Role')
                         ->options(Role::pluck('name', "id"))
                         ->autofocus(),
                     Select::make('state.employee_status_id')
@@ -152,7 +152,6 @@ class CreateUserForm extends Component implements HasForms
         }
 
         Notification::make()->title('Le collaborateur a été créé avec succès !')->success()->send();
-
 
         return redirect()->route('users.index');
     }

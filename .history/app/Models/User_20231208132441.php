@@ -314,6 +314,11 @@ class User extends Authenticatable
      */
     public function isActive(): bool
     {
-        return $this->is_active;
+
+        dd($this->is_active);
+        if ($this->is_active) {
+            return true;
+        }
+        return false;
     }
 }

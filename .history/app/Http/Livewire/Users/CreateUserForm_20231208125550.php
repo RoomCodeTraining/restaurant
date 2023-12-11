@@ -153,7 +153,6 @@ class CreateUserForm extends Component implements HasForms
 
         Notification::make()->title('Le collaborateur a été créé avec succès !')->success()->send();
 
-
         return redirect()->route('users.index');
     }
 

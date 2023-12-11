@@ -38,7 +38,7 @@ class EditUserTypeForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification des informations liées au type  d\'utilisateur')
+                Section::make('Modification des informations liées au type  d\'utilisater)
                     ->description('Veuillez saisir des types d\'utilisateurs corrects pour une meilleure affiliation au personnel')
                     ->aside()
                     ->schema([

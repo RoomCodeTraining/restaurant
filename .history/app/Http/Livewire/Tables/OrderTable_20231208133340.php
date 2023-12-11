@@ -47,7 +47,7 @@ class OrderTable extends Component implements HasTable, HasForms
                 TextColumn::make('is_for_the_evening')
                     ->label(__('Type de commande'))
                     ->badge()
-
+                    ->searchable()
                     ->color(fn (Order $record) => !$record->is_for_the_evening ? 'gray' : 'primary')
                     ->formatStateUsing(fn (Order $record) => !$record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
                     ->icon(fn (Order $record) => !$record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),

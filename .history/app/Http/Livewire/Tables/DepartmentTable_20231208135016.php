@@ -45,7 +45,7 @@ class DepartmentTable extends Component implements HasTable, HasForms
                         $record->delete();
 
                         ActivityHelper::createActivity($record, 'Suppression du departement ' . $record->name, 'Suppression du departement');
-                        Notification::make()->title('Suppression du département')->success()->body('Le département a été supprimé avec succès !')->send($record->user);
+                        Notification::make()->title('Suppression du département')->success()->body('Le departement a été supprimé avec succès !')->send($record->user);
                     }),
 
             ]);

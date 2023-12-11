@@ -50,7 +50,7 @@ class EditEmployeeStatusForm extends Component implements HasForms
         Notification::make()
             ->title('Modification de la catégorie professionnelle')
             ->success()
-            ->body('La catégorie professionnelle a été modifiée avec succès !')
+            ->body('La catégorie professionnelle a été supprimée avec succès !')
             ->send();
         // flasher('success', 'Le statut a bien été modifié avec succès.');
 

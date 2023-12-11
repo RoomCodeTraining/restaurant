@@ -39,12 +39,20 @@ class MarkOrderAsCompleted extends Controller
     public function markAsLunchCompleted(Request $request)
     {
         $request->validate([
-            'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
+            'identifier' => ['required', Rule::exists('access_cards', 'identifier'), function ($attributes, $value, $fail) {
+                if(! AccessCard::firstWhere('identifier', $value)->is_used) {
+                    $fail("Cette carte n'est plus associée à votre compte. Merci de vous rapprocher de l'administrateur ou utiliser votre carte courante");
+                }
+            }],
         ]);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         $user = $accessCard->user->load('organization');
+
+
+
+
 
 
 

@@ -85,11 +85,11 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: autem
+                  example: quasi
                 dish_id:
                   type: string
                   description: ''
-                  example: quasi
+                  example: recusandae
               required:
                 - identifier
                 - dish_id
@@ -244,19 +244,19 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: et
+                  example: voluptas
                 identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: mziierlw
+                  example: axhbwaruujalhwk
                 quota_breakfast:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 16
+                  example: 3
                 quota_lunch:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 9
+                  example: 25
                 payment_method_id:
                   type: string
                   description: ''
@@ -282,25 +282,20 @@ paths:
               properties:
                 user_id:
                   type: string
-                  description: 'The user identifier or id'
-                  example: eum
+                  description: ''
+                  example: modi
                 access_card_identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: kajhecwuhnjthcurorsso
+                  example: wbaklgymvmuvlvzcosjri
                 expires_at:
-                  type: date
-                  description: 'The card expiration date'
-                  example: cumque
-                identifier:
                   type: string
-                  description: 'The card identifier'
-                  example: laudantium
+                  description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
+                  example: '2037-09-20'
               required:
                 - user_id
                 - access_card_identifier
                 - expires_at
-                - identifier
   /api/reload/cards:
     post:
       summary: 'Recharger une carte RFID'
@@ -320,7 +315,7 @@ paths:
                 access_card_identifier:
                   type: string
                   description: ''
-                  example: explicabo
+                  example: dolor
                 quota_type:
                   type: string
                   description: ''
@@ -331,7 +326,7 @@ paths:
                 quota:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 3
+                  example: 17
               required:
                 - access_card_identifier
                 - quota_type
@@ -355,7 +350,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: accusantium
+                  example: placeat
               required:
                 - identifier
   /api/orders/lunch-completed:
@@ -377,7 +372,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: est
+                  example: quibusdam
               required:
                 - identifier
       security: []
@@ -400,7 +395,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: atque
+                  example: quaerat
               required:
                 - identifier
   /api/orders/cancel-validation:
@@ -422,7 +417,7 @@ paths:
                 order_identifier:
                   type: string
                   description: ''
-                  example: veniam
+                  example: repellat
               required:
                 - order_identifier
       security: []
@@ -618,19 +613,19 @@ paths:
                 first_name:
                   type: string
                   description: "Le prénom de l'utilisateur"
-                  example: nostrum
+                  example: aliquid
                 last_name:
                   type: string
                   description: "Le nom de l'utilisateur"
-                  example: quia
+                  example: aperiam
                 email:
                   type: string
                   description: "L'adresse email de l'utilisateur"
-                  example: gilbert.predovic@example.net
+                  example: ladarius86@example.org
                 contact:
                   type: string
                   description: "Le contact de l'utilisateur"
-                  example: enim
+                  example: unde
               required:
                 - first_name
                 - last_name
@@ -655,15 +650,15 @@ paths:
                 current_password:
                   type: string
                   description: "Le mot de passe actuel de l'utilisateur"
-                  example: expedita
+                  example: placeat
                 password:
                   type: string
                   description: "Le nouveau mot de passe de l'utilisateur"
-                  example: 'S)-/0%%@C8uH=e7:G?!)'
+                  example: ')9F$;S&aXw)'
                 password_confirmation:
                   type: string
                   description: "La confirmation du nouveau mot de passe de l'utilisateur\n\nCette endpoint permet de changer le mot de passe de l'utilisateur connecté"
-                  example: et
+                  example: quaerat
               required:
                 - current_password
                 - password

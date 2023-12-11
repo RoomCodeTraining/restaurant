@@ -32,13 +32,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: est
+        example: quibusdam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: est
+      identifier: quibusdam
     fileParameters: []
     responses: []
     responseFields: []
@@ -74,13 +74,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: atque
+        example: quaerat
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: atque
+      identifier: quaerat
     fileParameters: []
     responses: []
     responseFields: []
@@ -116,13 +116,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: veniam
+        example: repellat
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: veniam
+      order_identifier: repellat
     fileParameters: []
     responses: []
     responseFields: []

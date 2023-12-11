@@ -99,9 +99,6 @@ class AccessCardsController extends Controller
      *
      * Cette endpoint permet d'assigner une carte temporaire à un utilisateur
      * @param  \Illuminate\Http\Request  $request
-     * @bodyParam user_id string required The user identifier or id
-     * @bodyParam identifier string required The card identifier
-     * @bodyParam expires_at date required The card expiration date
      */
     public function assignTemporaryCard(StoreTemporaryCardRequest $request, CreateAccessCardAction $createAccessCardAction)
     {

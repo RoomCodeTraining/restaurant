@@ -43,6 +43,10 @@ class MarkOrderAsCompleted extends Controller
         $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         $user = $accessCard->user->load('organization');
 
+        if(! $accessCard->is_used) {
+            return $this->responseBadRequest("Cette carte n'est plus associée a vote compte.", "Carte non associée");
+        }
+
 
         if($user->organization->isGroup2()) {
 

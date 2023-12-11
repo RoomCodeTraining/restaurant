@@ -76,13 +76,13 @@ class UserTable extends Component implements HasTable, HasForms
                         return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exports([
-            //         ExcelExport::make()
-            //             ->fromTable()
-            //             ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-            //     ]),
-            // ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                ]),
+            ])
             ->filters([
                 SelectFilter::make('user_type_id')
                     ->label('Profil')

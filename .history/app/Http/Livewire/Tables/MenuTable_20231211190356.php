@@ -28,13 +28,16 @@ class MenuTable extends Component implements HasForms, HasTable
             ->query(Menu::query()->with('dishes')->withCount('orders')->latest())
             ->columns([
                 TextColumn::make('created_at')->label('MENU DU')->dateTime('d/m/Y')->searchable()->sortable(),
+                // TextColumn::make('id')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu?->starter->name),
 
 
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
 
+
                 TextColumn::make('served_at')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
-                TextColumn::make('id')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu?->starter->name),
+
+
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),
 
 
@@ -58,7 +61,6 @@ class MenuTable extends Component implements HasForms, HasTable
 
                 Action::make('Supprimer')
                     ->label('')
-                    ->tooltip('Supprimer')
                     ->requiresConfirmation()
                     ->icon('heroicon-o-trash')
                     ->color('danger')
@@ -69,7 +71,6 @@ class MenuTable extends Component implements HasForms, HasTable
                     })
                     // ->hidden(fn (Menu $record) => $record->users->count() > 0)
                     ->hidden(!Auth::user()->isAdminLunchRoom())
-                    //->hidden()
                     ->visible(fn (Menu $record) => $record->orders_count === 0)
                     ->action(fn (Menu $record) => $record->delete()),
             ])

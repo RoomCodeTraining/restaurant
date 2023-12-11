@@ -113,33 +113,22 @@ class SuggestionTable extends Component implements HasTable, HasForms
 
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
+                        DatePicker::make('created_from'),
+                        DatePicker::make('created_until'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['Du'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                $data['created_from'],
+                                function (Builder $query, $date) {
+                                    $suggestion = SuggestionBox::query()->whereDate('created_at', \Carbon\Carbon::parse($date))->first();
+                                    return $query->whereId($suggestion?->id);
+                                },
                             )
                             ->when(
-                                $data['Au'],
+                                $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
-                    })->indicateUsing(function (array $data): array {
-                        $indicators = [];
-
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->toFormattedDateString())
-                                ->removeField('Du');
-                        }
-
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
-                                ->removeField('Au');
-                        }
-
-                        return $indicators;
                     })
             ])
             ->actions([

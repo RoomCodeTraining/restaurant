@@ -20,13 +20,17 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
 
-    protected $record;
+    protected $records;
 
-    public function __construct($record)
+    public function __construct(User $records)
     {
-        $this->record = $record;
+        $this->records = $records;
     }
 
+    public function array(): Collection
+    {
+        return $this->records;
+    }
     /**
      * @return \Illuminate\Support\Collection
      */

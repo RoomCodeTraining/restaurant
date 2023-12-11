@@ -2,26 +2,25 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use Livewire\Component;
 use App\Models\SuggestionBox;
 use App\Models\SuggestionType;
 use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\Filter;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class SuggestionTable extends Component implements HasTable, HasForms
 {
@@ -58,11 +57,6 @@ class SuggestionTable extends Component implements HasTable, HasForms
             ->with('suggestionType')
             ->whereUserId(auth()->user()->id)
             ->latest();
-
-        SuggestionBox::query()
-            ->with('suggestionType')
-            ->whereUserId(auth()->user()->id)
-            ->latest();
     }
 
     public function table(\Filament\Tables\Table $table): \Filament\Tables\Table
@@ -84,63 +78,20 @@ class SuggestionTable extends Component implements HasTable, HasForms
                     ->label('Objet')
                     ->relationship('suggestionType', 'name'),
 
-                // Filter::make('created_at')->form([
-                //     DatePicker::make('created_from')
-                //         ->label('Date'),
-                // ])
-                //     ->query(
-                //         function (Builder $query, array $data) {
-                //             if ($data['created_from'] == null) {
-                //                 return $query;
-                //             }
-                //             return $query
-                //                 ->when(
-                //                     $data['created_from'],
-                //                     function (Builder $query, $date) {
-                //                         $suggestion = SuggestionBox::query()->whereDate('created_at', \Carbon\Carbon::parse($date))->first();
-                //                         return $query->whereId($suggestion?->id);
-                //                     },
-                //                 );
-                //         }
-                //     )
-                //     ->indicateUsing(function (array $data): array {
-                //         $indicators = [];
-                //         if ($data['created_from'] ?? null) {
-                //             $indicators['from'] = 'date :  ' . Carbon::parse($data['created_from'])->toFormattedDateString();
-                //         }
-                //         return $indicators;
-                //     })
-
                 Filter::make('created_at')
+                    ->label('Date')
                     ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
+                        DatePicker::make('date')->default(now())
+
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['Du'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['Au'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })->indicateUsing(function (array $data): array {
-                        $indicators = [];
+                    ->indicateUsing(function (array $data): ?string {
 
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->toFormattedDateString())
-                                ->removeField('Du');
+                        if (!$data['date']) {
+                            return null;
                         }
 
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
-                                ->removeField('Au');
-                        }
-
-                        return $indicators;
-                    })
+                        return 'Suggestion du ' . Carbon::parse($data['date'])->toFormattedDateString();
+                    }),
             ])
             ->actions([
                 // Action::make('show')

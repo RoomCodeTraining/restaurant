@@ -76,13 +76,13 @@ class UserTable extends Component implements HasTable, HasForms
                         return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exports([
-            //         ExcelExport::make()
-            //             ->fromTable()
-            //             ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-            //     ]),
-            // ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                ]),
+            ])
             ->filters([
                 SelectFilter::make('user_type_id')
                     ->label('Profil')
@@ -97,7 +97,9 @@ class UserTable extends Component implements HasTable, HasForms
             ->actions((new UserTableAction)->getActions())
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
-                    ->action(function (Collection $record) {
+                    ->action(function (Collection $record, Excel $excel) {
+                        //dd($record);
+                        //return $excel->download($record, 'invoices.xlsx');
                         return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
 

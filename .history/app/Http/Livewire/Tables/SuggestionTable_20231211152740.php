@@ -84,63 +84,36 @@ class SuggestionTable extends Component implements HasTable, HasForms
                     ->label('Objet')
                     ->relationship('suggestionType', 'name'),
 
-                // Filter::make('created_at')->form([
-                //     DatePicker::make('created_from')
-                //         ->label('Date'),
-                // ])
-                //     ->query(
-                //         function (Builder $query, array $data) {
-                //             if ($data['created_from'] == null) {
-                //                 return $query;
-                //             }
-                //             return $query
-                //                 ->when(
-                //                     $data['created_from'],
-                //                     function (Builder $query, $date) {
-                //                         $suggestion = SuggestionBox::query()->whereDate('created_at', \Carbon\Carbon::parse($date))->first();
-                //                         return $query->whereId($suggestion?->id);
-                //                     },
-                //                 );
-                //         }
-                //     )
-                //     ->indicateUsing(function (array $data): array {
-                //         $indicators = [];
-                //         if ($data['created_from'] ?? null) {
-                //             $indicators['from'] = 'date :  ' . Carbon::parse($data['created_from'])->toFormattedDateString();
-                //         }
-                //         return $indicators;
-                //     })
+                    ->filters([
+                        Filter::make('report_at')->form([
+                            DatePicker::make('created_from')
+                                ->label('Date')
+                                ->default($this->mouvmentAt),
+                        ])
+                            ->query(
+                                function (Builder $query, array $data) {
+                                    if ($data['created_from'] == null) {
+                                        return $query;
+                                    }
+                                    return $query
+                                        ->when(
+                                            $data['created_from'],
+                                            function (Builder $query, $date) {
 
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['Du'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                                $report = Report::query()->whereDate('report_at', \Carbon\Carbon::parse($date))->first();
+                                                //dd($report);
+                                                return $query->whereReportId($report?->id);
+                                            },
+                                        );
+                                }
                             )
-                            ->when(
-                                $data['Au'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })->indicateUsing(function (array $data): array {
-                        $indicators = [];
-
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->toFormattedDateString())
-                                ->removeField('Du');
-                        }
-
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
-                                ->removeField('Au');
-                        }
-
-                        return $indicators;
-                    })
+                            ->indicateUsing(function (array $data): array {
+                                $indicators = [];
+                                if ($data['created_from'] ?? null) {
+                                    $indicators['from'] = 'date :  ' . Carbon::parse($data['created_from'])->toFormattedDateString();
+                                }
+                                return $indicators;
+                            })
             ])
             ->actions([
                 // Action::make('show')

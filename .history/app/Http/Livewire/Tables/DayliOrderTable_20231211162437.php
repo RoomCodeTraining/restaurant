@@ -2,21 +2,17 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\Filter;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class DayliOrderTable extends Component implements HasTable, HasForms
 {
@@ -36,6 +32,37 @@ class DayliOrderTable extends Component implements HasTable, HasForms
                     ->label(__('Plat'))
                     ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
                 TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
+            ])->filters([
+                Filter::make('created_at')
+                    ->form([
+                        DatePicker::make('Du'),
+                        DatePicker::make('Au'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['Du'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            )
+                            ->when(
+                                $data['Au'],
+                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    })->indicateUsing(function (array $data): array {
+                        $indicators = [];
+
+                        if ($data['Du'] ?? null) {
+                            $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->toFormattedDateString())
+                                ->removeField('Du');
+                        }
+
+                        if ($data['Au'] ?? null) {
+                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
+                                ->removeField('Au');
+                        }
+
+                        return $indicators;
+                    })
             ])
 
             ->actions([

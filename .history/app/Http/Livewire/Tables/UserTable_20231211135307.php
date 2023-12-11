@@ -97,8 +97,8 @@ class UserTable extends Component implements HasTable, HasForms
             ->actions((new UserTableAction)->getActions())
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
-                    ->action(function (Collection $record) {
-                        return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                    ->action(function (Collection $records) {
+                        return Excel::download(new UserExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
 
                 BulkAction::make('edit')->label('Exporter le Qota')
@@ -108,16 +108,12 @@ class UserTable extends Component implements HasTable, HasForms
             ]);
     }
 
-    //     public function export(Excel $excel, InvoicesExport $export)
-    // {
-    //     return $excel->download($export, 'invoices.xlsx');
-    // }
 
 
-    // public function exportToUser()
-    // {
-    //     return Excel::download(new UserExport(), 'utilisateurs.xlsx');
-    // }
+    public function exportToUser()
+    {
+        return Excel::download(new UserExport(), 'utilisateurs.xlsx');
+    }
 
     public function render()
     {

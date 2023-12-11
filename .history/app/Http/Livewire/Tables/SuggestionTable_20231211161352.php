@@ -130,12 +130,12 @@ class SuggestionTable extends Component implements HasTable, HasForms
                         $indicators = [];
 
                         if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->toFormattedDateString())
+                            $indicators[] = Indicator::make('Created from ' . Carbon::parse($data['Du'])->toFormattedDateString())
                                 ->removeField('Du');
                         }
 
                         if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
+                            $indicators[] = Indicator::make('Created until ' . Carbon::parse($data['Au'])->toFormattedDateString())
                                 ->removeField('Au');
                         }
 

@@ -97,27 +97,23 @@ class UserTable extends Component implements HasTable, HasForms
             ->actions((new UserTableAction)->getActions())
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
-                    ->action(function (Collection $record) {
-                        return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                    ->action(function (Collection $records) {
+                        return Excel::download(new UserExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
 
-                BulkAction::make('edit')->label('Exporter le Qota')
+                BulkAction::make('edit')->label('Exporte le qota')
                     ->action(function (Collection $records) {
-                        return Excel::download(new QuotaExport(), now()->format('d-m-Y') . ' Quota-Utilisateurs.xlsx');
+                        return Excel::download(new QuotaExport(), 'QuotaUtilisateurs.xlsx');
                     })
             ]);
     }
 
-    //     public function export(Excel $excel, InvoicesExport $export)
-    // {
-    //     return $excel->download($export, 'invoices.xlsx');
-    // }
 
 
-    // public function exportToUser()
-    // {
-    //     return Excel::download(new UserExport(), 'utilisateurs.xlsx');
-    // }
+    public function exportToUser()
+    {
+        return Excel::download(new UserExport(), 'utilisateurs.xlsx');
+    }
 
     public function render()
     {

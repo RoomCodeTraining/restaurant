@@ -76,13 +76,13 @@ class UserTable extends Component implements HasTable, HasForms
                         return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exports([
-            //         ExcelExport::make()
-            //             ->fromTable()
-            //             ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-            //     ]),
-            // ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                ]),
+            ])
             ->filters([
                 SelectFilter::make('user_type_id')
                     ->label('Profil')
@@ -98,7 +98,8 @@ class UserTable extends Component implements HasTable, HasForms
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $record) {
-                        return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                        dd($record);
+                        return Excel::download(new UserExport([$record]), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
 
                 BulkAction::make('edit')->label('Exporter le Qota')
@@ -108,16 +109,12 @@ class UserTable extends Component implements HasTable, HasForms
             ]);
     }
 
-    //     public function export(Excel $excel, InvoicesExport $export)
-    // {
-    //     return $excel->download($export, 'invoices.xlsx');
-    // }
 
 
-    // public function exportToUser()
-    // {
-    //     return Excel::download(new UserExport(), 'utilisateurs.xlsx');
-    // }
+    public function exportToUser()
+    {
+        return Excel::download(new UserExport(), 'utilisateurs.xlsx');
+    }
 
     public function render()
     {

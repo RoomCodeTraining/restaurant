@@ -5,7 +5,6 @@ namespace App\Exports;
 use App\Models\User;
 use App\Support\BillingHelper;
 use App\Support\DateTimeHelper;
-use Illuminate\Database\Eloquent\Collection;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -20,13 +19,17 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
 
-    protected $record;
+    protected $invoices;
 
-    public function __construct($record)
+    public function __construct(array $invoices)
     {
-        $this->record = $record;
+        $this->invoices = $invoices;
     }
 
+    public function array(): array
+    {
+        return $this->invoices;
+    }
     /**
      * @return \Illuminate\Support\Collection
      */

@@ -19,14 +19,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
     /**
-     * @return \Illuminate\Support\Collection
-     */
+    * @return \Illuminate\Support\Collection
+    */
     public function collection()
     {
         return User::query()
-            ->with('role', 'department', 'employeeStatus', 'userType', 'accessCard')
-            ->orderByDesc('created_at')
-            ->get();
+                    ->with('role', 'department', 'employeeStatus', 'userType', 'accessCard')
+                    ->orderByDesc('created_at')
+                    ->get();
+
     }
 
 
@@ -48,16 +49,16 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             "Société",
             "Département",
             "Statut professionnel",
-            "Numéro de Carte NFC",
-            "Réchargement petit dejeuner",
-            "Réchargement déjeuner",
-            "État du compte"
+            "Numero de Carte NFC",
+            "Rechargement petit dejeuner",
+            "Rechargement déjeuner",
+            "Etat du compte"
         ];
     }
 
     public function map($row): array
     {
-
+    
         return [
             $row->created_at->format('d/m/Y'),
             $row->identifier,
@@ -69,10 +70,10 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             $row->organization->name,
             $row->department->name,
             $row->employeeStatus->name,
-            $row->currentAccessCard->identifier ?? "Aucune Carte associée",
+            $row->currentAccessCard->identifier ?? "Aucune Carte associé",
             $row->accessCard?->breakfast_reload_count,
             $row->accessCard?->lunch_reload_count,
-            $row->is_active ? "Actif" : "Inactif"
+            $row->is_active ? "Actif" : "Inactif" 
 
         ];
     }

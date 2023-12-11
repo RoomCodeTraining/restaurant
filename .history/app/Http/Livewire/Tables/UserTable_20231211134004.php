@@ -98,12 +98,12 @@ class UserTable extends Component implements HasTable, HasForms
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $records) {
-                        return Excel::download(new UserExport(), now()->format('d/m/Y') . 'Utilisateurs.xlsx');
+                        return Excel::download(new UserExport(), 'report.xlsx');
                     }),
 
-                BulkAction::make('export')->label('Exporte le qota')
+                BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $records) {
-                        return Excel::download(new QuotaExport(), 'QuotaUtilisateurs.xlsx');
+                        return Excel::download(new QuotaExport(), 'report.xlsx');
                     })
             ]);
     }

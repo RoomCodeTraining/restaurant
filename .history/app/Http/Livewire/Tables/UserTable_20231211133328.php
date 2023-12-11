@@ -2,23 +2,20 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Exports\QuotaExport;
-use App\Models\User;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Exports\UserExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Livewire\Tables\Actions\UserTableAction;
+use App\Models\User;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Collection;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
-use App\Http\Livewire\Tables\Actions\UserTableAction;
+use Filament\Tables\Table;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class UserTable extends Component implements HasTable, HasForms
 {
@@ -76,13 +73,13 @@ class UserTable extends Component implements HasTable, HasForms
                         return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exports([
-            //         ExcelExport::make()
-            //             ->fromTable()
-            //             ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-            //     ]),
-            // ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                ]),
+            ])
             ->filters([
                 SelectFilter::make('user_type_id')
                     ->label('Profil')
@@ -94,16 +91,11 @@ class UserTable extends Component implements HasTable, HasForms
                         '0' => 'Inactif',
                     ]),
             ])
-            ->actions((new UserTableAction)->getActions())
-            ->bulkActions([
+            ->actions((new UserTableAction)->getActions())->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $records) {
-                        return Excel::download(new UserExport(), now()->format('d/m/Y') . 'Utilisateurs.xlsx');
-                    }),
-
-                BulkAction::make('export')->label('Exporte le qota')
-                    ->action(function (Collection $records) {
-                        return Excel::download(new QuotaExport(), 'QuotaUtilisateurs.xlsx');
+                        $data = (new CustomExportDataService($records))->transform();
+                        return Excel::download(new ReportExport($data), 'report.xlsx');
                     })
             ]);
     }

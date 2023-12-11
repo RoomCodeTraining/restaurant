@@ -7,7 +7,6 @@ use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -32,8 +31,8 @@ class MenuTable extends Component implements HasForms, HasTable
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
                 TextColumn::make('id')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
-                TextColumn::make('created_at')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu?->starter->name),
-                TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),
+                TextColumn::make('created_at')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu->starter ? $menu->starter->name : 'Aucun'),
+                TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert ? $record->dessert->name : 'Aucun'),
 
 
             ])->filters([
@@ -62,11 +61,12 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->before(function (Menu $record) {
                         //MenuDeleted::dispatch($record);
                         Notification::make()->title('Menu supprimé supprimé avec succès !')->danger()->send();
+
                         return redirect()->route('Menus.index');
                     })
                     // ->hidden(fn (Menu $record) => $record->users->count() > 0)
-                    ->hidden(!Auth::user()->isAdminLunchRoom())
-                    ->hidden(fn (Menu $record) => ))
+                    ->hidden(! Auth::user()->isAdminLunchRoom())
+                    ->hidden(fn (Menu $record) => $record->canBeUpdated())
                     ->visible(fn (Menu $record) => $record->orders_count === 0)
                     ->action(fn (Menu $record) => $record->delete()),
             ])

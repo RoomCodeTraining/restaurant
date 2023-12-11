@@ -66,7 +66,7 @@ class MenuTable extends Component implements HasForms, HasTable
                     })
                     // ->hidden(fn (Menu $record) => $record->users->count() > 0)
                     ->hidden(!Auth::user()->isAdminLunchRoom())
-                    ->hidden(fn (Menu $record) => $record->served_at)
+                    ->hidden(fn (Menu $record) => )
                     ->visible(fn (Menu $record) => $record->orders_count === 0)
                     ->action(fn (Menu $record) => $record->delete()),
             ])

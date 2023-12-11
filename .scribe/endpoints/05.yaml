@@ -1,0 +1,45 @@
+name: 'Gestion des plats'
+description: |-
+
+  Endpoints pour la gestion des plats de la cantine
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/dishes
+    metadata:
+      groupName: 'Gestion des plats'
+      groupDescription: |-
+
+        Endpoints pour la gestion des plats de la cantine
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Liste des plats'
+      description: 'Cette endpoint permet de récupérer la liste des plats du jour'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
+        headers:
+          content-type: application/problem+json
+          cache-control: 'no-cache, private'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

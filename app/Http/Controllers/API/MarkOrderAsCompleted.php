@@ -4,18 +4,38 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\AccessCard;
+use App\Models\MenuSpecial;
 use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
+use App\Support\ActivityHelper;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Symfony\Component\HttpFoundation\Response;
+use InvalidArgumentException;
 
+/**
+ * @group Gestion des commandes
+ *
+ * Endpoints pour la gestion des commandes
+ * @package App\Http\Controllers\API
+ */
 class MarkOrderAsCompleted extends Controller
 {
     use AuthorizesRequests;
 
+    /**
+     * Marquer la commande dejeuner comme récupérée
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme récupérée
+     * @param Request $request
+     * @return JsonResponse
+     * @throws InvalidArgumentException
+     * @throws MassAssignmentException
+     */
     public function markAsLunchCompleted(Request $request)
     {
         $request->validate([
@@ -24,44 +44,83 @@ class MarkOrderAsCompleted extends Controller
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
+        $user = $accessCard->user->load('organization');
+
+
+
+        if($user->organization->isGroup2()) {
+
+            $specialMenu = MenuSpecial::whereDate('served_at', today());
+
+            if(Order::firstWhere('user_id', $user->id)) {
+                return $this->responseBadRequest("Vous avez déjà récupéré votre déjeuner.", "Plat déjà récupéré");
+            }
+
+            if($user->accessCard->quota_lunch <= 0) {
+                return $this->responseBadRequest("Vous n'avez plus de quota pour le déjeuner.", "Non autorisé");
+            }
+
+            if($order) {
+                return $this->responseBadRequest("Vous avez déjà récupéré votre déjeuner.", "Déjà récupéré");
+            }
+
+            if($specialMenu->exists()) {
+                $order = Order::create([
+                    'user_id' => $accessCard->user_id,
+                    'type' => 'lunch',
+                    'state' => 'completed',
+                    'payment_method_id' => $accessCard->payment_method_id,
+                    'access_card_id' => $accessCard->id,
+                    'is_decrement' => true,
+                    'dish_id' => $specialMenu->first()->dish_id,
+                ]);
+
+                $accessCard->decrement('quota_lunch');
+
+                // ActivityHelper::createActivity(
+                //     $accessCard->user,
+                //     "Récupération du plat spécial {$order->dish->name}",
+                //     'Récupération du plat spécial',
+                // );
+
+                return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.", [
+                  'order' => $order
+                ]);
+            }
+
+            return $this->responseNotFound("Le menu B pour ce jour n'est pas disponible", "Menu non disponible");
+        }
+
         if(! $order) {
-            return response()->json([
-                'message' => "Vous n'avez pas de commande pour aujourd'hui.",
-                "success" => false,
-                "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+            return $this->responseNotFound("Vous n'avez pas de commande pour aujourd'hui.", "Commande non trouvée");
         }
 
         if(! $order->state->canTransitionTo(Completed::class)) {
-            return response()->json([
-                'message' => "Votre commande a déjà été marquée comme récupérée.",
-                "success" => false,
-                "user" => $accessCard->user
-            ], Response::HTTP_BAD_REQUEST);
+            return $this->responseBadRequest("Vous ne pouvez pas récupérer votre commande.", "Plat déjà récupéré");
         }
 
         if($order->is_for_the_evening && now()->hour <= 18) {
-            return response()->json([
-                'message' => "Vous ne pouvez pas récupérer votre commande de ce soir avant 18h.",
-                "success" => false,
-                "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+            return $this->responseUnAuthorized("Vous ne pouvez pas récupérer votre commande de ce soir avant 18h.", "Non autorisé");
         }
 
         $order->markAsCompleted();
 
 
-        return response()->json([
-            'message' => "Bonjour {$accessCard->user->first_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.",
-            "success" => true,
-            "order" => $order
+        return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.", [
+          'order' => $order
         ]);
     }
 
 
 
-    //APi pour marquer les commandes confirmés en cas de reclamation
-
+    /**
+     * Marquer la commande dejeuner comme non récupérée
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme non récupérée
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BindingResolutionException
+     */
     public function markAsConfirmed(Request $request)
     {
 
@@ -80,30 +139,34 @@ class MarkOrderAsCompleted extends Controller
         ]);
     }
 
+
+    /**
+     * Pointage petit dejeuner
+     *
+     * Cette endpoint permet de marquer la commande dejeuner comme récupérée
+     * @authenticated
+     * @param Request $request
+     * @return JsonResponse
+     * @throws InvalidArgumentException
+     * @throws MassAssignmentException
+     */
     public function markAsBreakfastCompleted(Request $request)
     {
         $request->validate([
           'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ]);
-        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
-        if(! $accessCard->user->is_entitled_breakfast) {
-            return response()->json([
-              'message' => "Vous n'êtes pas autorisé à prendre le petit déjeuner.",
-              "success" => false,
-              "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+        $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
+        $user = $accessCard->user->load('organization');
+
+        if(! $user->canTakeBreakfast()) {
+            return $this->responseBadRequest("Vous n'êtes pas autorisé à prendre le petit dejeuner.", "Non autorisé");
         }
 
         if($accessCard->quota_breakfast <= 0) {
-            return response()->json([
-              'message' => "Vous n'avez plus de petit déjeuner.",
-              "success" => false,
-              "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+            return $this->responseBadRequest("Vous n'avez plus de quota pour le petit dejeuner.", "Non autorisé");
         }
 
-        // get the today breakfast order
 
         $order = Order::where('user_id', $accessCard->user_id)
           ->withoutGlobalScopes()
@@ -113,11 +176,7 @@ class MarkOrderAsCompleted extends Controller
           ->first();
 
         if($order) {
-            return response()->json([
-              'message' => "Vous avez déjà récupéré votre petit déjeuner de ce jour.",
-              "success" => false,
-              "user" => $accessCard->user
-            ], Response::HTTP_NOT_FOUND);
+            return $this->responseBadRequest("Vous avez déjà récupéré votre petit déjeuner.", "Déjà récupéré");
         }
 
         $order = Order::create([
@@ -131,10 +190,8 @@ class MarkOrderAsCompleted extends Controller
 
         $accessCard->decrement('quota_breakfast');
 
-        return response()->json([
-          'message' => "Mr/Mme {$accessCard->user->full_name} a recupéré son petit déjeuner.",
-          "success" => true,
-          //"user" => new UserResource($accessCard->user),
+        return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de petit déjeuner a été marquée comme récupérée.", [
+          'order' => $order
         ]);
     }
 }

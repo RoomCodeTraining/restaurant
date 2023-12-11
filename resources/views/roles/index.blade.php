@@ -1,8 +1,6 @@
 <x-app-layout>
-    <x-section-header title="Rôles">
-
-    </x-section-header>
-    <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire:roles.roles-table />
+    <x-section-header title="Rôles"/>
+    <div class="px-6 py-4">
+        <livewire:tables.role-table />
     </div>
 </x-app-layout>

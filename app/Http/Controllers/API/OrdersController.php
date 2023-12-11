@@ -12,7 +12,6 @@ use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -24,6 +23,20 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class OrdersController extends Controller
 {
+
+    /**
+    * Historiques des commandes du jour
+    *
+    * Cette Api's liste les commandes consommées et non consommé
+     */
+
+    public function index()
+    {
+        $orders = Order::query()->today()->with('user.accessCard')->whereState('state', [Confirmed::class, Completed::class])->get();
+
+        return OrderResource::collection($orders);
+    }
+
     /**
      * Effectuer une commande pour un tiers
      *
@@ -36,31 +49,25 @@ class OrdersController extends Controller
         $todayMenu = Menu::with('dishes')
             ->whereDate('served_at', today())
             ->first();
+
+        if(! $todayMenu) {
+            return  $this->responseNotFound('Le plat choisir ne fait pas partie du menu du jour.');
+        }
+
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
+
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         // dd($menuHasDish);
         if (! $accessCard) {
-            return response()->json(
-                [
-                    'message' => "Cette carte n'est associée à aucun compte dans le systeme.",
-                    'success' => false,
-                ],
-                Response::HTTP_NOT_FOUND,
-            );
+            return $this->responseNotFound('Aucune carte ne correspond à ce matricule.', 'Carte non trouvée');
         }
 
         if (! $menuHasDish) {
-            throw ValidationException::withMessages([
-                'dish_id' => ['Le plat choisi n\'est pas disponible pour aujourd\'hui.'],
-            ]);
+            return $this->responseBadRequest('Le plat choisir ne fait pas partie du menu du jour.', 'Plat non disponible');
         }
 
         if ($accessCard->quota_lunch <= 0) {
-            throw ValidationException::withMessages([
-                'message' => 'Le quota de ce utilisateur est insuffisant.',
-                'success' => false,
-                'user' => $accessCard->user,
-            ]);
+            return $this->responseBadRequest('Votre quota de repas est epuisé. Merci de recharger votre compte.', 'Quota epuisé');
         }
 
         $hasAlreadyOrdered = Order::query()
@@ -70,14 +77,7 @@ class OrdersController extends Controller
             ->exists();
 
         if ($hasAlreadyOrdered) {
-            return response()->json(
-                [
-                    'message' => 'Cet utilisateur a déjà commandé un plat.',
-                    'success' => false,
-                    'user' => $accessCard->user,
-                ],
-                Response::HTTP_FORBIDDEN,
-            );
+            return $this->responseBadRequest('Vous avez déjà commandé pour aujourd\'hui.', 'Commande déjà effectuée');
         }
 
         $order = $createOrderAction->execute([
@@ -94,13 +94,17 @@ class OrdersController extends Controller
             $this->canChargeUser($order, $accessCard);
         }
 
+        // decrementer le quota de repas
+
+        // $accessCard->decrement('quota_lunch');
+
         activity()
             ->causedBy(Auth()->user())
             ->performedOn($order)
             ->event('Mr/Mme ' . auth()->user()->full_name . ' vient de passer une commande exceptionnelle du ' . $order->menu->served_at->format('d-m-Y') . ' pour ' . $order->user->full_name)
             ->log('Creation de commande pour tiers');
 
-        return new OrderResource($order);
+        return $this->responseSuccess('Commande effectuée avec succès.', new OrderResource($order));
     }
 
     public function orderCompleted()

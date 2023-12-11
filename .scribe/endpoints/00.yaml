@@ -1,17 +1,21 @@
-name: Endpoints
-description: ''
+name: 'Gestion des commandes'
+description: |-
+
+  Endpoints pour la gestion des commandes
 endpoints:
   -
     httpMethods:
       - POST
     uri: api/orders/lunch-completed
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: 'Gestion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: 'Marquer la commande dejeuner comme récupérée'
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme récupérée'
       authenticated: false
       custom: []
     headers:
@@ -26,13 +30,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: laboriosam
+        example: est
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: laboriosam
+      identifier: est
     fileParameters: []
     responses: []
     responseFields: []
@@ -46,13 +50,15 @@ endpoints:
       - POST
     uri: api/orders/breakfast-completed
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: 'Gestion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
+      title: 'Pointage petit dejeuner'
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme récupérée'
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -66,13 +72,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: a
+        example: atque
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: a
+      identifier: atque
     fileParameters: []
     responses: []
     responseFields: []
@@ -86,12 +92,14 @@ endpoints:
       - POST
     uri: api/orders/cancel-validation
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: 'Gestion des commandes'
+      groupDescription: |-
+
+        Endpoints pour la gestion des commandes
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: 'Marquer la commande dejeuner comme non récupérée'
+      description: 'Cette endpoint permet de marquer la commande dejeuner comme non récupérée'
       authenticated: false
       custom: []
     headers:
@@ -106,189 +114,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: illo
+        example: veniam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: illo
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: api/menus
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display a listing of the resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
-        headers:
-          content-type: application/problem+json
-          cache-control: 'no-cache, private'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/menus/{id}'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: 'Display the specified resource.'
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the menu.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
-        headers:
-          content-type: application/problem+json
-          cache-control: 'no-cache, private'
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/cards/link-temporary-card
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      user_id:
-        name: user_id
-        description: ''
-        required: true
-        example: in
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      identifier:
-        name: identifier
-        description: ''
-        required: true
-        example: nisi
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      expires_at:
-        name: expires_at
-        description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-        required: false
-        example: '2095-02-12'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      user_id: in
-      identifier: nisi
-      expires_at: '2095-02-12'
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/login
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+      order_identifier: veniam
     fileParameters: []
     responses: []
     responseFields: []

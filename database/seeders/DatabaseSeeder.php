@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
           UserTypeSeeder::class,
           PermissionSeeder::class,
           DishTypeSeeder::class,
-          MenuSeeder::class,
+          // MenuSeeder::class,
           UserSeeder::class,
           SuggestionTypeSeeder::class,
         ]);

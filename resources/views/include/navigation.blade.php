@@ -59,6 +59,9 @@
                         <x-nav-link href="{{ route('access-cards.reloads.history') }}" icon="users" :active="request()->routeIs('access-cards.reloads.history')">
                             Historique des recharges
                         </x-nav-link>
+                        <x-nav-link href="{{ route('access-cards.index') }}" icon="users" :active="request()->routeIs('access-cards.histories')">
+                          Liste des cartes
+                        </x-nav-link>
                     @endif
                     @if (auth()->user()->hasRole(App\Models\Role::ADMIN_TECHNICAL))
                         <x-nav-link href="{{ route('roles.index') }}" icon="cog" :active="request()->routeIs('roles.index')">

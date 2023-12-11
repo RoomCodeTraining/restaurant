@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Dish;
+use App\Support\ActivityHelper;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -41,8 +43,10 @@ class DishTable extends Component implements HasTable, HasForms
                     ->sortable(),
             ])
             ->actions([
-                Action::make('edit')
+                     Action::make('edit')
                     ->icon('pencil')
+                    ->url(fn (Dish $record): string => route('dishes.edit', $record))
+                    ->tooltip(__('Editer le plat'))
                     ->label(''),
                 Action::make('delete')
                     ->icon('trash')
@@ -55,9 +59,13 @@ class DishTable extends Component implements HasTable, HasForms
                     ->modalHeading(__('Suppression du plat'))
                     ->modalDescription(__('Êtes-vous sûr de vouloir supprimer ce plat ?'))
                     ->modalSubmitActionLabel(__('Supprimer'))
-                    ->action(fn (Dish $record) => $record->forceDelete()),
-                // ->successMessage(__('Le plat a bien été supprimé'))
-                // ])
+                    ->action(function (Dish $record) {
+                        $record->delete();
+
+                        ActivityHelper::createActivity($record, 'Suppression du plat ' . $record->name, 'Suppression de plat');
+
+                        Notification::make()->title('Plat supprimé avec succès !')->success()->body('Le plat a été supprimé avec succès !')->send();
+                    })
             ])
             ->bulkActions([]);
     }

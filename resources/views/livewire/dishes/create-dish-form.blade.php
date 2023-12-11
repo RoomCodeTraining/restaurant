@@ -1,6 +1,5 @@
 <div>
   <x-form-card submit="saveDish">
-
     <x-slot name="form">
       {{ $this->form }}
     </x-slot>

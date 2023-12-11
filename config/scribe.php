@@ -9,17 +9,17 @@ return [
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
      */
-    'title' => null,
+    'title' => "API Cantine Ciprel",
 
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
-    'description' => '',
+    'description' => 'Cette documentation vise à fournir toutes les informations dont vous avez besoin pour travailler avec notre API.',
 
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
-    'base_url' => null,
+    'base_url' => config('app.url'),
 
     /*
      * Tell Scribe what routes to generate documentation for.
@@ -270,6 +270,8 @@ INTRO
     'example_languages' => [
         'bash',
         'javascript',
+        'php',
+        'python',
     ],
 
     /*
@@ -344,7 +346,8 @@ INTRO
      * - 'logo' => 'img/logo.png' // for `laravel` type
      *
      */
-    'logo' => false,
+    'logo' => config('app.url').'/images/logo-ciprel-vf.png',
+
 
     /**
      * Customize the "Last updated" value displayed in the docs by specifying tokens and formats.

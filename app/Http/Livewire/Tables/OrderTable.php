@@ -34,14 +34,13 @@ class OrderTable extends Component implements HasTable, HasForms
     public function table(Table $table): Table
     {
         return $table
-            ->query(\App\Models\Order::query())
+            ->query(\App\Models\Order::query()->whereUserId(auth()->user()->id)->latest())
             ->columns([
                 TextColumn::make('created_at')
                     ->label(__('Effectué le'))
                     ->dateTime('d/m/Y'),
                 TextColumn::make('menu.served_at')
                     ->label(__('Menu du'))
-                    ->searchable()
                     ->dateTime('d/m/Y'),
                 TextColumn::make('dish.name')->label(__('Plat')),
                 TextColumn::make('is_for_the_evening')

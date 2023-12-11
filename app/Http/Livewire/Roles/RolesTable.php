@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Roles;
 
 use App\Models\Role;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\Builder;
-use Rappasoft\LaravelLivewireTables\Views\Column;
+use Maatwebsite\Excel\Facades\Excel;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
 
 class RolesTable extends DataTableComponent
 {
@@ -46,7 +46,8 @@ class RolesTable extends DataTableComponent
     }
 
 
-    public function exportToRolesAndPermissions(){
+    public function exportToRolesAndPermissions()
+    {
         return Excel::download(new \App\Exports\RolesAndPermissionsExport, 'roles-and-permissions.xlsx');
     }
 

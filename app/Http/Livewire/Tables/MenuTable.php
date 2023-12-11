@@ -28,14 +28,14 @@ class MenuTable extends Component implements HasForms, HasTable
             ->query(Menu::query()->with('dishes')->withCount('orders')->latest())
             ->columns([
                 TextColumn::make('created_at')->label('MENU DU')->dateTime('d/m/Y')->searchable()->sortable(),
-                TextColumn::make('id')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu->starter->name),
+                // TextColumn::make('id')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu?->starter->name),
 
 
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
 
 
-                TextColumn::make('served_at')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish->name ? $record->secondDish->name : 'Aucun'),
+                TextColumn::make('served_at')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
 
 
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert->name),

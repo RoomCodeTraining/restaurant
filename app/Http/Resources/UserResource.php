@@ -20,10 +20,10 @@ class UserResource extends JsonResource
             'full_name' => $this->full_name,
             'email' => $this->email,
             'contact' => $this->contact,
-
+            'role' => new RoleResource($this->whenLoaded('role')),
             'department' => new DepartmentResource($this->whenLoaded('department')),
             'organization' => new OrganizationResource($this->whenLoaded('organization')),
-            'accessCards' => new AccessCardResource($this->accessCard)
+            'accessCard' => new AccessCardResource($this->accessCard)
         ];
     }
 }

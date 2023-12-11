@@ -1,21 +1,17 @@
-name: 'Gestion des plats'
-description: |-
-
-  Endpoints pour la gestion des plats de la cantine
+name: 'Gestion des utilisateurs'
+description: ''
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/dishes
+    uri: api/users
     metadata:
-      groupName: 'Gestion des plats'
-      groupDescription: |-
-
-        Endpoints pour la gestion des plats de la cantine
+      groupName: 'Gestion des utilisateurs'
+      groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Liste des plats'
-      description: 'Cette endpoint permet de récupérer la liste des plats du jour'
+      title: "Lister les utilisateurs de l'application"
+      description: ''
       authenticated: true
       custom: []
     headers:
@@ -37,6 +33,217 @@ endpoints:
           cache-control: 'no-cache, private'
         description: null
         custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/users/{identifier}'
+    metadata:
+      groupName: 'Gestion des utilisateurs'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Afficher les informations d'un utilisateur"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: UQB2Z
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      identifier: UQB2Z
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"errors":[{"status":401,"title":"Unauthenticated!","detail":"Unauthenticated."}]}'
+        headers:
+          content-type: application/problem+json
+          cache-control: 'no-cache, private'
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/profile-update
+    metadata:
+      groupName: 'Gestion des utilisateurs'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Mettre à jour le profil de l'utilisateur connecté"
+      description: "Cette endpoint permet de mettre à jour le profil de l'utilisateur connecté"
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      first_name:
+        name: first_name
+        description: "Le prénom de l'utilisateur"
+        required: true
+        example: nostrum
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      last_name:
+        name: last_name
+        description: "Le nom de l'utilisateur"
+        required: true
+        example: quia
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: "L'adresse email de l'utilisateur"
+        required: true
+        example: gilbert.predovic@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      contact:
+        name: contact
+        description: "Le contact de l'utilisateur"
+        required: true
+        example: enim
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      first_name: nostrum
+      last_name: quia
+      email: gilbert.predovic@example.net
+      contact: enim
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/change-password
+    metadata:
+      groupName: 'Gestion des utilisateurs'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Changer le mot de passe de l'utilisateur connecté"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      current_password:
+        name: current_password
+        description: "Le mot de passe actuel de l'utilisateur"
+        required: true
+        example: expedita
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: "Le nouveau mot de passe de l'utilisateur"
+        required: true
+        example: 'S)-/0%%@C8uH=e7:G?!)'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: |-
+          La confirmation du nouveau mot de passe de l'utilisateur
+
+          Cette endpoint permet de changer le mot de passe de l'utilisateur connecté
+        required: true
+        example: et
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      current_password: expedita
+      password: 'S)-/0%%@C8uH=e7:G?!)'
+      password_confirmation: et
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/current
+    metadata:
+      groupName: 'Gestion des utilisateurs'
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Récupérer l'utilisateur connecté"
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
     responseFields: []
     auth: []
     controller: null

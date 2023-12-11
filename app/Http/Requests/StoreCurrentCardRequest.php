@@ -24,7 +24,7 @@ class StoreCurrentCardRequest extends FormRequest
     {
         return [
             'user_id' => ['required', Rule::exists('users', 'id')],
-            'identifier' => ['required', 'string', 'max:255', Rule::unique('access_cards', 'identifier')],
+            'identifier' => ['required', 'string', 'max:255'],
             'quota_breakfast' => ['nullable', 'integer', 'min:0', 'max:25'],
             'quota_lunch' => ['nullable', 'integer', 'min:0', 'max:25'],
             'payment_method_id' => ['nullable', Rule::exists('payment_methods', 'id')],

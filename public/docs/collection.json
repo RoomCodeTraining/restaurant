@@ -9,238 +9,18 @@
         }
     ],
     "info": {
-        "name": "Ciprel Cantine - Application de gestion de la cantine",
-        "_postman_id": "75c14f01-ecaf-4527-818b-b1853c3fbe47",
-        "description": "",
+        "name": "API Cantine Ciprel",
+        "_postman_id": "3a1386bf-4b5c-44f9-bec9-b96725369159",
+        "description": "Cette documentation vise \u00e0 fournir toutes les informations dont vous avez besoin pour travailler avec notre API.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
         {
-            "name": "Endpoints",
+            "name": "Authentification",
             "description": "",
             "item": [
                 {
-                    "name": "POST api\/orders\/lunch-completed",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/orders\/lunch-completed",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/orders\/lunch-completed"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"identifier\":\"laboriosam\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/orders\/breakfast-completed",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/orders\/breakfast-completed",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/orders\/breakfast-completed"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"identifier\":\"a\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/orders\/cancel-validation",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/orders\/cancel-validation",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/orders\/cancel-validation"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"order_identifier\":\"illo\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "Display a listing of the resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/menus",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/menus"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/problem+json"
-                                },
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "Display the specified resource.",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/menus\/:id",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/menus\/:id",
-                            "variable": [
-                                {
-                                    "id": "id",
-                                    "key": "id",
-                                    "value": "1",
-                                    "description": "The ID of the menu."
-                                }
-                            ]
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/problem+json"
-                                },
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
-                    "name": "POST api\/cards\/link-temporary-card",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/cards\/link-temporary-card",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/cards\/link-temporary-card"
-                        },
-                        "method": "POST",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "raw": "{\"user_id\":\"in\",\"identifier\":\"nisi\",\"expires_at\":\"2095-02-12\"}"
-                        },
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": []
-                },
-                {
-                    "name": "POST api\/login",
+                    "name": "Authentifier un utilisateur",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -260,10 +40,35 @@
                             }
                         ],
                         "body": null,
-                        "description": "",
+                        "description": "Cette endpoint permet d'authentifier un utilisateur7",
                         "auth": {
                             "type": "noauth"
                         }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "D\u00e9connecter un utilisateur",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Cette endpoint permet de d\u00e9connecter un utilisateur"
                     },
                     "response": []
                 }
@@ -273,6 +78,47 @@
             "name": "Gesion des commandes",
             "description": "\nEndpoints pour la gestion des commandes",
             "item": [
+                {
+                    "name": "Historiques des commandes du jour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/orders",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/orders"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Cette Api's liste les commandes consomm\u00e9es et non consomm\u00e9"
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
+                            "name": ""
+                        }
+                    ]
+                },
                 {
                     "name": "Effectuer une commande pour un tiers",
                     "request": {
@@ -295,7 +141,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"id\",\"dish_id\":\"consectetur\"}"
+                            "raw": "{\"identifier\":\"autem\",\"dish_id\":\"quasi\"}"
                         },
                         "description": "Cette endpoint permet de passer une commande pour un tiers"
                     },
@@ -460,7 +306,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"minima\",\"identifier\":\"prhp\",\"quota_breakfast\":10,\"quota_lunch\":21}"
+                            "raw": "{\"user_id\":\"et\",\"identifier\":\"mziierlw\",\"quota_breakfast\":16,\"quota_lunch\":9}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte primaire(Carte courante) \u00e0 un utilisateur"
                     },
@@ -488,7 +334,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"user_id\":\"eligendi\",\"access_card_identifier\":\"gvqkxfou\",\"expires_at\":\"autem\",\"identifier\":\"facere\"}"
+                            "raw": "{\"user_id\":\"eum\",\"access_card_identifier\":\"kajhecwuhnjthcurorsso\",\"expires_at\":\"cumque\",\"identifier\":\"laudantium\"}"
                         },
                         "description": "Cette endpoint permet d'assigner une carte temporaire \u00e0 un utilisateur"
                     },
@@ -516,7 +362,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"access_card_identifier\":\"voluptate\",\"quota_type\":\"quota_breakfast\",\"quota\":7}"
+                            "raw": "{\"access_card_identifier\":\"explicabo\",\"quota_type\":\"quota_lunch\",\"quota\":3}"
                         },
                         "description": "Cette endpoint permet de recharger une carte RFID"
                     },
@@ -544,11 +390,154 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"identifier\":\"et\"}"
+                            "raw": "{\"identifier\":\"accusantium\"}"
                         },
                         "description": "Cette endpoint permet de recuperer la carte courante d'un utilisateur"
                     },
                     "response": []
+                }
+            ]
+        },
+        {
+            "name": "Gestion des commandes",
+            "description": "\nEndpoints pour la gestion des commandes",
+            "item": [
+                {
+                    "name": "Marquer la commande dejeuner comme r\u00e9cup\u00e9r\u00e9e",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/orders\/lunch-completed",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/orders\/lunch-completed"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"identifier\":\"est\"}"
+                        },
+                        "description": "Cette endpoint permet de marquer la commande dejeuner comme r\u00e9cup\u00e9r\u00e9e",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Pointage petit dejeuner",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/orders\/breakfast-completed",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/orders\/breakfast-completed"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"identifier\":\"atque\"}"
+                        },
+                        "description": "Cette endpoint permet de marquer la commande dejeuner comme r\u00e9cup\u00e9r\u00e9e"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Marquer la commande dejeuner comme non r\u00e9cup\u00e9r\u00e9e",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/orders\/cancel-validation",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/orders\/cancel-validation"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"order_identifier\":\"veniam\"}"
+                        },
+                        "description": "Cette endpoint permet de marquer la commande dejeuner comme non r\u00e9cup\u00e9r\u00e9e",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Gestion des menus",
+            "description": "\nEndpoints pour la gestion des menus de la cantine",
+            "item": [
+                {
+                    "name": "Recuperation du menu du jour",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/menus",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/menus"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Cette endpoint permet de r\u00e9cup\u00e9rer le menu du jour"
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/problem+json"
+                                },
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"errors\":[{\"status\":401,\"title\":\"Unauthenticated!\",\"detail\":\"Unauthenticated.\"}]}",
+                            "name": ""
+                        }
+                    ]
                 }
             ]
         },
@@ -600,11 +589,11 @@
             ]
         },
         {
-            "name": "Users",
+            "name": "Gestion des utilisateurs",
             "description": "",
             "item": [
                 {
-                    "name": "Display a listing of the resource.",
+                    "name": "Lister les utilisateurs de l'application",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -645,7 +634,7 @@
                     ]
                 },
                 {
-                    "name": "Display the specified resource.",
+                    "name": "Afficher les informations d'un utilisateur",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -656,7 +645,7 @@
                                 {
                                     "id": "identifier",
                                     "key": "identifier",
-                                    "value": "4BHGJ",
+                                    "value": "UQB2Z",
                                     "description": ""
                                 }
                             ]
@@ -694,7 +683,7 @@
                     ]
                 },
                 {
-                    "name": "POST api\/users\/profile-update",
+                    "name": "Mettre \u00e0 jour le profil de l'utilisateur connect\u00e9",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -715,14 +704,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"first_name\":\"ipqccskafelqnwrzyehd\",\"last_name\":\"drbgzgmrcgveivlszduu\",\"email\":\"jamar.kuhlman@example.net\",\"contact\":\"gwbevvtosa\"}"
+                            "raw": "{\"first_name\":\"nostrum\",\"last_name\":\"quia\",\"email\":\"gilbert.predovic@example.net\",\"contact\":\"enim\"}"
                         },
-                        "description": ""
+                        "description": "Cette endpoint permet de mettre \u00e0 jour le profil de l'utilisateur connect\u00e9"
                     },
                     "response": []
                 },
                 {
-                    "name": "Change the password of the authenticated user",
+                    "name": "Changer le mot de passe de l'utilisateur connect\u00e9",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -743,14 +732,14 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"current_password\":\"autem\",\"password\":\"h<Y-@+'RYbZ2]pV!HB}5\",\"password_confirmation\":\"asperiores\"}"
+                            "raw": "{\"current_password\":\"expedita\",\"password\":\"S)-\\\/0%%@C8uH=e7:G?!)\",\"password_confirmation\":\"et\"}"
                         },
                         "description": ""
                     },
                     "response": []
                 },
                 {
-                    "name": "Get the authenticated user",
+                    "name": "R\u00e9cup\u00e9rer l'utilisateur connect\u00e9",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",

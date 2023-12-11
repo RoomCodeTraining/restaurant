@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasAccessCard;
 use App\Notifications\PasswordResetNotification;
 use App\Notifications\WelcomeNotification;
 use App\States\Order\Confirmed;
@@ -11,7 +12,9 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\InvalidCastException;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -37,6 +40,8 @@ class User extends Authenticatable
         LogsActivity;
 
     use SoftDeletes;
+
+    use HasAccessCard;
 
     protected static $logName = 'Utilisateur';
     protected static $recordEvents = [];
@@ -79,17 +84,29 @@ class User extends Authenticatable
     {
         return $this->identifier;
     }
-
+    /**
+     *
+     * @return string
+     */
     public function getRouteKeyName()
     {
         return 'identifier';
     }
 
+    /**
+     *
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return ActivityHelper::getAction($eventName) . " d'utilisateur";
     }
 
+    /**
+     * Get the options for logging model events.
+     * @return LogOptions
+     */
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -97,15 +114,35 @@ class User extends Authenticatable
         // Chain fluent methods for configuration options
     }
 
+
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     */
     public function isAdmin(): bool
     {
         return $this->hasRole(\App\Models\Role::ADMIN) ? true : false;
     }
 
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     */
     public function isAdminLunchRoom(): bool
     {
         return $this->hasRole(Role::ADMIN_LUNCHROOM) ? true : false;
     }
+
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     */
     public function isAdminTechnical(): bool
     {
         return $this->hasRole(\App\Models\Role::ADMIN_TECHNICAL) ? true : false;
@@ -122,72 +159,114 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     *
+     * @param mixed $value
+     * @return string
+     */
     public function setIdentifierAttribute($value)
     {
         return $this->attributes['identifier'] = strtoupper($value);
     }
 
+    /**
+     *
+     * @param mixed $query
+     * @return mixed
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     * @throws InvalidArgumentException
+     */
     public function isFromLunchroom(): bool
     {
         return $this->hasRole([Role::ADMIN_LUNCHROOM, Role::OPERATOR_LUNCHROOM]);
     }
 
+    /**
+     *
+     * @return bool
+     * @throws BindingResolutionException
+     */
     public function isOperatorLunch(): bool
     {
         return $this->hasRole(Role::OPERATOR_LUNCHROOM);
     }
 
-
+    /**
+     *
+     * @return HasMany
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
+    /**
+     *
+     * @return BelongsTo
+     */
     public function department()
     {
         return $this->belongsTo(Department::class);
     }
 
+    /**
+     *
+     * @return BelongsTo
+     */
     public function organization()
     {
         return $this->belongsTo(Organization::class);
     }
 
+    /**
+     *
+     * @return BelongsTo
+     */
     public function employeeStatus()
     {
         return $this->belongsTo(EmployeeStatus::class);
     }
 
-    public function accessCards()
-    {
-        return $this->hasMany(AccessCard::class);
-    }
-
+    /**
+     *
+     * @return BelongsTo
+     */
     public function userType()
     {
         return $this->belongsTo(UserType::class);
     }
 
+    /**
+     *
+     * @return BelongsTo
+     */
     public function role()
     {
         return $this->belongsTo(Role::class, 'current_role_id');
     }
 
-    public function accessCard()
-    {
-        return $this->belongsTo(AccessCard::class, 'current_access_card_id');
-    }
-
+    /**
+     *
+     * @return BelongsTo
+     */
     public function currentAccessCard()
     {
         return $this->belongsTo(AccessCard::class, 'current_access_card_id');
     }
 
+    /**
+     * Get the password histories for the model.
+     * @return MorphMany
+     */
     public function passwordHistories()
     {
         return $this->morphMany(PasswordHistory::class, 'model');
@@ -312,8 +391,21 @@ class User extends Authenticatable
      *
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive() : bool
     {
-        return $this->is_active;
+        return $this->is_active ? true : false;
+    }
+
+    /**
+     * Verifier si l'utilisateur peut prendre le petit dejeuner
+     * @return bool
+     */
+    public function canTakeBreakfast(): bool
+    {
+        if ($this->is_entitled_breakfast) {
+            return false;
+        }
+
+        return true;
     }
 }

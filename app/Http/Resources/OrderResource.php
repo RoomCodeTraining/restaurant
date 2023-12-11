@@ -18,6 +18,7 @@ class OrderResource extends JsonResource
             'id' => $this->id,
             'menu' => $this->menu->served_at->format('d/m/Y'),
             'dish' => new DishResource($this->dish),
+            'state' => $this->state->title()
         ];
     }
 }

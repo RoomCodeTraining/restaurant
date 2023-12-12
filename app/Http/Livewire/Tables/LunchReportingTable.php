@@ -74,6 +74,7 @@ class LunchReportingTable extends Component implements HasTable, HasForms
     }
 
 
+
     public function render()
     {
         return view('livewire.tables.weekly-reporting-table');

@@ -196,6 +196,7 @@ class MarkOrderAsCompleted extends Controller
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,
           'is_decrement' => true,
+          'pointed_at' => now(),
         ]);
 
         $accessCard->decrement('quota_breakfast');

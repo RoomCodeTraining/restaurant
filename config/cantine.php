@@ -11,6 +11,7 @@ return [
      */
     'quota_breakfast' => env('QUOTA_MAX', 25),
     'quota_lunch' => env('QUOTA_MAX', 25),
+    'quota_critical' => env('QUOTA_CRITICAL', 4),
 
     'menu' => [
         /**

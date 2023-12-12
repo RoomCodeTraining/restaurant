@@ -211,7 +211,7 @@ class UserTableAction
         ActivityHelper::createActivity($user, "Autorisation au collaborateur $user->full_name de prendre le déjeuner", 'Permission de prendre le petit déjeuner');
     }
 
-    public function confirmPasswordReset(User $user, $token): void
+    public function confirmPasswordReset(User $user): void
     {
         $newPassword = Str::random(8);
         $user->update([
@@ -223,11 +223,9 @@ class UserTableAction
             'password' => Hash::make($newPassword),
         ]);
 
-        $url = '127.0.0.1:8000/reset-password?token=' . $token;
+        //dd($user);
 
-        // $this->notify(new ResetPasswordNotification($url));
-
-        $user->notify(new PasswordResetNotification($url));
+        $user->notify(new PasswordResetNotification($newPassword));
 
         ActivityHelper::createActivity(auth()->user(), "Réinitialisation du compte de $user->full_name", 'Réinitialisation de compte');
     }

@@ -27,9 +27,14 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
         return $table
             ->query(self::getTableQuery())
             ->columns([
-                TextColumn::make('id')
+                // TextColumn::make('id')
+                //     ->formatStateUsing(fn (Order $row) => $row->created_at->format('d/m/Y'))
+                //     ->label('POINTAGE DU')
+                //     ->searchable()
+                //     ->sortable(),
+                TextColumn::make('pointing_at')
                     ->formatStateUsing(fn (Order $row) => $row->created_at->format('d/m/Y'))
-                    ->label('Menu du')
+                    ->label('POINTAGE DU')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('pointing_at')

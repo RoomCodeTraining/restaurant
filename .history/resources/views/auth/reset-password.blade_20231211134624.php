@@ -11,7 +11,7 @@
                     <form class="w-full bg-white rounded-lg" method="POST" action="{{ route('password.update') }}">
                         @csrf
                         <h2 class="text-xl text-center text-gray-700 my-4 mb-8 px-18">
-                            Bienvenue, veuillez réinitialiser votre mot de passe
+                            Bienvenue, veuillez-vous connecter à votre compte
                         </h2>
                         <x-auth-validation-errors />
                         <input type="hidden" name="token" value="{{ $request->route('token') }}">
@@ -54,7 +54,7 @@
                     </form>
                 </div>
             </div>
-            <img src="{{ asset('images/reset1.jpg') }}" alt="background"
+            <img src="{{ asset('images/login_image.jpg') }}" alt="background"
                 class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
         </div>
     </div>

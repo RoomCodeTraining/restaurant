@@ -35,9 +35,7 @@ class PasswordResetNotification extends Notification
      * @return void
      */
 
-    public function __construct(public string $token)
-    {
-    }
+    public function __construct(public string $token){}
 
     /**
      * Get the notification's delivery channels.
@@ -47,7 +45,7 @@ class PasswordResetNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+          return ['mail'];
     }
 
     /**
@@ -55,23 +53,22 @@ class PasswordResetNotification extends Notification
      *
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
-     */
+        */
     public function toMail($notifiable)
     {
-        return $this->buildMailMessage($this->resetUrl($notifiable));
+         return $this->buildMailMessage($this->resetUrl($notifiable));
     }
 
-    protected function buildMailMessage($url)
+ protected function buildMailMessage($url)
     {
-        // $url = route('login');
         return (new MailMessage)
             ->greeting('Bonjour Mr/Mme!')
             ->subject('Réinitialisation du mot de passe')
             ->line("Vous recevez cet email car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.")
             ->action("Réinitialiser le mot de passe", $url)
-            ->line("Ce lien de réinitialisation du mot de passe expirera dans :count minutes.", ['count' => config('auth.passwords.' . config('auth.defaults.passwords') . '.expire')])
+            ->line("Ce lien de réinitialisation du mot de passe expirera dans :count minutes.", ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')])
             ->line("Si vous n'avez pas demandé de réinitialisation de mot de passe, aucune autre action n'est requise.")
-            ->salutation('Cordialement, ' . config('app.name'));
+            ->salutation('Cordialement, '. config('app.name'));
     }
 
     /**
@@ -99,7 +96,7 @@ class PasswordResetNotification extends Notification
         ], false));
     }
 
-    public static function createUrlUsing($callback)
+     public static function createUrlUsing($callback)
     {
         static::$createUrlCallback = $callback;
     }

@@ -11,7 +11,6 @@ class CreatePasswordHistoriesTable extends Migration
      *
      * @return void
      */
-
     public function up()
     {
         Schema::create('password_histories', function (Blueprint $table) {

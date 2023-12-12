@@ -5,7 +5,7 @@
         <div class="w-full h-screen  md:flex lg:flex xl:flex">
             <div class="bg-white flex justify-center flex-col lg:w-5/12 xl:w-5/12 md:w-6/12 w-full shadow-lg">
                 <div class="flex font-bold justify-center mb-6 mt-2">
-                    <img class="h-auto w-1/3" src="{{ asset('images/logo-ciprel-vf.png') }}">
+                    <img class="h-auto w-1/3" src="{{ asset('images/reset.png') }}">
                 </div>
                 <div class="w-full text-center px-16">
                     <form class="w-full bg-white rounded-lg" method="POST" action="{{ route('password.update') }}">
@@ -54,7 +54,7 @@
                     </form>
                 </div>
             </div>
-            <img src="{{ asset('images/reset1.jpg') }}" alt="background"
+            <img src="{{ asset('images/login_image.jpg') }}" alt="background"
                 class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
         </div>
     </div>

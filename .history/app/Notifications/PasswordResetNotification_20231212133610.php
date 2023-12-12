@@ -63,7 +63,7 @@ class PasswordResetNotification extends Notification
 
     protected function buildMailMessage($url)
     {
-        // $url = route('login');
+        $url = '/';
         return (new MailMessage)
             ->greeting('Bonjour Mr/Mme!')
             ->subject('Réinitialisation du mot de passe')

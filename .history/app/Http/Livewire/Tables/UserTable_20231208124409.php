@@ -175,7 +175,7 @@ class UserTable extends Component implements HasTable, HasForms
                         Notification::make()
                             ->title('Réinitialisation du mot de passe')
                             ->success()
-                            ->body('Le mot de passe de l\'utilisateur a été réinitialisé avec succès !')
+                            ->body('Le mot de passe de l\'utilisateur a été réinitialisé avec succèss !')
                             ->send();
                     }),
 

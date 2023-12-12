@@ -96,17 +96,17 @@ class OrderTable extends Component implements HasTable, HasForms
             ])->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('from')->default(now())->label('Du'),
-                        DatePicker::make('until')->default(now())->label('Au'),
+                        DatePicker::make('from')->default(now()),
+                        DatePicker::make('until')->default(now()),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
-                                $data['from'],
+                                $data['created_from'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
-                                $data['until'],
+                                $data['created_until'],
                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
@@ -114,18 +114,18 @@ class OrderTable extends Component implements HasTable, HasForms
                         $indicators = [];
 
                         if ($data['from'] ?? null) {
-                            $indicators[] = Indicator::make('Du ' . Carbon::parse($data['from'])->toFormattedDateString())
+                            $indicators[] = Indicator::make('Created from ' . Carbon::parse($data['from'])->toFormattedDateString())
                                 ->removeField('from');
                         }
 
                         if ($data['until'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['until'])->toFormattedDateString())
+                            $indicators[] = Indicator::make('Created until ' . Carbon::parse($data['until'])->toFormattedDateString())
                                 ->removeField('until');
                         }
 
                         return $indicators;
                     })
-            ])->emptyStateHeading('Aucune commande pour l\'instant');
+            ]);
     }
 
     public function confirmOrderCancellation($orderId)

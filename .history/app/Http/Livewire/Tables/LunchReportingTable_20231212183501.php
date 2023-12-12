@@ -59,7 +59,7 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                 BulkAction::make('export')->label('Exporters')
                     ->action(function (Collection $record) {
                         //dd($record->id);
-                        // return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                        return Excel::download(new OrdersExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
             ])
             ->filters([

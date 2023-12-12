@@ -28,12 +28,12 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function __construct(?string $period, ?string $state)
     {
         $this->period = $period;
-        $this->state = $state;
+        $this->state = $state;  
     }
 
     public function collection()
     {
-
+     
         return Order::query()
             ->join('users', 'orders.user_id', 'users.id')
             ->join('user_types', 'users.user_type_id', 'user_types.id')
@@ -50,7 +50,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function title(): string
     {
         [$start, $end] = DateTimeHelper::inThePeriod($this->period);
-
+     
         switch ($this->state) {
             case 'confirmed':
                 $state =  'Commande non consommé';
@@ -59,11 +59,11 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
                 $state = 'Commande consommé';
                 break;
             default:
-                $state = "Toutes les commandes";
+               $state = "Toutes les commandes";
                 break;
         }
-
-
+        
+     
         return " $state du " . $start->format('d/m/y') . ' au ' . $end->format('d/m/y');
     }
 
@@ -95,15 +95,15 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
         $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
 
         // Recuperation de la facturation
-        if ($order->user) {
-            $userBill = BillingHelper::getUserBill($order->user, $row);
-            $contribution =  $userBill['contribution'];
-            $subvention = $userBill['subvention'];
-        } else {
-            $contribution = '(N/A)';
-            $subvention = '(N/A)';
+        if($order->user){
+          $userBill = BillingHelper::getUserBill($order->user, $row);
+          $contribution =  $userBill['contribution'];
+          $subvention = $userBill['subvention'];
+        }else{
+          $contribution = '(N/A)';
+          $subvention = '(N/A)';  
         }
-
+        
 
         return [
             $order->user?->identifier,

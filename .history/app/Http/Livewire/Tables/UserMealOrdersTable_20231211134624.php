@@ -29,13 +29,13 @@ class UserMealOrdersTable extends Component implements HasTable, HasForms
     {
         return $table->query(
             \App\Models\Order::where('dish_id', $this->dish_id)
-                ->with('user')
-                ->whereNotIn('state', [Cancelled::class, Suspended::class])
-                ->whereHas('menu', function ($query) {
-                    $query->where('served_at', $this->served_at);
-                })->latest()
+            ->with('user')
+            ->whereNotIn('state', [Cancelled::class, Suspended::class])
+            ->whereHas('menu', function ($query) {
+                $query->where('served_at', $this->served_at);
+            })->latest()
         )->columns([
-            // TextColumn::make('created_at')->label('Date de commande')->dateTime('d/m/Y H:i:s'),
+            TextColumn::make('created_at')->label('Date de commande')->dateTime('d/m/Y H:i:s'),
             TextColumn::make('user.identifier')
                 ->label('Matricule')
                 ->searchable()

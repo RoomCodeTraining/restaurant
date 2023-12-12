@@ -2,30 +2,28 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\Menu;
-use App\Models\Order;
-use App\States\Order\Cancelled;
-use App\States\Order\Suspended;
 use Carbon\Carbon;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
+use App\Models\Order;
 use Livewire\Component;
+use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Filters\Filter;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Forms\Components\DatePicker;
+use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Tables\Concerns\InteractsWithTable;
 
-class WeeklyOrderTable extends Component implements HasForms, HasTable
+class DayliOrderTable extends Component implements HasTable, HasForms
 {
-    use InteractsWithForms, InteractsWithTable;
-
-
+    use InteractsWithTable, InteractsWithForms;
 
     public function table(Table $table): Table
     {
-
         return $table
             ->query(self::getTableQuery())
             ->columns([
@@ -39,11 +37,12 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                     ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
                 TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
             ])
+
             ->actions([
                 Action::make('show')
                     ->label('')
                     ->icon('heroicon-o-eye')
-                    ->tooltip(__('Consulter '))
+                    ->tooltip(__('Consulter les utilisateurs'))
                     ->modalHeading(fn (Order $row) => 'Utilisateurs ayant commandé le plat ' . dishName($row['dish_id']) . ' le ' . Carbon::parse($row['menu_served_at'])->format('d/m/Y'))
                     ->modalContent(fn (Order $row) => view('orders.summary.modals', ['dish_id' => $row->dish_id, 'served_at' => $row->menu_served_at]))
                     ->modalWidth(MaxWidth::TwoExtraLarge)
@@ -55,7 +54,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
     {
         $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
-            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+            ->whereDate('menus.served_at', now())
             ->whereNotIn('state', [Cancelled::class, Suspended::class])
             ->groupBy('dish_id', 'menus.served_at')
             ->orderBy('menus.served_at', 'DESC')
@@ -64,28 +63,8 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
         return $queryBuilder;
     }
 
-    public function modalsView(): string
-    {
-        return 'orders.summary.modals';
-    }
-
-    public function showUsers($row)
-    {
-        $date = Carbon::parse($row['menu_served_at']);
-        $menu = Menu::query()
-            ->whereDate('served_at', $date)
-            ->first();
-        $data = $menu
-            ->orders()
-            ->whereNotState('state', [Cancelled::class, Suspended::class])
-            ->with('user')
-            ->get();
-        $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);
-        $this->showingUsers = true;
-    }
-
     public function render()
     {
-        return view('livewire.tables.weekly-order-table');
+        return view('livewire.tables.dayli-order-table');
     }
 }

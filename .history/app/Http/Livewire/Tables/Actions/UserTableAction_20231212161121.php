@@ -223,7 +223,7 @@ class UserTableAction
             'password' => Hash::make($newPassword),
         ]);
 
-        //dd($user);
+        dd($user);
 
         $user->notify(new PasswordResetNotification($newPassword));
 

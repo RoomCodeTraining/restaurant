@@ -25,11 +25,11 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     protected $period;
     protected $state;
 
-    public function __construct(?string $period, ?string $state)
-    {
-        $this->period = $period;
-        $this->state = $state;
-    }
+    // public function __construct(?string $period, ?string $state)
+    // {
+    //     $this->period = $period;
+    //     $this->state = $state;
+    // }
 
     public function collection()
     {

@@ -5,13 +5,11 @@ namespace App\Http\Livewire\Tables;
 use App\Models\Order;
 use Livewire\Component;
 use App\Exports\UserExport;
-use App\Exports\OrdersExport;
 use App\States\Order\Cancelled;
 use App\States\Order\Suspended;
 use App\Support\DateTimeHelper;
 use Illuminate\Support\Collection;
 use Filament\Tables\Filters\Filter;
-use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
@@ -51,17 +49,17 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                     ->color(fn (Order $row) => $row->state == 'confirmed' ? 'secondary' : 'success'),
             ])
             ->headerActions([
-                // ExportAction::make()->exports([
-                //     ExcelExport::make()
-                //         ->fromTable()
-                //         ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
-                // ]),
-                BulkAction::make('export')->label('Exporters')
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
+                ]),
+            ])->actions(
+                BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $record) {
-                        //dd($record->id);
-                        // return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                        //return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
-            ])
+            )
             ->filters([
                 Filter::make('served_at')
                     ->form([

@@ -43,7 +43,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 Action::make('show')
                     ->label('')
                     ->icon('heroicon-o-eye')
-                    ->tooltip(__('Consulter '))
+                    ->tooltip(__('Consulter les utilisateurs'))
                     ->modalHeading(fn (Order $row) => 'Utilisateurs ayant commandé le plat ' . dishName($row['dish_id']) . ' le ' . Carbon::parse($row['menu_served_at'])->format('d/m/Y'))
                     ->modalContent(fn (Order $row) => view('orders.summary.modals', ['dish_id' => $row->dish_id, 'served_at' => $row->menu_served_at]))
                     ->modalWidth(MaxWidth::TwoExtraLarge)

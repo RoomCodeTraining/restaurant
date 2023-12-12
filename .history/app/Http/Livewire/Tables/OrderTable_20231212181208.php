@@ -125,7 +125,7 @@ class OrderTable extends Component implements HasTable, HasForms
 
                         return $indicators;
                     })
-            ])->emptyStateHeading('Aucune commande pour l\'instant');
+            ]);
     }
 
     public function confirmOrderCancellation($orderId)

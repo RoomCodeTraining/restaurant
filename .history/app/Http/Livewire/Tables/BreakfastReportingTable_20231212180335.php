@@ -40,9 +40,9 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
 
                 TextColumn::make('user.identifier')->label('MATRICULE/IDENTIFIANT'),
                 TextColumn::make('user.full_name')->label('NOM & PRÉNOM'),
-                // TextColumn::make('state')
-                //     ->label('Utilisateur')
-                //     ->formatStateUsing(fn (Order $row) => $row->user->full_name),
+                TextColumn::make('state')
+                    ->label('Utilisateur')
+                    ->formatStateUsing(fn (Order $row) => $row->user->full_name),
             ])
             ->headerActions([
                 ExportAction::make()->exports([

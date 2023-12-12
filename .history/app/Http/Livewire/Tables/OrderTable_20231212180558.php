@@ -2,24 +2,19 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\States\Order\Cancelled;
 use App\States\Order\Confirmed;
 use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class OrderTable extends Component implements HasTable, HasForms
 {
@@ -55,7 +50,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->formatStateUsing(fn (Order $record) => !$record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
                     ->icon(fn (Order $record) => !$record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
                 TextColumn::make('state')
-                    ->label('Statut')
+                    ->label('Statuts')
                     ->badge()
                     ->color(function (Order $record) {
                         if ($record->isCurrentState(Confirmed::class)) {
@@ -93,39 +88,7 @@ class OrderTable extends Component implements HasTable, HasForms
                             ->icon('heroicon-o-x-mark')
                             ->send($record->user);
                     }),
-            ])->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('from')->default(now())->label('Du'),
-                        DatePicker::make('until')->default(now())->label('Au'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })
-                    ->indicateUsing(function (array $data): array {
-                        $indicators = [];
-
-                        if ($data['from'] ?? null) {
-                            $indicators[] = Indicator::make('Du ' . Carbon::parse($data['from'])->toFormattedDateString())
-                                ->removeField('from');
-                        }
-
-                        if ($data['until'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['until'])->toFormattedDateString())
-                                ->removeField('until');
-                        }
-
-                        return $indicators;
-                    })
-            ])->emptyStateHeading('Aucune commande pour l\'instant');
+            ]);
     }
 
     public function confirmOrderCancellation($orderId)

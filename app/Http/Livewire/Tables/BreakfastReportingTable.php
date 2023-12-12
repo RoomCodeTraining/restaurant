@@ -39,7 +39,7 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                     ->sortable(),
                 TextColumn::make('user_id')
                     ->label('Utilisateur')
-                    ->formatStateUsing(fn (Order $row) => $row->user->full_name),
+                    ->formatStateUsing(fn (Order $row) => $row->user?->full_name),
                 TextColumn::make('state')
                     ->label('Etat')
                     ->formatStateUsing(fn (Order $row) => $row->state->title())

@@ -38,7 +38,7 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
                     ->tooltip('Consulter'),
 
                 Action::make('Supprimer')
-                    ->label('')
+                    ->label()
                     ->requiresConfirmation()
                     ->icon('heroicon-o-trash')
                     ->color('danger')
@@ -50,7 +50,7 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
                         return redirect()->route('menus-specials');
                     })
                     ->hidden(Auth::user()->can('manage', \App\Models\Menu::class))
-                    ->visible(fn (MenuSpecial $record) => $record->orders_count === 0)
+                    //->visible(fn (MenuSpecal $record) => $record->orders_count === 0)
                     ->action(fn (MenuSpecial $record) => $record->delete()),
             ])
             ->bulkActions([

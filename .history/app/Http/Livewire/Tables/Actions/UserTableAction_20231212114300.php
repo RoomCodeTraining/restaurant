@@ -144,7 +144,7 @@ class UserTableAction
                 ->color('secondary')
                 ->hidden(function (User $user) {
                     if ($user->currentAccessCard) {
-                        return $user->currentAccessCard->isCurrent() || !auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
+                        return $user->currentAccessCard->isCurrent() || !auth()->user()->hasRole(Role::ADMIN)  ? true : false;
                     }
 
                     return true;

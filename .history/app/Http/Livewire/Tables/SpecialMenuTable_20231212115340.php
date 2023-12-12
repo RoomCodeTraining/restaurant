@@ -32,25 +32,21 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
             ])
             ->actions([
                 Action::make('Editer')
-                    ->label('')
                     ->url(fn (MenuSpecial $record): string => route('menus-specials.edit', $record))
-                    ->icon('heroicon-o-pencil')
-                    ->tooltip('Consulter'),
+                    ->icon('heroicon-o-pencil'),
 
                 Action::make('Supprimer')
-                    ->label('')
                     ->requiresConfirmation()
                     ->icon('heroicon-o-trash')
                     ->color('danger')
-                    ->tooltip('Supprimer')
                     ->before(function (MenuSpecial $record) {
                         //MenuDeleted::dispatch($record);
-                        Notification::make()->title('Menu B supprimé avec succès !')->danger()->send();
+                        Notification::make()->title('Menu B supprimé supprimé avec succès !')->danger()->send();
 
                         return redirect()->route('menus-specials');
                     })
                     ->hidden(Auth::user()->can('manage', \App\Models\Menu::class))
-                    ->visible(fn (MenuSpecial $record) => $record->orders_count === 0)
+                    //->visible(fn (MenuSpecal $record) => $record->orders_count === 0)
                     ->action(fn (MenuSpecial $record) => $record->delete()),
             ])
             ->bulkActions([

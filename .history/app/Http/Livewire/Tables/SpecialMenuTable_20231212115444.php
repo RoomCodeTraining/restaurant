@@ -38,19 +38,19 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
                     ->tooltip('Consulter'),
 
                 Action::make('Supprimer')
-                    ->label('')
+                    ->label()
                     ->requiresConfirmation()
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->tooltip('Supprimer')
                     ->before(function (MenuSpecial $record) {
                         //MenuDeleted::dispatch($record);
-                        Notification::make()->title('Menu B supprimé avec succès !')->danger()->send();
+                        Notification::make()->title('Menu B supprimé  avec succès !')->danger()->send();
 
                         return redirect()->route('menus-specials');
                     })
                     ->hidden(Auth::user()->can('manage', \App\Models\Menu::class))
-                    ->visible(fn (MenuSpecial $record) => $record->orders_count === 0)
+                    //->visible(fn (MenuSpecal $record) => $record->orders_count === 0)
                     ->action(fn (MenuSpecial $record) => $record->delete()),
             ])
             ->bulkActions([

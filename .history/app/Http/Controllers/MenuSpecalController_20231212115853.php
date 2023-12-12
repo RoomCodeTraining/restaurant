@@ -19,12 +19,12 @@ class MenuSpecalController extends Controller
         $this->authorize('create', Menu::class);
         return view('menus.specials.create');
     }
-
-    public function edit($menuSpecials)
+v
+    public function edit($menuSpecial)
     {
         $this->authorize('manage', Menu::class);
-        $menuSpecials = MenuSpecial::findOrFail($menuSpecials);
-        return view('menus.specials.edit', compact('menuSpecials'));
+        $menuSpecial = MenuSpecial::findOrFail($menuSpecial);
+        return view('menus.specials.edit', compact('menuSpecial'));
     }
 
     public function show(MenuSpecial $menuSpecial)

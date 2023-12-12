@@ -81,4 +81,21 @@ class DateTimeHelper
 
         return [$begin, $end];
     }
+
+
+    public static function getPeriod() : array
+    {
+        return [
+            'today' => 'Aujourd\'hui',
+            'yesterday' => 'Hier',
+            'this_week' => 'Cette semaine',
+            'last_week' => 'La semaine dernière',
+            'this_month' => 'Ce mois-ci',
+            'last_month' => 'Le mois dernier',
+            'this_year' => 'Cette année',
+            'last_year' => 'L\'année dernière',
+            'this_quarter' => 'Ce trimestre',
+            'last_quarter' => 'Le trimestre dernier',
+        ];
+    }
 }

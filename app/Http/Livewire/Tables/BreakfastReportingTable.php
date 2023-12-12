@@ -50,7 +50,7 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             ])
             ->filters([
                 Filter::make('created_at')->form([
-                    Select::make('period')->options($this->getFilterPeriod())->default('this_week')->label('Période'),
+                    Select::make('period')->options(DateTimeHelper::getPeriod())->default('this_week')->label('Période'),
                 ])->query(function (Builder $query, array $data) {
                     return $query->when(
                         $data['period'],
@@ -72,19 +72,6 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             ->latest();
     }
 
-    public function getFilterPeriod() : array
-    {
-        return [
-            'today' => 'Aujourd\'hui',
-            'yesterday' => 'Hier',
-            'this_week' => 'Cette semaine',
-            'last_week' => 'La semaine dernière',
-            'this_month' => 'Ce mois-ci',
-            'last_month' => 'Le mois dernier',
-            'this_year' => 'Cette année',
-            'last_year' => 'L\'année dernière',
-        ];
-    }
 
     public function render()
     {

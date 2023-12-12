@@ -3,40 +3,47 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Order;
-use Carbon\Carbon;
-use Filament\Forms\Components\DatePicker;
+use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
+use App\Support\DateTimeHelper;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\Filter;
-use Filament\Tables\Filters\Indicator;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class LunchReportingTable extends Component implements HasTable, HasForms
 {
-
     use InteractsWithTable, InteractsWithForms;
 
     public function table($table)
     {
         return $table
-            ->query(
-                Order::join('dishes', 'orders.dish_id', 'dishes.id')
-                    ->join('menus', 'orders.menu_id', 'menus.id')
-                    ->whereDate('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-                    ->whereNotState('state', [Cancelled::class, Suspended::class])
-                    ->groupBy('dish_id', 'menu_served_at')
-                    ->orderBy('menu_served_at', 'DESC')
-                    ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')
-            )
+            ->query(self::getTableQuery())
             ->columns([
-                TextColumn::make('menu_served_at')->label('Menu du')->searchable()->sortable()->dateTime('d/m/Y'),
-                TextColumn::make('dish_id')->label('Plat')->formatStateUsing(fn ($row) => dishName($row)),
-                TextColumn::make('total_orders')->label('Nbr. de commandes'),
+                TextColumn::make('menu.served_at')
+                    ->label('Menu du')
+                    ->searchable()
+                    ->sortable()
+                    ->dateTime('d/m/Y'),
+                TextColumn::make('user.full_name')
+                    ->label('Utilisateur')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('dish.name')
+                    ->label('Plat')
+                    ->searchable(),
+                TextColumn::make('state')
+                    ->label('Etat')
+                    ->formatStateUsing(fn (Order $row) => $row->state->title())
+                    ->badge()
+                    ->color(fn (Order $row) => $row->state == 'confirmed' ? 'secondary' : 'success'),
             ])
             ->headerActions([
                 ExportAction::make()->exports([
@@ -46,33 +53,32 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                 ]),
             ])
             ->filters([
-                Filter::make('created_at')
+                Filter::make('served_at')
                     ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
+                        Select::make('period')
+                            ->options(DateTimeHelper::getPeriod())
+                            ->default('this_week')
+                            ->label('Période'),
                     ])
-                    // ...
-                    ->indicateUsing(function (array $data): array {
-                        $indicators = [];
-
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make(' Du  ' . Carbon::parse($data['Du'])->format('d/m/Y'))
-                                ->removeField('Du');
-                        }
-
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Jusqu\'au ' . Carbon::parse($data['Au'])->format('d/m/Y'))
-                                ->removeField('Au');
-                        }
-
-                        return $indicators;
-                    })
+                    ->query(function (Builder $query, array $data) {
+                        return $query->when(
+                            $data['period'],
+                            fn ($query, $period) => dd($query)
+                        );
+                    }),
             ])
             ->emptyStateHeading('Aucun déjeuner trouvé')
             ->emptyStateIcon('heroicon-o-moon');
-        ;
     }
 
+    private static function getTableQuery()
+    {
+        $queryBuilder = Order::with('menu', 'dish')
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
+            ->latest();
+
+        return $queryBuilder;
+    }
 
     public function render()
     {

@@ -142,8 +142,8 @@ class UserTableAction
                 ->tooltip('Restaurer la carte courante')
                 ->color('secondary')
                 ->hidden(function (User $user) {
-                    if ($user->currentAccessCard && $user->isActive()) {
-                        return $user->currentAccessCard->isCurrent() ? true : false;
+                    if ($user->currentAccessCard) {
+                        return $user->currentAccessCard->isCurrent() || ! auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
                     }
 
                     return true;

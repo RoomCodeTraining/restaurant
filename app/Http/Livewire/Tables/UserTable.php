@@ -3,22 +3,22 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Exports\QuotaExport;
-use App\Models\User;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Exports\UserExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Livewire\Tables\Actions\UserTableAction;
+use App\Models\User;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Collection;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
-use App\Http\Livewire\Tables\Actions\UserTableAction;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class UserTable extends Component implements HasTable, HasForms
 {

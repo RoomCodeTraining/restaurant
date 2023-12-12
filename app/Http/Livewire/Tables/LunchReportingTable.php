@@ -61,10 +61,11 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                             ->label('Période'),
                     ])
                     ->query(function (Builder $query, array $data) {
-                        return $query->when(
-                            $data['period'],
-                            fn ($query, $period) => dd($query)
-                        );
+                        $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
+                            $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
+                        });
+
+                        return $query;
                     }),
             ])
             ->emptyStateHeading('Aucun déjeuner trouvé')
@@ -73,7 +74,10 @@ class LunchReportingTable extends Component implements HasTable, HasForms
 
     private static function getTableQuery()
     {
-        $queryBuilder = Order::with('menu', 'dish')
+        $queryBuilder = Order::with('dish')
+            // ->join('orders.*', 'menus.served_at as menu_served_at')
+            ->join('menus', 'menus.id', '=', 'orders.menu_id')
+            ->select('orders.*', 'menus.served_at as menu_served_at')
             ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->latest();
 

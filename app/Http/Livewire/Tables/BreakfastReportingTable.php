@@ -32,14 +32,19 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                     ->label('Menu du')
                     ->searchable()
                     ->sortable(),
-            TextColumn::make('pointing_at')
+                TextColumn::make('pointing_at')
                     ->formatStateUsing(fn (Order $row) => $row->created_at->format('d/m/Y'))
                     ->label('Pointer à')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('state')
+                TextColumn::make('user_id')
                     ->label('Utilisateur')
                     ->formatStateUsing(fn (Order $row) => $row->user->full_name),
+                TextColumn::make('state')
+                    ->label('Etat')
+                    ->formatStateUsing(fn (Order $row) => $row->state->title())
+                    ->badge()
+                    ->color(fn (Order $row) => $row->state == 'confirmed' ? 'secondary' : 'success'),
             ])
             ->headerActions([
                 ExportAction::make()->exports([
@@ -49,14 +54,16 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                 ]),
             ])
             ->filters([
-                Filter::make('created_at')->form([
-                    Select::make('period')->options(DateTimeHelper::getPeriod())->default('this_week')->label('Période'),
-                ])->query(function (Builder $query, array $data) {
-                    return $query->when(
-                        $data['period'],
-                        fn ($query, $period) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($period))
-                    );
-                })
+                Filter::make('created_at')
+                    ->form([
+                        Select::make('period')
+                            ->options(DateTimeHelper::getPeriod())
+                            ->default('this_week')
+                            ->label('Période'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->when($data['period'], fn ($query, $period) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($period)));
+                    }),
             ])
             ->emptyStateHeading('Aucun petit déjeuner trouvé')
             ->emptyStateIcon('heroicon-o-sun');
@@ -71,7 +78,6 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             ->withoutGlobalScope('lunch')
             ->latest();
     }
-
 
     public function render()
     {

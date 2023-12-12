@@ -84,7 +84,10 @@ class UserTable extends Component implements HasTable, HasForms
                 //         ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
                 // ]),
 
-
+                BulkAction::make('export')->label('Exporter')
+                    ->action(function (Collection $record) {
+                        return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                    }),
             ])
             ->filters([
                 SelectFilter::make('user_type_id')

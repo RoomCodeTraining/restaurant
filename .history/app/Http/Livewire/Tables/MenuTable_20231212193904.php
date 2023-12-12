@@ -50,7 +50,7 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->color('info')
                     ->tooltip('Modifier')
                     ->url(fn (Menu $record): string => route('menus.edit', $record))
-                    ->hidden(fn (Menu $record) => ! $record->canBeUpdated() || ! Auth::user()->isAdminLunchRoom())
+                    ->hidden(fn (Menu $record) => !$record->canBeUpdated() || !Auth::user()->isAdminLunchRoom())
                     ->icon('heroicon-o-pencil-square'),
 
                 Action::make('Supprimer')
@@ -65,7 +65,7 @@ class MenuTable extends Component implements HasForms, HasTable
 
                         return redirect()->route('Menus.index');
                     })
-                    ->hidden(fn (Menu $record) => ! $record->canBeUpdated() || ! Auth::user()->isAdminLunchRoom())
+                    ->hidden(fn (Menu $record) => !$record->canBeUpdated() || !Auth::user()->isAdminLunchRoom())
                     ->visible(fn (Menu $record) => $record->orders_count === 0)
                     ->action(fn (Menu $record) => $record->delete()),
             ])

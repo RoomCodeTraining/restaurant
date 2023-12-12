@@ -39,8 +39,8 @@ class UserProfilView extends Component implements HasInfolists, HasForms
             Section::make('Les informations de votre compte')
                 ->description('Ces informations concerne vos données personnelles en tant que employé, et vos accès pour les commandes')
                 ->aside()->schema([
-                    Tabs::make('Information de votre ')->tabs([
-                        Tabs\Tab::make('informations de mon compte')
+                    Tabs::make('Inf')->tabs([
+                        Tabs\Tab::make('info')
                             ->icon('heroicon-m-user')
                             ->schema([
                                 ImageEntry::make('profile_photo_url')

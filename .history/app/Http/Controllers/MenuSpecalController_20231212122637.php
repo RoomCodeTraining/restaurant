@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Menu;
 use App\Models\MenuSpecal;
 use App\Models\MenuSpecial;
 use Illuminate\Http\Request;
@@ -24,11 +23,11 @@ class MenuSpecalController extends Controller
     {
         $this->authorize('manage', Menu::class);
         $menuSpecial = MenuSpecial::findOrFail($menuSpecial);
-        //dd($menuSpecial);
+
         return view('menus.specials.edit', compact('menuSpecial'));
     }
 
-    public function show(MenuSpecial $menuSpecial)
+    public function show(MenuSpecal $menuSpecial)
     {
         $this->authorize('manage', Menu::class);
         return view('menus.specials.show', compact('menuSpecial'));

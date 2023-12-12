@@ -16,16 +16,17 @@ class EditSpecialForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public MenuSpecial $menuSpecial;
+    public MenuSpecial $menus_special;
+
     public $state = [
         'served_at' => null,
         'dish_id' => null,
     ];
 
 
-    public function mount(): void
+    public function mount()
     {
-        //dd($this->menuSpecial->served_at);
+        dd($this->menus_special);
         $this->form->fill([
             'served_at' => $this->menuSpecial->served_at,
             'dish_id' => $this->menuSpecial->dish_id,

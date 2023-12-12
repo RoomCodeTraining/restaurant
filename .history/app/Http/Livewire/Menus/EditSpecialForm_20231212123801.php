@@ -25,11 +25,7 @@ class EditSpecialForm extends Component implements HasForms
 
     public function mount(): void
     {
-        //dd($this->menuSpecial->served_at);
-        $this->form->fill([
-            'served_at' => $this->menuSpecial->served_at,
-            'dish_id' => $this->menuSpecial->dish_id,
-        ]);
+        dd($this->menuSpecial);
     }
 
     // public function getFormSchema(): array

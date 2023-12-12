@@ -2,20 +2,18 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Models\MenuSpecial;
-use Filament\Tables\Actions\Action;
-use Filament\Support\Enums\MaxWidth;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class SpecialMenuTable extends Component implements HasForms, HasTable
 {
@@ -35,12 +33,18 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
             ->actions([
                 Action::make('Editer')
                     ->label('')
-                    ->color('info')
                     ->url(fn (MenuSpecial $record): string => route('menus-specials.edit', $record))
                     ->icon('heroicon-o-pencil')
                     ->tooltip('Modifier'),
 
-
+                    Action::make('show')
+                    ->label('')
+                    ->icon('eye')
+                    ->tooltip(__('Consulter les utilisateurs'))
+                    ->modalHeading(fn (Order $row) => 'Utilisateurs ayant commandé le plat ' . dishName($row['dish_id']) . ' le ' . Carbon::parse($row['menu_served_at'])->format('d/m/Y'))
+                    ->modalContent(fn (Order $row) => view('orders.summary.modals', ['dish_id' => $row->dish_id, 'served_at' => $row->menu_served_at]))
+                    ->modalWidth(MaxWidth::TwoExtraLarge)
+                    ->modalSubmitAction(false)
 
                 Action::make('Supprimer')
                     ->label('')

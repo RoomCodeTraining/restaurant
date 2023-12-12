@@ -24,7 +24,6 @@ class MenuSpecalController extends Controller
     {
         $this->authorize('manage', Menu::class);
         $menuSpecial = MenuSpecial::findOrFail($menuSpecial);
-        //dd($menuSpecial);
         return view('menus.specials.edit', compact('menuSpecial'));
     }
 

@@ -35,7 +35,6 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
             ->actions([
                 Action::make('Editer')
                     ->label('')
-                    ->color('info')
                     ->url(fn (MenuSpecial $record): string => route('menus-specials.edit', $record))
                     ->icon('heroicon-o-pencil')
                     ->tooltip('Modifier'),

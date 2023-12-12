@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Menus;
 use Livewire\Component;
 use Filament\Forms\Form;
 use App\Models\MenuSpecal;
-use App\Models\MenuSpecial;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Contracts\HasForms;
@@ -16,7 +15,7 @@ class EditSpecialForm extends Component implements HasForms
 {
     use InteractsWithForms;
 
-    public MenuSpecial $menuSpecial;
+    public MenuSpecal $menuSpecial;
     public $state = [
         'served_at' => null,
         'dish_id' => null,

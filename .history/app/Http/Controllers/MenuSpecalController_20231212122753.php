@@ -28,7 +28,7 @@ class MenuSpecalController extends Controller
         return view('menus.specials.edit', compact('menuSpecial'));
     }
 
-    public function show(MenuSpecial $menuSpecial)
+    public function show(MenuSpecal $menuSpecial)
     {
         $this->authorize('manage', Menu::class);
         return view('menus.specials.show', compact('menuSpecial'));

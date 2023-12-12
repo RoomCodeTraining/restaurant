@@ -32,6 +32,7 @@ class MenuTable extends Component implements HasForms, HasTable
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
                 TextColumn::make('id')->label('PLAT 2')->formatStateUsing(fn (Menu $record) => $record->secondDish ? $record->secondDish->name : 'Aucun'),
+
                 TextColumn::make('dishes')->label('DÉSSERT')->formatStateUsing(fn (Menu $record) => $record->dessert ? $record->dessert->name : 'Aucun'),
 
 

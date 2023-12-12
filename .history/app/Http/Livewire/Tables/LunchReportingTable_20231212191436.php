@@ -53,12 +53,19 @@ class LunchReportingTable extends Component implements HasTable, HasForms
             ])
             ->headerActions([
 
-
                 ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
-                ]),
+                    ExcelExport::make()->withColumns([
+                        Column::make('menu.served_at')->heading('Menu du'),
+                        Column::make('user.full_name')->heading('Nom & prénom'),
+                        Column::make('dish.name')->heading('Plat'),
+                        Column::make('state')->heading('Statut')->formatStateUsing(fn (Order $row) => $row->state->title()),
+                    ]),
+                ])
+                // ExportAction::make()->exports([
+                //     ExcelExport::make()
+                //         ->fromTable()
+                //         ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
+                // ]),
                 // BulkAction::make('export')->label('Exporters')
                 //     ->action(function (Collection $record) {
                 //         //dd($record->id);

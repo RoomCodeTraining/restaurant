@@ -10,6 +10,7 @@ use App\States\Order\Cancelled;
 use App\States\Order\Suspended;
 use App\Support\DateTimeHelper;
 use Illuminate\Support\Collection;
+use Filament\Tables\Columns\Column;
 use Filament\Tables\Filters\Filter;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Components\Select;
@@ -17,7 +18,6 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use pxlrbt\FilamentExcel\Columns\Column;
 use Illuminate\Database\Eloquent\Builder;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -53,12 +53,19 @@ class LunchReportingTable extends Component implements HasTable, HasForms
             ])
             ->headerActions([
 
-
                 ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
-                ]),
+                    ExcelExport::make()->withColumns([
+                        Column::make('menu.served_at')->heading('Menu du'),
+                        Column::make('user.full_name')->heading('Nom & prénom'),
+                        Column::make('dish.name')->heading('Plat'),
+                        Column::make('state')->heading('Statut')->formatStateUsing(fn (Order $row) => $row->state->title()),
+                    ]),
+                ])
+                // ExportAction::make()->exports([
+                //     ExcelExport::make()
+                //         ->fromTable()
+                //         ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
+                // ]),
                 // BulkAction::make('export')->label('Exporters')
                 //     ->action(function (Collection $record) {
                 //         //dd($record->id);

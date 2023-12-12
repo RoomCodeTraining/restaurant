@@ -39,6 +39,7 @@ class MenuTable extends Component implements HasForms, HasTable
                 // ...
             ])
             ->actions([
+                ->label
                 Action::make('Consulter')
                     ->label('')
                     ->color('success')

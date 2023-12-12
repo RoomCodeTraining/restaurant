@@ -43,16 +43,16 @@ class DishTable extends Component implements HasTable, HasForms
                     ->sortable(),
             ])
             ->actions([
-                     Action::make('edit')
-                    ->icon('pencil')
+                Action::make('edit')
+                    ->icon('heroicon-o-pencil-square')
                     ->url(fn (Dish $record): string => route('dishes.edit', $record))
                     ->tooltip(__('Editer le plat'))
                     ->label(''),
                 Action::make('delete')
-                    ->icon('trash')
-                    ->iconSize('6')
+                    ->icon('heroicon-o-trash')
                     ->label('')
                     ->color('danger')
+                    ->tooltip(__('Supprimer le plat'))
                     ->hidden(fn (Dish $record) => $record->orders_count > 0)
                     ->requiresConfirmation()
                     ->modalIcon('heroicon-o-trash')
@@ -64,8 +64,12 @@ class DishTable extends Component implements HasTable, HasForms
 
                         ActivityHelper::createActivity($record, 'Suppression du plat ' . $record->name, 'Suppression de plat');
 
-                        Notification::make()->title('Plat supprimé avec succès !')->success()->body('Le plat a été supprimé avec succès !')->send();
-                    })
+                        Notification::make()
+                            ->title('Plat supprimé avec succès !')
+                            ->success()
+                            ->body('Le plat a été supprimé avec succès !')
+                            ->send();
+                    }),
             ])
             ->bulkActions([]);
     }

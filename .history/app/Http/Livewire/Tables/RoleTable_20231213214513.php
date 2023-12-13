@@ -24,16 +24,15 @@ class RoleTable extends Component implements HasTable, HasForms
         )->columns([
             TextColumn::make('created_at')->label('Date de création')->dateTime('d/m/Y'),
             TextColumn::make('name')->label('Nom'),
-            TextColumn::make('id')->label('Description')->formatStateUsing(fn (Role $record) => $record->description ? $record->description : 'Aucune description'),
+            TextColumn::make('description')->label('Description'),
             TextColumn::make('users_count')->label('Nombre d\'utilisateurs'),
         ])->actions([
             ViewAction::make('edit')
                 ->label('')
-                ->icon('heroicon-o-pencil-square')
-                ->color('secondary')
+                ->icon('heroicon-o-eye')
+                ->color('success')
                 ->tooltip(__('Modifier les permissions'))
                 ->url(fn (Role $row) => route('roles.edit', $row->id)),
-
             DeleteAction::make('delete')
                 ->label('')
                 ->icon('heroicon-o-trash')

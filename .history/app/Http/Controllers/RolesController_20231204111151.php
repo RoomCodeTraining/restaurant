@@ -23,11 +23,4 @@ class RolesController extends Controller
             'role' => $role->load('permissions'),
         ]);
     }
-
-    public function show(Role $role)
-    {
-        return view('roles.show', [
-            'role' => $role->load('permissions'),
-        ]);
-    }
 }

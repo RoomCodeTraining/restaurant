@@ -94,7 +94,7 @@ class UserTableAction
                     return $user->isActive() ||
                         !auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN);
                 })
                 ->requiresConfirmation()
                 ->modalHeading('Activer le compte')
@@ -181,7 +181,7 @@ class UserTableAction
                     return $user->id == auth()->user()->id ||
                         !auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN);
                 })
                 ->requiresConfirmation(),
         ];

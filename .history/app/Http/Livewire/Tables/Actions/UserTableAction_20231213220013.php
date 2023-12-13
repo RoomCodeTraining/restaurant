@@ -46,7 +46,7 @@ class UserTableAction
                 ->hidden(
                     fn () => !auth()
                         ->user()
-                        ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
+                        ->hasRole(Role::ADMIN) || !auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
                 )
                 ->label('')
                 ->icon('heroicon-o-pencil-square')
@@ -61,7 +61,7 @@ class UserTableAction
                 ->hidden(
                     fn () => !auth()
                         ->user()
-                        ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
+                        ->hasRole(Role::ADMIN),
                 )
                 ->color('danger')
                 ->tooltip('Désactiver le compte')
@@ -83,7 +83,7 @@ class UserTableAction
                         $user->id == auth()->user()->id ||
                         !auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN);
                 })
                 ->requiresConfirmation(),
             Action::make('reactivate')
@@ -94,7 +94,7 @@ class UserTableAction
                     return $user->isActive() ||
                         !auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN);
                 })
                 ->requiresConfirmation()
                 ->modalHeading('Activer le compte')
@@ -181,7 +181,7 @@ class UserTableAction
                     return $user->id == auth()->user()->id ||
                         !auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN);
                 })
                 ->requiresConfirmation(),
         ];

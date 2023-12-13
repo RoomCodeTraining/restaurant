@@ -3,17 +3,16 @@
 namespace App\Http\Livewire\Account;
 
 use App\Models\User;
-use Livewire\Component;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\Grid;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Illuminate\Validation\Rules\Password;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Livewire\Component;
 
 class UpdatePasswordForm extends Component implements HasForms
 {

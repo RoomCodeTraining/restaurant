@@ -34,9 +34,10 @@ class UserProfilView extends Component implements HasInfolists, HasForms
     public function userViewProfil(Infolist $infolist): Infolist
     {
 
+
         return $infolist->record($this->user)->schema([
             Section::make('Les informations de votre compte')
-                ->description('Ces informations concerne vos données personnelles ')
+                ->description('Ces informations concerne vos données personnelles en tant que employé, et vos accès pour les commandes')
                 ->schema([
                     Tabs::make('Information de votre ')->tabs([
                         Tabs\Tab::make('informations de mon compte')

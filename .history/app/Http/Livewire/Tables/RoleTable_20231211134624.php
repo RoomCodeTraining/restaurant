@@ -17,7 +17,7 @@ class RoleTable extends Component implements HasTable, HasForms
 {
     use InteractsWithTable, InteractsWithForms;
 
-    public function table(Table $table): Table
+    public function table(Table $table) : Table
     {
         return $table->query(
             \App\Models\Role::query()->withCount('users')
@@ -29,13 +29,12 @@ class RoleTable extends Component implements HasTable, HasForms
         ])->actions([
             ViewAction::make('show')
                 ->label('')
-                ->icon('heroicon-o-eye')
-                ->color('success')
+                ->icon('eye')
                 ->tooltip(__('Consulter les permissions'))
                 ->url(fn (Role $row) => route('roles.show', $row->id)),
             DeleteAction::make('delete')
                 ->label('')
-                ->icon('heroicon-o-trash')
+                ->icon('trash')
                 ->tooltip(__('Supprimer le rôle'))
                 ->modalHeading(__('Supprimer le rôle'))
                 ->modalDescription(__('Êtes-vous sûr de vouloir supprimer ce rôle ?'))

@@ -31,6 +31,7 @@ class RoleTable extends Component implements HasTable, HasForms
                 ->label('')
                 ->icon('heroicon-o-eye')
                 ->color('success')
+
                 ->tooltip(__('Consulter les permissions'))
                 ->url(fn (Role $row) => route('roles.show', $row->id)),
             DeleteAction::make('delete')

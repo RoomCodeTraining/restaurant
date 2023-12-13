@@ -32,7 +32,7 @@ class UserTableAction
             Action::make('top_up_card')
                 ->label('')
                 ->tooltip('Recharger la carte')
-                ->icon('heroicon-o-plus-circle')
+                ->icon('heroicon-o-credit-card')
                 ->color('primary')
                 ->hidden(function (User $user) {
                     return !$user->isActive() ||

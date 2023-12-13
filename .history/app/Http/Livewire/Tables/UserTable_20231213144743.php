@@ -2,24 +2,23 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\User;
-use Livewire\Component;
-use Filament\Tables\Table;
-use App\Exports\UserExport;
 use App\Exports\QuotaExport;
-use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UserExport;
+use App\Http\Livewire\Tables\Actions\UserTableAction;
+use App\Models\User;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use pxlrbt\FilamentExcel\Columns\Column;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Collection;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use App\Http\Livewire\Tables\Actions\UserTableAction;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class UserTable extends Component implements HasTable, HasForms
 {
@@ -110,18 +109,8 @@ class UserTable extends Component implements HasTable, HasForms
                         '0' => 'Inactif',
                     ]),
             ])
-            ->actions((new UserTableAction)->getActions());
-        // ->bulkActions([
-        //     BulkAction::make('export')->label('Exporter')
-        //         ->action(function (Collection $record) {
-        //             return Excel::download(new UserExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
-        //         }),
+            ->actions((new UserTableAction)->getActions())
 
-        //     BulkAction::make('edit')->label('Exporter le Qota')
-        //         ->action(function (Collection $records) {
-        //             return Excel::download(new QuotaExport(), now()->format('d-m-Y') . ' Quota-Utilisateurs.xlsx');
-        //         })
-        // ]);
     }
 
     //     public function export(Excel $excel, InvoicesExport $export)

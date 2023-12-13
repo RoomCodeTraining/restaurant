@@ -20,16 +20,14 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
 
-    use Exportable;
-    // protected $record;
+    protected $record;
 
+    dd($record);
 
-
-    // public function __construct($record)
-    // {
-
-    //     $this->record = $record;
-    // }
+    public function __construct($record)
+    {
+        $this->record = $record;
+    }
 
     /**
      * @return \Illuminate\Support\Collection

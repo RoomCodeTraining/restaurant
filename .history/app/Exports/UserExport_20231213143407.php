@@ -20,16 +20,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
 
-    use Exportable;
-    // protected $record;
+    protected $record;
 
 
 
-    // public function __construct($record)
-    // {
+    public function __construct($record)
+    {
 
-    //     $this->record = $record;
-    // }
+        $this->record = $record;
+    }
 
     /**
      * @return \Illuminate\Support\Collection
@@ -68,24 +67,24 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
         ];
     }
 
-    public function map($row): array
+    public function map($record): array
     {
 
         return [
-            $row->created_at->format('d/m/Y'),
-            $row->identifier,
-            $row->last_name,
-            $row->first_name,
-            $row->email,
-            $row->contact,
-            $row->role->name,
-            $row->organization->name,
-            $row->department->name,
-            $row->employeeStatus->name,
-            $row->currentAccessCard->identifier ?? "Aucune Carte associée",
-            $row->accessCard?->breakfast_reload_count,
-            $row->accessCard?->lunch_reload_count,
-            $row->is_active ? "Actif" : "Inactif"
+            $record->created_at->format('d/m/Y'),
+            $record->identifier,
+            $record->last_name,
+            $record->first_name,
+            $record->email,
+            $record->contact,
+            $record->role->name,
+            $record->organization->name,
+            $record->department->name,
+            $record->employeeStatus->name,
+            $record->currentAccessCard->identifier ?? "Aucune Carte associée",
+            $record->accessCard?->breakfast_reload_count,
+            $record->accessCard?->lunch_reload_count,
+            $record->is_active ? "Actif" : "Inactif"
 
         ];
     }

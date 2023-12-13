@@ -110,18 +110,18 @@ class UserTable extends Component implements HasTable, HasForms
                         '0' => 'Inactif',
                     ]),
             ])
-            ->actions((new UserTableAction)->getActions());
-        // ->bulkActions([
-        //     BulkAction::make('export')->label('Exporter')
-        //         ->action(function (Collection $record) {
-        //             return Excel::download(new UserExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
-        //         }),
+            ->actions((new UserTableAction)->getActions())
+            // ->bulkActions([
+            //     BulkAction::make('export')->label('Exporter')
+            //         ->action(function (Collection $record) {
+            //             return Excel::download(new UserExport(), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+            //         }),
 
-        //     BulkAction::make('edit')->label('Exporter le Qota')
-        //         ->action(function (Collection $records) {
-        //             return Excel::download(new QuotaExport(), now()->format('d-m-Y') . ' Quota-Utilisateurs.xlsx');
-        //         })
-        // ]);
+            //     BulkAction::make('edit')->label('Exporter le Qota')
+            //         ->action(function (Collection $records) {
+            //             return Excel::download(new QuotaExport(), now()->format('d-m-Y') . ' Quota-Utilisateurs.xlsx');
+            //         })
+            // ]);
     }
 
     //     public function export(Excel $excel, InvoicesExport $export)

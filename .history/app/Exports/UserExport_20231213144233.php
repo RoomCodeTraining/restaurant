@@ -21,15 +21,15 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
 {
 
     use Exportable;
-    // protected $record;
+    protected $record;
 
 
 
-    // public function __construct($record)
-    // {
+    public function __construct($record)
+    {
 
-    //     $this->record = $record;
-    // }
+        $this->record = $record;
+    }
 
     /**
      * @return \Illuminate\Support\Collection

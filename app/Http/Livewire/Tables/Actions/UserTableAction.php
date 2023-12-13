@@ -35,16 +35,16 @@ class UserTableAction
                 ->icon('heroicon-o-plus-circle')
                 ->color('primary')
                 ->hidden(function (User $user) {
-                    return !$user->isActive() ||
-                        !auth()
+                    return ! $user->isActive() ||
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN_RH) ||
-                        !$user->currentAccessCard;
+                        ! $user->currentAccessCard;
                 })
                 ->url(fn (User $user) => route('reload.card', $user->currentAccessCard)),
             EditAction::make()
                 ->hidden(
-                    fn () => !auth()
+                    fn () => ! auth()
                         ->user()
                         ->hasRole(Role::ADMIN),
                 )
@@ -59,7 +59,7 @@ class UserTableAction
                 ->label('')
                 ->icon('heroicon-o-lock-closed')
                 ->hidden(
-                    fn () => !auth()
+                    fn () => ! auth()
                         ->user()
                         ->hasRole(Role::ADMIN),
                 )
@@ -79,9 +79,9 @@ class UserTableAction
                 })
                 ->tooltip('Desactiver')
                 ->hidden(function (User $user) {
-                    return !$user->isActive() ||
+                    return ! $user->isActive() ||
                         $user->id == auth()->user()->id ||
-                        !auth()
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN);
                 })
@@ -92,7 +92,7 @@ class UserTableAction
                 ->tooltip('Activer')
                 ->hidden(function (User $user) {
                     return $user->isActive() ||
-                        !auth()
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN);
                 })
@@ -119,8 +119,8 @@ class UserTableAction
                 ->color('warning')
                 ->hidden(function (User $user) {
                     return $user->id == auth()->user()->id ||
-                        !$user->isActive() ||
-                        !auth()
+                        ! $user->isActive() ||
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN);
                 })
@@ -144,7 +144,7 @@ class UserTableAction
                 ->color('secondary')
                 ->hidden(function (User $user) {
                     if ($user->currentAccessCard) {
-                        return $user->currentAccessCard->isCurrent() || !auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
+                        return $user->currentAccessCard->isCurrent() || ! auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
                     }
 
                     return true;
@@ -179,7 +179,7 @@ class UserTableAction
                 ->modalDescription('Etes-vous sûr de vouloir supprimer ce compte ?')
                 ->hidden(function (User $user) {
                     return $user->id == auth()->user()->id ||
-                        !auth()
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN);
                 })

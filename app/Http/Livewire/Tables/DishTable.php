@@ -76,8 +76,12 @@ class DishTable extends Component implements HasTable, HasForms
 
                         ActivityHelper::createActivity($record, 'Suppression du plat ' . $record->name, 'Suppression de plat');
 
-                        Notification::make()->title('Plat supprimé avec succès !')->success()->body('Le plat a été supprimé avec succès !')->send();
-                    })
+                        Notification::make()
+                            ->title('Plat supprimé avec succès !')
+                            ->success()
+                            ->body('Le plat a été supprimé avec succès !')
+                            ->send();
+                    }),
             ])
             ->bulkActions([]);
     }

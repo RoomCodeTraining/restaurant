@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-section-header title="Menus B">
+        <x-section-header title="Menus B">
         <x-slot name="actions">
             <a href="{{ route('menus-specials.create') }}" class="btn btn-sm btn-secondary">
                 <svg xmlns="http://www.w3.org/2000/svg" class="inline-block font-bold w-4 h-4 mr-1 stroke-current"
@@ -14,7 +14,7 @@
             </a>
         </x-slot>
     </x-section-header>
-    <div class="bg-white px-6 py-4 rounded-md shadow-lg">
-        <livewire.tables.special-menu-table />
+    <div class="px-6 py-4">
+            @livewire('tables.special-menu-table')
     </div>
 </x-app-layout>

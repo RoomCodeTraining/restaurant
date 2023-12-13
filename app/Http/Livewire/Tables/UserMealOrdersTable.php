@@ -35,7 +35,6 @@ class UserMealOrdersTable extends Component implements HasTable, HasForms
                     $query->where('served_at', $this->served_at);
                 })->latest()
         )->columns([
-            // TextColumn::make('created_at')->label('Date de commande')->dateTime('d/m/Y H:i:s'),
             TextColumn::make('user.identifier')
                 ->label('Matricule')
                 ->searchable()

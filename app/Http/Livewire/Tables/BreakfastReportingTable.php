@@ -52,14 +52,16 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                 ]),
             ])
             ->filters([
-                Filter::make('created_at')->form([
-                    Select::make('period')->options(DateTimeHelper::getPeriod())->default('this_week')->label('Période'),
-                ])->query(function (Builder $query, array $data) {
-                    return $query->when(
-                        $data['period'],
-                        fn ($query, $period) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($period))
-                    );
-                })
+                Filter::make('created_at')
+                    ->form([
+                        Select::make('period')
+                            ->options(DateTimeHelper::getPeriod())
+                            ->default('this_week')
+                            ->label('Période'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query->when($data['period'], fn ($query, $period) => $query->whereBetween('created_at', DateTimeHelper::inThePeriod($period)));
+                    }),
             ])
             ->emptyStateHeading('Aucun petit déjeuner trouvé')
             ->emptyStateIcon('heroicon-o-sun');
@@ -74,7 +76,6 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             ->withoutGlobalScope('lunch')
             ->latest();
     }
-
 
     public function render()
     {

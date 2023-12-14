@@ -98,8 +98,8 @@ class OrderTable extends Component implements HasTable, HasForms
             ])->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('from')->default(now()->startOfWeek())->label('Du'),
-                        DatePicker::make('until')->default(now()->endOfWeek())->label('Au'),
+                        DatePicker::make('from')->default(now())->label('Du'),
+                        DatePicker::make('until')->default(now())->label('Au'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query

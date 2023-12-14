@@ -2,22 +2,20 @@
 
 namespace App\Http\Livewire\Menus;
 
+use App\Actions\Menu\UpdateMenuAction;
 use App\Models\Dish;
 use App\Models\Menu;
 use App\Models\User;
-use Livewire\Component;
-use Filament\Forms\Form;
-use Illuminate\Validation\Rule;
 use App\Notifications\MenuChanged;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
-use App\Actions\Menu\UpdateMenuAction;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\DatePicker;
-use Illuminate\Support\Facades\Notification;
-use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
 
 class EditMenuForm extends Component implements HasForms
 {
@@ -77,16 +75,6 @@ class EditMenuForm extends Component implements HasForms
     {
         return $form
             ->schema([
-                Section::make('Modification du menu')
-                    ->aside()
-                    ->description('Veuillez saisir des informations correctes lors de la modification')
-                    ->schema([
-                        DatePicker::make('served_at')
-                            ->label('Menu du')
-                            ->columnSpan(2)
-                            ->minDate(now())
-                            ->maxDate(now()->addDays(7))
-                            ->format('d/m/Y'),
                         Select::make('starter_id')
                             ->label("Choississez l'entrée")
                             ->required()
@@ -102,11 +90,7 @@ class EditMenuForm extends Component implements HasForms
                         Select::make('second_dish_id')
                             ->label("Choississez le plat principal 2")
                             ->options(Dish::main()->pluck('name', 'id')),
-                    ]),
-
-
-                // ...
-            ])
+                    ])
             ->statePath('state');
     }
 
@@ -132,6 +116,7 @@ class EditMenuForm extends Component implements HasForms
         );
 
         flasher("success", "Le menu a été modifié avec succès.");
+
         return redirect()->route('menus.index');
     }
 

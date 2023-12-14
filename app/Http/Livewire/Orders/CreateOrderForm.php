@@ -54,20 +54,21 @@ class CreateOrderForm extends Component
         $this->resetErrorBag();
 
         $this->validate(['selectedDishes' => ['required', 'array']]);
-        if(auth()->user()->can_order_two_dishes){
-           foreach($this->selectedDishes as $menuId => $items){
-            $menu = \App\Models\Menu::whereId($menuId)->first();
-              foreach($items as $item){
-                \App\Models\Order::create([
-                    'dish_id' => $item['id'],
-                    'menu_id' => $menu->id,
-                    'user_id' => Auth::id()
-                  ]);
-              }
-           }
+        if(auth()->user()->can_order_two_dishes) {
+            foreach($this->selectedDishes as $menuId => $items) {
+                $menu = \App\Models\Menu::whereId($menuId)->first();
+                foreach($items as $item) {
+                    \App\Models\Order::create([
+                        'dish_id' => $item['id'],
+                        'menu_id' => $menu->id,
+                        'user_id' => Auth::id()
+                      ]);
+                }
+            }
 
-           flasher('success', 'Votre commande a été enregistrée avec succès !');
-           return redirect()->route('orders.index');
+            flasher('success', 'Votre commande a été enregistrée avec succès !');
+
+            return redirect()->route('orders.index');
         }
 
         /**
@@ -136,9 +137,8 @@ class CreateOrderForm extends Component
         $previousOrders = Auth::user()->orders()
           ->with('menu')
           ->whereIn('menu_id', array_keys($this->selectedDishes))
-          ->whereNotState('state', Cancelled::class)
+          ->whereNotState('state', [Cancelled::class, Suspended::class])
           ->get();
-
 
 
 
@@ -176,6 +176,7 @@ class CreateOrderForm extends Component
         }
 
         flasher('success', 'Votre commande a bien été enregistrée.');
+
         return redirect()->route('orders.index');
     }
 
@@ -185,14 +186,14 @@ class CreateOrderForm extends Component
     public function addDish($menuId, $dishId)
     {
 
-        if(auth()->user()->can_order_two_dishes){
-            if(! empty($this->selectedDishes[$menuId])){
+        if(auth()->user()->can_order_two_dishes) {
+            if(! empty($this->selectedDishes[$menuId])) {
                 $this->selectedDishes[$menuId][1] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
-            }else{
+            } else {
                 $this->selectedDishes[$menuId][0] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
             }
-        }else{
-          $this->selectedDishes[$menuId] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
+        } else {
+            $this->selectedDishes[$menuId] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
         }
 
         $this->resetValidation();

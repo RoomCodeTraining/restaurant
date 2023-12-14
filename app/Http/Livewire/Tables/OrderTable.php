@@ -2,24 +2,25 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\States\Order\Cancelled;
 use App\States\Order\Confirmed;
+use App\States\Order\Suspended;
 use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\Filter;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component;
 
 class OrderTable extends Component implements HasTable, HasForms
 {
@@ -51,9 +52,9 @@ class OrderTable extends Component implements HasTable, HasForms
                 TextColumn::make('is_for_the_evening')
                     ->label(__('Type de commande'))
                     ->badge()
-                    ->color(fn (Order $record) => !$record->is_for_the_evening ? 'gray' : 'primary')
-                    ->formatStateUsing(fn (Order $record) => !$record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
-                    ->icon(fn (Order $record) => !$record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
+                    ->color(fn (Order $record) => ! $record->is_for_the_evening ? 'gray' : 'primary')
+                    ->formatStateUsing(fn (Order $record) => ! $record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
+                    ->icon(fn (Order $record) => ! $record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
                 TextColumn::make('state')
                     ->label('Statut')
                     ->badge()
@@ -62,8 +63,10 @@ class OrderTable extends Component implements HasTable, HasForms
                             return 'gray';
                         } elseif ($record->isCurrentState(Cancelled::class)) {
                             return 'danger';
-                        } else {
+                        } elseif ($record->isCurrentState(Suspended::class)) {
                             return 'success';
+                        } else {
+                            return 'warning';
                         }
                     })
                     ->formatStateUsing(fn (Order $record) => $record->state->title()),
@@ -82,7 +85,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->modalDescription('Êtes-vous sûr de vouloir annuler cette commande ?')
                     ->requiresConfirmation()
                     ->tooltip('Annuler la commande')
-                    ->hidden(fn (Order $record) => !$record->isCurrentState(Confirmed::class) || !$record->canBeUpdated())
+                    ->hidden(fn (Order $record) => ! $record->isCurrentState(Confirmed::class) || ! $record->canBeUpdated())
                     ->action(function (Order $record) {
                         $record->state->transitionTo(Cancelled::class);
                         ActivityHelper::createActivity($record, 'Annulation de la commande du ' . \Carbon\Carbon::parse($record->menu->served_at)->format('d-m-Y'), 'Annulation de la commande');

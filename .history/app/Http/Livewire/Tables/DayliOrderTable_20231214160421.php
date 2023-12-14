@@ -32,10 +32,9 @@ class DayliOrderTable extends Component implements HasTable, HasForms
                     ->searchable()
                     ->sortable()
                     ->dateTime('d/m/Y'),
-                TextColumn::make('dish.name')
+                TextColumn::make('dish_id')
                     ->label(__('Plat'))
-                    ->searchable(),
-                //->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
+                    ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
                 TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
             ])
 

@@ -74,9 +74,9 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('created_at')
                     ->label('Etat du compte')
                     ->badge()
-                    ->color(fn (User $row) => $row->is_active ? 'success' : 'danger')
+                    ->color(fn (User $row) => $row->is_active ? 'danger' : 'success')
                     ->formatStateUsing(function (User $row) {
-                        return $row->is_active ? 'Actif' : 'Inactif';
+                        return $row->is_active ? 'Inactif' : 'Actif';
                     }),
 
                 TextColumn::make('id')

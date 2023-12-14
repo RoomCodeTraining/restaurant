@@ -62,7 +62,6 @@ class UserTable extends Component implements HasTable, HasForms
             ->query(\App\Models\User::query()->latest())
             // ->paginated([10, 25, 50, 100, 'all'])
             ->columns([
-
                 TextColumn::make('identifier')
                     ->label('Matricule')
                     ->searchable()
@@ -71,34 +70,33 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('contact')->label('Contact'),
                 TextColumn::make('role.name')->label('Profil'),
-                TextColumn::make('created_at')
+                TextColumn::make('is_active')
                     ->label('Etat du compte')
                     ->badge()
-                    ->color(fn (User $row) => $row->is_active ? 'success' : 'danger')
+                    ->color(fn (User $row) => $row->isActive() ? 'success' : 'danger')
                     ->formatStateUsing(function (User $row) {
-                        return $row->is_active ? 'Actif' : 'Inactif';
+                        return $row->isActive() ? 'Actif' : 'Inactif';
                     }),
-
-                TextColumn::make('id')
-                    ->hidden()
-                    ->label('Numéro de carte NFC')
-                    ->formatStateUsing(fn (User $record) => $record->currentAccessCard->identifier ?? "Aucune carte associée"),
-
-                TextColumn::make('is_active')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : "Aucun rechargement")
-                    ->label('Réchargement petit dejeuner')
-                    ->hidden(),
-
-                TextColumn::make('updated_at')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->lunch_reload_count : "Aucun rechargement")
-                    ->label('Réchargement déjeuner')
-                    ->hidden()
-
             ])
             ->headerActions([
+                // ExportAction::make()->exports([
+                //     ExcelExport::make()
+                //         ->fromTable()
+                //         ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
+                // ]),
+
                 ExportAction::make()->exports([
-                    ExcelExport::make()
-                        ->fromTable()
-                        ->withFilename(date('d-m-Y') . '- Utilisateurs - export'),
-                ]),
+                    ExcelExport::make()->withColumns([
+                        Column::make('created_at')->heading('User name'),
+                        Column::make('identifier')->heading('Email address'),
+                        Column::make('full_name')->heading('Creation date'),
+                        Column::make('contact_id')->heading('Contact'),
+                        Column::make('organization.name')->heading('Organization'),
+                        Column::make('department.name')->heading('Département'),
+                    ]),
+                ])
+
+
 
             ])
             ->filters([

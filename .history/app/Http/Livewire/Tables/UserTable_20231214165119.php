@@ -62,7 +62,6 @@ class UserTable extends Component implements HasTable, HasForms
             ->query(\App\Models\User::query()->latest())
             // ->paginated([10, 25, 50, 100, 'all'])
             ->columns([
-
                 TextColumn::make('identifier')
                     ->label('Matricule')
                     ->searchable()
@@ -71,7 +70,7 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('contact')->label('Contact'),
                 TextColumn::make('role.name')->label('Profil'),
-                TextColumn::make('created_at')
+                TextColumn::make('is_active')
                     ->label('Etat du compte')
                     ->badge()
                     ->color(fn (User $row) => $row->is_active ? 'success' : 'danger')
@@ -84,7 +83,7 @@ class UserTable extends Component implements HasTable, HasForms
                     ->label('Numéro de carte NFC')
                     ->formatStateUsing(fn (User $record) => $record->currentAccessCard->identifier ?? "Aucune carte associée"),
 
-                TextColumn::make('is_active')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : "Aucun rechargement")
+                TextColumn::make('created_at')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : "Aucun rechargement")
                     ->label('Réchargement petit dejeuner')
                     ->hidden(),
 

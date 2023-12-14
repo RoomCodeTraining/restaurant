@@ -61,9 +61,7 @@ class DishTable extends Component implements HasTable, HasForms
                     ->modalSubmitActionLabel(__('Supprimer'))
                     ->action(function (Dish $record) {
                         $record->delete();
-
                         ActivityHelper::createActivity($record, 'Suppression du plat ' . $record->name, 'Suppression de plat');
-
                         Notification::make()
                             ->title('Plat supprimé avec succès !')
                             ->success()

@@ -122,7 +122,7 @@ class UserTableAction
                 //     return $user->is_entitled_breakfast == 0;
                 // })
 
-                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0)
+                ->hidden(fn (User $record) => !$record->canAccessInApp() && auth()->user()->hasRole(App\Models\Role::ADMIN) && $record->is_entitled_breakfast == 0)
                 ->requiresConfirmation()
                 ->modalHeading('Activer le déjeuner')
                 ->modalDescription('Etes-vous sûr de vouloir prendre le pétit déjeuner ?')

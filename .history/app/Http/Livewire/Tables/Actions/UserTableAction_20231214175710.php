@@ -116,22 +116,23 @@ class UserTableAction
 
             Action::make('reactivate')
                 ->label('')
-                ->icon('heroicon-o-wrench-screwdriver')
-                ->tooltip('Le déjeuner')
-                // ->hidden(function (User $user) {
-                //     return $user->is_entitled_breakfast == 0;
-                // })
-
-                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0)
+                ->icon('heroicon-o-lock-open')
+                ->tooltip('Activer')
+                ->hidden(function (User $user) {
+                    return $user->isActive() ||
+                        !auth()
+                            ->user()
+                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                })
                 ->requiresConfirmation()
-                ->modalHeading('Activer le déjeuner')
-                ->modalDescription('Etes-vous sûr de vouloir prendre le pétit déjeuner ?')
+                ->modalHeading('Activer le compte')
+                ->modalDescription('Etes-vous sûr de vouloir activer ce compte ?')
                 ->color('success')
                 ->action(function (User $user) {
-                    $this->confirmLunch($user);
+                    $this->unlockUser($user);
                     Notification::make()
-                        ->title('Utilisateur a pris le dej')
-                        ->body('L\'utilisateur a déja pris le dej.')
+                        ->title('Utilisateur activé')
+                        ->body('L\'utilisateur a été activé avec succès.')
                         ->success()
                         ->send();
 

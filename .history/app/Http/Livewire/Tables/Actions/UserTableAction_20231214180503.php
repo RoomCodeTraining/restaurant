@@ -116,15 +116,17 @@ class UserTableAction
 
             Action::make('reactivate')
                 ->label('')
-                ->icon('heroicon-o-wrench-screwdriver')
-                ->tooltip('Le déjeuner')
+                ->icon('heroicon-o-x-mark
+                ')
+                ->tooltip('Activer')
                 // ->hidden(function (User $user) {
-                //     return $user->is_entitled_breakfast == 0;
+                //     return $user->isActive() ||
+                //         auth()
+                //             ->user()
+                //             ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
                 // })
-
-                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0)
                 ->requiresConfirmation()
-                ->modalHeading('Activer le déjeuner')
+                ->modalHeading('Activer le compte')
                 ->modalDescription('Etes-vous sûr de vouloir prendre le pétit déjeuner ?')
                 ->color('success')
                 ->action(function (User $user) {

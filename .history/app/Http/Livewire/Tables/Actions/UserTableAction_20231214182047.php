@@ -118,11 +118,7 @@ class UserTableAction
                 ->label('')
                 ->icon('heroicon-o-wrench-screwdriver')
                 ->tooltip('Le déjeuner')
-                // ->hidden(function (User $user) {
-                //     return $user->is_entitled_breakfast == 0;
-                // })
-
-                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0)
+                //
                 ->requiresConfirmation()
                 ->modalHeading('Activer le déjeuner')
                 ->modalDescription('Etes-vous sûr de vouloir prendre le pétit déjeuner ?')

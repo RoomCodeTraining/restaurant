@@ -35,19 +35,31 @@ class DishTable extends Component implements HasTable, HasForms
                     ->width(50)
                     ->height(50),
                 TextColumn::make('name')
-                    ->label(__('PLAT'))
+                    ->label(__('Libellé'))
                     ->searchable()
                     ->sortable(),
+
+                TextColumn::make('dishType.name')->label(__('TYPE DE PLAT')),
                 TextColumn::make('orders_count')
                     ->label(__('COMMANDES ASSOCIEES'))
                     ->sortable(),
             ])
             ->actions([
+
+                Action::make('show')
+                    ->icon('heroicon-o-eye')
+                    ->color('success')
+                    ->url(fn (Dish $record): string => route('dishes.show', $record))
+                    ->tooltip(__('Consulter le plat'))
+                    ->label(''),
+
                 Action::make('edit')
                     ->icon('heroicon-o-pencil-square')
+                    ->color('secondary')
                     ->url(fn (Dish $record): string => route('dishes.edit', $record))
                     ->tooltip(__('Editer le plat'))
                     ->label(''),
+
                 Action::make('delete')
                     ->icon('heroicon-o-trash')
                     ->label('')

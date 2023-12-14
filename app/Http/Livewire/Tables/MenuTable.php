@@ -47,7 +47,7 @@ class MenuTable extends Component implements HasForms, HasTable
 
                 Action::make('Editer')
                     ->label('')
-                    ->color('info')
+                    ->color('secondary')
                     ->tooltip('Modifier')
                     ->url(fn (Menu $record): string => route('menus.edit', $record))
                     ->hidden(fn (Menu $record) => ! $record->canBeUpdated() || ! Auth::user()->isAdminLunchRoom())

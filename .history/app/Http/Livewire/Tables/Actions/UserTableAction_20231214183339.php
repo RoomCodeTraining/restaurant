@@ -117,9 +117,22 @@ class UserTableAction
             Action::make('reactivate')
                 ->label('')
                 ->icon('heroicon-o-wrench-screwdriver')
-                ->tooltip('A droit au petit déjeuner')
-                ->color('info')
-                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0),
+                ->tooltip('Le déjeuner')
+                ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0)
+                ->requiresConfirmation()
+                ->modalHeading('Activer le déjeuner')
+                ->modalDescription('Etes-vous sûr de vouloir prendre le pétit déjeuner ?')
+                ->color('success')
+                ->action(function (User $user) {
+                    $this->confirmLunch($user);
+                    Notification::make()
+                        ->title('Utilisateur a pris le dej')
+                        ->body('L\'utilisateur a déja pris le dej.')
+                        ->success()
+                        ->send();
+
+                    return redirect()->route('users.index');
+                }),
 
             Action::make('reset_password')
                 ->label('')

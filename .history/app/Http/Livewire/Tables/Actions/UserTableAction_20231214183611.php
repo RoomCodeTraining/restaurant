@@ -117,8 +117,7 @@ class UserTableAction
             Action::make('reactivate')
                 ->label('')
                 ->icon('heroicon-o-wrench-screwdriver')
-                ->tooltip('A droit au petit déjeuner')
-                ->color('info')
+                ->tooltip('Le déjeuner')
                 ->hidden(fn (User $record) => $record->is_entitled_breakfast == 0),
 
             Action::make('reset_password')

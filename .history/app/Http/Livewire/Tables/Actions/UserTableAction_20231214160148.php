@@ -140,7 +140,7 @@ class UserTableAction
             Action::make('restore_current_card')
                 ->label('')
                 ->icon('heroicon-o-credit-card')
-                ->tooltip('Restaurer la carte primaire')
+                ->tooltip('Restaurer la carte courante')
                 ->color('secondary')
                 ->hidden(function (User $user) {
                     if ($user->currentAccessCard) {

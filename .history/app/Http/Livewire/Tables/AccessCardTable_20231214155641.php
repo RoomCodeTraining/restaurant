@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Livewire\Component;
 use App\Models\AccessCard;
-use Filament\Tables\Table;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class AccessCardTable extends Component implements HasForms, HasTable
 {
@@ -35,16 +34,16 @@ class AccessCardTable extends Component implements HasForms, HasTable
                 SelectFilter::make('type')
                     ->label('Type de la carte')
                     ->options([
-                        'primary' => 'Primaire',
-                        'temporary' => 'Temporaire',
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
                     ]),
 
-                SelectFilter::make('is_used')
-                    ->label('Statut')
+                SelectFilter::make('status')
                     ->options([
-                        '1' => 'La carte est utilisée',
-                        '0' => 'La carte est disponible',
-
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
                     ])
             ]);
     }

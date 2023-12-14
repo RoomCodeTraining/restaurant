@@ -42,7 +42,7 @@ class AccessCardTable extends Component implements HasForms, HasTable
                 SelectFilter::make('is_used')
                     ->label('Statut')
                     ->options([
-                        '1' => 'La carte est utilisée',
+                        '1' => 'La carte utilisée',
                         '0' => 'La carte est disponible',
 
                     ])

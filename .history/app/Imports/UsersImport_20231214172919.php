@@ -28,11 +28,14 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
         // //Informatique
         DB::beginTransaction();
 
+        dd("mum");
+
         $data = $this->getUserhasBeingCreatedData($row);
         $user = User::updateOrCreate([
             'identifier' => $data['identifier'],
         ], $data);
 
+        dd($user);
         $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
 
         DB::commit();

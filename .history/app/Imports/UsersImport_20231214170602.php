@@ -25,7 +25,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
-        // //Informatique
+
+        //Informatique
         DB::beginTransaction();
 
         $data = $this->getUserhasBeingCreatedData($row);
@@ -33,6 +34,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'identifier' => $data['identifier'],
         ], $data);
 
+        dd($user);
         $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
 
         DB::commit();
@@ -42,7 +44,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
 
 
-        // $user->sendWelcomeNotification(now()->addWeek());
+        $user->sendWelcomeNotification(now()->addWeek());
     }
 
 

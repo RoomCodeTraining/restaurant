@@ -16,6 +16,8 @@ class CreateUsersByImport extends Component
 
     public function importUsers()
     {
+
+
         $this->validate(['file' => 'required|file',]);
 
         (new UsersImport())->import($this->file);

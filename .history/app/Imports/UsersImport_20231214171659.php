@@ -25,20 +25,38 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
+
+        return new User([
+            'name' => $row[0],
+            'matricule' => $row[1],
+            'prenoms' => $row[2],
+            'nom' => $row[3],
+            'societe' =>  $row[4],
+            'email' =>  $row[5],
+            'categorie' =>  $row[6],
+            'departement' =>  $row[7],
+            'profil' =>  $row[8],
+            'type' => $row[9],
+        ]);
+
+
         // //Informatique
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
-        $data = $this->getUserhasBeingCreatedData($row);
-        $user = User::updateOrCreate([
-            'identifier' => $data['identifier'],
-        ], $data);
+        // dd("mum");
 
-        $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
+        // $data = $this->getUserhasBeingCreatedData($row);
+        // $user = User::updateOrCreate([
+        //     'identifier' => $data['identifier'],
+        // ], $data);
 
-        DB::commit();
+        // dd($user);
+        // $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
 
-        UserCreated::dispatch($user);
-        session()->flash('success', 'Les utilisateurs ont été importés!');
+        // DB::commit();
+
+        // UserCreated::dispatch($user);
+        // session()->flash('success', 'Les utilisateurs ont été importés!');
 
 
 

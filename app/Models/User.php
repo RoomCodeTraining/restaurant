@@ -40,7 +40,6 @@ class User extends Authenticatable
         LogsActivity;
 
     use SoftDeletes;
-
     use HasAccessCard;
 
     protected static $logName = 'Utilisateur';

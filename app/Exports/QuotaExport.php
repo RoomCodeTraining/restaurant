@@ -19,6 +19,10 @@ class QuotaExport implements FromCollection, WithTitle, WithMapping, WithHeading
      */
     public $users;
 
+    public function __construct($users)
+    {
+        $this->users = $users;
+    }
 
     public function headings(): array
     {
@@ -51,9 +55,9 @@ class QuotaExport implements FromCollection, WithTitle, WithMapping, WithHeading
 
     public function collection()
     {
-        $users = \App\Models\User::query()->with('accessCard')->get();
+        // $users = \App\Models\User::query()->with('accessCard')->get();
 
-        return $users->filter(function ($user) {
+        return $this->users->filter(function ($user) {
             if ($user->current_access_card_id) {
                 return $user;
             }

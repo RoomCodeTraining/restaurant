@@ -90,7 +90,9 @@ trait HasAccessCard
     {
         $this->current_access_card_id = null;
 
-        $accessCard->histories()->latest()->first()?->update([
+        $accessCard->histories()
+            ->latest()->first()
+            ?->update([
             'detached_at' => now(),
         ]);
 

@@ -26,7 +26,7 @@ class AccessCardTable extends Component implements HasForms, HasTable
                 TextColumn::make('quota_lunch')->sortable()->searchable()->label('Quota déjeuner'),
                 TextColumn::make('user.full_name')->searchable()->label('Nom & Prénoms'),
                 TextColumn::make('type')->sortable()->searchable()->label('Type de carte')->formatStateUsing(function (AccessCard $row) {
-                    return $row->is_used ? 'Primaire' : 'Temporaire';
+                    return $row->type == AccessCard::TYPE_PRIMARY ? 'Primaire' : 'Temporaire';
                 }),
                 TextColumn::make('id')->label('Statut')->formatStateUsing(function (AccessCard $row) {
                     return $row->is_used ? 'Utilisé' : 'Disponible';

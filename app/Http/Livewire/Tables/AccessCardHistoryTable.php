@@ -14,21 +14,19 @@ class AccessCardHistoryTable extends Component implements HasTable, HasForms
     use \Filament\Tables\Concerns\InteractsWithTable;
     use \Filament\Forms\Concerns\InteractsWithForms;
 
+    public $accessCard;
+
     public function table(Table $table) : Table
     {
-        return $table->query(\App\Models\AccessCardHistory::query()->latest())
+        return $table->query(AccessCardHistory::query()->where('access_card_id', $this->accessCard->id)->latest())
             ->columns([
-                TextColumn::make('attached_at')->sortable()->label("Date & Heure d'opération")->dateTime('d/m/Y H:i:s'),
-                TextColumn::make('accessCard.identifier')->sortable()->searchable()->label('Numéro de carte'),
-                TextColumn::make('user.full_name')->sortable()->searchable()->label('Nom & Prénoms'),
-                TextColumn::make('detached_at')
-                ->sortable()
-                ->searchable()->label('Date & Heure de détachement')->dateTime('d/m/Y H:i:s'),
-                TextColumn::make('id')->label('Statut')->formatStateUsing(function (AccessCardHistory $row) {
-                    return ! $row->detached_at ? 'Utilisé' : 'Déttachée';
-                })
-                ->badge()
-                ->color(fn (AccessCardHistory $row) => $row->accessCard->is_used ? 'success' : 'danger'),
+                TextColumn::make('attached_at')->sortable()->label("Attribuée le")->dateTime('d/m/Y'),
+                TextColumn::make('id')
+                ->searchable()->label('Dettacher le')
+                ->formatStateUsing(function (AccessCardHistory $row) {
+                    return ! is_null($row->detached_at) ? $row->detached_at->format('d/m/Y') : 'Non détachée';
+                }),
+                TextColumn::make('user.full_name')->searchable()->label('Nom & Prénoms'),
             ])
             ->filters([
                 //

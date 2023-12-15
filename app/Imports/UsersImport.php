@@ -2,15 +2,13 @@
 
 namespace App\Imports;
 
+use App\Events\UserCreated;
 use App\Models\Role;
 use App\Models\User;
-use App\Events\UserCreated;
-use App\Models\Department;
-use App\Models\EmployeeStatus;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
@@ -38,10 +36,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
         DB::commit();
 
         UserCreated::dispatch($user);
-        session()->flash('success', 'Les utilisateurs ont été importés!');
-
-
-
+        // session()->flash('success', 'Les utilisateurs ont été importés!');
         // $user->sendWelcomeNotification(now()->addWeek());
     }
 
@@ -54,7 +49,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'nom' => 'required|string',
             'societe' => 'required|string',
             'email' => ['required', 'email'],
-            'categorie' =>  'required|string',
+            'categorie' => 'required|string',
             'departement' => ['required', 'string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
             'type' => 'required'

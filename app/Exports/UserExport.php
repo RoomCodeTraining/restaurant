@@ -2,44 +2,36 @@
 
 namespace App\Exports;
 
-use App\Models\User;
-use App\Support\BillingHelper;
-use App\Support\DateTimeHelper;
-use Illuminate\Database\Eloquent\Collection;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithTitle;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
 
     use Exportable;
-    // protected $record;
+    protected $record;
 
 
 
-    // public function __construct($record)
-    // {
-
-    //     $this->record = $record;
-    // }
+    public function __construct($record)
+    {
+        $this->record = $record;
+    }
 
     /**
      * @return \Illuminate\Support\Collection
      */
     public function collection()
     {
-        return User::query()
-            ->with('role', 'department', 'employeeStatus', 'userType', 'accessCard')
-            ->orderByDesc('created_at')
-            ->get();
+        return $this->record;
     }
 
 
@@ -86,7 +78,6 @@ class UserExport implements FromCollection, WithTitle, WithMapping, WithHeadings
             $row->accessCard?->breakfast_reload_count,
             $row->accessCard?->lunch_reload_count,
             $row->is_active ? "Actif" : "Inactif"
-
         ];
     }
 

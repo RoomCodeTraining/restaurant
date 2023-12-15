@@ -12,13 +12,21 @@ class AccessCardHistory extends Model
 
     protected $guarded = [];
 
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'attached_at' => 'datetime',
+        'detached_at' => 'datetime',
+    ];
+
     /**
      * Get the user that owns the AccessCardHistory
      * @return BelongsTo
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     /**

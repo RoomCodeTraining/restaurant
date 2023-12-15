@@ -3,6 +3,7 @@ namespace App\Models\Traits;
 
 use App\Models\AccessCard;
 use App\Models\AccessCardHistory;
+use App\Support\ActivityHelper;
 use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -89,7 +90,9 @@ trait HasAccessCard
     {
         $this->current_access_card_id = null;
 
-        $accessCard->histories()->latest()->first()->update([
+        $accessCard->histories()
+            ->latest()->first()
+            ?->update([
             'detached_at' => now(),
         ]);
 
@@ -98,7 +101,19 @@ trait HasAccessCard
              'quota_breakfast' => 0,
              'quota_lunch' => 0,
          ]);
+
+        ActivityHelper::createActivity(
+            $this,
+            "Retrait de la carte {$accessCard->identifier}",
+            'Désactivation de la carte',
+        );
     }
 
-
+    public function destroyAccessCard(AccessCard $accessCard) : void
+    {
+        $accessCard->histories()->latest()->first()->update([
+            'detached_at' => now(),
+        ]);
+        $accessCard->delete();
+    }
 }

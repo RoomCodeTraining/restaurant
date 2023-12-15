@@ -7,6 +7,7 @@ use App\Events\UserUnlocked;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\PasswordResetNotification;
+use App\States\Order\Cancelled;
 use App\Support\ActivityHelper;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
@@ -35,18 +36,18 @@ class UserTableAction
                 ->icon('heroicon-o-plus-circle')
                 ->color('primary')
                 ->hidden(function (User $user) {
-                    return !$user->isActive() ||
-                        !auth()
+                    return ! $user->isActive() ||
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN_RH) ||
-                        !$user->currentAccessCard;
+                        ! $user->currentAccessCard;
                 })
                 ->url(fn (User $user) => route('reload.card', $user->currentAccessCard)),
             EditAction::make()
                 ->hidden(
-                    fn () => !auth()
+                    fn () => ! auth()
                         ->user()
-                        ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
+                        ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
                 )
                 ->label('')
                 ->icon('heroicon-o-pencil-square')
@@ -60,9 +61,9 @@ class UserTableAction
                 ->label('')
                 ->icon('heroicon-o-lock-closed')
                 ->hidden(
-                    fn () => !auth()
+                    fn () => ! auth()
                         ->user()
-                        ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
+                        ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
                 )
                 ->color('danger')
                 ->tooltip('Désactiver le compte')
@@ -80,11 +81,11 @@ class UserTableAction
                 })
                 ->tooltip('Désactiver')
                 ->hidden(function (User $user) {
-                    return !$user->isActive() ||
+                    return ! $user->isActive() ||
                         $user->id == auth()->user()->id ||
-                        !auth()
+                        ! auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
                 })
                 ->requiresConfirmation(),
 
@@ -95,9 +96,9 @@ class UserTableAction
                 ->tooltip('Activer')
                 ->hidden(function (User $user) {
                     return $user->isActive() ||
-                        !auth()
+                        ! auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
                 })
                 ->requiresConfirmation()
                 ->modalHeading('Activer le compte')
@@ -129,8 +130,8 @@ class UserTableAction
                 ->color('warning')
                 ->hidden(function (User $user) {
                     return $user->id == auth()->user()->id ||
-                        !$user->isActive() ||
-                        !auth()
+                        ! $user->isActive() ||
+                        ! auth()
                             ->user()
                             ->hasRole(Role::ADMIN);
                 })
@@ -154,7 +155,7 @@ class UserTableAction
                 ->color('secondary')
                 ->hidden(function (User $user) {
                     if ($user->currentAccessCard) {
-                        return $user->currentAccessCard->isCurrent() || !auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
+                        return $user->currentAccessCard->isCurrent() || ! auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
                     }
 
                     return true;
@@ -189,9 +190,9 @@ class UserTableAction
                 ->modalDescription('Etes-vous sûr de vouloir supprimer ce compte ?')
                 ->hidden(function (User $user) {
                     return $user->id == auth()->user()->id ||
-                        !auth()
+                        ! auth()
                             ->user()
-                            ->hasRole(Role::ADMIN) && !auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
+                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
                 })
                 ->requiresConfirmation(),
         ];
@@ -257,6 +258,8 @@ class UserTableAction
             })
             ->each(fn ($order) => $order->update(['state' => Cancelled::class]));
 
+        $card = $user->currentAccessCard;
+        $user->dettachAccessCard($card);
         $identifier = Str::random(60);
 
         $user->update([
@@ -265,7 +268,6 @@ class UserTableAction
         ]);
 
         ActivityHelper::createActivity($user, "Suppression du compte de $user->full_name", 'Suppression de compte');
-
         $user->delete();
     }
 

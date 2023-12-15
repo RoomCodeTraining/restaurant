@@ -38,7 +38,6 @@ class MarkOrderAsCompleted extends Controller
      */
     public function markAsLunchCompleted(Request $request)
     {
-
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         $user = $accessCard->user->load('organization');
@@ -155,8 +154,6 @@ class MarkOrderAsCompleted extends Controller
         $request->validate([
           'identifier' => ['required', Rule::exists('access_cards', 'identifier')],
         ]);
-
-
 
         if(now()->hour > config('cantine.menu.locked_at')) {
             return $this->responseBadRequest("Vous ne pouvez pas récupérer votre petit déjeuner après ".config('cantine.menu.locked_at').'H', "Non autorisé");

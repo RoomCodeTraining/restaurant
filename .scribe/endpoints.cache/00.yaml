@@ -27,18 +27,8 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters:
-      identifier:
-        name: identifier
-        description: ''
-        required: true
-        example: quibusdam
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      identifier: quibusdam
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses: []
     responseFields: []
@@ -74,13 +64,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: quaerat
+        example: eos
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: quaerat
+      identifier: eos
     fileParameters: []
     responses: []
     responseFields: []
@@ -116,13 +106,13 @@ endpoints:
         name: order_identifier
         description: ''
         required: true
-        example: repellat
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      order_identifier: repellat
+      order_identifier: qui
     fileParameters: []
     responses: []
     responseFields: []

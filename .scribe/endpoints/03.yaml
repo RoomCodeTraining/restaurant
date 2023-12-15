@@ -112,7 +112,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: voluptas
+        example: tempore
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -121,7 +121,7 @@ endpoints:
         name: identifier
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: axhbwaruujalhwk
+        example: ozyepaufdbk
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -130,7 +130,7 @@ endpoints:
         name: quota_breakfast
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: false
-        example: 3
+        example: 17
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -139,7 +139,7 @@ endpoints:
         name: quota_lunch
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: false
-        example: 25
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -154,10 +154,10 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: voluptas
-      identifier: axhbwaruujalhwk
-      quota_breakfast: 3
-      quota_lunch: 25
+      user_id: tempore
+      identifier: ozyepaufdbk
+      quota_breakfast: 17
+      quota_lunch: 3
     fileParameters: []
     responses: []
     responseFields: []
@@ -191,7 +191,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: modi
+        example: veniam
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -200,7 +200,7 @@ endpoints:
         name: access_card_identifier
         description: 'Le texte ne peut contenir plus de 255 caractères.'
         required: true
-        example: wbaklgymvmuvlvzcosjri
+        example: lcfuzroszogwrokec
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -209,15 +209,15 @@ endpoints:
         name: expires_at
         description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
         required: true
-        example: '2037-09-20'
+        example: '2118-11-02'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: modi
-      access_card_identifier: wbaklgymvmuvlvzcosjri
-      expires_at: '2037-09-20'
+      user_id: veniam
+      access_card_identifier: lcfuzroszogwrokec
+      expires_at: '2118-11-02'
     fileParameters: []
     responses: []
     responseFields: []
@@ -251,7 +251,7 @@ endpoints:
         name: access_card_identifier
         description: ''
         required: true
-        example: dolor
+        example: itaque
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -260,7 +260,7 @@ endpoints:
         name: quota_type
         description: ''
         required: true
-        example: quota_lunch
+        example: quota_breakfast
         type: string
         enumValues:
           - quota_lunch
@@ -271,15 +271,15 @@ endpoints:
         name: quota
         description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
         required: true
-        example: 17
+        example: 25
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      access_card_identifier: dolor
-      quota_type: quota_lunch
-      quota: 17
+      access_card_identifier: itaque
+      quota_type: quota_breakfast
+      quota: 25
     fileParameters: []
     responses: []
     responseFields: []
@@ -313,13 +313,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: placeat
+        example: tenetur
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: placeat
+      identifier: tenetur
     fileParameters: []
     responses: []
     responseFields: []

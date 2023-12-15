@@ -72,7 +72,7 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: quasi
+        example: quas
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -81,14 +81,24 @@ endpoints:
         name: dish_id
         description: ''
         required: true
-        example: recusandae
-        type: string
+        example: 7
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      is_for_the_evening:
+        name: is_for_the_evening
+        description: ''
+        required: true
+        example: false
+        type: boolean
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      identifier: quasi
-      dish_id: recusandae
+      identifier: quas
+      dish_id: 7
+      is_for_the_evening: false
     fileParameters: []
     responses: []
     responseFields: []

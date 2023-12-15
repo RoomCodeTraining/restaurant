@@ -16,6 +16,24 @@ paths:
       responses: {  }
       tags:
         - Authentification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: "L'adresse e-mail de l'utilisateur"
+                  example: jvandervort@example.net
+                password:
+                  type: string
+                  description: "Le mot de passe de l'utilisateur"
+                  example: 'l_kLBfV(R7*'
+              required:
+                - email
+                - password
       security: []
   /api/logout:
     post:
@@ -85,14 +103,19 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: quasi
+                  example: quas
                 dish_id:
-                  type: string
+                  type: integer
                   description: ''
-                  example: recusandae
+                  example: 7
+                is_for_the_evening:
+                  type: boolean
+                  description: ''
+                  example: false
               required:
                 - identifier
                 - dish_id
+                - is_for_the_evening
   /api/completed/orders:
     get:
       summary: ''
@@ -244,19 +267,19 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: voluptas
+                  example: tempore
                 identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: axhbwaruujalhwk
+                  example: ozyepaufdbk
                 quota_breakfast:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 3
+                  example: 17
                 quota_lunch:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 25
+                  example: 3
                 payment_method_id:
                   type: string
                   description: ''
@@ -283,15 +306,15 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: modi
+                  example: veniam
                 access_card_identifier:
                   type: string
                   description: 'Le texte ne peut contenir plus de 255 caractères.'
-                  example: wbaklgymvmuvlvzcosjri
+                  example: lcfuzroszogwrokec
                 expires_at:
                   type: string
                   description: "Ce n'est pas une date valide. La date doit être postérieure ou égale au <code>today</code>."
-                  example: '2037-09-20'
+                  example: '2118-11-02'
               required:
                 - user_id
                 - access_card_identifier
@@ -315,18 +338,18 @@ paths:
                 access_card_identifier:
                   type: string
                   description: ''
-                  example: dolor
+                  example: itaque
                 quota_type:
                   type: string
                   description: ''
-                  example: quota_lunch
+                  example: quota_breakfast
                   enum:
                     - quota_lunch
                     - quota_breakfast
                 quota:
                   type: integer
                   description: 'La valeur doit être supérieure ou égale à 0. La valeur ne peut être supérieure à 25.'
-                  example: 17
+                  example: 25
               required:
                 - access_card_identifier
                 - quota_type
@@ -350,7 +373,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: placeat
+                  example: tenetur
               required:
                 - identifier
   /api/orders/lunch-completed:
@@ -362,19 +385,6 @@ paths:
       responses: {  }
       tags:
         - 'Gestion des commandes'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                identifier:
-                  type: string
-                  description: ''
-                  example: quibusdam
-              required:
-                - identifier
       security: []
   /api/orders/breakfast-completed:
     post:
@@ -395,7 +405,7 @@ paths:
                 identifier:
                   type: string
                   description: ''
-                  example: quaerat
+                  example: eos
               required:
                 - identifier
   /api/orders/cancel-validation:
@@ -417,7 +427,7 @@ paths:
                 order_identifier:
                   type: string
                   description: ''
-                  example: repellat
+                  example: qui
               required:
                 - order_identifier
       security: []
@@ -590,7 +600,7 @@ paths:
         in: path
         name: identifier
         description: ''
-        example: UQB2Z
+        example: GATUI
         required: true
         schema:
           type: string
@@ -613,19 +623,19 @@ paths:
                 first_name:
                   type: string
                   description: "Le prénom de l'utilisateur"
-                  example: aliquid
+                  example: consequatur
                 last_name:
                   type: string
                   description: "Le nom de l'utilisateur"
-                  example: aperiam
+                  example: et
                 email:
                   type: string
                   description: "L'adresse email de l'utilisateur"
-                  example: ladarius86@example.org
+                  example: ratke.lonie@example.com
                 contact:
                   type: string
                   description: "Le contact de l'utilisateur"
-                  example: unde
+                  example: repellendus
               required:
                 - first_name
                 - last_name
@@ -650,15 +660,15 @@ paths:
                 current_password:
                   type: string
                   description: "Le mot de passe actuel de l'utilisateur"
-                  example: placeat
+                  example: voluptatem
                 password:
                   type: string
                   description: "Le nouveau mot de passe de l'utilisateur"
-                  example: ')9F$;S&aXw)'
+                  example: '#*Rxlw!c5f'
                 password_confirmation:
                   type: string
                   description: "La confirmation du nouveau mot de passe de l'utilisateur\n\nCette endpoint permet de changer le mot de passe de l'utilisateur connecté"
-                  example: quaerat
+                  example: laudantium
               required:
                 - current_password
                 - password

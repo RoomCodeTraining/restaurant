@@ -21,8 +21,28 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: "L'adresse e-mail de l'utilisateur"
+        required: true
+        example: jvandervort@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: "Le mot de passe de l'utilisateur"
+        required: true
+        example: 'l_kLBfV(R7*'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      email: jvandervort@example.net
+      password: 'l_kLBfV(R7*'
     fileParameters: []
     responses: []
     responseFields: []

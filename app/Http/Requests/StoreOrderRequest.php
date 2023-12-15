@@ -23,8 +23,9 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'identifier' => ['required'],
-          'dish_id' => ['required', Rule::exists('dishes', 'id')],
+            'identifier' => ['required', 'string', Rule::exists('access_cards', 'identifier')],
+            'dish_id' => ['required', Rule::exists('dishes', 'id'), 'integer'],
+            'is_for_the_evening' => ['required', 'boolean'],
         ];
     }
 }

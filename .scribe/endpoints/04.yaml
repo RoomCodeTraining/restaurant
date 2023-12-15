@@ -60,13 +60,13 @@ endpoints:
         name: identifier
         description: ''
         required: true
-        example: UQB2Z
+        example: GATUI
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      identifier: UQB2Z
+      identifier: GATUI
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -112,7 +112,7 @@ endpoints:
         name: first_name
         description: "Le prénom de l'utilisateur"
         required: true
-        example: aliquid
+        example: consequatur
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -121,7 +121,7 @@ endpoints:
         name: last_name
         description: "Le nom de l'utilisateur"
         required: true
-        example: aperiam
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -130,7 +130,7 @@ endpoints:
         name: email
         description: "L'adresse email de l'utilisateur"
         required: true
-        example: ladarius86@example.org
+        example: ratke.lonie@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -139,16 +139,16 @@ endpoints:
         name: contact
         description: "Le contact de l'utilisateur"
         required: true
-        example: unde
+        example: repellendus
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: aliquid
-      last_name: aperiam
-      email: ladarius86@example.org
-      contact: unde
+      first_name: consequatur
+      last_name: et
+      email: ratke.lonie@example.com
+      contact: repellendus
     fileParameters: []
     responses: []
     responseFields: []
@@ -182,7 +182,7 @@ endpoints:
         name: current_password
         description: "Le mot de passe actuel de l'utilisateur"
         required: true
-        example: placeat
+        example: voluptatem
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -191,7 +191,7 @@ endpoints:
         name: password
         description: "Le nouveau mot de passe de l'utilisateur"
         required: true
-        example: ')9F$;S&aXw)'
+        example: '#*Rxlw!c5f'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -203,15 +203,15 @@ endpoints:
 
           Cette endpoint permet de changer le mot de passe de l'utilisateur connecté
         required: true
-        example: quaerat
+        example: laudantium
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: placeat
-      password: ')9F$;S&aXw)'
-      password_confirmation: quaerat
+      current_password: voluptatem
+      password: '#*Rxlw!c5f'
+      password_confirmation: laudantium
     fileParameters: []
     responses: []
     responseFields: []

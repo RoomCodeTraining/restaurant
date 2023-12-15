@@ -683,7 +683,7 @@
 
         </div>
         <div class="sl-flex sl-items-center sl-px-4 sl-py-3 sl-border-t">
-            Last updated: December 10, 2023
+            Last updated: December 15, 2023
         </div>
 
         <div class="sl-flex sl-items-center sl-px-4 sl-py-3 sl-border-t">
@@ -814,6 +814,66 @@ You can switch the language used with the tabs at the top right (or from the nav
                     
 
                     
+                                            <div class="sl-stack sl-stack--vertical sl-stack--6 sl-flex sl-flex-col sl-items-stretch">
+                            <h3 class="sl-text-2xl sl-leading-snug sl-font-prose">Body Parameters</h3>
+
+                                <div class="sl-text-sm">
+                                    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
+        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
+    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
+    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
+        <div class="sl-flex sl-items-center sl-max-w-full">
+                                        <div class="sl-flex sl-items-baseline sl-text-base">
+                    <div class="sl-font-mono sl-font-semibold sl-mr-2">email</div>
+                                            <span class="sl-truncate sl-text-muted">string</span>
+                                    </div>
+                                    <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
+                    <span class="sl-ml-2 sl-text-warning">required</span>
+                                    </div>
+                <div class="sl-prose sl-markdown-viewer" style="font-size: 12px;">
+            <p>L'adresse e-mail de l'utilisateur</p>
+        </div>
+                                            <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        jvandervort@example.net
+                    </div>
+                </div>
+            </div>
+            </div>
+</div>
+
+            </div>
+    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
+        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
+    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
+    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
+        <div class="sl-flex sl-items-center sl-max-w-full">
+                                        <div class="sl-flex sl-items-baseline sl-text-base">
+                    <div class="sl-font-mono sl-font-semibold sl-mr-2">password</div>
+                                            <span class="sl-truncate sl-text-muted">string</span>
+                                    </div>
+                                    <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
+                    <span class="sl-ml-2 sl-text-warning">required</span>
+                                    </div>
+                <div class="sl-prose sl-markdown-viewer" style="font-size: 12px;">
+            <p>Le mot de passe de l'utilisateur</p>
+        </div>
+                                            <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
+                <span>Example:</span> <!-- <span> important for spacing -->
+                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
+                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
+                        l_kLBfV(R7*
+                    </div>
+                </div>
+            </div>
+            </div>
+</div>
+
+            </div>
+                            </div>
+                        </div>
                     
                                     </div>
             </div>
@@ -828,7 +888,7 @@ You can switch the language used with the tabs at the top right (or from the nav
               data-method="POST"
               data-path="api/login"
               data-hasfiles="0"
-              data-hasjsonbody="0">
+              data-hasjsonbody="1">
             
                             <div class="sl-panel sl-outline-none sl-w-full expandable">
                     <div class="sl-panel__titlebar sl-flex sl-items-center sl-relative focus:sl-z-10 sl-text-base sl-leading-none sl-pr-4 sl-pl-3 sl-bg-canvas-200 sl-text-body sl-border-input focus:sl-border-primary sl-cursor-pointer sl-select-none"
@@ -876,6 +936,34 @@ You can switch the language used with the tabs at the top right (or from the nav
             
             
             
+                            <div class="sl-panel sl-outline-none sl-w-full expandable">
+                    <div class="sl-panel__titlebar sl-flex sl-items-center sl-relative focus:sl-z-10 sl-text-base sl-leading-none sl-pr-4 sl-pl-3 sl-bg-canvas-200 sl-text-body sl-border-input focus:sl-border-primary sl-cursor-pointer sl-select-none"
+                         role="button">
+                        <div class="sl-flex sl-flex-1 sl-items-center sl-h-lg">
+                            <div class="sl-flex sl-items-center sl-mr-1.5 expansion-chevrons expansion-chevrons-solid expanded">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fas"
+                                     data-icon="caret-down"
+                                     class="svg-inline--fa fa-caret-down fa-fw sl-icon" role="img"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                                    <path fill="currentColor"
+                                          d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
+                                </svg>
+                            </div>
+                            Body
+                        </div>
+                    </div>
+                    <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
+                                                    <div class="TextRequestBody sl-p-4">
+                                <div class="code-editor language-json"
+                                     id="json-body-POSTapi-login"
+                                     style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
+                                >{
+    "email": "jvandervort@example.net",
+    "password": "l_kLBfV(R7*"
+}</div>
+                            </div>
+                                            </div>
+                </div>
             
             <div class="SendButtonHolder sl-mt-4 sl-p-4 sl-pt-0">
                 <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-center">
@@ -967,7 +1055,12 @@ You can check the Dev Tools console for debugging information.</p>
                                             <pre><code class="language-bash">curl --request POST \
     "https://cantine-ciprel.ci.ddev.site/api/login" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre>                                        </div>
+    --header "Accept: application/json" \
+    --data "{
+    \"email\": \"jvandervort@example.net\",
+    \"password\": \"l_kLBfV(R7*\"
+}"
+</code></pre>                                        </div>
                                     </div>
                                 </div>
                                                             <div class="sl-bg-canvas-100 example-request example-request-javascript"
@@ -983,9 +1076,15 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "email": "jvandervort@example.net",
+    "password": "l_kLBfV(R7*"
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre>                                        </div>
                                     </div>
                                 </div>
@@ -1002,6 +1101,10 @@ $response = $client-&gt;post(
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
+        'json' =&gt; [
+            'email' =&gt; 'jvandervort@example.net',
+            'password' =&gt; 'l_kLBfV(R7*',
+        ],
     ]
 );
 $body = $response-&gt;getBody();
@@ -1016,12 +1119,16 @@ print_r(json_decode((string) $body));</code></pre>                              
 import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/login'
+payload = {
+    "email": "jvandervort@example.net",
+    "password": "l_kLBfV(R7*"
+}
 headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
 }
 
-response = requests.request('POST', url, headers=headers)
+response = requests.request('POST', url, headers=headers, json=payload)
 response.json()</code></pre>                                        </div>
                                     </div>
                                 </div>
@@ -1890,7 +1997,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quasi
+                        quas
                     </div>
                 </div>
             </div>
@@ -1905,7 +2012,7 @@ response.json()</code></pre>                                        </div>
         <div class="sl-flex sl-items-center sl-max-w-full">
                                         <div class="sl-flex sl-items-baseline sl-text-base">
                     <div class="sl-font-mono sl-font-semibold sl-mr-2">dish_id</div>
-                                            <span class="sl-truncate sl-text-muted">string</span>
+                                            <span class="sl-truncate sl-text-muted">integer</span>
                                     </div>
                                     <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
                     <span class="sl-ml-2 sl-text-warning">required</span>
@@ -1914,11 +2021,27 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        recusandae
+                        7
                     </div>
                 </div>
             </div>
             </div>
+</div>
+
+            </div>
+    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
+        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
+    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
+    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
+        <div class="sl-flex sl-items-center sl-max-w-full">
+                                        <div class="sl-flex sl-items-baseline sl-text-base">
+                    <div class="sl-font-mono sl-font-semibold sl-mr-2">is_for_the_evening</div>
+                                            <span class="sl-truncate sl-text-muted">boolean</span>
+                                    </div>
+                                    <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
+                    <span class="sl-ml-2 sl-text-warning">required</span>
+                                    </div>
+                                    </div>
 </div>
 
             </div>
@@ -2044,8 +2167,9 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-orders"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "quasi",
-    "dish_id": "recusandae"
+    "identifier": "quas",
+    "dish_id": 7,
+    "is_for_the_evening": false
 }</div>
                             </div>
                                             </div>
@@ -2143,8 +2267,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"quasi\",
-    \"dish_id\": \"recusandae\"
+    \"identifier\": \"quas\",
+    \"dish_id\": 7,
+    \"is_for_the_evening\": false
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -2163,8 +2288,9 @@ const headers = {
 };
 
 let body = {
-    "identifier": "quasi",
-    "dish_id": "recusandae"
+    "identifier": "quas",
+    "dish_id": 7,
+    "is_for_the_evening": false
 };
 
 fetch(url, {
@@ -2188,8 +2314,9 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'identifier' =&gt; 'quasi',
-            'dish_id' =&gt; 'recusandae',
+            'identifier' =&gt; 'quas',
+            'dish_id' =&gt; 7,
+            'is_for_the_evening' =&gt; false,
         ],
     ]
 );
@@ -2206,8 +2333,9 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/orders'
 payload = {
-    "identifier": "quasi",
-    "dish_id": "recusandae"
+    "identifier": "quas",
+    "dish_id": 7,
+    "is_for_the_evening": false
 }
 headers = {
   'Content-Type': 'application/json',
@@ -3616,7 +3744,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        voluptas
+                        tempore
                     </div>
                 </div>
             </div>
@@ -3643,7 +3771,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        axhbwaruujalhwk
+                        ozyepaufdbk
                     </div>
                 </div>
             </div>
@@ -3668,7 +3796,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        3
+                        17
                     </div>
                 </div>
             </div>
@@ -3693,7 +3821,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        25
+                        3
                     </div>
                 </div>
             </div>
@@ -3837,10 +3965,10 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-cards-current-assign"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": "voluptas",
-    "identifier": "axhbwaruujalhwk",
-    "quota_breakfast": 3,
-    "quota_lunch": 25,
+    "user_id": "tempore",
+    "identifier": "ozyepaufdbk",
+    "quota_breakfast": 17,
+    "quota_lunch": 3,
     "payment_method_id": null
 }</div>
                             </div>
@@ -3939,10 +4067,10 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"voluptas\",
-    \"identifier\": \"axhbwaruujalhwk\",
-    \"quota_breakfast\": 3,
-    \"quota_lunch\": 25
+    \"user_id\": \"tempore\",
+    \"identifier\": \"ozyepaufdbk\",
+    \"quota_breakfast\": 17,
+    \"quota_lunch\": 3
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -3961,10 +4089,10 @@ const headers = {
 };
 
 let body = {
-    "user_id": "voluptas",
-    "identifier": "axhbwaruujalhwk",
-    "quota_breakfast": 3,
-    "quota_lunch": 25
+    "user_id": "tempore",
+    "identifier": "ozyepaufdbk",
+    "quota_breakfast": 17,
+    "quota_lunch": 3
 };
 
 fetch(url, {
@@ -3988,10 +4116,10 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'user_id' =&gt; 'voluptas',
-            'identifier' =&gt; 'axhbwaruujalhwk',
-            'quota_breakfast' =&gt; 3,
-            'quota_lunch' =&gt; 25,
+            'user_id' =&gt; 'tempore',
+            'identifier' =&gt; 'ozyepaufdbk',
+            'quota_breakfast' =&gt; 17,
+            'quota_lunch' =&gt; 3,
         ],
     ]
 );
@@ -4008,10 +4136,10 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/cards/current/assign'
 payload = {
-    "user_id": "voluptas",
-    "identifier": "axhbwaruujalhwk",
-    "quota_breakfast": 3,
-    "quota_lunch": 25
+    "user_id": "tempore",
+    "identifier": "ozyepaufdbk",
+    "quota_breakfast": 17,
+    "quota_lunch": 3
 }
 headers = {
   'Content-Type': 'application/json',
@@ -4134,7 +4262,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        modi
+                        veniam
                     </div>
                 </div>
             </div>
@@ -4161,7 +4289,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        wbaklgymvmuvlvzcosjri
+                        lcfuzroszogwrokec
                     </div>
                 </div>
             </div>
@@ -4188,7 +4316,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        2037-09-20
+                        2118-11-02
                     </div>
                 </div>
             </div>
@@ -4318,9 +4446,9 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-cards-temporary-assign"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "user_id": "modi",
-    "access_card_identifier": "wbaklgymvmuvlvzcosjri",
-    "expires_at": "2037-09-20"
+    "user_id": "veniam",
+    "access_card_identifier": "lcfuzroszogwrokec",
+    "expires_at": "2118-11-02"
 }</div>
                             </div>
                                             </div>
@@ -4418,9 +4546,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"modi\",
-    \"access_card_identifier\": \"wbaklgymvmuvlvzcosjri\",
-    \"expires_at\": \"2037-09-20\"
+    \"user_id\": \"veniam\",
+    \"access_card_identifier\": \"lcfuzroszogwrokec\",
+    \"expires_at\": \"2118-11-02\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -4439,9 +4567,9 @@ const headers = {
 };
 
 let body = {
-    "user_id": "modi",
-    "access_card_identifier": "wbaklgymvmuvlvzcosjri",
-    "expires_at": "2037-09-20"
+    "user_id": "veniam",
+    "access_card_identifier": "lcfuzroszogwrokec",
+    "expires_at": "2118-11-02"
 };
 
 fetch(url, {
@@ -4465,9 +4593,9 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'user_id' =&gt; 'modi',
-            'access_card_identifier' =&gt; 'wbaklgymvmuvlvzcosjri',
-            'expires_at' =&gt; '2037-09-20',
+            'user_id' =&gt; 'veniam',
+            'access_card_identifier' =&gt; 'lcfuzroszogwrokec',
+            'expires_at' =&gt; '2118-11-02',
         ],
     ]
 );
@@ -4484,9 +4612,9 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/cards/temporary/assign'
 payload = {
-    "user_id": "modi",
-    "access_card_identifier": "wbaklgymvmuvlvzcosjri",
-    "expires_at": "2037-09-20"
+    "user_id": "veniam",
+    "access_card_identifier": "lcfuzroszogwrokec",
+    "expires_at": "2118-11-02"
 }
 headers = {
   'Content-Type': 'application/json',
@@ -4609,7 +4737,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        dolor
+                        itaque
                     </div>
                 </div>
             </div>
@@ -4635,7 +4763,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quota_lunch
+                        quota_breakfast
                     </div>
                 </div>
             </div>
@@ -4662,7 +4790,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        17
+                        25
                     </div>
                 </div>
             </div>
@@ -4792,9 +4920,9 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-reload-cards"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "access_card_identifier": "dolor",
-    "quota_type": "quota_lunch",
-    "quota": 17
+    "access_card_identifier": "itaque",
+    "quota_type": "quota_breakfast",
+    "quota": 25
 }</div>
                             </div>
                                             </div>
@@ -4892,9 +5020,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"access_card_identifier\": \"dolor\",
-    \"quota_type\": \"quota_lunch\",
-    \"quota\": 17
+    \"access_card_identifier\": \"itaque\",
+    \"quota_type\": \"quota_breakfast\",
+    \"quota\": 25
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -4913,9 +5041,9 @@ const headers = {
 };
 
 let body = {
-    "access_card_identifier": "dolor",
-    "quota_type": "quota_lunch",
-    "quota": 17
+    "access_card_identifier": "itaque",
+    "quota_type": "quota_breakfast",
+    "quota": 25
 };
 
 fetch(url, {
@@ -4939,9 +5067,9 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'access_card_identifier' =&gt; 'dolor',
-            'quota_type' =&gt; 'quota_lunch',
-            'quota' =&gt; 17,
+            'access_card_identifier' =&gt; 'itaque',
+            'quota_type' =&gt; 'quota_breakfast',
+            'quota' =&gt; 25,
         ],
     ]
 );
@@ -4958,9 +5086,9 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/reload/cards'
 payload = {
-    "access_card_identifier": "dolor",
-    "quota_type": "quota_lunch",
-    "quota": 17
+    "access_card_identifier": "itaque",
+    "quota_type": "quota_breakfast",
+    "quota": 25
 }
 headers = {
   'Content-Type': 'application/json',
@@ -5083,7 +5211,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        placeat
+                        tenetur
                     </div>
                 </div>
             </div>
@@ -5213,7 +5341,7 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-cards-current"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "placeat"
+    "identifier": "tenetur"
 }</div>
                             </div>
                                             </div>
@@ -5311,7 +5439,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"placeat\"
+    \"identifier\": \"tenetur\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -5330,7 +5458,7 @@ const headers = {
 };
 
 let body = {
-    "identifier": "placeat"
+    "identifier": "tenetur"
 };
 
 fetch(url, {
@@ -5354,7 +5482,7 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'identifier' =&gt; 'placeat',
+            'identifier' =&gt; 'tenetur',
         ],
     ]
 );
@@ -5371,7 +5499,7 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/cards/current'
 payload = {
-    "identifier": "placeat"
+    "identifier": "tenetur"
 }
 headers = {
   'Content-Type': 'application/json',
@@ -5478,36 +5606,6 @@ response.json()</code></pre>                                        </div>
                     
 
                     
-                                            <div class="sl-stack sl-stack--vertical sl-stack--6 sl-flex sl-flex-col sl-items-stretch">
-                            <h3 class="sl-text-2xl sl-leading-snug sl-font-prose">Body Parameters</h3>
-
-                                <div class="sl-text-sm">
-                                    <div class="expandable sl-text-sm sl-border-l sl-ml-px">
-        <div class="sl-flex sl-relative sl-max-w-full sl-py-2 sl-pl-3">
-    <div class="sl-w-1 sl-mt-2 sl-mr-3 sl--ml-3 sl-border-t"></div>
-    <div class="sl-stack sl-stack--vertical sl-stack--1 sl-flex sl-flex-1 sl-flex-col sl-items-stretch sl-max-w-full sl-ml-2 ">
-        <div class="sl-flex sl-items-center sl-max-w-full">
-                                        <div class="sl-flex sl-items-baseline sl-text-base">
-                    <div class="sl-font-mono sl-font-semibold sl-mr-2">identifier</div>
-                                            <span class="sl-truncate sl-text-muted">string</span>
-                                    </div>
-                                    <div class="sl-flex-1 sl-h-px sl-mx-3"></div>
-                    <span class="sl-ml-2 sl-text-warning">required</span>
-                                    </div>
-                                            <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-baseline sl-text-muted">
-                <span>Example:</span> <!-- <span> important for spacing -->
-                <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
-                    <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quibusdam
-                    </div>
-                </div>
-            </div>
-            </div>
-</div>
-
-            </div>
-                            </div>
-                        </div>
                     
                                     </div>
             </div>
@@ -5522,7 +5620,7 @@ response.json()</code></pre>                                        </div>
               data-method="POST"
               data-path="api/orders/lunch-completed"
               data-hasfiles="0"
-              data-hasjsonbody="1">
+              data-hasjsonbody="0">
             
                             <div class="sl-panel sl-outline-none sl-w-full expandable">
                     <div class="sl-panel__titlebar sl-flex sl-items-center sl-relative focus:sl-z-10 sl-text-base sl-leading-none sl-pr-4 sl-pl-3 sl-bg-canvas-200 sl-text-body sl-border-input focus:sl-border-primary sl-cursor-pointer sl-select-none"
@@ -5570,33 +5668,6 @@ response.json()</code></pre>                                        </div>
             
             
             
-                            <div class="sl-panel sl-outline-none sl-w-full expandable">
-                    <div class="sl-panel__titlebar sl-flex sl-items-center sl-relative focus:sl-z-10 sl-text-base sl-leading-none sl-pr-4 sl-pl-3 sl-bg-canvas-200 sl-text-body sl-border-input focus:sl-border-primary sl-cursor-pointer sl-select-none"
-                         role="button">
-                        <div class="sl-flex sl-flex-1 sl-items-center sl-h-lg">
-                            <div class="sl-flex sl-items-center sl-mr-1.5 expansion-chevrons expansion-chevrons-solid expanded">
-                                <svg aria-hidden="true" focusable="false" data-prefix="fas"
-                                     data-icon="caret-down"
-                                     class="svg-inline--fa fa-caret-down fa-fw sl-icon" role="img"
-                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                    <path fill="currentColor"
-                                          d="M310.6 246.6l-127.1 128C176.4 380.9 168.2 384 160 384s-16.38-3.125-22.63-9.375l-127.1-128C.2244 237.5-2.516 223.7 2.438 211.8S19.07 192 32 192h255.1c12.94 0 24.62 7.781 29.58 19.75S319.8 237.5 310.6 246.6z"></path>
-                                </svg>
-                            </div>
-                            Body
-                        </div>
-                    </div>
-                    <div class="sl-panel__content-wrapper sl-bg-canvas-100 children" role="region">
-                                                    <div class="TextRequestBody sl-p-4">
-                                <div class="code-editor language-json"
-                                     id="json-body-POSTapi-orders-lunch-completed"
-                                     style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
-                                >{
-    "identifier": "quibusdam"
-}</div>
-                            </div>
-                                            </div>
-                </div>
             
             <div class="SendButtonHolder sl-mt-4 sl-p-4 sl-pt-0">
                 <div class="sl-stack sl-stack--horizontal sl-stack--2 sl-flex sl-flex-row sl-items-center">
@@ -5688,11 +5759,7 @@ You can check the Dev Tools console for debugging information.</p>
                                             <pre><code class="language-bash">curl --request POST \
     "https://cantine-ciprel.ci.ddev.site/api/orders/lunch-completed" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"identifier\": \"quibusdam\"
-}"
-</code></pre>                                        </div>
+    --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
                                 </div>
                                                             <div class="sl-bg-canvas-100 example-request example-request-javascript"
@@ -5708,14 +5775,9 @@ const headers = {
     "Accept": "application/json",
 };
 
-let body = {
-    "identifier": "quibusdam"
-};
-
 fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre>                                        </div>
                                     </div>
                                 </div>
@@ -5732,9 +5794,6 @@ $response = $client-&gt;post(
             'Content-Type' =&gt; 'application/json',
             'Accept' =&gt; 'application/json',
         ],
-        'json' =&gt; [
-            'identifier' =&gt; 'quibusdam',
-        ],
     ]
 );
 $body = $response-&gt;getBody();
@@ -5749,15 +5808,12 @@ print_r(json_decode((string) $body));</code></pre>                              
 import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/orders/lunch-completed'
-payload = {
-    "identifier": "quibusdam"
-}
 headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
 }
 
-response = requests.request('POST', url, headers=headers, json=payload)
+response = requests.request('POST', url, headers=headers)
 response.json()</code></pre>                                        </div>
                                     </div>
                                 </div>
@@ -5873,7 +5929,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quaerat
+                        eos
                     </div>
                 </div>
             </div>
@@ -6003,7 +6059,7 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-orders-breakfast-completed"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "identifier": "quaerat"
+    "identifier": "eos"
 }</div>
                             </div>
                                             </div>
@@ -6101,7 +6157,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"identifier\": \"quaerat\"
+    \"identifier\": \"eos\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -6120,7 +6176,7 @@ const headers = {
 };
 
 let body = {
-    "identifier": "quaerat"
+    "identifier": "eos"
 };
 
 fetch(url, {
@@ -6144,7 +6200,7 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'identifier' =&gt; 'quaerat',
+            'identifier' =&gt; 'eos',
         ],
     ]
 );
@@ -6161,7 +6217,7 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/orders/breakfast-completed'
 payload = {
-    "identifier": "quaerat"
+    "identifier": "eos"
 }
 headers = {
   'Content-Type': 'application/json',
@@ -6280,7 +6336,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        repellat
+                        qui
                     </div>
                 </div>
             </div>
@@ -6374,7 +6430,7 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-orders-cancel-validation"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "order_identifier": "repellat"
+    "order_identifier": "qui"
 }</div>
                             </div>
                                             </div>
@@ -6472,7 +6528,7 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"order_identifier\": \"repellat\"
+    \"order_identifier\": \"qui\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -6491,7 +6547,7 @@ const headers = {
 };
 
 let body = {
-    "order_identifier": "repellat"
+    "order_identifier": "qui"
 };
 
 fetch(url, {
@@ -6515,7 +6571,7 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'order_identifier' =&gt; 'repellat',
+            'order_identifier' =&gt; 'qui',
         ],
     ]
 );
@@ -6532,7 +6588,7 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/orders/cancel-validation'
 payload = {
-    "order_identifier": "repellat"
+    "order_identifier": "qui"
 }
 headers = {
   'Content-Type': 'application/json',
@@ -7893,7 +7949,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        UQB2Z
+                        GATUI
                     </div>
                 </div>
             </div>
@@ -8026,7 +8082,7 @@ response.json()</code></pre>                                        </div>
                                         <input aria-label="identifier" name="identifier"
                                                id="urlparam-GETapi-users--identifier--identifier"
                                                placeholder=""
-                                               value="UQB2Z" data-component="url"
+                                               value="GATUI" data-component="url"
                                                class="sl-relative sl-w-full sl-h-md sl-text-base sl-pr-2.5 sl-pl-2.5 sl-rounded sl-border-transparent hover:sl-border-input focus:sl-border-primary sl-border">
                                     </div>
                                 </div>
@@ -8124,7 +8180,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-bash">curl --request GET \
-    --get "https://cantine-ciprel.ci.ddev.site/api/users/UQB2Z" \
+    --get "https://cantine-ciprel.ci.ddev.site/api/users/GATUI" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre>                                        </div>
                                     </div>
@@ -8134,7 +8190,7 @@ You can check the Dev Tools console for debugging information.</p>
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-javascript">const url = new URL(
-    "https://cantine-ciprel.ci.ddev.site/api/users/UQB2Z"
+    "https://cantine-ciprel.ci.ddev.site/api/users/GATUI"
 );
 
 const headers = {
@@ -8153,7 +8209,7 @@ fetch(url, {
                                     <div class="sl-px-0 sl-py-1">
                                         <div style="max-height: 400px;" class="sl-rounded">
                                             <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'https://cantine-ciprel.ci.ddev.site/api/users/UQB2Z';
+$url = 'https://cantine-ciprel.ci.ddev.site/api/users/GATUI';
 $response = $client-&gt;get(
     $url,
     [
@@ -8174,7 +8230,7 @@ print_r(json_decode((string) $body));</code></pre>                              
                                             <pre><code class="language-python">import requests
 import json
 
-url = 'https://cantine-ciprel.ci.ddev.site/api/users/UQB2Z'
+url = 'https://cantine-ciprel.ci.ddev.site/api/users/GATUI'
 headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json'
@@ -8366,7 +8422,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        aliquid
+                        consequatur
                     </div>
                 </div>
             </div>
@@ -8393,7 +8449,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        aperiam
+                        et
                     </div>
                 </div>
             </div>
@@ -8420,7 +8476,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        ladarius86@example.org
+                        ratke.lonie@example.com
                     </div>
                 </div>
             </div>
@@ -8447,7 +8503,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        unde
+                        repellendus
                     </div>
                 </div>
             </div>
@@ -8577,10 +8633,10 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-users-profile-update"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "first_name": "aliquid",
-    "last_name": "aperiam",
-    "email": "ladarius86@example.org",
-    "contact": "unde"
+    "first_name": "consequatur",
+    "last_name": "et",
+    "email": "ratke.lonie@example.com",
+    "contact": "repellendus"
 }</div>
                             </div>
                                             </div>
@@ -8678,10 +8734,10 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"first_name\": \"aliquid\",
-    \"last_name\": \"aperiam\",
-    \"email\": \"ladarius86@example.org\",
-    \"contact\": \"unde\"
+    \"first_name\": \"consequatur\",
+    \"last_name\": \"et\",
+    \"email\": \"ratke.lonie@example.com\",
+    \"contact\": \"repellendus\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -8700,10 +8756,10 @@ const headers = {
 };
 
 let body = {
-    "first_name": "aliquid",
-    "last_name": "aperiam",
-    "email": "ladarius86@example.org",
-    "contact": "unde"
+    "first_name": "consequatur",
+    "last_name": "et",
+    "email": "ratke.lonie@example.com",
+    "contact": "repellendus"
 };
 
 fetch(url, {
@@ -8727,10 +8783,10 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'first_name' =&gt; 'aliquid',
-            'last_name' =&gt; 'aperiam',
-            'email' =&gt; 'ladarius86@example.org',
-            'contact' =&gt; 'unde',
+            'first_name' =&gt; 'consequatur',
+            'last_name' =&gt; 'et',
+            'email' =&gt; 'ratke.lonie@example.com',
+            'contact' =&gt; 'repellendus',
         ],
     ]
 );
@@ -8747,10 +8803,10 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/users/profile-update'
 payload = {
-    "first_name": "aliquid",
-    "last_name": "aperiam",
-    "email": "ladarius86@example.org",
-    "contact": "unde"
+    "first_name": "consequatur",
+    "last_name": "et",
+    "email": "ratke.lonie@example.com",
+    "contact": "repellendus"
 }
 headers = {
   'Content-Type': 'application/json',
@@ -8876,7 +8932,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        placeat
+                        voluptatem
                     </div>
                 </div>
             </div>
@@ -8903,7 +8959,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        )9F$;S&amp;aXw)
+                        #*Rxlw!c5f
                     </div>
                 </div>
             </div>
@@ -8931,7 +8987,7 @@ response.json()</code></pre>                                        </div>
                 <span>Example:</span> <!-- <span> important for spacing -->
                 <div class="sl-flex sl-flex-1 sl-flex-wrap" style="gap: 4px;">
                     <div class="sl-max-w-full sl-break-all sl-px-1 sl-bg-canvas-tint sl-text-muted sl-rounded sl-border">
-                        quaerat
+                        laudantium
                     </div>
                 </div>
             </div>
@@ -9061,9 +9117,9 @@ response.json()</code></pre>                                        </div>
                                      id="json-body-POSTapi-users-change-password"
                                      style="font-family: var(--font-code); font-size: 12px; line-height: var(--lh-code);"
                                 >{
-    "current_password": "placeat",
-    "password": ")9F$;S&aXw)",
-    "password_confirmation": "quaerat"
+    "current_password": "voluptatem",
+    "password": "#*Rxlw!c5f",
+    "password_confirmation": "laudantium"
 }</div>
                             </div>
                                             </div>
@@ -9161,9 +9217,9 @@ You can check the Dev Tools console for debugging information.</p>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"current_password\": \"placeat\",
-    \"password\": \")9F$;S&amp;aXw)\",
-    \"password_confirmation\": \"quaerat\"
+    \"current_password\": \"voluptatem\",
+    \"password\": \"#*Rxlw!c5f\",
+    \"password_confirmation\": \"laudantium\"
 }"
 </code></pre>                                        </div>
                                     </div>
@@ -9182,9 +9238,9 @@ const headers = {
 };
 
 let body = {
-    "current_password": "placeat",
-    "password": ")9F$;S&amp;aXw)",
-    "password_confirmation": "quaerat"
+    "current_password": "voluptatem",
+    "password": "#*Rxlw!c5f",
+    "password_confirmation": "laudantium"
 };
 
 fetch(url, {
@@ -9208,9 +9264,9 @@ $response = $client-&gt;post(
             'Accept' =&gt; 'application/json',
         ],
         'json' =&gt; [
-            'current_password' =&gt; 'placeat',
-            'password' =&gt; ')9F$;S&amp;aXw)',
-            'password_confirmation' =&gt; 'quaerat',
+            'current_password' =&gt; 'voluptatem',
+            'password' =&gt; '#*Rxlw!c5f',
+            'password_confirmation' =&gt; 'laudantium',
         ],
     ]
 );
@@ -9227,9 +9283,9 @@ import json
 
 url = 'https://cantine-ciprel.ci.ddev.site/api/users/change-password'
 payload = {
-    "current_password": "placeat",
-    "password": ")9F$;S&amp;aXw)",
-    "password_confirmation": "quaerat"
+    "current_password": "voluptatem",
+    "password": "#*Rxlw!c5f",
+    "password_confirmation": "laudantium"
 }
 headers = {
   'Content-Type': 'application/json',

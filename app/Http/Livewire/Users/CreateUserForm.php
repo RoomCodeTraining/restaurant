@@ -15,6 +15,8 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
@@ -25,7 +27,6 @@ use Livewire\WithFileUploads;
 class CreateUserForm extends Component implements HasForms
 {
     use AuthorizesRequests, WithFileUploads, InteractsWithForms;
-
 
     public $role = null;
 
@@ -44,7 +45,7 @@ class CreateUserForm extends Component implements HasForms
         'organization_id' => null,
         'department_id' => null,
         'user_type_id' => null,
-        "is_entitled_breakfast" => false,
+        'is_entitled_breakfast' => false,
         'can_order_two_dishes' => false,
     ];
 
@@ -52,7 +53,9 @@ class CreateUserForm extends Component implements HasForms
     {
         $this->role = Role::USER;
         $this->state['organization_id'] = Organization::firstWhere('name', 'Ciprel')->id;
-        $this->generateIdentifierFor = UserType::where('auto_identifier', true)->pluck('id')->toArray();
+        $this->generateIdentifierFor = UserType::where('auto_identifier', true)
+            ->pluck('id')
+            ->toArray();
     }
 
     protected function getFormSchema(): array
@@ -60,9 +63,22 @@ class CreateUserForm extends Component implements HasForms
         return [
             Grid::make()
                 ->schema([
+                    Select::make('state.user_type_id')
+                        ->label('Type de collaborateur')
+                        ->options(UserType::pluck('name', 'id'))
+                        ->reactive()
+                        ->afterStateHydrated(function (Get $get, Set $set) {
+                            if (in_array($get('state.user_type_id'), $this->generateIdentifierFor)) {
+                                $set('state.identifier', Str::upper(Str::random(5)));
+                            }
+                        })
+                        ->required()
+                        ->autofocus(),
                     TextInput::make('state.identifier')
                         ->label('Matricule/Identifiant')
                         ->autofocus()
+                        ->reactive()
+                        // ->disabledWhen(fn () => ! in_array($this->state['user_type_id'], $this->generateIdentifierFor))
                         ->placeholder('TKOL8'),
                     TextInput::make('state.first_name')
                         ->label('Nom')
@@ -83,40 +99,36 @@ class CreateUserForm extends Component implements HasForms
                         ->autofocus(),
                     Select::make('role')
                         ->label('Rôle')
-                        ->options(Role::pluck('name', "id"))
+                        ->options(Role::pluck('name', 'id'))
                         ->autofocus(),
                     Select::make('state.employee_status_id')
                         ->label('Catégorie professionnelle')
                         ->required()
-                        ->options(EmployeeStatus::pluck('name', "id"))
+                        ->options(EmployeeStatus::pluck('name', 'id'))
                         ->autofocus(),
                     Select::make('state.organization_id')
                         ->label('Société')
-                        ->options(Organization::pluck('name', "id"))
+                        ->options(Organization::pluck('name', 'id'))
                         ->required()
                         ->autofocus(),
                     Select::make('state.department_id')
                         ->label('Département')
-                        ->options(Department::pluck('name', "id"))
+                        ->options(Department::pluck('name', 'id'))
                         ->required()
                         ->autofocus(),
-                    Select::make('state.user_type_id')
-                        ->label('Type de collaborateur')
-                        ->options(UserType::pluck('name', "id"))
-                        ->required()
-                        ->autofocus(),
+
                     Toggle::make('state.is_entitled_breakfast')
                         ->label('Le collaborateur a droit au petit déjeuner ?')
                         ->onColor('success')
                         ->offColor('danger'),
-                ])->columns(2)
+                ])
+                ->columns(2),
         ];
     }
 
-
     public function updated($field, $value)
     {
-        if ($field === "state.user_type_id") {
+        if ($field === 'state.user_type_id') {
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));
             } else {
@@ -144,15 +156,16 @@ class CreateUserForm extends Component implements HasForms
             'state.is_entitled_breakfast' => ['required', 'boolean'],
         ]);
 
-
         $user = $createUserAction->execute(array_merge($this->state, ['roles' => [$this->role]]));
 
         if ($this->profile_photo) {
             $user->updateProfilePhoto($this->profile_photo);
         }
 
-        Notification::make()->title('Le collaborateur a été créé avec succès !')->success()->send();
-
+        Notification::make()
+            ->title('Le collaborateur a été créé avec succès !')
+            ->success()
+            ->send();
 
         return redirect()->route('users.index');
     }

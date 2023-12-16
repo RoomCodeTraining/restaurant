@@ -1,9 +1,9 @@
 <div>
     <x-form-card submit="saveQuota">
         <x-slot name="form">
-            {{ $this->form }}
+         {{ $this->accessCardInfo }}
         </x-slot>
-        <x-slot name="actions">
+        {{-- <x-slot name="actions">
             <div class="flex items-center space-x-2">
                 <button class="md:hidden btn">
                     Retour
@@ -13,6 +13,6 @@
                     Enregistrer
                 </button>
             </div>
-        </x-slot>
+        </x-slot> --}}
     </x-form-card>
 </div>

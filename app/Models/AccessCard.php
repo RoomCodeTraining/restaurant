@@ -103,9 +103,11 @@ class AccessCard extends Model
         return $this->hasMany(AccessCardHistory::class);
     }
 
-    public function canBeReloaded($type = 'lunch') : bool
+    public function canBeReloaded($quota_type) : bool
     {
-        if($this->quota_. $type <= config('cantine.quota_critical') && $this->is_used) {
+        $quotaRemaining = $quota_type == 'quota_lunch' ? $this->quota_lunch : $this->quota_breakfast;
+        // dump($quotaRemaining);
+        if($quotaRemaining <= config('cantine.quota_critical') && $this->is_used) {
             return true;
         }
 

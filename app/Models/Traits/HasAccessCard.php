@@ -100,6 +100,7 @@ trait HasAccessCard
             'is_used' => false,
              'quota_breakfast' => 0,
              'quota_lunch' => 0,
+             'user_id' => null,
          ]);
 
         ActivityHelper::createActivity(

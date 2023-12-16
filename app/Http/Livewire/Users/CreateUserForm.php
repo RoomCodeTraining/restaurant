@@ -15,8 +15,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Str;
@@ -67,18 +65,13 @@ class CreateUserForm extends Component implements HasForms
                         ->label('Type de collaborateur')
                         ->options(UserType::pluck('name', 'id'))
                         ->reactive()
-                        ->afterStateHydrated(function (Get $get, Set $set) {
-                            if (in_array($get('state.user_type_id'), $this->generateIdentifierFor)) {
-                                $set('state.identifier', Str::upper(Str::random(5)));
-                            }
-                        })
                         ->required()
                         ->autofocus(),
                     TextInput::make('state.identifier')
                         ->label('Matricule/Identifiant')
                         ->autofocus()
                         ->reactive()
-                        // ->disabledWhen(fn () => ! in_array($this->state['user_type_id'], $this->generateIdentifierFor))
+                        ->disabled(fn () => in_array($this->state['user_type_id'], $this->generateIdentifierFor))
                         ->placeholder('TKOL8'),
                     TextInput::make('state.first_name')
                         ->label('Nom')
@@ -132,7 +125,7 @@ class CreateUserForm extends Component implements HasForms
             if (in_array($value, $this->generateIdentifierFor)) {
                 $this->state['identifier'] = Str::upper(Str::random(5));
             } else {
-                $this->state['identifier'] = $this->state['identifier'] ?? null;
+                $this->state['identifier'] = null;
             }
         }
     }

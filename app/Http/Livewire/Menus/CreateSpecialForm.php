@@ -54,7 +54,7 @@ class CreateSpecialForm extends Component implements HasForms
                     ->format('d/m/Y'),
                 Select::make('dish_id')
                     ->label('Veuillez choisir le plat')
-                    ->options(\App\Models\Dish::pluck('name', 'id')->toArray())
+                    ->options(\App\Models\Dish::main()->pluck('name', 'id')->toArray())
                     ->required(),
             ])->columns(2)
             ->statePath('state');

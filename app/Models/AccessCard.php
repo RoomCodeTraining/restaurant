@@ -94,8 +94,21 @@ class AccessCard extends Model
         return $this->type == self::TYPE_PRIMARY;
     }
 
+    /**
+     *
+     * @return HasMany
+     */
     public function histories() : HasMany
     {
         return $this->hasMany(AccessCardHistory::class);
+    }
+
+    public function canBeReloaded($type = 'lunch') : bool
+    {
+        if($this->quota_. $type <= config('cantine.quota_critical') && $this->is_used) {
+            return true;
+        }
+
+        return false;
     }
 }

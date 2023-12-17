@@ -171,7 +171,7 @@ class MarkOrderAsCompleted extends Controller
         }
 
         if($accessCard->quota_breakfast <= 0) {
-            return $this->responseBadRequest("Vous n'avez plus de quota pour le petit dejeuner.", "Non autorisé");
+            return $this->responseBadRequest("Vous n'avez plus de quota pour le petit dejeuner.", "Quota insuffisant");
         }
 
 

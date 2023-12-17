@@ -3,8 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\UpdatedAccessCard;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class AccessCardHasBeenReload
 {
@@ -28,7 +26,7 @@ class AccessCardHasBeenReload
     {
         $event->accessCard->reloadAccessCardHistory()->create([
           'quota_type' => $event->quota_type,
-          'quota' => $event->accessCard->{'quota_'.$event->quota_type},
+          'quota' => config('cantine.quota_breakfast')
         ]);
     }
 }

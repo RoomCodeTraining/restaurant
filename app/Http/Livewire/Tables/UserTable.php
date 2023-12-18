@@ -62,12 +62,13 @@ class UserTable extends Component implements HasTable, HasForms
         return $table
             ->query(\App\Models\User::query()->latest())
             ->columns([
-
                 TextColumn::make('identifier')
                     ->label('Matricule')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('full_name')->label('NOM & PRENOMS')->searchable(),
+                TextColumn::make('full_name')
+                    ->label('NOM & PRENOMS')
+                    ->searchable(),
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('contact')->label('Contact'),
                 TextColumn::make('role.name')->label('Profil'),
@@ -82,16 +83,17 @@ class UserTable extends Component implements HasTable, HasForms
                 TextColumn::make('id')
                     ->hidden()
                     ->label('Numéro de carte NFC')
-                    ->formatStateUsing(fn (User $record) => $record->currentAccessCard->identifier ?? "Aucune carte associée"),
+                    ->formatStateUsing(fn (User $record) => $record->currentAccessCard->identifier ?? 'Aucune carte associée'),
 
-                TextColumn::make('is_active')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : "Aucun rechargement")
+                TextColumn::make('is_active')
+                    ->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : 'Aucun rechargement')
                     ->label('Réchargement petit dejeuner')
                     ->hidden(),
 
-                TextColumn::make('updated_at')->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->lunch_reload_count : "Aucun rechargement")
+                TextColumn::make('updated_at')
+                    ->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->lunch_reload_count : 'Aucun rechargement')
                     ->label('Réchargement déjeuner')
-                    ->hidden()
-
+                    ->hidden(),
             ])
             ->headerActions([
                 Action::make('import_users')
@@ -102,12 +104,15 @@ class UserTable extends Component implements HasTable, HasForms
                         FileUpload::make('file')
                             ->label(__('Choisir un fichier'))
                             ->rules('required', 'mimes:xlsx, xls, csv')
-                            ->required()
+                            ->required(),
                     ])
                     ->modalHeading('Importer les utilisateurs')
                     ->action(function (array $data) {
                         (new UsersImport())->import($data['file']);
-                        Notification::make()->title('Importation des utilisateurs')->body('Les utilisateurs ont été importés avec succès.')->success();
+                        Notification::make()
+                            ->title('Importation des utilisateurs')
+                            ->body('Les utilisateurs ont été importés avec succès.')
+                            ->success();
 
                         return redirect()->route('users.index');
                     }),
@@ -115,8 +120,8 @@ class UserTable extends Component implements HasTable, HasForms
                 Action::make('create')
                     ->icon('heroicon-m-plus')
                     ->url(route('users.create'))
-                    ->label(__('Ajouter un utilisateur')),
-                ->modalMaxWidth('2xl')
+                    ->label(__('Ajouter un utilisateur'))
+                    // ->modalMaxWidth('2xl'),
             ])
             ->filters([
                 SelectFilter::make('user_type_id')
@@ -129,17 +134,19 @@ class UserTable extends Component implements HasTable, HasForms
                         '0' => 'Inactif',
                     ]),
             ])
-            ->actions((new UserTableAction)->getActions())
+            ->actions((new UserTableAction())->getActions())
             ->bulkActions([
-                BulkAction::make('export')->label('Exporter')
+                BulkAction::make('export')
+                    ->label('Exporter')
                     ->action(function (Collection $record) {
                         return Excel::download(new UserExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
                     }),
 
-                BulkAction::make('edit')->label('Exporter le Qota')
+                BulkAction::make('edit')
+                    ->label('Exporter le Qota')
                     ->action(function (Collection $records) {
                         return Excel::download(new QuotaExport($records), now()->format('d-m-Y') . ' Quota-Utilisateurs.xlsx');
-                    })
+                    }),
             ]);
     }
 
@@ -147,7 +154,6 @@ class UserTable extends Component implements HasTable, HasForms
     // {
     //     return $excel->download($export, 'invoices.xlsx');
     // }
-
 
     // public function exportToUser()
     // {

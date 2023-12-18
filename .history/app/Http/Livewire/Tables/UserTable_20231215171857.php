@@ -94,29 +94,29 @@ class UserTable extends Component implements HasTable, HasForms
 
             ])
             ->headerActions([
-                Action::make('import_users')
-                    ->color('success')
-                    ->label(__('Importer les utilisateurs'))
-                    ->icon('heroicon-m-user-group')
-                    ->form([
-                        FileUpload::make('file')
-                            ->label(__('Choisir un fichier'))
-                            ->rules('required', 'mimes:xlsx, xls, csv')
-                            ->required()
-                    ])
-                    ->modalHeading('Importer les utilisateurs')
-                    ->action(function (array $data) {
-                        (new UsersImport())->import($data['file']);
-                        Notification::make()->title('Importation des utilisateurs')->body('Les utilisateurs ont été importés avec succès.')->success();
+                // Action::make('import_users')
+                //     ->color('success')
+                //     ->label(__('Importer les utilisateurs'))
+                //     ->icon('heroicon-m-user-group')
+                //     ->form([
+                //         FileUpload::make('file')
+                //             ->label(__('Choisir un fichier'))
+                //             ->rules('required', 'mimes:xlsx, xls, csv')
+                //             ->required()
+                //     ])
+                //     ->modalHeading('Importer les utilisateurs')
+                //     ->action(function (array $data) {
+                //         (new UsersImport())->import($data['file']);
+                //         Notification::make()->title('Importation des utilisateurs')->body('Les utilisateurs ont été importés avec succès.')->success();
 
-                        return redirect()->route('users.index');
-                    }),
+                //         return redirect()->route('users.index');
+                //     }),
 
-                Action::make('create')
-                    ->icon('heroicon-m-plus')
-                    ->url(route('users.create'))
-                    ->label(__('Ajouter un utilisateur')),
-                ->modalMaxWidth('2xl')
+                // Action::make('create')
+                //     ->icon('heroicon-m-plus')
+                //     ->url(route('users.create'))
+                //     ->label(__('Ajouter un utilisateur')),
+                // ->modalMaxWidth('2xl')
             ])
             ->filters([
                 SelectFilter::make('user_type_id')

@@ -75,8 +75,8 @@ class OrderTable extends Component implements HasTable, HasForms
 
                 Action::make('restore_current_card')
                     ->label('')
-                    ->icon('heroicon-o-sun')
-                    ->tooltip('Changer l\'heure')
+                    ->icon('heroicon-o-clock')
+                    ->tooltip('Chnager l\'heure')
                     ->color('secondary')
                     ->hidden(fn (Order $record) => !$record->canBeUpdated())
                     ->requiresConfirmation()

@@ -33,12 +33,13 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request)
     {
-        $p = $request->validate([
+        $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        dd($p);
 
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
@@ -46,13 +47,13 @@ class NewPasswordController extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user) use ($request) {
-
-                $user->forceFill([
+                dd($request->password);
+                $p = $user->forceFill([
                     'password' => Hash::make($request->password),
                     'remember_token' => Str::random(60),
                 ])->save();
 
-
+                dd($p);
 
                 event(new PasswordReset($user));
             }

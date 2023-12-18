@@ -116,7 +116,7 @@ class UserTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-m-plus')
                     ->url(route('users.create'))
                     ->label(__('Ajouter un utilisateur')),
-                ->modalMaxWidth('2xl')
+                // ->modalMaxWidth('2xl')
             ])
             ->filters([
                 SelectFilter::make('user_type_id')

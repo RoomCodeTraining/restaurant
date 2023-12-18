@@ -1,5 +1,5 @@
 <x-app-layout>
-    {{-- <x-section-header title="Utilisateurs">
+    <x-section-header title="Utilisateurs">
         @can('manage', App\Models\User::class)
             <x-slot name="actions">
                 <livewire:users.create-users-by-import />
@@ -16,7 +16,7 @@
                 </a>
             </x-slot>
         @endcan
-    </x-section-header> --}}
+    </x-section-header>
     <div class="px-2 py-2">
         <livewire:tables.user-table />
     </div>

@@ -113,4 +113,9 @@ class AccessCard extends Model
 
         return false;
     }
+
+    public function hasCriticalQuota() : bool
+    {
+        return $this->quota_breakfast <= config('cantine.quota_critical') || $this->quota_lunch <= config('cantine.quota_critical');
+    }
 }

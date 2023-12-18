@@ -4,7 +4,6 @@ namespace App\Exports;
 
 use Carbon\Carbon;
 use App\Models\Order;
-use App\States\Order\Cancelled;
 use App\Support\BillingHelper;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
@@ -32,7 +31,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     public function __construct($period)
     {
         $this->period = $period;
-        // dd($this->period);
+        dd($this->period);
     }
 
     /**
@@ -44,7 +43,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
             ->withoutGlobalScope('lunch')
             ->whereType('lunch')
             ->with('user', 'menu')
-            ->whereState('state', [Completed::class, Confirmed::class, Cancelled::class])
+            ->whereState('state', [Completed::class, Confirmed::class])
             ->whereBetween('created_at',  DateTimeHelper::inThePeriod($this->period))
             ->get();
 

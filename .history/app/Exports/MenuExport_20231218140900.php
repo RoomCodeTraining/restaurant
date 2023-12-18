@@ -2,38 +2,21 @@
 
 namespace App\Exports;
 
-use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Order;
-use App\States\Order\Cancelled;
 use App\Support\BillingHelper;
 use App\States\Order\Completed;
 use App\States\Order\Confirmed;
-use App\Support\DateTimeHelper;
-use PhpOffice\PhpSpreadsheet\Cell\Cell;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use PhpOffice\PhpSpreadsheet\Cell\DataType;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle, WithMapping, WithStyles
+class MenuExport implements FromCollection
 {
-
     use Exportable;
-    protected $period;
-
-
-    public function __construct($period)
-    {
-        $this->period = $period;
-        // dd($this->period);
-    }
+    public User $user;
+    /**
+     * @return \Illuminate\Support\Collection
+     */
 
     /**
      * @return \Illuminate\Support\Collection
@@ -41,14 +24,11 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     public function collection()
     {
         $orders = Order::query()
-            ->withoutGlobalScope('lunch')
-            ->whereType('lunch')
+            //->whereType('breakfast')
             ->with('user', 'menu')
-            ->whereState('state', [Completed::class, Confirmed::class, Cancelled::class])
-            ->whereBetween('created_at',  DateTimeHelper::inThePeriod($this->period))
+            ->whereState('state', [Completed::class, Confirmed::class])
+            // ->whereBetween('created_at',  DateTimeHelper::inThePeriod($this->period))
             ->get();
-
-        //dd($orders);
 
 
         return $orders;
@@ -88,28 +68,28 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     {
 
 
-        $date = $row->created_at;
-        if ($row->user) {
-            $userBill = BillingHelper::getUserBill($row->user, $row);
-            $contribution =  $userBill['contribution'];
-            $subvention = $userBill['subvention'];
-        } else {
-            $contribution = '(N/A)';
-            $subvention = '(N/A)';
+        // $date = $row->created_at;
+        // if ($row->user) {
+        //     $userBill = BillingHelper::getUserBill($row->user, $row);
+        //     $contribution =  $userBill['contribution'];
+        //     $subvention = $userBill['subvention'];
+        // } else {
+        //     $contribution = '(N/A)';
+        //     $subvention = '(N/A)';
         }
 
         $order_type = 'petit déjeuner';
         return [
-            $row->user?->identifier,
-            $row->user?->last_name,
-            $row->user?->first_name,
-            $row->user?->email,
-            $row->user?->contact,
-            $row->user?->role->name,
-            $row->user?->organization->name,
-            $row->user?->department->name,
-            $row->user?->userType->name,
-            $row->user?->employeeStatus->name,
+            $row->user->identifier,
+            $row->user->last_name,
+            $row->user->first_name,
+            $row->user->email,
+            $row->user->contact,
+            $row->user->role->name,
+            $row->user->organization->name,
+            $row->user->department->name,
+            $row->user->userType->name,
+            $row->user->employeeStatus->name,
             $date->format('d/m/Y'),
             'petit déjeuner',
             'Moyen de paiement',
@@ -117,7 +97,6 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
             $subvention,
         ];
     }
-
 
     public function styles(Worksheet $sheet)
     {

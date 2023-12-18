@@ -57,11 +57,14 @@ class QuotaExport implements FromCollection, WithTitle, WithMapping, WithHeading
     {
         // $users = \App\Models\User::query()->with('accessCard')->get();
 
-        return  $this->users->filter(function ($user) {
+        $p = $this->users->filter(function ($user) {
             if ($user->current_access_card_id) {
                 return $user;
             }
         });
+
+        dd($p);
+        return $p;
     }
 
 

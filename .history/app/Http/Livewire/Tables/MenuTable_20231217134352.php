@@ -2,16 +2,14 @@
 
 namespace App\Http\Livewire\Tables;
 
+use App\Exports\CheckInBreakfastExport;
 use App\Models\Menu;
 use Livewire\Component;
 use Filament\Tables\Table;
-use App\Exports\MenuExport;
-use App\Services\CustomDataExport;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Contracts\HasForms;
-use App\Exports\CheckInBreakfastExport;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
@@ -76,13 +74,10 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->action(fn (Menu $record) => $record->delete()),
             ])
             ->bulkActions([
-                // BulkAction::make('export')->label('Exporter')
-                //     ->action(function (Collection $record) {
-                //         //$data = (new CustomDataExport($record))->transform();
-                //         // dd($data);
-                //         return Excel::download(new  MenuTable($record), 'report.xlsx');
-                //         // return Excel::download(new MenuExport($record), now()->format('d-m-Y') . ' Menu.xlsx');
-                //     }),
+                BulkAction::make('export')->label('Exporter')
+                    ->action(function (Collection $record) {
+                        return Excel::download(new CheckInBreakfastExport($record), now()->format('d-m-Y') . ' Liste-Utilisateurs.xlsx');
+                    }),
             ]);
     }
 

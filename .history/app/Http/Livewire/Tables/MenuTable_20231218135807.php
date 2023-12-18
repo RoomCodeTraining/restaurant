@@ -76,13 +76,13 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->action(fn (Menu $record) => $record->delete()),
             ])
             ->bulkActions([
-                // BulkAction::make('export')->label('Exporter')
-                //     ->action(function (Collection $record) {
-                //         //$data = (new CustomDataExport($record))->transform();
-                //         // dd($data);
-                //         return Excel::download(new  MenuTable($record), 'report.xlsx');
-                //         // return Excel::download(new MenuExport($record), now()->format('d-m-Y') . ' Menu.xlsx');
-                //     }),
+                BulkAction::make('export')->label('Exporter')
+                    ->action(function (Collection $record) {
+                        //$data = (new CustomDataExport($record))->transform();
+                        // dd($data);
+                        return Excel::download(new  CheckInBreakfastExport($record), 'report.xlsx');
+                        // return Excel::download(new MenuExport($record), now()->format('d-m-Y') . ' Menu.xlsx');
+                    }),
             ]);
     }
 

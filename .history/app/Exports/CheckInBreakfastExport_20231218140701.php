@@ -32,7 +32,7 @@ class CheckInBreakfastExport implements FromCollection, WithHeadings, WithTitle,
     public function __construct($period)
     {
         $this->period = $period;
-        // dd($this->period);
+        dd($this->period);
     }
 
     /**

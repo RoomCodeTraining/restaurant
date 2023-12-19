@@ -35,7 +35,6 @@ class OrganizationTable extends Component implements HasTable, HasForms
                 ->tooltip(fn ($record) => $record->is_entitled_two_dishes ? 'Les employés de cette sociéte ont-ils droit à 2 plats' : 'Les employés de cette sociéte ont-ils droit à 1 plat')
                 ->badge()->color(fn (Organization $record) => $record->is_entitled_two_dishes ? 'success' : 'gray')
                 ->formatStateUsing(fn (Organization $record) => $record->is_entitled_two_dishes ? 'Oui' : 'Non'),
-
             ])->actions([
                 Action::make('Editer')
                     ->url(fn (Organization $record): string => route('organizations.edit', $record))

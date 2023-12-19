@@ -191,22 +191,22 @@ class UserSeeder extends Seeder
 
         $users = User::all()->filter(fn ($user) => ! $user->isFromLunchroom());
 
-        foreach ($users as $key => $user) {
-            $accessCard = $user->accessCards()->create([
-                'identifier' => 'CARD00' . $key,
-                'quota_breakfast' => 0,
-                'quota_lunch' => 15,
-                'payment_method_id' => 1,
-            ]);
+        // foreach ($users as $key => $user) {
+        //     $accessCard = $user->accessCards()->create([
+        //         'identifier' => 'CARD00' . $key,
+        //         'quota_breakfast' => 0,
+        //         'quota_lunch' => 15,
+        //         'payment_method_id' => 1,
+        //     ]);
 
-            $accessCard->histories()->create([
-                'user_id' => $user->id,
-                'type' => 'primary',
-                'attached_at' => now(),
-            ]);
+        // $accessCard->histories()->create([
+        //     'user_id' => $user->id,
+        //     'type' => 'primary',
+        //     'attached_at' => now(),
+        // ]);
 
-            $user->update(['current_access_card_id' => $accessCard->id]);
-        }
+        // $user->update(['current_access_card_id' => $accessCard->id]);
+        // }
 
         if (app()->environment('production')) {
             return;

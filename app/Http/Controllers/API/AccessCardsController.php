@@ -70,10 +70,19 @@ class AccessCardsController extends Controller
         if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
-
         if ($user->isFromlunchroom()) {
             return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
         }
+
+        if($request->assign_quota) {
+            $validated['quota_lunch'] = config('cantine.quota_lunch');
+            $validated['quota_breakfast'] = config('cantine.quota_breakfast');
+        } else {
+            $validated['quota_lunch'] = 0;
+            $validated['quota_breakfast'] = 0;
+        }
+
+        unset($validated['assign_quota']);
 
         if(! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);

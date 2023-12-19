@@ -1,9 +1,9 @@
     <?php
     $card = auth()->user()->accessCard;
-    $quota_lunch = $card->quota_lunch;
-    $quota_breakfast = $card->quota_breakfast;
+    $quota_lunch = $card?->quota_lunch;
+    $quota_breakfast = $card?->quota_breakfast;
     ?>
-    @if($card->hasCriticalQuota())
+    @if($card && $card->hasCriticalQuota())
     <div class='py-8 px-4'>
         <div class="flex items-center p-4 mb-4 text-sm text-blue-800 border border-blue-300 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 dark:border-blue-800"
             role="alert">

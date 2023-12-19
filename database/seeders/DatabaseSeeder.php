@@ -13,17 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-        OrganizationSeeder::class,
-          DepartmentSeeder::class,
-          EmployeeStatusSeeder::class,
-          PaymentMethodSeeder::class,
-          UserTypeSeeder::class,
-          PermissionSeeder::class,
-          DishTypeSeeder::class,
-          // MenuSeeder::class,
-          UserSeeder::class,
-          SuggestionTypeSeeder::class,
-        ]);
+        if (config('app.env') === 'local') {
+            $this->call([
+                OrganizationSeeder::class,
+                DepartmentSeeder::class,
+                EmployeeStatusSeeder::class,
+                PaymentMethodSeeder::class,
+                UserTypeSeeder::class,
+                PermissionSeeder::class,
+                DishTypeSeeder::class,
+                // MenuSeeder::class,
+                UserSeeder::class,
+                SuggestionTypeSeeder::class,
+            ]);
+        }
     }
 }

@@ -388,7 +388,6 @@ class User extends Authenticatable
     {
         return $this->is_active ? true : false;
     }
-
     /**
      * Verifier si l'utilisateur peut prendre le petit dejeuner
      * @return bool

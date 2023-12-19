@@ -247,7 +247,10 @@ class UserTableAction
             ->each(fn ($order) => $order->update(['state' => Cancelled::class]));
 
         $card = $user->currentAccessCard;
-        $user->dettachAccessCard($card);
+
+        if($card) {
+            $user->dettachAccessCard($card);
+        }
         $identifier = Str::random(60);
 
         $user->update([

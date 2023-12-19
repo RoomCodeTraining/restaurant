@@ -174,6 +174,7 @@ class AccessCardsController extends Controller
         $card = AccessCard::with('user', 'paymentMethod')
             ->where('identifier', $validated['access_card_identifier'])
             ->first();
+
         $old_quota = $card[$request->quota_type];
 
         /*
@@ -184,7 +185,7 @@ class AccessCardsController extends Controller
 
         // $card->createReloadHistory($type);
 
-        if ($old_quota > 0) {
+        if ($old_quota > config('cantine.quota_critical')) {
             return response()->json(
                 [
                     'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",

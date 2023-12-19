@@ -2,8 +2,14 @@
 
 namespace App\Http\Livewire\Orders;
 
+use App\Actions\Order\CreateOrderAction;
 use App\Models\Menu;
+use App\States\Order\Cancelled;
+use App\States\Order\Suspended;
+use App\Support\ActivityHelper;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 
 class CreateSpecialOrderForm extends Component
@@ -44,64 +50,22 @@ class CreateSpecialOrderForm extends Component
         $this->resetErrorBag();
 
         $this->validate(['selectedDishes' => ['required', 'array']]);
-        if(auth()->user()->can_order_two_dishes) {
-            foreach($this->selectedDishes as $menuId => $items) {
-                $menu = \App\Models\Menu::whereId($menuId)->first();
-                foreach($items as $item) {
-                    \App\Models\Order::create([
-                        'dish_id' => $item['id'],
-                        'menu_id' => $menu->id,
-                        'user_id' => Auth::id()
-                      ]);
-                }
-            }
 
-            flasher('success', 'Votre commande a été enregistrée avec succès !');
+        $dishCount = 0;
 
-            return redirect()->route('orders.index');
-        }
-
-        /**
-         * S'assure que le quota de commande de l'utilisateur est suffisant.
-         */
-        if ($this->userAccessCard->quota_lunch === 0) {
-            throw ValidationException::withMessages([
-              'selectedDishes' => ['Votre quota est insuffisant.']
-            ]);
+        foreach($this->selectedDishes as $menuId => $items) {
+            $dishCount += count($items);
         }
 
         $locket_at = (int) config('cantine.order.locked_at');
 
-        if($this->userAccessCard->quota_lunch == 1 && auth()->user()->hasOrderForToday() && now()->hour < $locket_at) {
-            throw ValidationException::withMessages([
-              'selectedDishes' => [
-                "Vous avez une commande du jour en cours et votre quota est de 1. Vous ne pouvez plus effectuer d'autres commandes. Veuillez recharger votre carte"
-              ]
-            ]);
-        }
-
-
-        /**
-         * S'assurer que l'utilisateur n'a pas de commande en cours quant il a des commandes qui sont egal en cours et egal a son quota actuel
-         */
-
-
-        if (! auth()->user()->canCreateOtherOrder()) {
-            throw ValidationException::withMessages([
-              'selectedDishes' => [
-                "Impossible de passer d'autres commandes. Veuillez consulter la liste de vos commandes en cours et vérifier votre quota dejeuner."
-              ]
-            ]);
-        }
-
-
         /**
          * S'assurer que l'utilisateur ne passe pas de commande au dela de son quota dejeuner
          */
-        if ($this->userAccessCard->quota_lunch < count($this->selectedDishes)) {
+        if ($this->userAccessCard->quota_lunch < $dishCount) {
             throw ValidationException::withMessages([
               'selectedDishes' => [
-                "Vous ne pouvez pas passer plus de " . count($this->selectedDishes) . " commande(s) car votre quota dejeuner est de " . $this->userAccessCard->quota_lunch
+                "Vous ne pouvez pas passer plus de " . count($this->$dishCount) . " commande(s) car votre quota dejeuner est de " . $this->userAccessCard->quota_lunch
               ]
             ]);
         }
@@ -122,7 +86,7 @@ class CreateSpecialOrderForm extends Component
         }
 
         /**
-         * S'assure que les plats sélectionnés n'ont pas déjà été commandé par l'utilisateur.
+         * verifier si l'utilisateur a deja commande deux plats pour les menus qu'il a choisi
          */
         $previousOrders = Auth::user()->orders()
           ->with('menu')
@@ -130,7 +94,17 @@ class CreateSpecialOrderForm extends Component
           ->whereNotState('state', [Cancelled::class, Suspended::class])
           ->get();
 
+        foreach($this->selectedDishes as $key => $menu) {
+            if(count($menu) == 2) {
+                throw ValidationException::withMessages([
+                  'selectedDishes' => [
+                    sprintf('Vous avez déjà commander vos 2 plats pour le menu du %s',  Menu::find($key)->served_at->format('d/m/Y'))
+                  ]
+                ]);
+            }
+        }
 
+        dd($previousOrders);
 
         if (! $previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
             throw ValidationException::withMessages([
@@ -140,32 +114,34 @@ class CreateSpecialOrderForm extends Component
             ]);
         }
 
-        if(auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch - 1 < count($this->selectedDishes)) {
-            throw ValidationException::withMessages([
-              'selectedDishes' => [
-                "Vous ne pouvez pas passer plus de ".count($this->selectedDishes)." plats"
-              ]
-            ]);
-        }
+        // if(auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch - 1 < count($this->selectedDishes)) {
+        //     throw ValidationException::withMessages([
+        //       'selectedDishes' => [
+        //         "Vous ne pouvez pas passer plus de ".count($this->selectedDishes)." plats"
+        //       ]
+        //     ]);
+        // }
 
         /**
          * Crée une commande pour chacun des plats sélectionnés.
          */
-        foreach ($this->selectedDishes as $menuId => $dish) {
-            $order = $createOrderAction->execute([
-               'dish_id' => $dish['id'],
-               'menu_id' => $menuId,
-               'user_id' => Auth::id()
-             ]);
+        foreach ($this->selectedDishes as $menuId => $dishes) {
+            foreach($dishes as $dish) {
+                $order = $createOrderAction->execute([
+                  'dish_id' => $dish['id'],
+                  'menu_id' => $menuId,
+                  'user_id' => Auth::id()
+                ]);
 
-            ActivityHelper::createActivity(
-                $order,
-                "Création de sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-                "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
-            );
+                ActivityHelper::createActivity(
+                    $order,
+                    "Création de sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+                    "$order->user->full_name vient de passer sa commande du " . \Carbon\Carbon::parse($order->menu->served_at)->format('d-m-Y'),
+                );
+            }
         }
 
-        flasher('success', 'Votre commande a bien été enregistrée.');
+        Notification::make()->title('Commande enregistrée')->body('Votre commande a bien été enregistrée.')->success();
 
         return redirect()->route('orders.index');
     }
@@ -175,26 +151,16 @@ class CreateSpecialOrderForm extends Component
      */
     public function addDish($menuId, $dishId)
     {
-
-        if(auth()->user()->can_order_two_dishes) {
-            if(! empty($this->selectedDishes[$menuId])) {
-                $this->selectedDishes[$menuId][1] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
-            } else {
-                $this->selectedDishes[$menuId][0] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
-            }
-        } else {
-            $this->selectedDishes[$menuId] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
-        }
-
+        $this->selectedDishes[$menuId][] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
         $this->resetValidation();
     }
 
     /**
      * Permet de supprimer un plat de la commande.
      */
-    public function removeDish($menuId)
+    public function removeDish($menuId, $dishId)
     {
-        unset($this->selectedDishes[$menuId]);
+        unset($this->selectedDishes[$menuId][$dishId]);
         $this->resetValidation();
     }
 

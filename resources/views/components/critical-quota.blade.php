@@ -21,6 +21,5 @@
                     <span class="text-sm">Votre allocation pour le petit déjeuner est presque épuisée. Merci de penser à la recharger.</span>
                 @endif
             </div>
-
         </div>
     @endif

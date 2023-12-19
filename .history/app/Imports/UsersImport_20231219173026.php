@@ -49,7 +49,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     public function rules(): array
     {
 
-        return [
+        $validate = Validator::make($request->all(), [
             'matricule' => 'required',
             'prenoms' => 'nullable|string',
             'nom' => 'required|string',
@@ -59,7 +59,18 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'departement' => ['required', 'string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
             'type' => 'required'
-        ];
+        ]);
+        // return [
+        //     'matricule' => 'required',
+        //     'prenoms' => 'nullable|string',
+        //     'nom' => 'required|string',
+        //     'societe' => 'required|string',
+        //     'email' => ['required', 'email'],
+        //     'categorie' => 'required|string',
+        //     'departement' => ['required', 'string', Rule::exists('departments', 'name')],
+        //     'profil' => 'required|string',
+        //     'type' => 'required'
+        // ];
     }
 
 

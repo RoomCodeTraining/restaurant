@@ -55,6 +55,7 @@ class CreateDishForm extends Component implements HasForms
     }
 
 
+
     public function saveDish(CreateDishAction $createDishAction)
     {
         $this->validate([
@@ -70,15 +71,13 @@ class CreateDishForm extends Component implements HasForms
 
 
         // store new image if exists
-        $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
+        // $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
 
-        //dd($image);
+        foreach ($this->data['image_path'] as $key => $value) {
+            $this->data['image_path'] = $value->store('images');
+        }
 
-        // foreach ($this->data['image_path'] as $key => $value) {
-        //     $this->data['image_path'] = $value->store('images');
-        // }
 
-        $this->data['image_path'] = $image;
         $createDishAction->execute($this->data);
 
         Notification::make()

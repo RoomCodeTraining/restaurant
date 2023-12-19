@@ -78,7 +78,8 @@ class CreateDishForm extends Component implements HasForms
         //     $this->data['image_path'] = $value->store('images');
         // }
 
-        $this->data['image_path'] = $image;
+        //dd($this->data);
+
         $createDishAction->execute($this->data);
 
         Notification::make()

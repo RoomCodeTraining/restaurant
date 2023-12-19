@@ -109,7 +109,18 @@ class UserTable extends Component implements HasTable, HasForms
                     ->modalHeading('Importer les utilisateurs')
                     ->action(function (array $data) {
 
-                        (new UsersImport())->import($data['file']);
+                        try {
+                            (new UsersImport())->import($data['file']);
+                        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                            $failures = $e->failures();
+
+                            foreach ($failures as $failure) {
+                                $failure->row(); // row that went wrong
+                                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                                $failure->errors(); // Actual error messages from Laravel validator
+                                $failure->values(); // The values of the row that has failed.
+                            }
+                        }
                         Notification::make()
                             ->title('Importation des utilisateurs')
                             ->body('Les utilisateurs ont été importés avec succès.')

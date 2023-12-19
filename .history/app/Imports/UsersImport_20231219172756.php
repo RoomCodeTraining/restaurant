@@ -48,7 +48,6 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
     public function rules(): array
     {
-
         return [
             'matricule' => 'required',
             'prenoms' => 'nullable|string',
@@ -58,7 +57,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'categorie' => 'required|string',
             'departement' => ['required', 'string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
-            'type' => 'required'
+            'type' => 'nullable'
         ];
     }
 

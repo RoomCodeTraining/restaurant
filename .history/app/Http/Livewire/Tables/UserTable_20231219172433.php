@@ -116,6 +116,13 @@ class UserTable extends Component implements HasTable, HasForms
                             ->success();
 
                         return redirect()->route('users.index');
+
+                        // Notification::make()
+                        //     ->title('Importation des utilisateurs')
+                        //     ->body('Les utilisateurs ont été importés avec succès.')
+                        //     ->success();
+
+
                     }),
 
                 Action::make('create')

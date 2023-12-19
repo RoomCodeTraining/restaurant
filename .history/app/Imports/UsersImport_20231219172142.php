@@ -48,7 +48,6 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
     public function rules(): array
     {
-
         return [
             'matricule' => 'required',
             'prenoms' => 'nullable|string',

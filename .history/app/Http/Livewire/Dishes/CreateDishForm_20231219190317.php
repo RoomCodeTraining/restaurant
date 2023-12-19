@@ -59,7 +59,7 @@ class CreateDishForm extends Component implements HasForms
     {
         $this->validate([
             'data.name' => ['required', 'string', 'max:255', function ($attribute, $value, $fail) {
-                if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->data['dish_type_id']])->exists()) {
+                if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->state['dish_type_id']])->exists()) {
                     $fail('Ce plat existe déjà !');
                 }
             }],
@@ -70,15 +70,16 @@ class CreateDishForm extends Component implements HasForms
 
 
         // store new image if exists
-        $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
+        $image = $this->state['image_path'] ? store_dish_image($this->state['image_path']) : null;
 
-        //dd($image);
+        dd($image);
 
         // foreach ($this->data['image_path'] as $key => $value) {
         //     $this->data['image_path'] = $value->store('images');
         // }
 
-        $this->data['image_path'] = $image;
+        //dd($this->data);
+
         $createDishAction->execute($this->data);
 
         Notification::make()

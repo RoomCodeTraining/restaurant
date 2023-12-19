@@ -24,20 +24,20 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $row)
     {
 
-        DB::beginTransaction();
+        // DB::beginTransaction();
 
-        $data = $this->getUserhasBeingCreatedData($row);
+        // $data = $this->getUserhasBeingCreatedData($row);
 
 
-        $user = User::updateOrCreate([
-            'identifier' => $data['identifier'],
-        ], $data);
+        // $user = User::updateOrCreate([
+        //     'identifier' => $data['identifier'],
+        // ], $data);
 
-        $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
+        // $user->syncRoles(Role::getRole(strtolower($row['profil'])) ?? [Role::USER]);
 
-        DB::commit();
+        // DB::commit();
 
-        UserCreated::dispatch($user);
+        // UserCreated::dispatch($user);
 
         // //Informatique
 
@@ -48,7 +48,6 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
 
     public function rules(): array
     {
-
         return [
             'matricule' => 'required',
             'prenoms' => 'nullable|string',

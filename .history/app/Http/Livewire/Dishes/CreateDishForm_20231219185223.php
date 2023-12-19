@@ -24,35 +24,75 @@ class CreateDishForm extends Component implements HasForms
 
     use InteractsWithForms;
 
-    public ?array $data = [];
+    // public ?array $data = [];
 
-    public function mount(): void
+    // public function mount(): void
+    // {
+    //     $this->form->fill();
+    // }
+
+    // public function form(Form $form): Form
+    // {
+    //     return $form
+    //         ->schema([
+    //             TextInput::make('name')
+    //                 ->required(),
+    //             Select::make('dish_type_id')
+    //                 ->label('Type de plat')
+    //                 ->required()
+    //                 ->placeholder('Choisissez un type de plat')
+    //                 ->options(DishType::all()->pluck('name', 'id')),
+    //             Textarea::make('description')
+    //                 ->label('Description')
+    //                 ->placeholder('Description du plat'),
+    //             FileUpload::make('image_path')
+    //                 ->label('Image')
+
+    //                 ->placeholder('Selectionnez une image pour ce plat')
+
+    //         ])
+    //         ->statePath('data');
+    // }
+
+
+    public $state = [
+        'name' => null,
+        'description' => null,
+        'dish_type_id' => null,
+        //'image_path' => null,
+    ];
+
+    public $image_path = null;
+
+    public function mount()
     {
-        $this->form->fill();
+        $this->form->fill($this->state);
     }
 
-    public function form(Form $form): Form
+
+    protected function getFormSchema(): array
     {
-        return $form
-            ->schema([
-                TextInput::make('name')
-                    ->required(),
-                Select::make('dish_type_id')
-                    ->label('Type de plat')
-                    ->required()
-                    ->placeholder('Choisissez un type de plat')
-                    ->options(DishType::all()->pluck('name', 'id')),
-                Textarea::make('description')
-                    ->label('Description')
-                    ->placeholder('Description du plat'),
-                FileUpload::make('image_path')
-                    ->label('Image')
+        return [
+            TextInput::make('state.name')
+                ->label('Nom du plat')
+                ->required()
+                ->autofocus()
+                ->placeholder('Salade, choux...'),
+            Select::make('state.dish_type_id')
+                ->label('Type de plat')
+                ->required()
+                ->placeholder('Choisissez un type de plat')
+                ->options(DishType::all()->pluck('name', 'id')),
+            Textarea::make('state.description')
+                ->label('Description')
+                ->placeholder('Description du plat'),
+            FileUpload::make('state.image_path')
+                ->label('Image')
+                ->placeholder('Selectionnez une image pour ce plat')
 
-                    ->placeholder('Selectionnez une image pour ce plat')
-
-            ])
-            ->statePath('data');
+        ];
     }
+
 
 
     public function saveDish(CreateDishAction $createDishAction)
@@ -70,15 +110,14 @@ class CreateDishForm extends Component implements HasForms
 
 
         // store new image if exists
-        $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
+        // $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
 
-        //dd($image);
+        foreach ($this->data['image_path'] as $key => $value) {
+            $this->data['image_path'] = $value->store('images');
+        }
 
-        // foreach ($this->data['image_path'] as $key => $value) {
-        //     $this->data['image_path'] = $value->store('images');
-        // }
+        //dd($this->data);
 
-        $this->data['image_path'] = $image;
         $createDishAction->execute($this->data);
 
         Notification::make()

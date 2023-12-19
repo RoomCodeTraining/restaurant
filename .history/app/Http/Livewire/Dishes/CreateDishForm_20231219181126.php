@@ -37,68 +37,23 @@ class CreateDishForm extends Component implements HasForms
             ->schema([
                 TextInput::make('name')
                     ->required(),
-                Select::make('dish_type_id')
+                Select::make('state.dish_type_id')
                     ->label('Type de plat')
                     ->required()
                     ->placeholder('Choisissez un type de plat')
                     ->options(DishType::all()->pluck('name', 'id')),
-                Textarea::make('description')
+                Textarea::make('state.description')
                     ->label('Description')
                     ->placeholder('Description du plat'),
-                FileUpload::make('image_path')
+                FileUpload::make('state.image_path')
                     ->label('Image')
-
                     ->placeholder('Selectionnez une image pour ce plat')
 
             ])
             ->statePath('data');
     }
 
-
-    public function saveDish(CreateDishAction $createDishAction)
-    {
-        $this->validate([
-            'data.name' => ['required', 'string', 'max:255', function ($attribute, $value, $fail) {
-                if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->data['dish_type_id']])->exists()) {
-                    $fail('Ce plat existe déjà !');
-                }
-            }],
-            'data.description' => ['nullable', 'string', 'max:255'],
-            'data.image_path' => ['nullable', 'max:255'],
-            'data.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
-        ]);
-
-
-        // store new image if exists
-        $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
-
-        //dd($image);
-
-        // foreach ($this->data['image_path'] as $key => $value) {
-        //     $this->data['image_path'] = $value->store('images');
-        // }
-
-        $this->data['image_path'] = $image;
-        $createDishAction->execute($this->data);
-
-        Notification::make()
-            ->title('Plat ajouté')
-            ->body('Le plat a été ajouté avec succès.')
-            ->success()->send();
-
-        return redirect()->route('dishes.index');
-    }
-
-    public function render()
-    {
-        return view('livewire.dishes.create-dish-form', [
-            'dishTypes' => \App\Models\DishType::pluck('name', 'id'),
-        ]);
-    }
-}
-
-
- // public $state = [
+    // public $state = [
     //     'name' => null,
     //     'description' => null,
     //     'dish_type_id' => null,
@@ -130,3 +85,46 @@ class CreateDishForm extends Component implements HasForms
 
     //     ];
     // }
+
+    public function saveDish(CreateDishAction $createDishAction)
+    {
+        $p =  $this->validate([
+            'state.name' => ['required', 'string', 'max:255', function ($attribute, $value, $fail) {
+                if (\App\Models\Dish::where(['name' => $value, 'dish_type_id' => $this->state['dish_type_id']])->exists()) {
+                    $fail('Ce plat existe déjà !');
+                }
+            }],
+            'state.description' => ['nullable', 'string', 'max:255'],
+            'state.image_path' => ['nullable', 'max:255'],
+            'state.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
+        ]);
+
+
+
+        // store new image if exists
+        $image = $this->state['image_path'] ? store_dish_image($this->state['image_path']) : null;
+        //dd($image);
+
+        //$this->state['image_path'] = $image;
+
+
+        //dd($this->state);
+        $m = $createDishAction->execute($this->state);
+
+        dd($m);
+
+        Notification::make()
+            ->title('Plat ajouté')
+            ->body('Le plat a été ajouté avec succès.')
+            ->success()->send();
+
+        return redirect()->route('dishes.index');
+    }
+
+    public function render()
+    {
+        return view('livewire.dishes.create-dish-form', [
+            'dishTypes' => \App\Models\DishType::pluck('name', 'id'),
+        ]);
+    }
+}

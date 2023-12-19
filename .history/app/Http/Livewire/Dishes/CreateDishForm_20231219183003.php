@@ -55,6 +55,7 @@ class CreateDishForm extends Component implements HasForms
     }
 
 
+
     public function saveDish(CreateDishAction $createDishAction)
     {
         $this->validate([
@@ -70,15 +71,14 @@ class CreateDishForm extends Component implements HasForms
 
 
         // store new image if exists
-        $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
+        // $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
 
-        //dd($image);
+        foreach ($this->data['image_path'] as $key => $value) {
+            $this->data['image_path'] = $value->store('images');
+        }
 
-        // foreach ($this->data['image_path'] as $key => $value) {
-        //     $this->data['image_path'] = $value->store('images');
-        // }
+        // $this->data['image_path'] = $image;
 
-        $this->data['image_path'] = $image;
         $createDishAction->execute($this->data);
 
         Notification::make()
@@ -96,37 +96,3 @@ class CreateDishForm extends Component implements HasForms
         ]);
     }
 }
-
-
- // public $state = [
-    //     'name' => null,
-    //     'description' => null,
-    //     'dish_type_id' => null,
-    //     'image_path' => null,
-    // ];
-
-    // // public $image_path = null;
-
-
-    // protected function getFormSchema(): array
-    // {
-    //     return [
-    //         TextInput::make('state.name')
-    //             ->label('Nom du plat')
-    //             ->required()
-    //             ->autofocus()
-    //             ->placeholder('Salade, choux...'),
-    //         Select::make('state.dish_type_id')
-    //             ->label('Type de plat')
-    //             ->required()
-    //             ->placeholder('Choisissez un type de plat')
-    //             ->options(DishType::all()->pluck('name', 'id')),
-    //         Textarea::make('state.description')
-    //             ->label('Description')
-    //             ->placeholder('Description du plat'),
-    //         FileUpload::make('state.image_path')
-    //             ->label('Image')
-    //             ->placeholder('Selectionnez une image pour ce plat')
-
-    //     ];
-    // }

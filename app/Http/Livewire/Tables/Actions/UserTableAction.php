@@ -6,16 +6,14 @@ use App\Events\UserLocked;
 use App\Events\UserUnlocked;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\PasswordResetNotification;
 use App\States\Order\Cancelled;
 use App\Support\ActivityHelper;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Maatwebsite\Excel\Facades\Excel;
 
 class UserTableAction
 {
@@ -224,19 +222,9 @@ class UserTableAction
 
     public function confirmPasswordReset(User $user): void
     {
-        $newPassword = Str::random(8);
-        $user->update([
-            'password' => bcrypt($newPassword),
-            'password_changed_at' => now(),
-        ]);
-
-        $user->passwordHistories()->create([
-            'password' => Hash::make($newPassword),
-        ]);
-
-        //dd($user);
-
-        $user->notify(new PasswordResetNotification($newPassword));
+        Password::sendResetLink(
+            $user->only('email'),
+        );
 
         ActivityHelper::createActivity(auth()->user(), "Réinitialisation du compte de $user->full_name", 'Réinitialisation de compte');
     }
@@ -280,8 +268,4 @@ class UserTableAction
         UserUnlocked::dispatch($user);
     }
 
-    public function exportQuota()
-    {
-        return Excel::download(new \App\Exports\QuotaExport(), 'quotas.xlsx');
-    }
 }

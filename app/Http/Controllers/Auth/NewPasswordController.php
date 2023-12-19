@@ -38,7 +38,25 @@ class NewPasswordController extends Controller
         $p = $request->validate([
             'token' => ['required'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => [
+                'required',
+                'confirmed',
+                Rules\Password::defaults(),
+                function ($value, $attribute, $fail) use ($request) {
+                    $latestPassword = User::firstWhere('email', $request->email)
+                        ->passwordHistories()
+                        ->latest()
+                        ->take(3)
+                        ->get();
+                    if ($latestPassword->count() > 0) {
+                        foreach ($latestPassword as $password) {
+                            if (Hash::check($value, $password->password)) {
+                                $fail('Le mot de passe ne doit pas être identique aux 3 derniers.');
+                            }
+                        }
+                    }
+                },
+            ],
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -48,7 +66,11 @@ class NewPasswordController extends Controller
             'remember_token' => Str::random(60),
         ]);
 
-        Notification::make()->title('Mot de passe modifié')->body('Votre mot de passe a été modifié avec succès.')->success()->send();
+        Notification::make()
+            ->title('Mot de passe modifié')
+            ->body('Votre mot de passe a été modifié avec succès.')
+            ->success()
+            ->send();
 
         ActivityHelper::createActivity($user, 'Mis à jour de mot de passe', "L'utilisateur {$user->full_name} a mis à jour son mot de passe.");
 

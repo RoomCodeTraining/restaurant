@@ -362,15 +362,9 @@ class User extends Authenticatable
      *
      * @return Attribute
      */
-    public function canOrderTwoDishes(): Attribute
+    public function canOrderTwoDishes(): bool
     {
-        return new Attribute(
-            get: function () {
-                if ($this->organization) {
-                    return $this->organization->is_entitled_two_dishes ? true : false;
-                }
-            }
-        );
+        return $this->organization->is_entitled_two_dishes ? true : false;
     }
 
     /**
@@ -394,7 +388,6 @@ class User extends Authenticatable
     {
         return $this->is_active ? true : false;
     }
-
     /**
      * Verifier si l'utilisateur peut prendre le petit dejeuner
      * @return bool

@@ -3,17 +3,17 @@
 namespace App\Http\Livewire\Account;
 
 use App\Models\User;
-use Livewire\Component;
-use Filament\Forms\Form;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Illuminate\Validation\Rules\Password;
-use Filament\Forms\Concerns\InteractsWithForms;
+use Livewire\Component;
 
 class UpdatePasswordForm extends Component implements HasForms
 {
@@ -41,8 +41,6 @@ class UpdatePasswordForm extends Component implements HasForms
                             TextInput::make('current_password')
                                 ->type('password')
                                 ->label('Mot de passe actuel'),
-
-
                             TextInput::make('password')
                                 ->rules([
                                     'required',
@@ -65,44 +63,12 @@ class UpdatePasswordForm extends Component implements HasForms
             ->statePath('data');
     }
 
-    // public function form(Form $form): Form
-    // {
-    //     return $form
-    //         ->schema([
-    //             Section::make('Modifier le mot de passe')
-    //                 ->description('Veuillez remplir les champs ci-dessous pour modifier votre mot de passe .')
-    //                 ->aside()
-    //                 ->schema([
-
-    //                     TextInput::make('current_password')
-    //                         ->label('Ancien mot de passe')
-    //                         ->password()
-
-    //                         ->required(),
-    //                     TextInput::make('password')
-    //                         ->rules([
-    //                             'required',
-    //                             Password::min(8)
-    //                                 ->letters()
-    //                                 ->numbers()
-    //                                 ->symbols(),
-    //                         ])
-    //                         ->password()
-    //                         ->label('Nouveau mot de passe'),
-    //                     TextInput::make('password_confirmation')
-    //                         ->label('Confirmer le mot de passe')
-    //                         ->rules(['required'])
-    //                         ->password(),
-    //                 ])->columns(1),
-    //         ])->statePath('data');
-    // }
 
     public function updatePassword()
     {
-
         $p = $this->validate([
             'data.current_password' => ['required',  function ($attribute, $value, $fail) {
-                if (!Hash::check($value, Auth::user()->password)) {
+                if (! Hash::check($value, Auth::user()->password)) {
                     $fail('Le mot de passe actuel est incorrect.');
                 }
             }],

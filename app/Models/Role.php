@@ -15,6 +15,8 @@ class Role extends SpatieRole
     public const ACCOUNTANT = 4;
     public const USER = 6;
     public const ADMIN_TECHNICAL = 7;
+    public const DATA_ANALYST = 8;
+    public const DEVELOPER = 9;
 
 
 

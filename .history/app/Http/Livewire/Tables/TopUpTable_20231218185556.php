@@ -90,7 +90,6 @@ class TopUpTable extends Component implements HasForms, HasTable
 
                     return $indicators;
                 })
-
             // SelectFilter::make('payment_method_id')
             //     ->label('Mode de paiement')
             //     ->relationship('payment_method', 'name'),

@@ -60,37 +60,35 @@ class TopUpTable extends Component implements HasForms, HasTable
         ])->filters([
 
             Filter::make('created_at')
-                ->label('Date')
                 ->form([
-                    DatePicker::make('Du'),
-                    DatePicker::make('Au'),
+                    DatePicker::make('from'),
+                    DatePicker::make('until'),
                 ])
                 ->query(function (Builder $query, array $data): Builder {
                     return $query
                         ->when(
-                            $data['Du'],
+                            $data['from'],
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                         )
                         ->when(
-                            $data['Au'],
+                            $data['until'],
                             fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                         );
                 })->indicateUsing(function (array $data): array {
                     $indicators = [];
 
-                    if ($data['Du'] ?? null) {
-                        $indicators[] = Indicator::make('Du ' . Carbon::parse($data['Du'])->format("d/m/Y"))
+                    if ($data['from'] ?? null) {
+                        $indicators[] = Indicator::make('Created from ' . Carbon::parse($data['from'])->toFormattedDateString())
                             ->removeField('from');
                     }
 
-                    if ($data['Au'] ?? null) {
-                        $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->format("d/m/Y"))
+                    if ($data['until'] ?? null) {
+                        $indicators[] = Indicator::make('Created until ' . Carbon::parse($data['until'])->toFormattedDateString())
                             ->removeField('until');
                     }
 
                     return $indicators;
                 })
-
             // SelectFilter::make('payment_method_id')
             //     ->label('Mode de paiement')
             //     ->relationship('payment_method', 'name'),

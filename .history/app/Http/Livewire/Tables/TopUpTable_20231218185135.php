@@ -60,7 +60,6 @@ class TopUpTable extends Component implements HasForms, HasTable
         ])->filters([
 
             Filter::make('created_at')
-                ->label('Date')
                 ->form([
                     DatePicker::make('Du'),
                     DatePicker::make('Au'),
@@ -79,18 +78,17 @@ class TopUpTable extends Component implements HasForms, HasTable
                     $indicators = [];
 
                     if ($data['Du'] ?? null) {
-                        $indicators[] = Indicator::make('Du ' . Carbon::parse($data['Du'])->format("d/m/Y"))
+                        $indicators[] = Indicator::make('Du' . Carbon::parse($data['Du'])->format("D/m/Y"));
                             ->removeField('from');
                     }
 
                     if ($data['Au'] ?? null) {
-                        $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->format("d/m/Y"))
+                        $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->toFormattedDateString())
                             ->removeField('until');
                     }
 
                     return $indicators;
                 })
-
             // SelectFilter::make('payment_method_id')
             //     ->label('Mode de paiement')
             //     ->relationship('payment_method', 'name'),

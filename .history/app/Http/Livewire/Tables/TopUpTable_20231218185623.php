@@ -58,6 +58,8 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->searchable()
                 ->sortable(),
         ])->filters([
+            Filter::make('is_featured')
+                ->query(fn (Builder $query): Builder => $query->where('is_featured', true)),
 
             Filter::make('created_at')
                 ->label('Date')

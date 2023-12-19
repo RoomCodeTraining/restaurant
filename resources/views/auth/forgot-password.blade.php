@@ -21,7 +21,7 @@
                                 <input type='email' id="email" placeholder="Entrez votre adresse mail" type="email" name="email" :value="old('email')" class="-mx-6 px-8  w-full bg-opacity-25 rounded py-2 text-gray-700 focus:outline-none bg-gray-100" required autofocus  />
                             </div>
                         </div>
-                        <button type="submit" class="w-full my-4 py-3 font-bold bg-primary-900 hover:bg-secondary-800 text-gray-100  focus:outline-none">Reinitialisez votre mot de passe</button>
+                        <button type="submit" class="w-full my-4 py-3 font-bold bg-primary-900 hover:bg-secondary-800 text-gray-100  text-white  focus:outline-none">Reinitialisez votre mot de passe</button>
                     </div>
                 </form>
             </div>

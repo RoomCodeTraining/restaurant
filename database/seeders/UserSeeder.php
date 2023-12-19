@@ -186,6 +186,7 @@ class UserSeeder extends Seeder
             'current_role_id' => Role::USER,
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),
+            'password_changed_at' => now()->subDays(120)
         ])->assignRole(Role::USER);
 
         $users = User::all()->filter(fn ($user) => ! $user->isFromLunchroom());

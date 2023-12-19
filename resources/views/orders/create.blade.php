@@ -15,8 +15,11 @@
                 </x-slot>
             @endcan
         </x-section-header>
-
-        <livewire:orders.create-order-form>
+        @if (auth()->user()->canOrderTwoDishes())
+            <livewire:orders.create-special-order-form />
+        @else
+            <livewire:orders.create-order-form>
+        @endif
     </section>
 
 </x-app-layout>

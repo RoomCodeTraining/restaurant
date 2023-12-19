@@ -58,6 +58,8 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->searchable()
                 ->sortable(),
         ])->filters([
+            Filter::make('accessCard.paymentMethod.name')
+                ->query(fn (Builder $query): Builder => dd($query)),
 
             Filter::make('created_at')
                 ->label('Date')

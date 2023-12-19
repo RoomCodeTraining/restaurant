@@ -90,7 +90,8 @@ class TopUpTable extends Component implements HasForms, HasTable
 
                     return $indicators;
                 })
-
+                Filter::make('is_featured')
+    ->query(fn (Builder $query): Builder => $query->where('is_featured', true))
             // SelectFilter::make('payment_method_id')
             //     ->label('Mode de paiement')
             //     ->relationship('payment_method', 'name'),

@@ -118,21 +118,21 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                         }
 
                         return $indicators;
-                    }),
-                Filter::make('served_at')
-                    ->form([
-                        Select::make('period')
-                            ->options(DateTimeHelper::getPeriod())
-                            ->default('this_week')
-                            ->label('Période'),
-                    ])
-                    ->query(function (Builder $query, array $data) {
-                        $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
-                            $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
-                        });
+                    })
+                // Filter::make('served_at')
+                //     ->form([
+                //         Select::make('period')
+                //             ->options(DateTimeHelper::getPeriod())
+                //             ->default('this_week')
+                //             ->label('Période'),
+                //     ])
+                //     ->query(function (Builder $query, array $data) {
+                //         $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
+                //             $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
+                //         });
 
-                        return $query;
-                    }),
+                //         return $query;
+                //     }),
             ])
             ->emptyStateHeading('Aucun déjeuner trouvé')
             ->emptyStateIcon('heroicon-o-moon');

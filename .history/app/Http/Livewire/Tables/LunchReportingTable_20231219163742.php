@@ -118,21 +118,21 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                         }
 
                         return $indicators;
-                    }),
-                Filter::make('served_at')
-                    ->form([
-                        Select::make('period')
-                            ->options(DateTimeHelper::getPeriod())
-                            ->default('this_week')
-                            ->label('Période'),
-                    ])
-                    ->query(function (Builder $query, array $data) {
-                        $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
-                            $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
-                        });
+                    })
+                // Filter::make('served_at')
+                //     ->form([
+                //         Select::make('period')
+                //             ->options(DateTimeHelper::getPeriod())
+                //             ->default('this_week')
+                //             ->label('Période'),
+                //     ])
+                //     ->query(function (Builder $query, array $data) {
+                //         $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
+                //             $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
+                //         });
 
-                        return $query;
-                    }),
+                //         return $query;
+                //     }),
             ])
             ->emptyStateHeading('Aucun déjeuner trouvé')
             ->emptyStateIcon('heroicon-o-moon');
@@ -143,9 +143,17 @@ class LunchReportingTable extends Component implements HasTable, HasForms
         $queryBuilder = Order::with('dish')
             // ->join('orders.*', 'menus.served_at as menu_served_at')
             ->join('menus', 'menus.id', '=', 'orders.menu_id')
-            ->select('orders.*', 'menus.served_at as menu_served_at')
+            ->select('orders.*', 'menus.served_at as menu_served_at', 'orders.reated_at')
             ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->latest();
+
+        // $queryBuilder =  Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        //     ->join('menus', 'orders.menu_id', 'menus.id')
+        //     ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+        //     ->whereNotState('state', [Cancelled::class, Suspended::class])
+        //     ->groupBy('dish_id', 'menu_served_at')
+        //     ->orderBy('menu_served_at', 'DESC')
+        //     ->selectRaw('dish_id, menus.served_at as menu_served_at, COUNT(*) as total_orders')->latest();
 
 
         return $queryBuilder;

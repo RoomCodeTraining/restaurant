@@ -16,11 +16,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-
 
 class TopUpTable extends Component implements HasForms, HasTable
 {
@@ -38,22 +35,14 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->latest()
         )->columns([
             TextColumn::make('created_at')->label('Recharger le')->dateTime('d/m/Y H:i:s'),
-            TextColumn::make('accessCard.identifier')
-                ->label('N° de la carte')
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('accessCard.user.identifier')->label('Matricule')->hidden(),
             TextColumn::make('accessCard.user.full_name')
                 ->label('Nom complet')
                 ->searchable()
                 ->sortable(),
-
-            TextColumn::make('accessCard.user.employeeStatus.name')->label('Catégorie professionnelle')->hidden(),
-            TextColumn::make('accessCard.user.department.name')->label('Fonction')->hidden(),
-            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
-            TextColumn::make('accessCard.user.role.name')->label('Type de collaborateur')->hidden(),
-            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
-
+            TextColumn::make('accessCard.user.identifier')
+                ->label('N° de la carte')
+                ->searchable()
+                ->sortable(),
             TextColumn::make('accessCard.paymentMethod.name')
                 ->label('Moyen de paiement')
                 ->searchable()
@@ -71,14 +60,14 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->label('Nombre de quota')
                 ->searchable()
                 ->sortable(),
-
-        ])->headerActions([
-            ExportAction::make()->exports([
-                ExcelExport::make()
-                    ->fromTable()
-                    ->withFilename(date('d-m-Y') . '- HistoriqueDesRecharges - export'),
-            ]),
         ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- Suggestions - export'),
+                ]),
+            ])
             ->filters([
 
                 Filter::make('created_at')
@@ -112,6 +101,35 @@ class TopUpTable extends Component implements HasForms, HasTable
 
                         return $indicators;
                     }),
+
+                // SelectFilter::make('accessCard.paymentMethod.name')
+                //     ->label('Profil'),
+
+                Filter::make('identifier')
+                    ->form([
+                        Select::make('identifier')
+                            ->placeholder('Sélectionner')
+                            ->options(self::getFilterTable()),
+                    ])
+                    ->query(
+                        function (Builder $query, array $data) {
+                            if ($data['identifier'] == null) {
+                                return $query;
+                            }
+                            return $query
+                                ->when(
+                                    $data['identifier'],
+                                    function (Builder $query, $date) {
+                                        $suggestion = PaymentMethod::query()->first();
+                                        // dd($suggestion->id);
+                                        // dd($query);
+                                        return $query->where('accessCard.paymentMethod.name', $suggestion->name);
+                                    },
+                                );
+                        }
+                    )
+
+
 
 
             ]);

@@ -56,10 +56,6 @@
                         </x-nav-link>
                     @endcan
                     @if (auth()->user()->hasRole(App\Models\Role::ADMIN_RH))
-                        <x-nav-link href="{{ route('menus-specials.index') }}" icon="menu" :active="request()->routeIs('menus-specials.index')">
-                            Menus B
-                        </x-nav-link>
-
                         <x-nav-link href="{{ route('access-cards.reloads.history') }}" icon="users" :active="request()->routeIs('access-cards.reloads.history')">
                             Historique des recharges
                         </x-nav-link>

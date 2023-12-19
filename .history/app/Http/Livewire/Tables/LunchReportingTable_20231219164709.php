@@ -118,7 +118,7 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                         }
 
                         return $indicators;
-                    }),
+                    })
                 Filter::make('served_at')
                     ->form([
                         Select::make('period')

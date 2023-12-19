@@ -72,13 +72,15 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->searchable()
                 ->sortable(),
 
-        ])->headerActions([
-            ExportAction::make()->exports([
-                ExcelExport::make()
-                    ->fromTable()
-                    ->withFilename(date('d-m-Y') . '- HistoriqueDesRecharges - export'),
-            ]),
+
         ])
+            ->headerActions([
+                ExportAction::make()->exports([
+                    ExcelExport::make()
+                        ->fromTable()
+                        ->withFilename(date('d-m-Y') . '- HistoriqueDesRecharges - export'),
+                ]),
+            ])
             ->filters([
 
                 Filter::make('created_at')
@@ -112,6 +114,35 @@ class TopUpTable extends Component implements HasForms, HasTable
 
                         return $indicators;
                     }),
+
+                // SelectFilter::make('accessCard.paymentMethod.name')
+                //     ->label('Profil'),
+
+                Filter::make('identifier')
+                    ->form([
+                        Select::make('identifier')
+                            ->placeholder('Sélectionner')
+                            ->options(self::getFilterTable()),
+                    ])
+                    ->query(
+                        function (Builder $query, array $data) {
+                            if ($data['identifier'] == null) {
+                                return $query;
+                            }
+                            return $query
+                                ->when(
+                                    $data['identifier'],
+                                    function (Builder $query, $date) {
+                                        $suggestion = PaymentMethod::query()->first();
+                                        // dd($suggestion->id);
+                                        // dd($query);
+                                        return $query->where('accessCard.paymentMethod.name', $suggestion->name);
+                                    },
+                                );
+                        }
+                    )
+
+
 
 
             ]);

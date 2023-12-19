@@ -16,11 +16,8 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-
 
 class TopUpTable extends Component implements HasForms, HasTable
 {
@@ -38,22 +35,14 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->latest()
         )->columns([
             TextColumn::make('created_at')->label('Recharger le')->dateTime('d/m/Y H:i:s'),
-            TextColumn::make('accessCard.identifier')
-                ->label('N° de la carte')
-                ->searchable()
-                ->sortable(),
-            TextColumn::make('accessCard.user.identifier')->label('Matricule')->hidden(),
             TextColumn::make('accessCard.user.full_name')
                 ->label('Nom complet')
                 ->searchable()
                 ->sortable(),
-
-            TextColumn::make('accessCard.user.employeeStatus.name')->label('Catégorie professionnelle')->hidden(),
-            TextColumn::make('accessCard.user.department.name')->label('Fonction')->hidden(),
-            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
-            TextColumn::make('accessCard.user.role.name')->label('Type de collaborateur')->hidden(),
-            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
-
+            TextColumn::make('accessCard.user.identifier')
+                ->label('N° de la carte')
+                ->searchable()
+                ->sortable(),
             TextColumn::make('accessCard.paymentMethod.name')
                 ->label('Moyen de paiement')
                 ->searchable()
@@ -71,50 +60,70 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->label('Nombre de quota')
                 ->searchable()
                 ->sortable(),
+        ])->filters([
 
-        ])->headerActions([
-            ExportAction::make()->exports([
-                ExcelExport::make()
-                    ->fromTable()
-                    ->withFilename(date('d-m-Y') . '- HistoriqueDesRecharges - export'),
-            ]),
-        ])
-            ->filters([
+            Filter::make('created_at')
+                ->label('Date')
+                ->form([
+                    DatePicker::make('Du'),
+                    DatePicker::make('Au'),
+                ])
+                ->query(function (Builder $query, array $data): Builder {
+                    return $query
+                        ->when(
+                            $data['Du'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        )
+                        ->when(
+                            $data['Au'],
+                            fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        );
+                })->indicateUsing(function (array $data): array {
+                    $indicators = [];
 
-                Filter::make('created_at')
-                    ->label('Date')
-                    ->form([
-                        DatePicker::make('Du'),
-                        DatePicker::make('Au'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
+                    if ($data['Du'] ?? null) {
+                        $indicators[] = Indicator::make('Du ' . Carbon::parse($data['Du'])->format("d/m/Y"))
+                            ->removeField('from');
+                    }
+
+                    if ($data['Au'] ?? null) {
+                        $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->format("d/m/Y"))
+                            ->removeField('until');
+                    }
+
+                    return $indicators;
+                }),
+
+            // SelectFilter::make('accessCard.paymentMethod.name')
+            //     ->label('Profil'),
+
+            Filter::make('identifier')
+                ->form([
+                    Select::make('identifier')
+                        ->placeholder('Sélectionner')
+                        ->options(self::getFilterTable()),
+                ])
+                ->query(
+                    function (Builder $query, array $data) {
+                        if ($data['identifier'] == null) {
+                            return $query;
+                        }
                         return $query
                             ->when(
-                                $data['Du'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['Au'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                $data['identifier'],
+                                function (Builder $query, $date) {
+                                    $suggestion = PaymentMethod::query();
+                                    // dd($suggestion->id);
+                                    return $query->whereId($suggestion?->id);
+                                },
                             );
-                    })->indicateUsing(function (array $data): array {
-                        $indicators = [];
-
-                        if ($data['Du'] ?? null) {
-                            $indicators[] = Indicator::make('Du ' . Carbon::parse($data['Du'])->format("d/m/Y"))
-                                ->removeField('from');
-                        }
-
-                        if ($data['Au'] ?? null) {
-                            $indicators[] = Indicator::make('Au ' . Carbon::parse($data['Au'])->format("d/m/Y"))
-                                ->removeField('until');
-                        }
-
-                        return $indicators;
-                    }),
+                    }
+                )
 
 
-            ]);
+
+
+        ]);
     }
 
     public static function getFilterTable(): array

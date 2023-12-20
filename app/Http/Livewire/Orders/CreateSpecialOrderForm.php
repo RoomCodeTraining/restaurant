@@ -92,26 +92,18 @@ class CreateSpecialOrderForm extends Component
           ->with('menu')
           ->whereIn('menu_id', array_keys($this->selectedDishes))
           ->whereNotState('state', [Cancelled::class, Suspended::class])
-          ->get();
+          ->get()
+          ->groupBy('menu.served_at');
 
-        foreach($this->selectedDishes as $key => $menu) {
+
+        foreach($previousOrders as $served_at => $menu) {
             if(count($menu) == 2) {
                 throw ValidationException::withMessages([
                   'selectedDishes' => [
-                    sprintf('Vous avez déjà commander vos 2 plats pour le menu du %s',  Menu::find($key)->served_at->format('d/m/Y'))
+                    sprintf('Vous avez déjà commander vos 2 plats pour le menu du %s',  \Carbon\Carbon::parse($served_at)->format('d/m/Y'))
                   ]
                 ]);
             }
-        }
-
-        dd($previousOrders);
-
-        if (! $previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
-            throw ValidationException::withMessages([
-              'selectedDishes' => [
-                sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
-              ]
-            ]);
         }
 
         // if(auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch - 1 < count($this->selectedDishes)) {

@@ -133,7 +133,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $date->format('d/m/Y'),
             $row->user?->accessCard?->paymentMethod->name,
             "Déjeuner",
-            $row->state == 'confirmed' ? 'Commande non consommée' : 'Commande consommée',
+            $row->state ? 'Commande consommée' : 'Commande non consommée',
             (string) $contribution,
             (string) $subvention,
         ];

@@ -100,14 +100,15 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function map($row): array
     {
 
-
+        //dd($row->created_at);
         // $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
         // $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
 
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
-        $date = $row->type == 'lunch' ? $row->menu->served_at : $row->created_at;
+        $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
+        dd($order->type);
 
-
+        // dd($order);
         // Recuperation de la facturation
         if ($row->user) {
             $userBill = BillingHelper::getUserBill($row->user, $row);
@@ -118,7 +119,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $subvention = '(N/A)';
         }
 
-        // dd($row->user->paymentMethod?->name);
+
         return [
             $row->user?->identifier,
             $row->user?->last_name,
@@ -131,9 +132,9 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $row->user?->userType->name,
             $row->user?->employeeStatus->name,
             $date->format('d/m/Y'),
-            $row->user?->accessCard?->paymentMethod->name,
+            $order->user?->accessCard?->paymentMethod->name,
             "Déjeuner",
-            $row->state == 'confirmed' ? 'Commande non consommée' : 'Commande consommée',
+            $row->state,
             (string) $contribution,
             (string) $subvention,
         ];

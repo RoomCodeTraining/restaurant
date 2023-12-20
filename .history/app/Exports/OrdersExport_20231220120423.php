@@ -37,9 +37,9 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
     public function collection()
     {
 
-        return $this->record;
+        //return $this->record;
         //dd($this->record);
-        // $p = Order::query()
+        // return Order::query()
         //     ->join('users', 'orders.user_id', 'users.id')
         //     ->join('user_types', 'users.user_type_id', 'user_types.id')
         //     ->join('menus', 'orders.menu_id', 'menus.id')
@@ -50,9 +50,6 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
         //     ->get()->groupBy('user_id')
         //     ->map(fn ($row) => $row->groupBy(fn ($item) =>  $item->menu->served_at->format('Y-m-d')))
         //     ->flatten(1);
-
-        // dd($p);
-        //return
     }
 
     public function title(): string
@@ -99,18 +96,12 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
 
     public function map($row): array
     {
-
-
-        // $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
-        // $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
-
         $order = $row->count() > 1 ? $row->where('type', 'lunch')->first() : $row->first();
-        $date = $row->type == 'lunch' ? $row->menu->served_at : $row->created_at;
-
+        $date = $order->type == 'lunch' ? $order->menu->served_at : $order->created_at;
 
         // Recuperation de la facturation
-        if ($row->user) {
-            $userBill = BillingHelper::getUserBill($row->user, $row);
+        if ($order->user) {
+            $userBill = BillingHelper::getUserBill($order->user, $row);
             $contribution =  $userBill['contribution'];
             $subvention = $userBill['subvention'];
         } else {
@@ -118,22 +109,22 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $subvention = '(N/A)';
         }
 
-        // dd($row->user->paymentMethod?->name);
+
         return [
-            $row->user?->identifier,
-            $row->user?->last_name,
-            $row->user?->first_name,
-            $row->user?->email,
-            $row->user?->contact,
-            $row->user?->role->name,
-            $row->user?->organization->name,
-            $row->user?->department->name,
-            $row->user?->userType->name,
-            $row->user?->employeeStatus->name,
+            $order->user?->identifier,
+            $order->user?->last_name,
+            $order->user?->first_name,
+            $order->user?->email,
+            $order->user?->contact,
+            $order->user?->role->name,
+            $order->user?->organization->name,
+            $order->user?->department->name,
+            $order->user?->userType->name,
+            $order->user?->employeeStatus->name,
             $date->format('d/m/Y'),
-            $row->user?->accessCard?->paymentMethod->name,
+            $order->user?->accessCard?->paymentMethod->name,
             "Déjeuner",
-            $row->state == 'confirmed' ? 'Commande non consommée' : 'Commande consommée',
+            $order->state::description(),
             (string) $contribution,
             (string) $subvention,
         ];

@@ -118,7 +118,7 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $subvention = '(N/A)';
         }
 
-        // dd($row->user->paymentMethod?->name);
+        dd($row->user->paymentMethod->name);
         return [
             $row->user?->identifier,
             $row->user?->last_name,
@@ -131,9 +131,9 @@ class OrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadin
             $row->user?->userType->name,
             $row->user?->employeeStatus->name,
             $date->format('d/m/Y'),
-            $row->user?->accessCard?->paymentMethod->name,
+            $order->user?->accessCard?->paymentMethod->name,
             "Déjeuner",
-            $row->state == 'confirmed' ? 'Commande non consommée' : 'Commande consommée',
+            $row->state,
             (string) $contribution,
             (string) $subvention,
         ];

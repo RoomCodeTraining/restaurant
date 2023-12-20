@@ -71,11 +71,10 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                 //         ->withFilename(date('d-m-Y') . '- LunchReporting - export'),
                 // ]),
 
-            ])->bulkActions([
+            ])->action([
                 BulkAction::make('export')->label('Exporters')
                     ->action(function (Collection $record) {
-
-                        //dd($record->menu->menu_served_at); //menu_served_at
+                        dd($record);
                         return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' CommandesLunch.xlsx');
                     }),
             ])

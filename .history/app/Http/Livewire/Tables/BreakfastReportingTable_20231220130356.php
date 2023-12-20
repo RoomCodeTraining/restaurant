@@ -3,24 +3,20 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
-use App\Exports\OrdersExport;
 use App\States\Order\Completed;
 use App\Support\DateTimeHelper;
-use Filament\Tables\Filters\Filter;
-use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class BreakfastReportingTable extends Component implements HasTable, HasForms
 {
@@ -49,9 +45,10 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                 //     ->formatStateUsing(fn (Order $row) => $row->user->full_name),
             ])
             ->bulkActions([
-                BulkAction::make('export')->label('Exporter')
+                BulkAction::make('export')->label('Exporters')
                     ->action(function (Collection $record) {
-                        return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' breakfastReporting.xlsx');
+
+                        return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' ReportingDéjeuner.xlsx');
                     }),
             ])
             // ->headerActions([

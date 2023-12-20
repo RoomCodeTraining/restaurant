@@ -49,7 +49,7 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                 //     ->formatStateUsing(fn (Order $row) => $row->user->full_name),
             ])
             ->bulkActions([
-                BulkAction::make('export')->label('Exporter')
+                BulkAction::make('export')->label('Exporters')
                     ->action(function (Collection $record) {
                         return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' breakfastReporting.xlsx');
                     }),

@@ -70,7 +70,7 @@ class AuthenticatedSessionController extends Controller
         $auth = Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-$
+
         Notification::make()->title("Deconnexion")->body('Vous avez été déconnecté avec succès')->success()->send();
 
         return redirect('/');

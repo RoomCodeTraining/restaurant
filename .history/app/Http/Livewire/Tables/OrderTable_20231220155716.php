@@ -173,10 +173,10 @@ class OrderTable extends Component implements HasTable, HasForms
         $this->confirmingOrderHourUpdate = true;
     }
 
-    public function updateHour($id)
+    public function updateHour()
     {
-        $order = Order::find($id);
-        //dd($order);
+        $order = Order::all();
+        dd($order);
         if ($order->is_for_the_evening) {
             $order->update(['is_for_the_evening' => false]);
         } else {

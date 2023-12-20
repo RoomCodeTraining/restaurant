@@ -176,7 +176,7 @@ class OrderTable extends Component implements HasTable, HasForms
     public function updateHour($id)
     {
         $order = Order::find($id);
-        //dd($order);
+        dd($order);
         if ($order->is_for_the_evening) {
             $order->update(['is_for_the_evening' => false]);
         } else {

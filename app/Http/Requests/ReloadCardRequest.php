@@ -33,7 +33,6 @@ class ReloadCardRequest extends FormRequest
                 },
             ],
             'quota_type' => ['required', 'string', Rule::in(['quota_lunch', 'quota_breakfast'])],
-            'quota' => ['required', 'integer', 'min:0', 'max:25'],
         ];
     }
 }

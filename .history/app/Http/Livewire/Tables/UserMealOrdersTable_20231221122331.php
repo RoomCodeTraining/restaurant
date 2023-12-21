@@ -50,12 +50,12 @@ class UserMealOrdersTable extends Component implements HasTable, HasForms
                 ->searchable(),
             // ->sortable(),
 
-            // TextColumn::make('dish.name')
-            //     ->label('Plat commandé')->hidden()
+            TextColumn::make('dish.name')
+                ->label('Plat commandé')->hidden()
         ])->bulkActions([
             BulkAction::make('export')->label('Exporter')
                 ->action(function (Collection $record) {
-                    return Excel::download(new TodayOrdersExport($record), now()->format('d-m-Y') . ' CommandesJournalière.xlsx');
+                    return Excel::download(new TodayOrdersExport($record), now()->format('d-m-Y') . ' RapportDesCommandes.xlsx');
                 }),
         ]);
         // ->headerActions([

@@ -19,21 +19,19 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithHeadings, WithStyles, ShouldAutoSize
 {
-    use Exportable;
     /**
      * @return \Illuminate\Support\Collection
      */
 
-    protected $data;
+    public $data;
 
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
-        // $this->data =  \App\Models\Order::whereNotState('state', [Suspended::class, Cancelled::class])->OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
+        $this->data =  \App\Models\Order::whereNotState('state', [Suspended::class, Cancelled::class])->OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
     }
 
     public function collection()
-    {
+    {   
         return $this->data;
     }
 
@@ -45,7 +43,7 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function headings(): array
     {
-
+        
         $heading = [
             'Nom & Prénoms',
             'Plat commandé',
@@ -56,7 +54,7 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function map($row): array
     {
-
+   
         return [
             $row->user->full_name,
             $row->dish->name,

@@ -2,21 +2,15 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Exports\TodayOrdersExport;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\States\Order\Cancelled;
 use App\States\Order\Suspended;
-use Maatwebsite\Excel\Facades\Excel;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Actions\BulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Collection;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class UserMealOrdersTable extends Component implements HasTable, HasForms
 {
@@ -43,28 +37,18 @@ class UserMealOrdersTable extends Component implements HasTable, HasForms
         )->columns([
             TextColumn::make('user.identifier')
                 ->label('Matricule')
-                ->searchable(),
-            // ->sortable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('user.full_name')
                 ->label('Nom complet')
-                ->searchable(),
-            // ->sortable(),
+                ->searchable()
+                ->sortable(),
 
-            // TextColumn::make('dish.name')
-            //     ->label('Plat commandé')->hidden()
-        ])->bulkActions([
-            BulkAction::make('export')->label('Exporter')
-                ->action(function (Collection $record) {
-                    return Excel::download(new TodayOrdersExport($record), now()->format('d-m-Y') . ' CommandesJournalière.xlsx');
-                }),
+            TextColumn::make('user.full_name')
+                ->label('Nom complet')
+                ->searchable()
+                ->sortable(),
         ]);
-        // ->headerActions([
-        //     ExportAction::make()->exports([
-        //         ExcelExport::make()
-        //             ->fromTable()
-        //             ->withFilename('CommandeJournalière du' . date('d-m-Y')),
-        //     ]),
-        // ]);
     }
 
     public function render()

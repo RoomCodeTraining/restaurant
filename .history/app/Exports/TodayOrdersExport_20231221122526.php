@@ -26,15 +26,16 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     protected $data;
 
-    public function __construct($data)
+    public function __construct()
     {
-        $this->data = $data;
-        // $this->data =  \App\Models\Order::whereNotState('state', [Suspended::class, Cancelled::class])->OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
+        $this->data =  \App\Models\Order::whereNotState('state', [Suspended::class, Cancelled::class])->OrderBy('dish_id', 'desc')->today()->with('user', 'menu', 'dish')->get();
     }
 
     public function collection()
     {
-        return $this->data;
+        //return $this->data;
+
+        dd($this->data);
     }
 
 

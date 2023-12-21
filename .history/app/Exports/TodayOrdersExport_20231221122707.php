@@ -34,7 +34,9 @@ class TodayOrdersExport implements FromCollection, WithTitle, WithMapping, WithH
 
     public function collection()
     {
-        return $this->data;
+        //return $this->data;
+
+        dd($this->data);
     }
 
 

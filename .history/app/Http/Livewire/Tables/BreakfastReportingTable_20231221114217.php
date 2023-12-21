@@ -51,7 +51,7 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $record) {
-                        return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' RapportDesPointages.xlsx');
+                        return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' repoortingPointageR.xlsx');
                     }),
             ])
             // ->headerActions([

@@ -2,20 +2,17 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Models\MenuSpecial;
-use Filament\Tables\Actions\Action;
-use Filament\Support\Enums\MaxWidth;
-use Illuminate\Support\Facades\Auth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Filament\Tables\Actions\ActionGroup;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class SpecialMenuTable extends Component implements HasForms, HasTable
 {
@@ -37,6 +34,7 @@ class SpecialMenuTable extends Component implements HasForms, HasTable
                     ->label('')
                     ->color('secondary')
                     ->url(fn (MenuSpecial $record): string => route('menus-specials.edit', $record))
+                    ->hidden(! Auth::user()->can('manage', \App\Models\Menu::class))
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Modifier'),
 

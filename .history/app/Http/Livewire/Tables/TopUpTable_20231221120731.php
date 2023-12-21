@@ -46,10 +46,17 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->label('N° de la carte')
                 ->searchable()
                 ->sortable(),
+            // TextColumn::make('accessCard.user.identifier')->label('Matricule')->hidden(),
             TextColumn::make('accessCard.user.full_name')
                 ->label('Nom complet')
                 ->searchable()
                 ->sortable(),
+
+            // TextColumn::make('accessCard.user.employeeStatus.name')->label('Catégorie professionnelle')->hidden(),
+            // TextColumn::make('accessCard.user.department.name')->label('Fonction')->hidden(),
+            // TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
+            // TextColumn::make('accessCard.user.role.name')->label('Type de collaborateur')->hidden(),
+            // TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
 
             TextColumn::make('accessCard.paymentMethod.name')
                 ->label('Moyen de paiement')
@@ -70,6 +77,13 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->sortable(),
 
         ])
+            // ->headerActions([
+            //     ExportAction::make()->exports([
+            //         ExcelExport::make()
+            //             ->fromTable()
+            //             ->withFilename(date('d-m-Y') . '- Rechargements - export'),
+            //     ]),
+            // ])
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $record) {
@@ -84,6 +98,7 @@ class TopUpTable extends Component implements HasForms, HasTable
                         'breakfast' => 'Petit déjeuner',
                         'lunch' => 'Déjeuner',
                     ]),
+                // ->relationship('author', 'name'),
 
                 Filter::make('created_at')
                     ->label('Date')

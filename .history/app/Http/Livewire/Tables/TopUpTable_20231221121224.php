@@ -84,6 +84,7 @@ class TopUpTable extends Component implements HasForms, HasTable
                         'breakfast' => 'Petit déjeuner',
                         'lunch' => 'Déjeuner',
                     ]),
+                // ->relationship('author', 'name'),
 
                 Filter::make('created_at')
                     ->label('Date')

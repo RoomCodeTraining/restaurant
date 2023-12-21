@@ -82,12 +82,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
             \Carbon\Carbon::parse($history->created_at)->format('d/m/Y'),
             $history->accessCard->user->identifier,
             $history->accessCard->user->full_name,
-            $history->accessCard->user->employeeStatus->name,
-            $history->accessCard->user->department->name,
-            $history->accessCard->user->organization->name,
-            $history->accessCard->user->role->name,
-            $history->accessCard->paymentMethod->name,
-            $history->quota_type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner',
+            $history->quota_type == 'lunch' ? 'Déjeuner' : 'petit déjeuner',
             $history->quota
         ];
     }
@@ -95,16 +90,16 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->setAutoFilter('A1:J' . $sheet->getHighestRow());
+        $sheet->setAutoFilter('A1:E' . $sheet->getHighestRow());
 
-        $sheet->getStyle('A1:J1')->applyFromArray([
+        $sheet->getStyle('A1:E1')->applyFromArray([
             'font' => ['color' => ['rgb' => 'FFFFFF'], 'bold' => true, 'size' => 13],
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '538ED5']]
         ]);
 
         $sheet->getRowDimension(1)->setRowHeight(20);
 
-        $sheet->getStyle('A2:J' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:E' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

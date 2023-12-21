@@ -2,24 +2,20 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Exports\ReloadAccessCardHistoryExport;
 use Carbon\Carbon;
 use Livewire\Component;
 use Filament\Tables\Table;
 use App\Models\PaymentMethod;
 use Filament\Tables\Filters\Filter;
-use Maatwebsite\Excel\Facades\Excel;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Filters\Indicator;
 use App\Models\ReloadAccessCardHistory;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use pxlrbt\FilamentExcel\Exports\ExcelExport;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -46,10 +42,17 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->label('N° de la carte')
                 ->searchable()
                 ->sortable(),
+            TextColumn::make('accessCard.user.identifier')->label('Matricule')->hidden(),
             TextColumn::make('accessCard.user.full_name')
                 ->label('Nom complet')
                 ->searchable()
                 ->sortable(),
+
+            TextColumn::make('accessCard.user.employeeStatus.name')->label('Catégorie professionnelle')->hidden(),
+            TextColumn::make('accessCard.user.department.name')->label('Fonction')->hidden(),
+            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
+            TextColumn::make('accessCard.user.role.name')->label('Type de collaborateur')->hidden(),
+            TextColumn::make('accessCard.user.organization.name')->label('Sociéte')->hidden(),
 
             TextColumn::make('accessCard.paymentMethod.name')
                 ->label('Moyen de paiement')
@@ -70,20 +73,28 @@ class TopUpTable extends Component implements HasForms, HasTable
                 ->sortable(),
 
         ])
-            ->bulkActions([
-                BulkAction::make('export')->label('Exporter')
-                    ->action(function (Collection $record) {
+        // ->headerActions([
+        //     ExportAction::make()->exports([
+        //         ExcelExport::make()
+        //             ->fromTable()
+        //             ->withFilename(date('d-m-Y') . '- Rechargements - export'),
+        //     ]),
+        // ])
+        ->bulkActions([
+            BulkAction::make('export')->label('Exporter')
+                ->action(function (Collection $record) {
 
-                        return Excel::download(new ReloadAccessCardHistoryExport($record), now()->format('d-m-Y') . ' RapportDesCommandes.xlsx');
-                    }),
-            ])
+                    return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' RapportDesCommandes.xlsx');
+                }),
+        ]),
             ->filters([
                 SelectFilter::make('quota_type')
                     ->label('Type')
                     ->options([
-                        'breakfast' => 'Petit déjeuner',
+                        'breakfast' => 'Pétit déjeuner',
                         'lunch' => 'Déjeuner',
                     ]),
+                // ->relationship('author', 'name'),
 
                 Filter::make('created_at')
                     ->label('Date')

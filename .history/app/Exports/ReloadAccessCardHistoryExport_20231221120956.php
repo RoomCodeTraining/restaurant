@@ -87,7 +87,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
             $history->accessCard->user->organization->name,
             $history->accessCard->user->role->name,
             $history->accessCard->paymentMethod->name,
-            $history->quota_type == 'lunch' ? 'Déjeuner' : 'Petit déjeuner',
+            $history->quota_type == 'lunch' ? 'Déjeuner' : 'petit déjeuner',
             $history->quota
         ];
     }
@@ -104,7 +104,7 @@ class ReloadAccessCardHistoryExport implements FromCollection, WithHeadings, Wit
 
         $sheet->getRowDimension(1)->setRowHeight(20);
 
-        $sheet->getStyle('A2:J' . $sheet->getHighestRow())->applyFromArray([
+        $sheet->getStyle('A2:E' . $sheet->getHighestRow())->applyFromArray([
             'borders' => [
                 'allBorders' => [
                     'borderStyle' => Border::BORDER_THIN,

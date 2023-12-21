@@ -2,31 +2,27 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use App\Models\Order;
-use Livewire\Component;
-use App\Exports\UserExport;
 use App\Exports\OrdersExport;
+use App\Models\Order;
 use App\States\Order\Cancelled;
 use App\States\Order\Suspended;
-use App\Support\DateTimeHelper;
-use Illuminate\Support\Collection;
-use Filament\Tables\Filters\Filter;
-use Maatwebsite\Excel\Facades\Excel;
-use Filament\Forms\Components\Select;
+use Carbon\Carbon;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use pxlrbt\FilamentExcel\Columns\Column;
-use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Illuminate\Support\Collection;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class LunchReportingTable extends Component implements HasTable, HasForms
 {
@@ -43,7 +39,7 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                     // ->sortable()
                     ->dateTime('d/m/Y'),
                 TextColumn::make('user.full_name')
-                    ->label('NOM & PRÉNOM')
+                    ->label('Nom & Prénoms')
                     ->searchable(),
                 //->sortable(),
                 TextColumn::make('dish.name')
@@ -123,14 +119,15 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                 //     }),
                 Filter::make('served_at')
                     ->form([
-                        Select::make('period')
-                            ->options(DateTimeHelper::getPeriod())
-                            ->default('this_week')
-                            ->label('Période'),
+                        DatePicker::make('from')->label('Du')->default(now()->startOfWeek()),
+                        DatePicker::make('to')->label('Au')->default(now()->endOfWeek()),
                     ])
                     ->query(function (Builder $query, array $data) {
                         $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
-                            $query->whereBetween('served_at', DateTimeHelper::inThePeriod($data['period']));
+                            $query->whereBetween('served_at', [
+                                $data['from'] ?? null,
+                                $data['to'] ?? null,
+                            ]);
                         });
 
                         return $query;

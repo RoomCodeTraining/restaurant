@@ -81,10 +81,10 @@ class TopUpTable extends Component implements HasForms, HasTable
         ])
             ->filters([
                 SelectFilter::make('quota_type')
-                    ->label('Type')
                     ->options([
-                        'breakfast' => 'Pétit déjeuner',
-                        'lunch' => 'Déjeuner',
+                        'draft' => 'Draft',
+                        'reviewing' => 'Reviewing',
+                        'published' => 'Published',
                     ]),
                 // ->relationship('author', 'name'),
 

@@ -103,7 +103,7 @@ class UserTable extends Component implements HasTable, HasForms
                     ->form([
                         FileUpload::make('file')
                             ->label(__('Choisir un fichier'))
-                            ->rules('required', 'mimes:xlsx, xls, csv')
+                            ->rules('required')
                             ->required(),
                     ])
                     ->modalHeading('Importer les utilisateurs')

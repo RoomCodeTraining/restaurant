@@ -23,6 +23,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
+
+        dd($row);
         DB::beginTransaction();
 
         $data = $this->getUserhasBeingCreatedData($row);
@@ -54,7 +56,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'nom' => 'required|string',
             'societe' => 'required|string',
             'email' => ['required', 'email'],
-            'categorie' => ['required', 'string', Rule::exists('employee_statuses', 'name')],
+            'categorie' => 'required|string',
             'departement' => ['required', 'string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
             'type' => 'required'
@@ -65,13 +67,10 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
     public function getUserhasBeingCreatedData($model): array
     {
 
-
-
         $categorie = trim(str_replace('î', 'i', $model['categorie']));
-        //dd($categorie);
 
         return [
-            'employee_status_id' => \App\Models\EmployeeStatus::whereName(trim(ucfirst($model['categorie'])))->first()->id,
+            'employee_status_id' => \App\Models\EmployeeStatus::whereName(trim(ucfirst($categorie)))->first()->id,
             'organization_id' => \App\Models\Organization::whereName(trim(ucfirst($model['societe'])))->first()->id,
             'department_id' => \App\Models\Department::whereName(trim(ucfirst($model['departement'])))->first()->id,
             'user_type_id' => \App\Models\UserType::whereName(trim(ucfirst($model['type'])))->first()->id,

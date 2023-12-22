@@ -23,6 +23,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
+
+
         DB::beginTransaction();
 
         $data = $this->getUserhasBeingCreatedData($row);

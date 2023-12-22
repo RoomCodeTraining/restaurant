@@ -6,21 +6,16 @@ use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use Leandrocfe\FilamentApexCharts\Widgets\ApexChartWidget;
 
-class OrderByDepartment extends ApexChartWidget
+class Lowconsumptionperiod extends ApexChartWidget
 {
-    /**
-    * Chart Id
-    *
-    * @var string
-    */
-    protected static string $chartId = 'order-by-department';
+    protected static string $chartId = 'low-consumption-period';
 
     /**
      * Widget Title
      *
      * @var string|null
      */
-    protected static ?string $heading = "Repartition des commandes par type d'utilisateur";
+    protected static ?string $heading = "Période de faible consommation";
     protected static string $color = 'primary';
     protected static ?string $pollingInterval = '10s';
 
@@ -33,20 +28,20 @@ class OrderByDepartment extends ApexChartWidget
 
     protected function getOptions(): array
     {
-        $keys = array_keys(self::countOrdersByDepartment());
-        $values = array_values(self::countOrdersByDepartment());
-        // dd($this->countOrdersByDepartment());
+        $keys = array_keys(self::getLowConsumptionPeriod());
+        $values = array_values(self::getLowConsumptionPeriod());
+        // dd($this->getLowConsumptionPeriod());
 
         return [
             'chart' => [
-                'type' => 'area',
+                'type' => 'line',
                 'height' => 300,
             ],
             'series' => [
                 [
                     'name' => 'Plat',
                     'data' => $values,
-                    'color' => '#bf911b',
+                    'color' => '#E70D18',
                 ],
             ],
             'xaxis' => [
@@ -77,29 +72,22 @@ class OrderByDepartment extends ApexChartWidget
                     'format' => 'dd/MM/yy HH:mm',
                 ],
             ],
-            'grid' => [
-                'borderColor' => '#e7e7e7',
-                'row' => [
-                    'colors' => ['#f3f3f3', 'transparent'],
-                    'opacity' => 0.5,
-                ],
-            ],
         ];
     }
 
-    private static function countOrdersByDepartment() : array
+    public static function getLowConsumptionPeriod(): array
     {
+        $orders = \App\Models\Order::whereState('state', [Completed::class, Confirmed::class])->get();
+        $orders = $orders->groupBy(function ($item) {
+            return $item->created_at->format('d/m/Y');
+        });
+        $orders = $orders->map(function ($item) {
+            return $item->count();
+        });
+        // $orders = $orders->sort();
+        $orders = $orders->take(10);
 
-        $departments = \App\Models\Department::with('users')->get();
-        $orders = \App\Models\Order::with('user')
-            ->whereState('state', [Completed::class, Confirmed::class])
-            ->get()->groupBy(function ($order) {
-                return $order->user->userType->name;
-            })->map(function ($orders) {
-                return $orders->count();
-            })->toArray();
-
-        return $orders;
+        return $orders->toArray();
     }
 
 }

@@ -14,16 +14,20 @@ class PopularDish extends ApexChartWidget
         * @var string
         */
     protected static string $chartId = 'popular-dish';
+    public ?string $filter = 'today';
+
 
     /**
      * Widget Title
      *
      * @var string|null
      */
-    protected static ?string $heading = 'Top 5 des plats les plus commandés';
+    protected static ?string $heading = "Top 5 des plats les plus commandés.";
 
     protected static string $color = 'primary';
     protected static ?string $pollingInterval = '10s';
+    protected static ?string $loadingIndicator = 'Loading...';
+
 
 
 
@@ -72,8 +76,9 @@ class PopularDish extends ApexChartWidget
         ];
     }
 
-    private static function getTopFiveDishes() : array
+    public static function getTopFiveDishes() : array
     {
+
         return  Order::select('dish_id', DB::raw('count(*) as total'))
             ->groupBy('dish_id')
             ->orderBy('total', 'desc')

@@ -68,6 +68,7 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
             // ->whereState('state', Completed::class)
             ->withoutGlobalScope('lunch')
             ->whereIn('type', ['breakfast'])
+            ->whereState('state', [Completed::class])
             ->with('user')
             ->latest();
     }

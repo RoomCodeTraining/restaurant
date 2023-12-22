@@ -119,14 +119,14 @@ class LunchReportingTable extends Component implements HasTable, HasForms
                 //     }),
                 Filter::make('served_at')
                     ->form([
-                        DatePicker::make('from')->label('Du')->default(now()->startOfWeek()),
-                        DatePicker::make('to')->label('Au')->default(now()->endOfWeek()),
+                        DatePicker::make('from')->label('Du'),
+                        DatePicker::make('to')->label('Au'),
                     ])
                     ->query(function (Builder $query, array $data) {
-                        $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
+                        $query->when($data['from'] && $data['to'], function (Builder $query) use ($data) {
                             $query->whereBetween('served_at', [
-                                $data['from'] ?? null,
-                                $data['to'] ?? null,
+                                $data['from'],
+                                $data['to'],
                             ]);
                         });
 

@@ -18,8 +18,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class BreakfastReportingTable extends Component implements HasTable, HasForms
 {
@@ -30,22 +28,14 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
         return $table
             ->query(self::getTableQuery())
             ->columns([
-                // TextColumn::make('id')
-                //     ->formatStateUsing(fn (Order $row) => $row->created_at->format('d/m/Y'))
-                //     ->label('POINTAGE DU')
-                //     ->searchable()
-                //     ->sortable(),
-                TextColumn::make('pointing_at')
+                TextColumn::make('created_at')
                     ->formatStateUsing(fn (Order $row) => $row->created_at->format('d/m/Y'))
                     ->label('POINTAGE DU')
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('user.identifier')->label('MATRICULE/IDENTIFIANT'),
-                TextColumn::make('user.full_name')->label('NOM & PRÉNOM')->searchable(),
-                // TextColumn::make('state')
-                //     ->label('Utilisateur')
-                //     ->formatStateUsing(fn (Order $row) => $row->user->full_name),
+                TextColumn::make('user.full_name')->label('Nom & Prénoms')->searchable(),
             ])
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
@@ -53,24 +43,17 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
                         return Excel::download(new OrdersExport($record), now()->format('d-m-Y') . ' RapportDesPointages.xlsx');
                     }),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exports([
-            //         ExcelExport::make()
-            //             ->fromTable()
-            //             ->withFilename(date('d-m-Y') . '- breakfastReporting - export'),
-            //     ]),
-            // ])
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('from')->label('Du')->default(now()->startOfWeek()),
-                        DatePicker::make('to')->label('Au')->default(now()->endOfWeek()),
+                        DatePicker::make('from')->label('Du'),
+                        DatePicker::make('to')->label('Au')
                     ])
                     ->query(function (Builder $query, array $data) {
-                        return $query->with('menu')->whereHas('menu', function (Builder $query) use ($data) {
-                            $query->whereBetween('served_at', [
-                                $data['from'] ?? null,
-                                $data['to'] ?? null,
+                        return $query->when($data['from'] && $data['to'], function (Builder $query) use ($data) {
+                            $query->whereBetween('created_at', [
+                                $data['from'],
+                                $data['to'],
                             ]);
                         });
                     }),
@@ -82,15 +65,15 @@ class BreakfastReportingTable extends Component implements HasTable, HasForms
     private static function getTableQuery()
     {
         return \App\Models\Order::query()
-            ->whereState('state', Completed::class)
+            // ->whereState('state', Completed::class)
+            ->withoutGlobalScope('lunch')
             ->whereIn('type', ['breakfast'])
             ->with('user')
-            ->withoutGlobalScope('lunch')
             ->latest();
     }
 
     public function render()
     {
-        return view('livewire.tables.weekly-order-table');
+        return view('livewire.tables.breakfast-reporting-table');
     }
 }

@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 @endhasrole
-                {{-- @if (auth()->user()->can('data.*')) --}}
+                @if (auth()->user()->can('data.*'))
                 <div class='mt-5 grid grid-cols-2 md:grid-cols-2 gap-4 lg:gap-8'>
                     <div>
                         @livewire(\App\Http\Livewire\Charts\PopularDish::class)
@@ -41,6 +41,6 @@
                         @livewire(\App\Http\Livewire\Charts\Lowconsumptionperiod::class)
                     </div>
                 </div>
-                {{-- @endif --}}
+                @endif
                 </div>
 </x-app-layout>

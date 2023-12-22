@@ -23,6 +23,8 @@ class PopularDish extends ApexChartWidget
     protected static ?string $heading = 'Top 5 des plats les plus commandés';
 
     protected static string $color = 'primary';
+    protected static ?string $pollingInterval = '10s';
+
 
 
 
@@ -39,20 +41,21 @@ class PopularDish extends ApexChartWidget
 
         return [
             'chart' => [
-                'type' => 'bar',
-                'height' => 200,
+                'type' => 'area',
+                'height' => 300,
             ],
             'series' => [
                 [
                     'name' => 'Plat',
                     'data' => $values,
+                    'color' => '#bf911b',
                 ],
             ],
             'xaxis' => [
                 'categories' => $keys,
                 'labels' => [
                     'style' => [
-                        'colors' => '#9ca3af',
+                        'colors' => '#0d0c0c',
                         'fontWeight' => 600,
                     ],
                 ],
@@ -60,7 +63,7 @@ class PopularDish extends ApexChartWidget
             'yaxis' => [
                 'labels' => [
                     'style' => [
-                        'colors' => '#9ca3af',
+                        'colors' => '#bf911b',
                         'fontWeight' => 600,
                     ],
                 ],

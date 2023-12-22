@@ -21,10 +21,13 @@
         @endif
     </div>
     {{-- @if (auth()->user()->can('data.*')) --}}
-        <div class='mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8'>
-          <div>
-            @livewire(\App\Http\Livewire\Charts\PopularDish::class)
-          </div>
+        <div class='mt-5 grid grid-cols-2 md:grid-cols-2 gap-4 lg:gap-8'>
+            <div>
+                  @livewire(\App\Http\Livewire\Charts\PopularDish::class)
+            </div>
+            <div>
+                @livewire(\App\Http\Livewire\Charts\OrderByDepartment::class)
+            </div>
         </div>
     {{-- @endif --}}
 </div>

@@ -76,7 +76,7 @@ class Order extends Model
         return $this->state->canTransitionTo(Cancelled::class);
     }
 
-        public function canBeUpdated()
+    public function canBeUpdated()
     {
         if ($this->menu->served_at->greaterThan(today()) && $this->canBeCancelled()) {
             return true;

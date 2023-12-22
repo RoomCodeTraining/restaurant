@@ -5,7 +5,7 @@
             <livewire:dashboards.admin-dashboard>
             @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL))
                 <livewire:dashboards.admin-technical-dashboard>
-                @elseif(auth()->user()->hasRole(\App\Models\Role::USER))
+                @elseif(auth()->user()->hasRole(\App\Models\Role::USER) || auth()->user()->hasRole(\App\Models\Role::DATA_ANALYST))
                     <livewire:dashboards.user-dashboard>
                     @elseif(auth()->user()->hasRole(\App\Models\Role::ADMIN_RH))
                         <livewire:dashboards.admin-rh-dashboard />

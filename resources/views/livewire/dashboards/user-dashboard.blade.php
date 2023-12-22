@@ -6,13 +6,13 @@
                 @if ($today_order && $today_order->state == 'completed')
                     <x-statistic label="Commande du jour" value="{{ 'Deja consommée' }}" icon="plat" />
                 @else
-                    <x-statistic label="Commande du jour"
-                        value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}" icon="plat" />
+                    <x-statistic label="Commande du jour" value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}"
+                        icon="plat" />
                 @endif
             </a>
             <a href='/profile#card'>
-                <x-statistic label="quota petit dejeuner"
-                    value="{{ auth()->user()->AccessCard->quota_breakfast }}" icon="card" />
+                <x-statistic label="quota petit dejeuner" value="{{ auth()->user()->AccessCard->quota_breakfast }}"
+                    icon="card" />
             </a>
             <a href='/profile#card'>
                 <x-statistic label="quota dejeuner" value="{{ auth()->user()->AccessCard->quota_lunch }}"
@@ -20,4 +20,11 @@
             </a>
         @endif
     </div>
+    {{-- @if (auth()->user()->can('data.*')) --}}
+        <div class='mt-5 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-8'>
+          <div>
+            @livewire(\App\Http\Livewire\Charts\PopularDish::class)
+          </div>
+        </div>
+    {{-- @endif --}}
 </div>

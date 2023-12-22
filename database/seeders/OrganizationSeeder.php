@@ -17,5 +17,6 @@ class OrganizationSeeder extends Seeder
         Organization::create(['name' => 'Ciprel']);
         Organization::create(['name' => 'GS2E']);
         Organization::create(['name' => 'ATINKOU']);
+        Organization::create(['name' => 'GENDARMERIE', 'is_entitled_two_dishes' => true]);
     }
 }

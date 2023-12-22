@@ -193,10 +193,16 @@ class MarkOrderAsCompleted extends Controller
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,
           'is_decrement' => true,
-          'pointed_at' => now(),
+        //   'pointed_at' => now(),
         ]);
 
         $accessCard->decrement('quota_breakfast');
+
+        // ActivityHelper::createActivity(
+        //     $accessCard->user,
+        //     'Monsieur/Madame '.$accessCard->user->full_name.' a récupéré son petit déjeuner du '.now()->format('d/m/Y').' à '.now()->format('H:i'),
+        //     'Récupération du petit déjeuner',
+        // );
 
         return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de petit déjeuner a été marquée comme récupérée.", [
           'order' => $order

@@ -2,24 +2,24 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Actions\User\UpdateUserAction;
+use App\Models\Department;
+use App\Models\EmployeeStatus;
+use App\Models\Organization;
 use App\Models\Role;
 use App\Models\User;
-use Livewire\Component;
 use App\Models\UserType;
-use App\Models\Department;
-use App\Models\Organization;
-use Livewire\WithFileUploads;
-use App\Models\EmployeeStatus;
-use Illuminate\Validation\Rule;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
-use App\Actions\User\UpdateUserAction;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditUserForm extends Component implements HasForms
 {
@@ -46,13 +46,13 @@ class EditUserForm extends Component implements HasForms
         'user_type_id' => null,
         'is_entitled_breakfast' => false,
         'can_order_two_dishes' => false,
+        'current_role_id' => null
     ];
 
     public function mount(User $user)
     {
         $this->user = $user;
         $this->state = $user->toArray();
-        $this->role = $this->user->roles->first()->id ?? \App\Models\Role::USER;
     }
 
     protected function getFormSchema(): array
@@ -80,7 +80,7 @@ class EditUserForm extends Component implements HasForms
                         ->label('Contact')
                         ->required()
                         ->autofocus(),
-                    Select::make('state.role')
+                    Select::make('state.current_role_id')
                         ->label('Rôle')
                         ->options(Role::pluck('name', "id"))
                         ->autofocus(),
@@ -131,7 +131,7 @@ class EditUserForm extends Component implements HasForms
             'state.employee_status_id' => ['required', 'exists:employee_statuses,id', Rule::exists('employee_statuses', 'id')],
             'state.user_type_id' => ['required'],
             'profile_photo' => ['nullable', 'image', 'max:1024'],
-            'role' => ['required', Rule::exists('roles', 'id')],
+            'state.current_role_id' => ['required', Rule::exists('roles', 'id')],
         ]);
 
         $user = $updateUserAction->execute($this->user, array_merge($this->state, ['roles' => [$this->role]]));
@@ -140,7 +140,7 @@ class EditUserForm extends Component implements HasForms
             $user->updateProfilePhoto($this->profile_photo);
         }
 
-        session()->flash('success', "L'utilisateur a modifié avec succès!");
+        Notification::make()->title('Utilisateur modifié avec succès !')->body('Les informations de l\'utilisateur ont été modifiées avec succès.')->success()->send();
 
         return redirect()->route('users.index');
     }

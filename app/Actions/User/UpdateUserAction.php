@@ -3,8 +3,8 @@
 namespace App\Actions\User;
 
 use App\Events\UserUpdated;
-use App\Models\Role;
 use App\Models\User;
+use App\Support\ActivityHelper;
 use Illuminate\Support\Facades\DB;
 
 class UpdateUserAction
@@ -12,7 +12,6 @@ class UpdateUserAction
     public function execute(User $user, array $data)
     {
         DB::beginTransaction();
-
         $user->update([
             // 'identifier' => $data['identifier'],
             'identifier' => $data['identifier'],
@@ -24,12 +23,16 @@ class UpdateUserAction
             'employee_status_id' => (int) $data['employee_status_id'],
             'organization_id' => (int) $data['organization_id'],
             'department_id' => (int) $data['department_id'],
-            'current_role_id' => $data['roles'][0] ?? Role::USER,
+            'current_role_id' => (int) $data['current_role_id'],
             'user_type_id' => $data['user_type_id'],
             'is_entitled_breakfast' => $data['is_entitled_breakfast'],
         ]);
 
-        $user->syncRoles($data['roles'] ?? [Role::USER]);
+        $user->syncRoles((int) $data['current_role_id']);
+
+
+        ActivityHelper::createActivity($user, "Le profil de {$user->full_name} a été mis à jour par {$user->full_name}", 'Mise à jour du profil');
+
 
         DB::commit();
 

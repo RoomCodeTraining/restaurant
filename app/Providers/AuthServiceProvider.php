@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Policies\ReportingPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -37,5 +39,9 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('reporting-orders', [ReportingPolicy::class, 'viewOrders']);
         Gate::define('reporting-account', [ReportingPolicy::class, 'viewAccount']);
+
+        Gate::define('view-data', function (User $logginInUser) {
+            return $logginInUser->hasRole(Role::DATA_ANALYST);
+        });
     }
 }

@@ -31,4 +31,9 @@ class OrdersController extends Controller
         return view('orders.edit', compact('order'));
     }
 
+    public function noter(Order $order)
+    {
+        return view('orders.rating', compact('order'));
+    }
+
 }

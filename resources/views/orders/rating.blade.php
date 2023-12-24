@@ -15,7 +15,7 @@
                 </x-slot>
             @endcan
         </x-section-header>
-
+        <livewire:orders.note-menu-form :order='$order'/>
     </section>
 
 </x-app-layout>

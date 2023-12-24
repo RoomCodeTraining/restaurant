@@ -30,9 +30,7 @@ class MenuNoter extends Command
     {
         $this->info('Recherche des collaborateurs ayant commandé un plat et qui ont consommé le menu de la veille');
 
-        $orders = Order::whereHas('menu', function ($query) {
-            $query->where('served_at', now()->subDay()->format('Y-m-d'));
-        })->whereState('state', Completed::class)->get();
+        $orders = Order::whereState('state', Completed::class)->get();
 
         $this->info('Nombre de collaborateurs ayant commandé un plat et qui ont consommé le menu de la veille : ' . $orders->count());
 

@@ -175,6 +175,8 @@ class AccessCardsController extends Controller
             ->where('identifier', $validated['access_card_identifier'])
             ->first();
 
+        dd($card);
+
         $old_quota = $card[$request->quota_type];
 
         /*
@@ -197,7 +199,11 @@ class AccessCardsController extends Controller
         }
 
         $card->update([$validated['quota_type'] => $request->quota + $old_quota]);
+
+        dd($card);
+
         $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
+
         UpdatedAccessCard::dispatch($card, $type);
 
 

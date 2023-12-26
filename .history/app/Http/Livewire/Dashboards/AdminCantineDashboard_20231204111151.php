@@ -22,9 +22,10 @@ class AdminCantineDashboard extends Component
         if ($this->menu) {
             $this->main_dish_count = \App\Models\Order::whereNotState('state', Cancelled::class)->today()->where(['dish_id' => $this->menu->main_dish->id, 'menu_id' => $this->menu->id])->count();
 
-            if ($this->menu->second_dish) {
+            if($this->menu->second_dish){
                 $this->second_dish_count = \App\Models\Order::whereNotState('state', Cancelled::class)->today()->where(['dish_id' => $this->menu->second_dish->id, 'menu_id' => $this->menu->id])->count();
             }
+
         }
     }
 
@@ -34,8 +35,8 @@ class AdminCantineDashboard extends Component
             'today_orders_count' => \App\Models\Order::today()->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'orders_completed_count' => \App\Models\Order::today()->whereState('state', Completed::class)->count(),
             'orders_cancelled_count' => \App\Models\Order::today()->whereState('state',  Cancelled::class)->count(),
-            'sun_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', false)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
-            'journey_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', true)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
+            'sun_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', true)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
+            'journey_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', false)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
         ]);
     }
 }

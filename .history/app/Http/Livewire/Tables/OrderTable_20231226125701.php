@@ -104,7 +104,6 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->form([
                         DatePicker::make('served_at')->label('Menu du')->default(fn (Order $order) => $order->menu->served_at)
                             ->disabled(),
-
                         Select::make('dish_id')
                             ->label('Plat')
                             ->options(fn (Order $order) => Menu::where('served_at', $order->menu->served_at)->first()->mainDishes()->get()->pluck('name', 'id'))

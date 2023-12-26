@@ -197,7 +197,11 @@ class AccessCardsController extends Controller
         }
 
         $card->update([$validated['quota_type'] => $request->quota + $old_quota]);
+        dd($card);
+
+
         $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
+
         UpdatedAccessCard::dispatch($card, $type);
 
 

@@ -182,7 +182,7 @@ class AccessCardsController extends Controller
          */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
-        dd($type);
+        dd($old_quota);
         // $card->createReloadHistory($type);
 
         if ($old_quota > 3) {

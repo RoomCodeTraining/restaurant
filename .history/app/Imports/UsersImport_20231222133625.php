@@ -23,6 +23,9 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
      */
     public function model(array $row)
     {
+
+        dd($this->getUserhasBeingCreatedData($row));
+        //dd($row);
         DB::beginTransaction();
 
         $data = $this->getUserhasBeingCreatedData($row);
@@ -54,7 +57,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation
             'nom' => 'required|string',
             'societe' => 'required|string',
             'email' => ['required', 'email'],
-            'categorie' => ['required', 'string', Rule::exists('employee_statuses', 'name')],
+            'categorie' => ['required|string', Rule::exists('employee_statuses', 'name')],
             'departement' => ['required', 'string', Rule::exists('departments', 'name')],
             'profil' => 'required|string',
             'type' => 'required'

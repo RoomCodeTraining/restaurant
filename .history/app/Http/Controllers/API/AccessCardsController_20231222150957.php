@@ -205,7 +205,7 @@ class AccessCardsController extends Controller
         activity()
             ->causedBy(Auth()->user())
             ->performedOn($card)
-            ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par " . auth()->user()->full_name . ". Le nouveau quota de {$quota_title} est de {$validated['quota']}.")
+            ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par " . auth()->user()->full_name . ". Le nouveau quota de {$quota_title} est de .")
             ->log('Rechargement de carte RFID');
 
         return response()->json([

@@ -89,4 +89,5 @@ class Lowconsumptionperiod extends ApexChartWidget
 
         return $orders->toArray();
     }
+
 }

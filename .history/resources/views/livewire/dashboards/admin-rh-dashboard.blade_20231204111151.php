@@ -6,8 +6,8 @@
                 @if ($today_order && $today_order->state == 'completed')
                     <x-statistic label="Commande du jour" value="{{ 'Deja consommée' }}" icon="plat" />
                 @else
-                    <x-statistic label="Commande du jour" value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}"
-                        icon="plat" />
+                    <x-statistic label="Commande du jour"
+                        value="{{ $today_order ? $today_order->dish->name : 'Aucune' }}" icon="plat" />
                 @endif
             </a>
             <a href='/profile#card'>

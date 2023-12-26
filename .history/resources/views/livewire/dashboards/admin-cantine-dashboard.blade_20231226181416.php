@@ -13,15 +13,11 @@
                         value="{{ $second_dish_count }}" icon="plat" /></a>
             @endif
         @endif
-
-        <a hre='#'><x-statistic label="{{ $dish_of_day->dish->name }}" value="Plat du jour menu B"
-                icon="plat" /></a>
-
         <a href='#'><x-statistic label="Commande(s) consommée(s)" value="{{ $orders_completed_count }}"
                 icon="plat" /></a>
         <a hre='#'><x-statistic label="Commande(s) non consommée(s)"
                 value="{{ $today_orders_count - $orders_completed_count }}" icon="plat" /></a>
 
-
+        <a hre='#'><x-statistic label="{{ $dish_of_day->dish->name }}" value="Menu B" icon="plat" /></a>
     </div>
 </div>

@@ -37,7 +37,7 @@ class AdminCantineDashboard extends Component
             'orders_cancelled_count' => \App\Models\Order::today()->whereState('state',  Cancelled::class)->count(),
             'sun_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', false)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'journey_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', true)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
-            'dish_of_day' => MenuSpecial::where('created_at', '2023-12-07 17:50:19')->first(),
+            'dish_of_day' => MenuSpecial::where('created_at', now())->first(),
         ]);
     }
 }

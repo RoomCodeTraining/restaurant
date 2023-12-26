@@ -20,7 +20,7 @@
             </a>
         @endif
         <a href='{{ route('orders.index') }}'>
-            <x-statistic label="Commandes totales du jour" value="{{ $count_today_orders }}" icon="plat" />
+            <x-statistic label="Commandes totales du jours" value="{{ $count_today_orders }}" icon="plat" />
         </a>
         <a href='{{ route('users.index') }}'>
             <x-statistic label="Utilisateurs actifs" value="{{ $active_users_count }}" icon="actifuser" />

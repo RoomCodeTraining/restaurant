@@ -31,13 +31,14 @@ class AdminCantineDashboard extends Component
 
     public function render()
     {
+        dd(MenuSpecial::where('created_at', now())->today());
         return view('livewire.dashboards.admin-cantine-dashboard', [
             'today_orders_count' => \App\Models\Order::today()->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'orders_completed_count' => \App\Models\Order::today()->whereState('state', Completed::class)->count(),
             'orders_cancelled_count' => \App\Models\Order::today()->whereState('state',  Cancelled::class)->count(),
             'sun_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', false)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'journey_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', true)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
-            'dish_of_day' => MenuSpecial::where('created_at', '2023-12-07 17:50:19')->first(),
+            // 'dish_of_day' => \App\Models\MenuSpecial::today()->first(),
         ]);
     }
 }

@@ -65,7 +65,11 @@ Route::middleware('auth')->group(function () {
     })->name('access-cards.histories');
 
     Route::view('access-cards', 'access-cards.index')->name('access-cards.index');
+
 });
+
+Route::get('menus/dish/{order}/rating', [\App\Http\Controllers\OrdersController::class, 'noter'])->name('menus.rating');
+
 
 
 

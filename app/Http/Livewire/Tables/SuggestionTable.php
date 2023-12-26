@@ -2,26 +2,26 @@
 
 namespace App\Http\Livewire\Tables;
 
-use Carbon\Carbon;
-use Livewire\Component;
 use App\Models\SuggestionBox;
 use App\Models\SuggestionType;
 use App\Support\ActivityHelper;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Filters\Filter;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Filters\Indicator;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
+use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Filters\Filter;
+use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use pxlrbt\FilamentExcel\Exports\ExcelExport;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Tables\Concerns\InteractsWithTable;
+use Livewire\Component;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 class SuggestionTable extends Component implements HasTable, HasForms
 {
@@ -77,7 +77,9 @@ class SuggestionTable extends Component implements HasTable, HasForms
                     ->dateTime('d/m/Y'),
                 TextColumn::make('user.full_name')->label(__('Suggerant')),
                 TextColumn::make('suggestionType.name')->label(__('Objet')),
-                TextColumn::make('suggestion')->label(__('Suggestions')),
+                TextColumn::make('suggestion')
+                    ->wrap()
+                    ->label(__('Suggestions')),
             ])
             ->filters([
                 SelectFilter::make('suggestionType')

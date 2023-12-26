@@ -86,6 +86,7 @@ class Order extends Model
             return true;
         }
 
+
         return false;
     }
 
@@ -142,6 +143,16 @@ class Order extends Model
         return $this->state instanceof $state;
     }
 
+    public function hasNewOrderAfterSuspension() : bool
+    {
+        if(Order::whereState('state', [Confirmed::class, Completed::class, Cancelled::class])
+            ->whereHas('menu', fn ($query) => $query->whereDate('served_at', $this->menu->served_at))->exists()
+        ) {
+            return true;
+        }
+
+        return false;
+    }
     public function getStateColor()
     {
         // dd($this->state);

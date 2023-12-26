@@ -182,10 +182,10 @@ class AccessCardsController extends Controller
          */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
-        dd($old_quota);
+
         // $card->createReloadHistory($type);
 
-        if ($old_quota > 3) {
+        if ($old_quota > config('cantine.quota_critical')) {
             return response()->json(
                 [
                     'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
@@ -196,16 +196,20 @@ class AccessCardsController extends Controller
             );
         }
 
-        $card->update([$validated['quota_type'] => $request->quota + $old_quota]);
+        $newQuota = config('cantine.quota_lunch') + $old_quota;
+        $card->update([$validated['quota_type'] => $newQuota]);
 
         $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
 
         UpdatedAccessCard::dispatch($card, $type);
 
+
+        $eventDescription = "La carte de l'utilisateur {$card->user?->full_name} a été rechargée par " . auth()->user()?->full_name . ". Le nouveau quota de {$quota_title} est de {$newQuota}.";
+
         activity()
             ->causedBy(Auth()->user())
             ->performedOn($card)
-            ->event("La carte de l'utilisateur {$card->user->full_name} a été rechargée par " . auth()->user()->full_name . ". Le nouveau quota de {$quota_title} est de {$validated['quota']}.")
+            ->event($eventDescription)
             ->log('Rechargement de carte RFID');
 
         return response()->json([

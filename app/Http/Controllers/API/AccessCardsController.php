@@ -67,7 +67,7 @@ class AccessCardsController extends Controller
             return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
         }
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
         if ($user->isFromlunchroom()) {
@@ -84,7 +84,7 @@ class AccessCardsController extends Controller
 
         unset($validated['assign_quota']);
 
-        if (!$accessCard) {
+        if (! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
         } else {
             (new AssignOldCardAction())->handle($user, $accessCard, $validated);
@@ -124,7 +124,7 @@ class AccessCardsController extends Controller
             ->orWhere('id', $request->user_id)
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
 
@@ -182,10 +182,10 @@ class AccessCardsController extends Controller
          */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
-
+        dd($type);
         // $card->createReloadHistory($type);
 
-        if ($old_quota > config('cantine.quota_critical')) {
+        if ($old_quota > 3) {
             return response()->json(
                 [
                     'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",

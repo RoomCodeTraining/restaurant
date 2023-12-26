@@ -67,14 +67,14 @@ class AccessCardsController extends Controller
             return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
         }
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
         if ($user->isFromlunchroom()) {
             return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
         }
 
-        if ($request->assign_quota) {
+        if($request->assign_quota) {
             $validated['quota_lunch'] = config('cantine.quota_lunch');
             $validated['quota_breakfast'] = config('cantine.quota_breakfast');
         } else {
@@ -84,7 +84,7 @@ class AccessCardsController extends Controller
 
         unset($validated['assign_quota']);
 
-        if (!$accessCard) {
+        if(! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
         } else {
             (new AssignOldCardAction())->handle($user, $accessCard, $validated);
@@ -124,7 +124,7 @@ class AccessCardsController extends Controller
             ->orWhere('id', $request->user_id)
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
 

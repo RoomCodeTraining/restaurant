@@ -80,7 +80,7 @@ class OrdersController extends Controller
             return $this->responseBadRequest('Vous avez déjà commandé pour aujourd\'hui.', 'Commande déjà effectuée');
         }
 
-        //dd($request->is_for_the_evening);
+        dd($request->is_for_the_evening);
 
         $order = $createOrderAction->execute([
             'user_id' => $accessCard->user->id,
@@ -88,8 +88,6 @@ class OrdersController extends Controller
             'dish_id' => $request->dish_id,
             'is_for_the_evening' => $request->is_for_the_evening,
         ]);
-
-        dd($order);
 
         /*
          * Quand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota

@@ -25,9 +25,9 @@ class OrdersController extends Controller
 {
 
     /**
-     * Historiques des commandes du jour
-     *
-     * Cette Api's liste les commandes consommées et non consommé
+    * Historiques des commandes du jour
+    *
+    * Cette Api's liste les commandes consommées et non consommé
      */
 
     public function index()
@@ -50,7 +50,7 @@ class OrdersController extends Controller
             ->whereDate('served_at', today())
             ->first();
 
-        if (!$todayMenu) {
+        if(! $todayMenu) {
             return  $this->responseNotFound('Le plat choisir ne fait pas partie du menu du jour.');
         }
 
@@ -58,11 +58,11 @@ class OrdersController extends Controller
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
         // dd($menuHasDish);
-        if (!$accessCard) {
+        if (! $accessCard) {
             return $this->responseNotFound('Aucune carte ne correspond à ce matricule.', 'Carte non trouvée');
         }
 
-        if (!$menuHasDish) {
+        if (! $menuHasDish) {
             return $this->responseBadRequest('Le plat choisir ne fait pas partie du menu du jour.', 'Plat non disponible');
         }
 
@@ -80,16 +80,12 @@ class OrdersController extends Controller
             return $this->responseBadRequest('Vous avez déjà commandé pour aujourd\'hui.', 'Commande déjà effectuée');
         }
 
-        //dd($request->is_for_the_evening);
-
         $order = $createOrderAction->execute([
             'user_id' => $accessCard->user->id,
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
             'is_for_the_evening' => $request->is_for_the_evening,
         ]);
-
-        dd($order);
 
         /*
          * Quand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota

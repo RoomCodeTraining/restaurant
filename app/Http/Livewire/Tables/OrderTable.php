@@ -98,7 +98,7 @@ class OrderTable extends Component implements HasTable, HasForms
                 Action::make('Editer')
                     ->label('')
                     // ->disabled()
-                    ->hidden(fn (Order $record) => ! $record->isCurrentState(Suspended::class) || $record->hasNewOrderAfterSuspension())
+                    ->hidden(fn (Order $record) => $record->canBeUpdated() || $record->hasNewOrderAfterSuspension())
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Effectuer une nouvelle commande')
                     ->form([

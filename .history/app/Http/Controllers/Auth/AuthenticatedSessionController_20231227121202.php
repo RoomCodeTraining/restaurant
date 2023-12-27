@@ -71,7 +71,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        Notification::make()->title("Déconnexion")->body('Vous avez été déconnecté avec succès')->success()->send();
+        Notification::make()->title("Deconnexion")->body('Vous avez été déconnecté avec succès')->success()->send();
 
         return redirect('/');
     }

@@ -91,7 +91,7 @@ class AccessCardsController extends Controller
         if (! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
         } else {
-            (new AssignOldCardAction())->handle($user, $accessCard, $validated);
+            (new AssignOldCardAction())->handle($user, $accessCard, array_merge($validated, ['is_temporary' => false]));
         }
 
         if ($accessCard->quota_lunch > 0) {

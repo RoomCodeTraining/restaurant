@@ -14,7 +14,7 @@
             @endif
         @endif
 
-        <a hre='#'><x-statistic label="{{ $dish_of_day->dish?->name }}" value="Plat du jour menu B"
+        <a hre='#'><x-statistic label="{{ optional($dish_of_day->dish)?->name }}" value="Plat du jour menu B"
                 icon="plat" /></a>
 
         <a href='#'><x-statistic label="Commande(s) consommée(s)" value="{{ $orders_completed_count }}"

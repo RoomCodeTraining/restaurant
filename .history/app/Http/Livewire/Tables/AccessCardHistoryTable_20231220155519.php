@@ -16,16 +16,16 @@ class AccessCardHistoryTable extends Component implements HasTable, HasForms
 
     public $accessCard;
 
-    public function table(Table $table): Table
+    public function table(Table $table) : Table
     {
         return $table->query(AccessCardHistory::query()->where('access_card_id', $this->accessCard->id)->latest())
             ->columns([
                 TextColumn::make('attached_at')->sortable()->label("Attribuée le")->dateTime('d/m/Y'),
                 TextColumn::make('id')
-                    ->searchable()->label('Détacher le')
-                    ->formatStateUsing(function (AccessCardHistory $row) {
-                        return !is_null($row->detached_at) ? $row->detached_at->format('d/m/Y') : 'Non détachée';
-                    }),
+                ->searchable()->label('Dettacher le')
+                ->formatStateUsing(function (AccessCardHistory $row) {
+                    return ! is_null($row->detached_at) ? $row->detached_at->format('d/m/Y') : 'Non détachée';
+                }),
                 TextColumn::make('user.full_name')->searchable()->label('Nom & Prénoms'),
             ])
             ->filters([

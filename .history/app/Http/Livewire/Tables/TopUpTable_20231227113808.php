@@ -69,7 +69,7 @@ class TopUpTable extends Component implements HasForms, HasTable
             ->bulkActions([
                 BulkAction::make('export')->label('Exporter')
                     ->action(function (Collection $record) {
-                        return Excel::download(new ReloadAccessCardHistoryExport($record), now()->format('d-m-Y') . 'Historique-Des-Recharges.xlsx');
+                        return Excel::download(new ReloadAccessCardHistoryExport($record), now()->format('d-m-Y') . ' RapportDesCommandes.xlsx');
                     }),
             ])
             ->filters([

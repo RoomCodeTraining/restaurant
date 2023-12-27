@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Dashboards;
 
-use Livewire\Component;
 use App\Models\MenuSpecial;
 use App\States\Order\Cancelled;
-
 use App\States\Order\Completed;
-use App\States\Order\Confirmed;
+
 use App\States\Order\Suspended;
+use Livewire\Component;
 
 class AdminCantineDashboard extends Component
 {
@@ -37,7 +36,7 @@ class AdminCantineDashboard extends Component
             'orders_cancelled_count' => \App\Models\Order::today()->whereState('state',  Cancelled::class)->count(),
             'sun_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', false)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
             'journey_orders_count' => \App\Models\Order::today()->where('is_for_the_evening', true)->whereNotState('state', [Cancelled::class, Suspended::class])->count(),
-            'dish_of_day' => MenuSpecial::where('created_at', '2023-12-07 17:50:19')->first(),
+            'special_menu' => MenuSpecial::whereDate('served_at', today())->first(),
         ]);
     }
 }

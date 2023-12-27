@@ -83,7 +83,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-o-clock')
                     ->tooltip('Changer l\'heure de la commande')
                     ->color('secondary')
-                        ->hidden(fn (Order $record) => ! $record->canBeUpdated() || $record->isCurrentState(Suspended::class))
+                    ->hidden(fn (Order $record) => ! $record->canBeUpdated() || $record->isCurrentState(Suspended::class))
                     ->requiresConfirmation()
                     ->modalHeading('Changer l\'heure de la commande')
                     ->modalDescription('Etes-vous sûr de vouloir confirmer la commande de nuit ?')
@@ -102,7 +102,9 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Effectuer une nouvelle commande')
                     ->form([
-                        DatePicker::make('served_at')->label('Menu du')->default(fn (Order $order) => $order->menu->served_at),
+                        DatePicker::make('served_at')->label('Menu du')->default(fn (Order $order) => $order->menu->served_at)
+                            ->disabled(),
+
                         Select::make('dish_id')
                             ->label('Plat')
                             ->options(fn (Order $order) => Menu::where('served_at', $order->menu->served_at)->first()->mainDishes()->get()->pluck('name', 'id'))

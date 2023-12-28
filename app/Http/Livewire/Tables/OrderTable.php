@@ -108,6 +108,15 @@ class OrderTable extends Component implements HasTable, HasForms
                             ->label('Plat')
                             ->options(fn (Order $order) => Menu::where('served_at', $order->menu->served_at)->first()->mainDishes()->get()->pluck('name', 'id'))
                     ])->action(function (array $data, Order $order) {
+
+                        if($order->isCurrentState(Suspended::class)) {
+                            \App\Models\Order::create([
+                                'dish_id' => $data['dish_id'],
+                                'menu_id' => $order->menu->id,
+                                'user_id' => Auth::id()
+                            ]);
+                        }
+
                         $order->update([
                             'dish_id' => $data['dish_id'],
                             'menu_id' => $order->menu->id,

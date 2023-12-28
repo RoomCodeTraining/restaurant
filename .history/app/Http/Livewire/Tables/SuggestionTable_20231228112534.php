@@ -70,7 +70,6 @@ class SuggestionTable extends Component implements HasTable, HasForms
 
     public function table(\Filament\Tables\Table $table): \Filament\Tables\Table
     {
-
         return $table
             ->query(self::getTableQuery())
             ->columns([
@@ -89,7 +88,7 @@ class SuggestionTable extends Component implements HasTable, HasForms
                 SelectFilter::make('suggestionType')
                     ->label('Objet')
                     ->relationship('suggestionType', 'name')
-                    ->hidden(Auth::user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL)),
+                    ->hidden(Auth::user()->hasRole(\App\Models\Role::ADMIN_LUNCHROOM)),
 
                 Filter::make('created_at')
                     ->form([

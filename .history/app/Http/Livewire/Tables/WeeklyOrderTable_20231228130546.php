@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\Dish;
 use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\Order;
@@ -56,15 +55,17 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 
     private static function getTableQuery()
     {
-        $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        $queryBuilder = Order::select('plats.nom as plat', DB::raw('count(*) as nombre_commandes'))
+
+        -<join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->whereNotIn('state', ['cancelled', 'suspended'])
+            ->whereNotIn('state', [Cancelled::class, Suspended::class])
             ->groupBy('dish_id', 'menus.served_at')
-            ->orderBy('menus.served_at', 'DESC')
-            ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+            ->orderBy('menus.served_at', 'DESC')->get();
+           // ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
 
-        //dd($queryBuilder);
+        dd($queryBuilder);
 
         return $queryBuilder;
     }
@@ -82,7 +83,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->first();
         $data = $menu
             ->orders()
-            ->whereNotState('state', ['cancelled', 'suspended'])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->with('user')
             ->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);

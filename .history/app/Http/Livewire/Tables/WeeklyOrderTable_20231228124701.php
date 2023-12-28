@@ -2,22 +2,20 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\Dish;
-use Carbon\Carbon;
 use App\Models\Menu;
 use App\Models\Order;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\States\Order\Cancelled;
 use App\States\Order\Suspended;
-use Illuminate\Support\Facades\DB;
-use Filament\Tables\Actions\Action;
-use Filament\Support\Enums\MaxWidth;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
+use Carbon\Carbon;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Livewire\Component;
 
 class WeeklyOrderTable extends Component implements HasForms, HasTable
 {
@@ -59,12 +57,10 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
         $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->whereNotIn('state', ['cancelled', 'suspended'])
+            ->whereNotIn('state', [Cancelled::class, Suspended::class], 'Count(*) as total')
             ->groupBy('dish_id', 'menus.served_at')
             ->orderBy('menus.served_at', 'DESC')
             ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders');
-
-        //dd($queryBuilder);
 
         return $queryBuilder;
     }
@@ -82,7 +78,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->first();
         $data = $menu
             ->orders()
-            ->whereNotState('state', ['cancelled', 'suspended'])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->with('user')
             ->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);

@@ -56,17 +56,25 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
 
     private static function getTableQuery()
     {
-        $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
-            ->join('menus', 'orders.menu_id', 'menus.id')
-            ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->whereNotIn('state', ['cancelled', 'suspended'])
+        // $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
+        //     ->join('menus', 'orders.menu_id', 'menus.id')
+        //     ->whereBetween('menus.served_at', [now()->startOfWeek(), now()->endOfWeek()])
+        //     ->whereNotIn('state', [Cancelled::class, Suspended::class])
+        //     ->groupBy('dish_id', 'menus.served_at')
+        //     ->orderBy('menus.served_at', 'DESC')->get();
+        //    // ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders')->get();
+
+        // dd($queryBuilder);
+
+        $commandesParPlat = Dish::select('dishes.name as plat', DB::raw('count(*) as nombre_commandes'))
+            ->join('orders', 'dishes.id', '=', 'orders.dish_id')
+            ->whereNotIn('orders.state', [Cancelled::class, Suspended::class])
             ->groupBy('dish_id', 'menus.served_at')
-            ->orderBy('menus.served_at', 'DESC')
-            ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+            ->get();
 
-        //dd($queryBuilder);
 
-        return $queryBuilder;
+        dd($commandesParPlat);
+        return $commandesParPlat;
     }
 
     public function modalsView(): string
@@ -82,7 +90,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->first();
         $data = $menu
             ->orders()
-            ->whereNotState('state', ['cancelled', 'suspended'])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->with('user')
             ->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);

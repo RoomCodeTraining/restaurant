@@ -82,7 +82,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->first();
         $data = $menu
             ->orders()
-            ->whereNotState('state', ['cancelled', 'suspended'])
+            ->whereNotState('state', [Cancelled::class, Suspended::class])
             ->with('user')
             ->get();
         $this->users = $data->filter(fn ($order) => $order->dish_id == $row['dish_id'])->map(fn ($order) => $order->user);

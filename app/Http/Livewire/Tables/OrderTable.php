@@ -107,7 +107,7 @@ class OrderTable extends Component implements HasTable, HasForms
                             return true;
                         }
 
-                        if($record->isCurrentState(Suspended::class) && ! $record->hasNewOrderAfterSuspension()) {
+                        if($record->isCurrentState(Suspended::class) && $record->hasNewOrderAfterSuspension()) {
                             return true;
                         }
 

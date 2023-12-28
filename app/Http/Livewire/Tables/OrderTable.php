@@ -57,9 +57,9 @@ class OrderTable extends Component implements HasTable, HasForms
                 TextColumn::make('is_for_the_evening')
                     ->label(__('Type de commande'))
                     ->badge()
-                    ->color(fn (Order $record) => !$record->is_for_the_evening ? 'gray' : 'primary')
-                    ->formatStateUsing(fn (Order $record) => !$record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
-                    ->icon(fn (Order $record) => !$record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
+                    ->color(fn (Order $record) => ! $record->is_for_the_evening ? 'gray' : 'primary')
+                    ->formatStateUsing(fn (Order $record) => ! $record->is_for_the_evening ? 'Commande de midi' : 'Commande du soir')
+                    ->icon(fn (Order $record) => ! $record->is_for_the_evening ? 'heroicon-o-sun' : 'heroicon-o-moon'),
                 TextColumn::make('state')
                     ->label('Statut')
                     ->badge()
@@ -83,7 +83,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->icon('heroicon-o-clock')
                     ->tooltip('Changer l\'heure de la commande')
                     ->color('secondary')
-                    ->hidden(fn (Order $record) => !$record->canBeUpdated() || $record->isCurrentState(Suspended::class))
+                    ->hidden(fn (Order $record) => ! $record->canBeUpdated() || $record->isCurrentState(Suspended::class))
                     ->requiresConfirmation()
                     ->modalHeading('Changer l\'heure de la commande')
                     ->modalDescription('Etes-vous sûr de vouloir confirmer la commande de nuit ?')
@@ -97,7 +97,8 @@ class OrderTable extends Component implements HasTable, HasForms
                     }),
                 Action::make('Editer')
                     ->label('')
-                    ->hidden(fn (Order $record) => !$record->isCurrentState(Suspended::class) || $record->hasNewOrderAfterSuspension())
+                    // ->disabled()
+                    ->hidden(fn (Order $record) => $record->canBeUpdated() || $record->hasNewOrderAfterSuspension())
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Effectuer une nouvelle commande')
                     ->form([
@@ -132,7 +133,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     ->modalDescription('Êtes-vous sûr de vouloir annuler cette commande ?')
                     ->requiresConfirmation()
                     ->tooltip('Annuler la commande')
-                    ->hidden(fn (Order $record) => !$record->isCurrentState(Confirmed::class) || !$record->canBeUpdated())
+                    ->hidden(fn (Order $record) => ! $record->isCurrentState(Confirmed::class) || ! $record->canBeUpdated())
                     ->action(function (Order $record) {
                         $record->state->transitionTo(Cancelled::class);
                         ActivityHelper::createActivity($record, 'Annulation de la commande du ' . \Carbon\Carbon::parse($record->menu->served_at)->format('d-m-Y'), 'Annulation de la commande');

@@ -60,6 +60,8 @@ trait HasAccessCard
           'is_used' => true,
           'quota_breakfast' => Arr::get($input, 'quota_breakfast', 0),
           'quota_lunch' => Arr::get($input, 'quota_lunch', 0),
+          'user_id' => $this->id,
+          'type' => Arr::get($input, 'type', 'primary'),
           // 'payment_method_id' => Arr::get($input, 'payment_method_id'),
         ]);
 

@@ -67,7 +67,7 @@ class AccessCardsController extends Controller
             return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
         }
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
         if ($user->isFromlunchroom()) {
@@ -76,7 +76,11 @@ class AccessCardsController extends Controller
 
         if ($request->assign_quota) {
             $validated['quota_lunch'] = config('cantine.quota_lunch');
-            $validated['quota_breakfast'] = config('cantine.quota_breakfast');
+            if($user->Organization->isGroup1()) {
+                $validated['quota_breakfast'] = config('cantine.quota_breakfast');
+            } else {
+                $validated['quota_breakfast'] = 0;
+            }
         } else {
             $validated['quota_lunch'] = 0;
             $validated['quota_breakfast'] = 0;
@@ -84,10 +88,10 @@ class AccessCardsController extends Controller
 
         unset($validated['assign_quota']);
 
-        if (!$accessCard) {
+        if (! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
         } else {
-            (new AssignOldCardAction())->handle($user, $accessCard, $validated);
+            (new AssignOldCardAction())->handle($user, $accessCard, array_merge($validated, ['is_temporary' => false]));
         }
 
         if ($accessCard->quota_lunch > 0) {
@@ -124,7 +128,7 @@ class AccessCardsController extends Controller
             ->orWhere('id', $request->user_id)
             ->first();
 
-        if (!$user) {
+        if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
 
@@ -182,6 +186,10 @@ class AccessCardsController extends Controller
          */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
+
+        if($card->user->Organization->isGroup2() || $type == 'breakfast') {
+            return $this->responseBadRequest("Vous ne pouvez pas recharger le quota de petit déjeuner pour cet utilisateur.", "Utilisateur de la famille B");
+        }
 
         // $card->createReloadHistory($type);
 

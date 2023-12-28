@@ -98,7 +98,7 @@ class OrderTable extends Component implements HasTable, HasForms
                     }),
                 Action::make('Editer')
                     ->label('')
-                    ->hidden(fn (Order $record) => $record->isPassed() || $record->isCurrentState(Completed::class) || $record->isCurrentState(Cancelled::class))
+                    ->hidden(fn (Order $record) => $record->isPassed() || $record->isCurrentState(Completed::class) || $record->isCurrentState(Cancelled::class) || $record->hasNewOrderAfterSuspension())
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Editer ka commande')
                     ->form([

@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reporting/orders', App\Http\Controllers\ReportingController::class)->name('reporting.orders');
     Route::view('reporting/check-in-breakfast', 'reporting.check-breakfast')->name('reporting.check.breakfast');
     Route::get('reporting/accounts', App\Http\Controllers\ReportingController::class)->name('reporting.account');
+    Route::view('reporting/macro', 'reporting.macro')->name('reporting.macro');
     Route::view('users-import', 'users.import')->name('users-import');
     Route::view('activities-log', 'activities.index')->name('activities-log');
     Route::get('activities-log/{activity}', fn ($activity) => view('activities.show'))->name('activity-log.show');

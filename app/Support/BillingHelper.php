@@ -2,7 +2,6 @@
 
 namespace App\Support;
 
-use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -156,41 +155,52 @@ class BillingHelper
                         'breakfast' => 0,
                     ],
                 ],
-         
+
             ]
 
         ];
     }
 
-    public static function getUserBill(User $user, $order): Collection
+
+    public static function getUserLunchContribution(User $user, $type = 'lunch')
     {
         $billingHelper = new self();
-      
         if (! isset($billingHelper->billMap[$user->user_type_id]) || ! isset($billingHelper->billMap[$user->user_type_id][$user->employee_status_id])) {
             throw new \Exception("User type or employee status not found");
         }
-        
+
+        $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
+
+        if($type == 'lunch') {
+            $bill['subvention'] = $billMap['subvention']['lunch'];
+            $bill['contribution'] = $billMap['contribution']['lunch'];
+        } else {
+            $bill['subvention'] = $billMap['subvention']['breakfast'];
+            $bill['contribution'] = $billMap['contribution']['breakfast'];
+        }
+
+        return $bill;
+    }
+
+    public static function getUserBill(User $user, $order): Collection
+    {
+        $billingHelper = new self();
+
+        if (! isset($billingHelper->billMap[$user->user_type_id]) || ! isset($billingHelper->billMap[$user->user_type_id][$user->employee_status_id])) {
+            throw new \Exception("User type or employee status not found");
+        }
+
         $billMap = $billingHelper->billMap[$user->user_type_id][$user->employee_status_id];
         $type = $order[0]['type'] ?? $order->type;
-        if($type == 'lunch'){
-          $bill['subvention'] =  $billMap['subvention']['lunch'];
-          $bill['contribution'] =  $billMap['contribution']['lunch'];
-        }else{
-          $bill['subvention'] =  $billMap['subvention']['breakfast'];
-          $bill['contribution'] =  $billMap['contribution']['breakfast'];
+        if($type == 'lunch') {
+            $bill['subvention'] = $billMap['subvention']['lunch'];
+            $bill['contribution'] = $billMap['contribution']['lunch'];
+        } else {
+            $bill['subvention'] = $billMap['subvention']['breakfast'];
+            $bill['contribution'] = $billMap['contribution']['breakfast'];
         }
-      
-      
-       return collect($bill);
 
 
-      // $result = [ 'contribution' => [ 'lunch' => 0, 'breakfast' => 0 ], 'subvention' => [ 'lunch' => 0, 'breakfast' => 0 ] ];
-
-      /*  $orders->each(function (Order $order) use ($result, $billMap) {
-            if ($order->type == 'lunch') {
-                $result['contribution']['lunch'] = $billMap['contribution']['lunch'];
-                $result['subvention']['lunch'] = $billMap['subvention']['lunch'];
-            }
-        });*/
+        return collect($bill);
     }
 }

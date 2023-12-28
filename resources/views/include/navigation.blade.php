@@ -113,6 +113,11 @@
                     <x-nav-link href="{{ route('reporting.orders') }}" icon="chart" :active="request()->routeIs('reporting.orders')">
                         Déjeuner
                     </x-nav-link>
+                    @if(auth()->user()->hasRole(\App\Models\Role::ADMIN))
+                         <x-nav-link href="{{ route('reporting.macro') }}" icon="chart" :active="request()->routeIs('reporting.macro')">
+                     Reporting Macro
+                    </x-nav-link>
+                    @endif
                 @endif
                 @if (auth()->user()->can('manage', \App\Models\SuggestionBox::class) ||
                         auth()->user()->can('viewAny', \App\Models\SuggestionBox::class))

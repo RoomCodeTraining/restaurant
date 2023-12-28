@@ -2,24 +2,23 @@
 
 namespace App\Http\Livewire\Tables;
 
-use App\Models\Menu;
-use Livewire\Component;
-use Filament\Tables\Table;
 use App\Exports\MenuExport;
-use App\Services\CustomDataExport;
-use Filament\Tables\Actions\Action;
-use Illuminate\Support\Facades\Auth;
-use Maatwebsite\Excel\Facades\Excel;
-use Filament\Forms\Contracts\HasForms;
-use App\Exports\CheckInBreakfastExport;
 use App\Exports\MenusExport;
+use App\Models\Menu;
+use App\Services\CustomDataExport;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
-use Filament\Notifications\Notification;
-use Illuminate\Database\Eloquent\Collection;
-use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
 
 class MenuTable extends Component implements HasForms, HasTable
 {
@@ -34,7 +33,8 @@ class MenuTable extends Component implements HasForms, HasTable
             ->query(Menu::query()->with('dishes')->withCount('orders')->latest())
             ->columns([
 
-                TextColumn::make('served_at')->label('MENU DU')->dateTime('d/m/Y')->searchable()->sortable(),
+                TextColumn::make('served_at')->label('MENU DU')->dateTime('d/m/Y')
+                    ->searchable()->sortable(),
                 TextColumn::make('created_at')->label('Entrées')->formatStateUsing(fn (Menu $menu) => $menu->starter ? $menu->starter->name : 'Aucun'),
                 TextColumn::make('updated_at')->label('PLAT 1')
                     ->formatStateUsing(fn (Menu $menu) => $menu->main_dish->name),
@@ -57,7 +57,7 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->color('secondary')
                     ->tooltip('Modifier')
                     ->url(fn (Menu $record): string => route('menus.edit', $record))
-                    ->hidden(fn (Menu $record) => !$record->canBeUpdated() || !Auth::user()->isAdminLunchRoom())
+                    ->hidden(fn (Menu $record) => ! $record->canBeUpdated() || ! Auth::user()->isAdminLunchRoom())
                     ->icon('heroicon-o-pencil-square'),
 
                 Action::make('Supprimer')
@@ -71,9 +71,10 @@ class MenuTable extends Component implements HasForms, HasTable
                     ->before(function (Menu $record) {
                         //MenuDeleted::dispatch($record);
                         Notification::make()->title('Menu supprimé supprimé avec succès !')->danger()->send();
+
                         return redirect()->route('menus.index');
                     })
-                    ->hidden(fn (Menu $record) => !$record->canBeUpdated() || !Auth::user()->isAdminLunchRoom())
+                    ->hidden(fn (Menu $record) => ! $record->canBeUpdated() || ! Auth::user()->isAdminLunchRoom())
                     ->visible(fn (Menu $record) => $record->orders_count === 0)
                     ->action(fn (Menu $record) => $record->delete()),
             ])

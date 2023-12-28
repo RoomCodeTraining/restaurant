@@ -108,8 +108,8 @@ class UserTable extends Component implements HasTable, HasForms
                     ])
                     ->modalHeading('Importer les utilisateurs')
                     ->action(function (array $data) {
-                        //dd($data['file']);
-                        (new UsersImport())->import($data['file']);
+                        $path = $data['file'];
+                        (new UsersImport())->import($path);
                         Notification::make()
                             ->title('Importation des utilisateurs')
                             ->body('Les utilisateurs ont été importés avec succès.')

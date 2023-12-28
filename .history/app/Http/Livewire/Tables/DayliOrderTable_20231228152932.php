@@ -57,7 +57,7 @@ class DayliOrderTable extends Component implements HasTable, HasForms
         $queryBuilder = Order::join('dishes', 'orders.dish_id', 'dishes.id')
             ->join('menus', 'orders.menu_id', 'menus.id')
             ->whereDate('menus.served_at', now())
-            ->whereNotIn('state', ['cancelled', 'suspended'])
+            ->whereNotIn('state', [Cancelled::class, Suspended::class])
             ->groupBy('dish_id', 'menus.served_at')
             ->orderBy('menus.served_at', 'DESC')
             ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders');

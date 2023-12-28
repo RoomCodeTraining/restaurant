@@ -39,7 +39,7 @@ class DishExport implements FromCollection, WithTitle, WithMapping, WithHeadings
     public function map($row): array
     {
         return [
-            $row->served_at->format('d/m/Y'),
+            $row->served_at,
             $row->dish->name,
         ];
     }

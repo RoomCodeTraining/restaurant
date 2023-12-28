@@ -88,8 +88,8 @@ class SuggestionTable extends Component implements HasTable, HasForms
             ->filters([
                 SelectFilter::make('suggestionType')
                     ->label('Objet')
-                    ->relationship('suggestionType', 'name'),
-                //->hidden(Auth::user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL)),
+                    ->relationship('suggestionType', 'name')
+                    //->hidden(Auth::user()->hasRole(\App\Models\Role::ADMIN_TECHNICAL)),
 
                 Filter::make('created_at')
                     ->form([

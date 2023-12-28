@@ -11,6 +11,8 @@ class Menu extends Model
 
     protected $guarded = [];
 
+
+
     protected $casts = [
         'served_at' => 'date',
     ];
@@ -18,6 +20,8 @@ class Menu extends Model
     protected $dates = [
         'served_at' => 'Y-m-d',
     ];
+
+
 
     public function getStarterAttribute()
     {
@@ -81,4 +85,6 @@ class Menu extends Model
 
         return false;
     }
+
+
 }

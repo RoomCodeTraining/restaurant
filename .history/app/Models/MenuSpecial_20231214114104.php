@@ -10,15 +10,7 @@ class MenuSpecial extends Pivot
 
     protected $table = 'menu_specal';
 
-    protected $casts = [
-        'served_at' => 'date',
-    ];
-
-    protected $dates = [
-        'served_at' => 'Y-m-d',
-    ];
-
-    public function dish(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function dish() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Dish::class);
     }

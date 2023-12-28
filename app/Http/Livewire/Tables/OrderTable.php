@@ -98,7 +98,25 @@ class OrderTable extends Component implements HasTable, HasForms
                     }),
                 Action::make('Editer')
                     ->label('')
-                    ->hidden(fn (Order $record) => $record->isPassed() || $record->isCurrentState(Completed::class) || $record->isCurrentState(Cancelled::class) || $record->hasNewOrderAfterSuspension())
+                    ->hidden(function ($record) {
+                        if($record->isPassed()) {
+                            return true;
+                        }
+
+                        if($record->isCurrentState(Confirmed::class) && $record->isToday() && now()->hour > config('cantine.menu.locked_at')) {
+                            return true;
+                        }
+
+                        if($record->isCurrentState(Suspended::class) && ! $record->hasNewOrderAfterSuspension()) {
+                            return true;
+                        }
+
+                        if($record->isCurrentState(Cancelled::class) || $record->isCurrentState(Completed::class)) {
+                            return true;
+                        }
+
+                        return false;
+                    })
                     ->icon('heroicon-o-pencil-square')
                     ->tooltip('Editer ka commande')
                     ->form([

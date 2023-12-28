@@ -162,6 +162,8 @@ class Order extends Model
 
         return false;
     }
+
+
     public function getStateColor()
     {
         // dd($this->state);

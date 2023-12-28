@@ -65,7 +65,7 @@ class ReloadCardForm extends Component implements HasForms, HasInfolists
                  TextEntry::make('type')->label('Type'),
                  TextEntry::make('quota_lunch')->label('Quota déjeuner')->hintAction(
                      Action::make('edit')
-                     ->label('Sourche')
+                     ->label('Souche')
                      ->tooltip('Attribuer un quota de déjeuner')
                      ->icon('heroicon-o-plus-circle')
                         ->hidden(fn (AccessCard $accessCard) => ! $accessCard->canBeReloaded('quota_lunch'))
@@ -85,7 +85,7 @@ class ReloadCardForm extends Component implements HasForms, HasInfolists
                     ->label('Quota petit déjeuner')
                     ->hintAction(
                         Action::make('add_breakfast_quota')
-                        ->label('Sourche')
+                        ->label('Souche')
                         ->tooltip('Attribuer un quota de petit déjeuner')
                         ->icon('heroicon-o-plus-circle')
                         ->hidden(fn (AccessCard $accessCard) => ! $accessCard->canBeReloaded('quota_breakfast'))

@@ -79,8 +79,10 @@ class TopUpTable extends Component implements HasForms, HasTable
                         'breakfast' => 'Petit déjeuner',
                         'lunch' => 'Déjeuner',
                     ]),
-                Filter::make('payment_method')->label('Moyen de paiement')->form([
+                Filter::make('payment_method')->label('Moyen de paiement')
+                    ->form([
                     Select::make('payment_method_id')
+                        ->label('Moyen de paiement')
                         ->options(PaymentMethod::pluck('name', 'id')->toArray())
                 ])
                     ->query(function (Builder $query, array $data) {

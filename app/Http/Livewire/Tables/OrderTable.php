@@ -118,7 +118,7 @@ class OrderTable extends Component implements HasTable, HasForms
                         return false;
                     })
                     ->icon('heroicon-o-pencil-square')
-                    ->tooltip('Editer ka commande')
+                    ->tooltip('Editer la commande')
                     ->form([
                         DatePicker::make('served_at')->label('Menu du')->default(fn (Order $order) => $order->menu->served_at)
                             ->disabled(),

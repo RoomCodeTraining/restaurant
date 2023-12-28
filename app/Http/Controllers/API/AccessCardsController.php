@@ -63,6 +63,10 @@ class AccessCardsController extends Controller
 
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
+        if($accessCard && $accessCard->is_used) {
+            return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
+        }
+
         if ($user->accessCard) {
             return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
         }
@@ -87,6 +91,8 @@ class AccessCardsController extends Controller
         }
 
         unset($validated['assign_quota']);
+
+
 
         if (! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
@@ -117,7 +123,10 @@ class AccessCardsController extends Controller
     {
         $this->authorize('create', AccessCard::class);
 
-        $card = AccessCard::where(['identifier' => $request->identifier, 'type' => 'temporary'])->first();
+
+        $card = AccessCard::where(['identifier' => $request->access_card_identifier])->first();
+
+
 
         if ($card && $card->is_used) {
             return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
@@ -139,12 +148,25 @@ class AccessCardsController extends Controller
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
             return $this->responseBadRequest("Cet utilisateur possède déjà une carte temporaire.", "Erreur lors de l'assignation");
         }
-
-        $accessCard = $createAccessCardAction->handle($user, array_merge($request->validated(), ['is_temporary' => true]));
+        if($card) {
+            $card->update([
+              'is_used' => true,
+              'quota_breakfast' => $user->accessCard->quota_breakfast,
+                'quota_lunch' => $user->accessCard->quota_lunch,
+                'payment_method_id' => $user->accessCard->paymentMethod->id,
+                'type' => AccessCard::TYPE_TEMPORARY,
+                'is_used' => true,
+                'expires_at' => $request->expires_at,
+            ]);
+            $user->attachCard($card);
+            $accessCard = $card;
+        } else {
+            $accessCard = $createAccessCardAction->handle($user, array_merge($request->validated(), ['is_temporary' => true]));
+        }
 
         activity()
             ->causedBy(Auth()->user())
-            ->performedOn($accessCard)
+            ->performedOn($accessCard ?? $card)
             ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
             ->log('Rechargement de carte RFID');
 

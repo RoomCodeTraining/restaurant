@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Tables;
 use App\Models\Menu;
 use App\Models\Order;
 use App\States\Order\Cancelled;
+use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use App\States\Order\Suspended;
 use App\Support\ActivityHelper;
@@ -97,10 +98,9 @@ class OrderTable extends Component implements HasTable, HasForms
                     }),
                 Action::make('Editer')
                     ->label('')
-                    // ->disabled()
-                    ->hidden(fn (Order $record) => $record->canBeUpdated() || $record->hasNewOrderAfterSuspension())
+                    ->hidden(fn (Order $record) => $record->isPassed() || $record->isCurrentState(Completed::class) || $record->isCurrentState(Cancelled::class))
                     ->icon('heroicon-o-pencil-square')
-                    ->tooltip('Effectuer une nouvelle commande')
+                    ->tooltip('Editer ka commande')
                     ->form([
                         DatePicker::make('served_at')->label('Menu du')->default(fn (Order $order) => $order->menu->served_at)
                             ->disabled(),

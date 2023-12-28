@@ -103,6 +103,7 @@ trait HasAccessCard
              'quota_breakfast' => 0,
              'quota_lunch' => 0,
              'user_id' => null,
+             'expires_at' => null,
          ]);
 
         ActivityHelper::createActivity(

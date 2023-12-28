@@ -2,19 +2,19 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use App\Models\Dish;
-use Livewire\Component;
-use App\Models\DishType;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Select;
 use App\Actions\Dish\UpdateDishAction;
-use Filament\Forms\Contracts\HasForms;
+use App\Models\DishType;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class EditDishForm extends Component implements HasForms
 {
@@ -22,66 +22,54 @@ class EditDishForm extends Component implements HasForms
 
     use WithFileUploads, InteractsWithForms;
 
-    public $state = [
-        'name' => null,
-        'description' => null,
-        'dish_type_id' => null,
-    ];
-
-    public $image_path = null;
+    public ?array $data = [];
     public $dish;
 
-
-    public function mount(Dish $dish)
+    public function mount($dish): void
     {
-        $this->user = $dish;
-        $this->state = $dish->toArray();
+        $this->data = $dish->toArray();
+        $this->data['image_path'] = null;
+        $this->form->fill($this->data);
     }
 
 
 
-    protected function getFormSchema(): array
+    public function form(Form $form): Form
     {
-        return [
-           TextInput::make('state.name')
-              ->label('Nom du plat')
-              ->required()
-              ->autofocus()
-              ->placeholder('Salade, choux...'),
-              Select::make('state.dish_type_id')
-              ->label('Type de plat')
-              ->required()
-              ->placeholder('Choisissez un type de plat')
-              ->options(DishType::all()->pluck('name', 'id')),
-            Textarea::make('state.description')
-              ->label('Description')
-              ->placeholder('Description du plat'),
-            FileUpload::make('image_path')
-              ->label('Image')
-              ->required()
-              ->rules('image')
-              ->placeholder('Selectionnez une image pour ce plat')
-
-        ];
+        return $form
+            ->schema([
+                TextInput::make('name')
+                    ->required(),
+                Select::make('dish_type_id')
+                    ->label('Type de plat')
+                    ->required()
+                    ->placeholder('Choisissez un type de plat')
+                    ->options(DishType::all()->pluck('name', 'id')),
+                Textarea::make('description')
+                    ->label('Description')
+                    ->placeholder('Description du plat'),
+                FileUpload::make('image_path')
+                    ->label('Image')
+                    ->placeholder('Selectionnez une image pour ce plat')
+            ])
+            ->statePath('data');
     }
 
 
     public function saveDish(UpdateDishAction $updateDishAction)
     {
         $this->validate([
-            'state.name' => ['required', 'string', 'max:255'],
-            'state.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
-            'state.description' => ['nullable', 'string', 'max:255'],
-            'image_path' => ['nullable', 'max:255'],
+            'data.name' => ['required', 'string', 'max:255'],
+            'data.dish_type_id' => ['required', Rule::exists('dish_types', 'id')],
+            'data.description' => ['nullable', 'string', 'max:255'],
+            'data.image_path' => ['nullable', 'max:255'],
         ]);
 
         // store new image if exists
-        $image = $this->image_path ? store_dish_image($this->image_path) : $this->dish->image_path;
 
-        $this->state['image_path'] = $image;
-        $updateDishAction->execute($this->dish, $this->state);
+        $updateDishAction->execute($this->dish, $this->data);
 
-       Notification::make()->title('Mise à jour du plat')->body('Le plat a été mis à jour avec succès.')->success()->send();
+        Notification::make()->title('Mise à jour du plat')->body('Le plat a été mis à jour avec succès.')->success()->send();
 
         return redirect()->route('dishes.index');
     }

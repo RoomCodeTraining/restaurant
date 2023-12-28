@@ -2,20 +2,20 @@
 
 namespace App\Http\Livewire\Dishes;
 
-use Livewire\Component;
-use App\Models\DishType;
-use Filament\Forms\Form;
-use Livewire\WithFileUploads;
-use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Select;
 use App\Actions\Dish\CreateDishAction;
-use Filament\Forms\Contracts\HasForms;
+use App\Models\DishType;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class CreateDishForm extends Component implements HasForms
 {
@@ -72,12 +72,6 @@ class CreateDishForm extends Component implements HasForms
         // store new image if exists
         $image = $this->data['image_path'] ? store_dish_image($this->data['image_path']) : null;
 
-        //dd($image);
-
-        // foreach ($this->data['image_path'] as $key => $value) {
-        //     $this->data['image_path'] = $value->store('images');
-        // }
-
         $this->data['image_path'] = $image;
         $createDishAction->execute($this->data);
 
@@ -98,35 +92,35 @@ class CreateDishForm extends Component implements HasForms
 }
 
 
- // public $state = [
-    //     'name' => null,
-    //     'description' => null,
-    //     'dish_type_id' => null,
-    //     'image_path' => null,
-    // ];
+// public $state = [
+//     'name' => null,
+//     'description' => null,
+//     'dish_type_id' => null,
+//     'image_path' => null,
+// ];
 
-    // // public $image_path = null;
+// // public $image_path = null;
 
 
-    // protected function getFormSchema(): array
-    // {
-    //     return [
-    //         TextInput::make('state.name')
-    //             ->label('Nom du plat')
-    //             ->required()
-    //             ->autofocus()
-    //             ->placeholder('Salade, choux...'),
-    //         Select::make('state.dish_type_id')
-    //             ->label('Type de plat')
-    //             ->required()
-    //             ->placeholder('Choisissez un type de plat')
-    //             ->options(DishType::all()->pluck('name', 'id')),
-    //         Textarea::make('state.description')
-    //             ->label('Description')
-    //             ->placeholder('Description du plat'),
-    //         FileUpload::make('state.image_path')
-    //             ->label('Image')
-    //             ->placeholder('Selectionnez une image pour ce plat')
+// protected function getFormSchema(): array
+// {
+//     return [
+//         TextInput::make('state.name')
+//             ->label('Nom du plat')
+//             ->required()
+//             ->autofocus()
+//             ->placeholder('Salade, choux...'),
+//         Select::make('state.dish_type_id')
+//             ->label('Type de plat')
+//             ->required()
+//             ->placeholder('Choisissez un type de plat')
+//             ->options(DishType::all()->pluck('name', 'id')),
+//         Textarea::make('state.description')
+//             ->label('Description')
+//             ->placeholder('Description du plat'),
+//         FileUpload::make('state.image_path')
+//             ->label('Image')
+//             ->placeholder('Selectionnez une image pour ce plat')
 
-    //     ];
-    // }
+//     ];
+// }

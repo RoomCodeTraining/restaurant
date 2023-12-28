@@ -18,6 +18,10 @@ class Dish extends Model
         'name', 'description', 'dish_type_id', 'image_path',
     ];
 
+    protected $casts = [
+        'image_path' => 'string'
+    ];
+
 
 
     public function getPositionAttribute()

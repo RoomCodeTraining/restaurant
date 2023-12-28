@@ -63,14 +63,13 @@ class MenuTable extends Component implements HasForms, HasTable
                 Action::make('Supprimer')
                     ->label('')
                     ->tooltip('Supprimer')
-                    ->modalHeading('Supprimer le menu')
-                    ->modalDescription('Etes-vous sûr de vouloir supprimer ce menu ?')
-                    // ->requiresConfirmation()
+                    ->requiresConfirmation()
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->before(function (Menu $record) {
                         //MenuDeleted::dispatch($record);
                         Notification::make()->title('Menu supprimé supprimé avec succès !')->danger()->send();
+
                         return redirect()->route('menus.index');
                     })
                     ->hidden(fn (Menu $record) => !$record->canBeUpdated() || !Auth::user()->isAdminLunchRoom())

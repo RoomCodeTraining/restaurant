@@ -59,11 +59,12 @@ class CreateOrderForm extends Component
             foreach ($this->selectedDishes as $menuId => $items) {
                 $menu = \App\Models\Menu::whereId($menuId)->first();
                 foreach ($items as $item) {
-                    \App\Models\Order::create([
+                    $p = \App\Models\Order::create([
                         'dish_id' => $item['id'],
                         'menu_id' => $menu->id,
                         'user_id' => Auth::id()
                     ]);
+                    dd($p);
                 }
             }
 

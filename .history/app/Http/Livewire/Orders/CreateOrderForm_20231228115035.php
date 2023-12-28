@@ -53,8 +53,9 @@ class CreateOrderForm extends Component
     {
         $this->resetErrorBag();
 
-        $this->validate(['selectedDishes' => ['required', 'array']]);
+        $p =  $this->validate(['selectedDishes' => ['required', 'array']]);
 
+        dd($p);
         if (auth()->user()->can_order_two_dishes) {
             foreach ($this->selectedDishes as $menuId => $items) {
                 $menu = \App\Models\Menu::whereId($menuId)->first();

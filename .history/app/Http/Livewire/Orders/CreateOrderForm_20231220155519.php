@@ -54,16 +54,15 @@ class CreateOrderForm extends Component
         $this->resetErrorBag();
 
         $this->validate(['selectedDishes' => ['required', 'array']]);
-
-        if (auth()->user()->can_order_two_dishes) {
-            foreach ($this->selectedDishes as $menuId => $items) {
+        if(auth()->user()->can_order_two_dishes) {
+            foreach($this->selectedDishes as $menuId => $items) {
                 $menu = \App\Models\Menu::whereId($menuId)->first();
-                foreach ($items as $item) {
+                foreach($items as $item) {
                     \App\Models\Order::create([
                         'dish_id' => $item['id'],
                         'menu_id' => $menu->id,
                         'user_id' => Auth::id()
-                    ]);
+                      ]);
                 }
             }
 
@@ -77,17 +76,17 @@ class CreateOrderForm extends Component
          */
         if ($this->userAccessCard->quota_lunch === 0) {
             throw ValidationException::withMessages([
-                'selectedDishes' => ['Votre quota est insuffisant.']
+              'selectedDishes' => ['Votre quota est insuffisant.']
             ]);
         }
 
         $locket_at = (int) config('cantine.order.locked_at');
 
-        if ($this->userAccessCard->quota_lunch == 1 && auth()->user()->hasOrderForToday() && now()->hour < $locket_at) {
+        if($this->userAccessCard->quota_lunch == 1 && auth()->user()->hasOrderForToday() && now()->hour < $locket_at) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [
-                    "Vous avez une commande du jour en cours et votre quota est de 1. Vous ne pouvez plus effectuer d'autres commandes. Veuillez recharger votre carte"
-                ]
+              'selectedDishes' => [
+                "Vous avez une commande du jour en cours et votre quota est de 1. Vous ne pouvez plus effectuer d'autres commandes. Veuillez recharger votre carte"
+              ]
             ]);
         }
 
@@ -97,11 +96,11 @@ class CreateOrderForm extends Component
          */
 
 
-        if (!auth()->user()->canCreateOtherOrder()) {
+        if (! auth()->user()->canCreateOtherOrder()) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [
-                    "Impossible de passer d'autres commandes. Veuillez consulter la liste de vos commandes en cours et vérifier votre quota dejeuner."
-                ]
+              'selectedDishes' => [
+                "Impossible de passer d'autres commandes. Veuillez consulter la liste de vos commandes en cours et vérifier votre quota dejeuner."
+              ]
             ]);
         }
 
@@ -111,9 +110,9 @@ class CreateOrderForm extends Component
          */
         if ($this->userAccessCard->quota_lunch < count($this->selectedDishes)) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [
-                    "Vous ne pouvez pas passer plus de " . count($this->selectedDishes) . " commande(s) car votre quota dejeuner est de " . $this->userAccessCard->quota_lunch
-                ]
+              'selectedDishes' => [
+                "Vous ne pouvez pas passer plus de " . count($this->selectedDishes) . " commande(s) car votre quota dejeuner est de " . $this->userAccessCard->quota_lunch
+              ]
             ]);
         }
 
@@ -121,14 +120,14 @@ class CreateOrderForm extends Component
          * S'assure qu'aucune commande n'est passée après une certaine heure.
          */
         $todayOrder = $this->menus
-            ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
-            ->first();
+          ->filter(fn ($menu) => in_array($menu->id, array_keys($this->selectedDishes)) && $menu->served_at->isCurrentDay())
+          ->first();
 
 
 
         if ($todayOrder && now()->hour >= config('cantine.order.locked_at')) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [sprintf('Vous ne pouvez commander le menu du jour après %s heures.', config('cantine.order.locked_at'))]
+              'selectedDishes' => [sprintf('Vous ne pouvez commander le menu du jour après %s heures.', config('cantine.order.locked_at'))]
             ]);
         }
 
@@ -136,26 +135,26 @@ class CreateOrderForm extends Component
          * S'assure que les plats sélectionnés n'ont pas déjà été commandé par l'utilisateur.
          */
         $previousOrders = Auth::user()->orders()
-            ->with('menu')
-            ->whereIn('menu_id', array_keys($this->selectedDishes))
-            ->whereNotState('state', [Cancelled::class, Suspended::class])
-            ->get();
+          ->with('menu')
+          ->whereIn('menu_id', array_keys($this->selectedDishes))
+          ->whereNotState('state', [Cancelled::class, Suspended::class])
+          ->get();
 
 
 
-        if (!$previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
+        if (! $previousOrders->isEmpty() && $previousOrders[0]->state != Suspended::class) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [
-                    sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
-                ]
+              'selectedDishes' => [
+                sprintf('Vous avez déjà commandé le menu du %s', $previousOrders->map(fn ($order) => $order->menu->served_at->format('d/m/Y'))->join(','))
+              ]
             ]);
         }
 
-        if (auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch - 1 < count($this->selectedDishes)) {
+        if(auth()->user()->hasOrderForToday() && now()->hour < $locket_at && $this->userAccessCard->quota_lunch - 1 < count($this->selectedDishes)) {
             throw ValidationException::withMessages([
-                'selectedDishes' => [
-                    "Vous ne pouvez pas passer plus de " . count($this->selectedDishes) . " plats"
-                ]
+              'selectedDishes' => [
+                "Vous ne pouvez pas passer plus de ".count($this->selectedDishes)." plats"
+              ]
             ]);
         }
 
@@ -164,10 +163,10 @@ class CreateOrderForm extends Component
          */
         foreach ($this->selectedDishes as $menuId => $dish) {
             $order = $createOrderAction->execute([
-                'dish_id' => $dish['id'],
-                'menu_id' => $menuId,
-                'user_id' => Auth::id()
-            ]);
+               'dish_id' => $dish['id'],
+               'menu_id' => $menuId,
+               'user_id' => Auth::id()
+             ]);
 
             ActivityHelper::createActivity(
                 $order,
@@ -187,8 +186,8 @@ class CreateOrderForm extends Component
     public function addDish($menuId, $dishId)
     {
 
-        if (auth()->user()->can_order_two_dishes) {
-            if (!empty($this->selectedDishes[$menuId])) {
+        if(auth()->user()->can_order_two_dishes) {
+            if(! empty($this->selectedDishes[$menuId])) {
                 $this->selectedDishes[$menuId][1] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
             } else {
                 $this->selectedDishes[$menuId][0] = $this->menus->firstWhere('id', $menuId)->dishes->firstWhere('id', $dishId);
@@ -212,15 +211,15 @@ class CreateOrderForm extends Component
     public function messages()
     {
         return [
-            'dishes.required' => 'Vous devez choisir au moins un plat',
+          'dishes.required' => 'Vous devez choisir au moins un plat',
         ];
     }
 
     public function render()
     {
         $this->menus = Menu::with('dishes.dishType')
-            ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->get();
+          ->whereBetween('served_at', [now()->startOfWeek(), now()->endOfWeek()])
+          ->get();
 
         return view('livewire.orders.create-order-form', ['menus' => $this->menus,]);
     }

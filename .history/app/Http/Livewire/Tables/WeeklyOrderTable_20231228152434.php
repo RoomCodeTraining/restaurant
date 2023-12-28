@@ -34,11 +34,10 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 TextColumn::make('menu_served_at')
                     ->label('Menu du')
                     ->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('Plat')->searchable(),
-                // TextColumn::make('dish_id')
-                //     ->label(__('Plat'))
-                //     ->searchable()
-                //     ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
+                TextColumn::make('dish_id')
+                    ->label(__('Plat'))
+                    ->searchable()
+                    ->formatStateUsing(fn (Order $row) => dd($row->dishes)),
                 TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
             ])
             ->actions([
@@ -62,7 +61,7 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
             ->whereNotIn('state', ['cancelled', 'suspended'])
             ->groupBy('dish_id', 'menus.served_at')
             ->orderBy('menus.served_at', 'DESC')
-            ->selectRaw('orders.*,dishes.name, menus.served_at as menu_served_at, COUNT(*) as total_orders');
+            ->selectRaw('orders.*, menus.served_at as menu_served_at, COUNT(*) as total_orders');
 
         //dd($queryBuilder);
 

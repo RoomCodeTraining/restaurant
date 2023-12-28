@@ -136,7 +136,7 @@ class SuggestionTable extends Component implements HasTable, HasForms
                     ->tooltip('Modifier')
                     ->url(function (SuggestionBox $suggestion) {
                         return route('suggestions-box.edit', $suggestion);
-                    })->hidden(fn ($record) => $record->user_id !== Auth::id()),
+                    })->hidden(fn ($record) => dd($record->user_id)),
                 // Action::make('show')
                 //     ->label('')
                 //     ->icon('eye')

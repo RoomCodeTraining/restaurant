@@ -34,11 +34,10 @@ class WeeklyOrderTable extends Component implements HasForms, HasTable
                 TextColumn::make('menu_served_at')
                     ->label('Menu du')
                     ->dateTime('d/m/Y'),
-                TextColumn::make('name')->label('Plat')->searchable(),
-                // TextColumn::make('dish_id')
-                //     ->label(__('Plat'))
-                //     ->searchable()
-                //     ->formatStateUsing(fn (Order $row) => dishName($row->dish_id)),
+                TextColumn::make('dish_id')
+                    ->label(__('Plat'))
+                    ->searchable()
+                    ->formatStateUsing(fn (Order $row) => dishName($row->dish_id))
                 TextColumn::make('total_orders')->label(__('Nbr. de commandes')),
             ])
             ->actions([

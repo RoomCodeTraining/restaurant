@@ -63,24 +63,24 @@ class AccessCardsController extends Controller
 
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
-        if($accessCard && $accessCard->is_used) {
+        if ($accessCard && $accessCard->is_used) {
             return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
         }
 
         if ($user->accessCard) {
-            return $this->responseUnprocessable("Cet utilisateur possède déjà une carte.", 'Carte déjà assignée');
+            return $this->responseUnprocessable('Cet utilisateur possède déjà une carte.', 'Carte déjà assignée');
         }
 
         if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
         if ($user->isFromlunchroom()) {
-            return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
+            return $this->responseBadRequest('Cet utilisateur ne peut pas obtenir une carte.', "Erreur lors de l'assignation");
         }
 
         if ($request->assign_quota) {
             $validated['quota_lunch'] = config('cantine.quota_lunch');
-            if($user->Organization->isGroup1()) {
+            if ($user->Organization->isGroup1()) {
                 $validated['quota_breakfast'] = config('cantine.quota_breakfast');
             } else {
                 $validated['quota_breakfast'] = 0;
@@ -91,8 +91,6 @@ class AccessCardsController extends Controller
         }
 
         unset($validated['assign_quota']);
-
-
 
         if (! $accessCard) {
             $accessCard = $createAccessCardAction->handle($user, array_merge($validated, ['is_temporary' => false]), $validated);
@@ -110,7 +108,7 @@ class AccessCardsController extends Controller
             $accessCard->createReloadHistory('breakfast');
         }
 
-        return $this->responseCreated("Attribution réussie de la carte primaire.", new AccessCardResource($accessCard));
+        return $this->responseCreated('Attribution réussie de la carte primaire.', new AccessCardResource($accessCard));
     }
 
     /**
@@ -123,10 +121,7 @@ class AccessCardsController extends Controller
     {
         $this->authorize('create', AccessCard::class);
 
-
         $card = AccessCard::where(['identifier' => $request->access_card_identifier])->first();
-
-
 
         if ($card && $card->is_used) {
             return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
@@ -142,21 +137,22 @@ class AccessCardsController extends Controller
         }
 
         if ($user->isFromlunchroom()) {
-            return $this->responseBadRequest("Cet utilisateur ne peut pas obtenir une carte.", "Erreur lors de l'assignation");
+            return $this->responseBadRequest('Cet utilisateur ne peut pas obtenir une carte.', "Erreur lors de l'assignation");
         }
 
         if ($user->accessCard && $user->accessCard->type === AccessCard::TYPE_TEMPORARY) {
-            return $this->responseBadRequest("Cet utilisateur possède déjà une carte temporaire.", "Erreur lors de l'assignation");
+            return $this->responseBadRequest('Cet utilisateur possède déjà une carte temporaire.', "Erreur lors de l'assignation");
         }
-        if($card) {
+        if ($card) {
             $card->update([
-              'is_used' => true,
-              'quota_breakfast' => $user->accessCard->quota_breakfast,
+                'is_used' => true,
+                'quota_breakfast' => $user->accessCard->quota_breakfast,
                 'quota_lunch' => $user->accessCard->quota_lunch,
                 'payment_method_id' => $user->accessCard->paymentMethod->id,
                 'type' => AccessCard::TYPE_TEMPORARY,
                 'is_used' => true,
                 'expires_at' => $request->expires_at,
+                'user_id' => $user->id,
             ]);
             $user->attachCard($card);
             $accessCard = $card;
@@ -170,7 +166,7 @@ class AccessCardsController extends Controller
             ->event("La carte RFID de N° {$accessCard->identifier} vient d'être associée au compte de {$accessCard->user->full_name}")
             ->log('Rechargement de carte RFID');
 
-        return $this->responseCreated("Attribution réussie de la carte temporaire.", new AccessCardResource($accessCard));
+        return $this->responseCreated('Attribution réussie de la carte temporaire.', new AccessCardResource($accessCard));
     }
 
     /**
@@ -209,8 +205,8 @@ class AccessCardsController extends Controller
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
 
-        if($card->user->Organization->isGroup2() || $type == 'breakfast') {
-            return $this->responseBadRequest("Vous ne pouvez pas recharger le quota de petit déjeuner pour cet utilisateur.", "Utilisateur de la famille B");
+        if ($card->user->Organization->isGroup2() || $type == 'breakfast') {
+            return $this->responseBadRequest('Vous ne pouvez pas recharger le quota de petit déjeuner pour cet utilisateur.', 'Utilisateur de la famille B');
         }
 
         // $card->createReloadHistory($type);
@@ -231,7 +227,6 @@ class AccessCardsController extends Controller
 
         $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
         UpdatedAccessCard::dispatch($card, $type);
-
 
         $eventDescription = "La carte de l'utilisateur {$card->user?->full_name} a été rechargée par " . auth()->user()?->full_name . ". Le nouveau quota de {$quota_title} est de {$newQuota}.";
 

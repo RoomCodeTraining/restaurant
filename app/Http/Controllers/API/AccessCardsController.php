@@ -63,24 +63,26 @@ class AccessCardsController extends Controller
 
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
-        if ($accessCard && $accessCard->is_used) {
-            return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
-        }
+
 
         if ($user->accessCard) {
-            return $this->responseUnprocessable('Cet utilisateur possède déjà une carte.', 'Carte déjà assignée');
+            return $this->responseUnprocessable('Cet utilisateur possède déjà une carte.', 'Carte déjà attribuée');
+        }
+
+        if ($accessCard && $accessCard->is_used) {
+            return $this->responseBadRequest("La carte en question est déjà en cours d'utilisation.", 'Carte utilisée');
         }
 
         if (! $user) {
             return $this->responseNotFound("Aucun utilisateur correspondant n'a été identifié.", 'Utilisateur non trouvé');
         }
         if ($user->isFromlunchroom()) {
-            return $this->responseBadRequest('Cet utilisateur ne peut pas obtenir une carte.', "Erreur lors de l'assignation");
+            return $this->responseBadRequest('Cet utilisateur ne peut pas obtenir une carte.', "Non autorisé");
         }
 
         if ($request->assign_quota) {
             $validated['quota_lunch'] = config('cantine.quota_lunch');
-            if ($user->Organization->isGroup1()) {
+            if ($user->Organization->isGroup1() || $user->is_entitled_breakfast) {
                 $validated['quota_breakfast'] = config('cantine.quota_breakfast');
             } else {
                 $validated['quota_breakfast'] = 0;
@@ -98,15 +100,15 @@ class AccessCardsController extends Controller
             (new AssignOldCardAction())->handle($user, $accessCard, array_merge($validated, ['is_temporary' => false]));
         }
 
-        if ($accessCard->quota_lunch > 0) {
-            event(new UpdatedAccessCard($accessCard, 'lunch'));
-            $accessCard->createReloadHistory('lunch');
-        }
+        // if ($accessCard->quota_lunch > 0) {
+        //     event(new UpdatedAccessCard($accessCard, 'lunch'));
+        //     $accessCard->createReloadHistory('lunch');
+        // }
 
-        if ($accessCard->quota_breakfast > 0) {
-            event(new UpdatedAccessCard($accessCard, 'breakfast'));
-            $accessCard->createReloadHistory('breakfast');
-        }
+        // if ($accessCard->quota_breakfast > 0) {
+        //     event(new UpdatedAccessCard($accessCard, 'breakfast'));
+        //     $accessCard->createReloadHistory('breakfast');
+        // }
 
         return $this->responseCreated('Attribution réussie de la carte primaire.', new AccessCardResource($accessCard));
     }
@@ -204,28 +206,26 @@ class AccessCardsController extends Controller
          */
 
         $type = $validated['quota_type'] == 'quota_lunch' ? 'lunch' : 'breakfast';
+        $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
 
-        if ($card->user->Organization->isGroup2() || $type == 'breakfast') {
-            return $this->responseBadRequest('Vous ne pouvez pas recharger le quota de petit déjeuner pour cet utilisateur.', 'Utilisateur de la famille B');
+        if (! $card->user->is_entitled_breakfast) {
+            return $this->responseBadRequest("Cet utilisateur n'a pas droit au petit déjeuner.", 'Erreur de rechargement');
         }
 
-        // $card->createReloadHistory($type);
+        if ($card->user->Organization->isGroup2() && $type == 'breakfast') {
+            return $this->responseBadRequest("Cet utilisateur n'a pas droit au petit déjeuner.", 'Erreur de rechargement');
+        }
+
+
+
 
         if ($old_quota > config('cantine.quota_critical')) {
-            return response()->json(
-                [
-                    'message' => "Le quota de l'utilisateur n'est pas épuisé, vous ne pouvez pas recharger son compte.",
-                    'success' => false,
-                    'data' => new AccessCardResource($card),
-                ],
-                422,
-            );
+            return $this->responseBadRequest("Le quota {$quota_title} de cette carte n'est pas critique.", 'Erreur de rechargement');
         }
 
         $newQuota = config('cantine.quota_lunch') + $old_quota;
         $card->update([$validated['quota_type'] => $newQuota]);
 
-        $quota_title = $type == 'lunch' ? 'dejeuner' : 'petit déjeuner';
         UpdatedAccessCard::dispatch($card, $type);
 
         $eventDescription = "La carte de l'utilisateur {$card->user?->full_name} a été rechargée par " . auth()->user()?->full_name . ". Le nouveau quota de {$quota_title} est de {$newQuota}.";

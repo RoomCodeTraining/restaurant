@@ -50,19 +50,19 @@ class OrdersController extends Controller
             ->whereDate('served_at', today())
             ->first();
 
-        if (!$todayMenu) {
+        if (! $todayMenu) {
             return  $this->responseNotFound('Le plat choisir ne fait pas partie du menu du jour.');
         }
 
         $menuHasDish = $todayMenu->dishes->contains('id', $request->dish_id);
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
-        // dd($menuHasDish);
-        if (!$accessCard) {
+
+        if (! $accessCard) {
             return $this->responseNotFound('Aucune carte ne correspond à ce matricule.', 'Carte non trouvée');
         }
 
-        if (!$menuHasDish) {
+        if (! $menuHasDish) {
             return $this->responseBadRequest('Le plat choisir ne fait pas partie du menu du jour.', 'Plat non disponible');
         }
 
@@ -86,10 +86,11 @@ class OrdersController extends Controller
             'user_id' => $accessCard->user->id,
             'menu_id' => $todayMenu->id,
             'dish_id' => $request->dish_id,
-            'is_for_the_evening' => $request->is_for_the_evening,
         ]);
 
-        dd($order);
+        // Mise a jour de l'heure de recuperation du repas
+
+        $order->update(['is_for_the_evening' => $request->is_for_the_evening]);
 
         /*
          * Quand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota

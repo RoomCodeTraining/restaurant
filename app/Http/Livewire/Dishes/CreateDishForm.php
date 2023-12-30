@@ -36,6 +36,7 @@ class CreateDishForm extends Component implements HasForms
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label('Nom du plat')
                     ->required(),
                 Select::make('dish_type_id')
                     ->label('Type de plat')

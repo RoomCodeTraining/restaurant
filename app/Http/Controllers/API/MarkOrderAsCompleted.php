@@ -72,6 +72,7 @@ class MarkOrderAsCompleted extends Controller
                     'access_card_id' => $accessCard->id,
                     'is_decrement' => true,
                     'dish_id' => $specialMenu->first()->dish_id,
+                     'menu_id' => \App\Models\Menu::whereDate('served_at', today())->first()->id,
                 ]);
 
                 $accessCard->decrement('quota_lunch');
@@ -193,7 +194,6 @@ class MarkOrderAsCompleted extends Controller
           'payment_method_id' => $accessCard->payment_method_id,
           'access_card_id' => $accessCard->id,
           'is_decrement' => true,
-        //   'pointed_at' => now(),
         ]);
 
         $accessCard->decrement('quota_breakfast');

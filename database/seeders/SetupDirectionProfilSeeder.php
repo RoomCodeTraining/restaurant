@@ -30,7 +30,7 @@ class SetupDirectionProfilSeeder extends Seeder
         $role = Role::create([
             'id' => Role::DATA_ANALYST,
             'name' => 'Top Manager',
-        ])->givePermissionTo([OrderPolicy::ORDER_MANAGE, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
+        ]);
         $data = Permission::create([
             'name' => 'data.*',
             'description' => 'Toutes les permissions sur la vue data',

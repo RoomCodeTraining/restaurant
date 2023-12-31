@@ -62,7 +62,6 @@ class AccessCardsController extends Controller
 
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
-        dd($accessCard);
 
         if ($user->accessCard) {
             return $this->responseUnprocessable('Cet utilisateur possède déjà une carte.', 'Carte déjà attribuée');

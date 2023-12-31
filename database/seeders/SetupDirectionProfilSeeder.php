@@ -22,10 +22,10 @@ class SetupDirectionProfilSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
-            'id' => Role::ADMIN_TECHNICAL,
-            'name' => 'Admin Technique',
-        ])->givePermissionTo([UserPolicy::USER_MANAGE, OrderPolicy::ORDER_MANAGE, OrganizationPolicy::ORGANIZATION_MANAGE, DepartmentPolicy::DEPARTMENT_MANAGE, PaymentMethodPolicy::PAYMENT_METHOD_MANAGE, EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE, UserTypePolicy::USER_TYPE_MANAGE, ReportingPolicy::REPORTING_ORDERS, SuggestionBoxPolicy::SUGGESTION_LIST, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
+        // Role::create([
+        //     'id' => Role::ADMIN_TECHNICAL,
+        //     'name' => 'Admin Technique',
+        // ])->givePermissionTo([UserPolicy::USER_MANAGE, OrderPolicy::ORDER_MANAGE, OrganizationPolicy::ORGANIZATION_MANAGE, DepartmentPolicy::DEPARTMENT_MANAGE, PaymentMethodPolicy::PAYMENT_METHOD_MANAGE, EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE, UserTypePolicy::USER_TYPE_MANAGE, ReportingPolicy::REPORTING_ORDERS, SuggestionBoxPolicy::SUGGESTION_LIST, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
 
         $role = Role::create([
             'id' => Role::DATA_ANALYST,

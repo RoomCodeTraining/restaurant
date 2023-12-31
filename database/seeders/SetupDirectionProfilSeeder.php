@@ -27,10 +27,10 @@ class SetupDirectionProfilSeeder extends Seeder
         //     'name' => 'Admin Technique',
         // ])->givePermissionTo([UserPolicy::USER_MANAGE, OrderPolicy::ORDER_MANAGE, OrganizationPolicy::ORGANIZATION_MANAGE, DepartmentPolicy::DEPARTMENT_MANAGE, PaymentMethodPolicy::PAYMENT_METHOD_MANAGE, EmployeeStatusPolicy::EMPLOYEE_STATUS_MANAGE, UserTypePolicy::USER_TYPE_MANAGE, ReportingPolicy::REPORTING_ORDERS, SuggestionBoxPolicy::SUGGESTION_LIST, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
 
-        // $role = Role::create([
-        //     'id' => Role::DATA_ANALYST,
-        //     'name' => 'Top Manager',
-        // ])->givePermissionTo([OrderPolicy::ORDER_MANAGE, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
+        $role = Role::create([
+            'id' => Role::DATA_ANALYST,
+            'name' => 'Top Manager',
+        ])->givePermissionTo([OrderPolicy::ORDER_MANAGE, SuggestionBoxPolicy::SUGGESTION_MANAGE]);
         $data = Permission::create([
             'name' => 'data.*',
             'description' => 'Toutes les permissions sur la vue data',
@@ -43,6 +43,6 @@ class SetupDirectionProfilSeeder extends Seeder
             ]),
         ]);
 
-
+        $role->givePermissionTo(['data.*', 'data.view']);
     }
 }

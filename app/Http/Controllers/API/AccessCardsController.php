@@ -57,10 +57,9 @@ class AccessCardsController extends Controller
         $validated = $request->validated();
 
         $user = User::where('id', $validated['user_id'])
-            ->orWhere('identifier', $validated['user_id'])
             ->with('userType.paymentMethod')
             ->first();
-
+        dd($user);
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
 

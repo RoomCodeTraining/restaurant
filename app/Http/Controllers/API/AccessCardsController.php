@@ -59,10 +59,10 @@ class AccessCardsController extends Controller
         $user = User::where('id', $validated['user_id'])
             ->with('userType.paymentMethod')
             ->first();
-        dd($user);
+
         $accessCard = AccessCard::where('identifier', $validated['identifier'])->first();
 
-
+        dd($accessCard);
 
         if ($user->accessCard) {
             return $this->responseUnprocessable('Cet utilisateur possède déjà une carte.', 'Carte déjà attribuée');

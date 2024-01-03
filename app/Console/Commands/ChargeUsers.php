@@ -32,7 +32,7 @@ class ChargeUsers extends Command
     {
 
         Order::with('user.accessCard')->today()->whereState('state', Confirmed::class)->each(function (Order $order) {
-
+            dd($order);
             /*
               * Réduire le quota de déjeuner de l'utilisateur.
               */

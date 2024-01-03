@@ -58,6 +58,10 @@ class OrdersController extends Controller
 
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
 
+        if($accessCard->user->organization->isGroup2()) {
+            return $this->responseUnprocessable('Vous ne pouvez pas effectuer de commande pour un tiers.', 'Action non autorisée');
+        }
+
         if (! $accessCard) {
             return $this->responseNotFound('Aucune carte ne correspond à ce matricule.', 'Carte non trouvée');
         }
@@ -80,7 +84,6 @@ class OrdersController extends Controller
             return $this->responseBadRequest('Vous avez déjà commandé pour aujourd\'hui.', 'Commande déjà effectuée');
         }
 
-        //dd($request->is_for_the_evening);
 
         $order = $createOrderAction->execute([
             'user_id' => $accessCard->user->id,
@@ -88,21 +91,14 @@ class OrdersController extends Controller
             'dish_id' => $request->dish_id,
         ]);
 
-        // Mise a jour de l'heure de recuperation du repas
-
         $order->update(['is_for_the_evening' => $request->is_for_the_evening]);
 
         /*
          * Quand il s'agit d'une commande exceptionnelle et que l'heure est superieur a 10h. Il faut decreementer le quota
          */
-
-        if ((int) config('cantine.order.locket_at') <= now()->hour) {
+        if ((int) config('cantine.order.locked_at') <= now()->hour) {
             $this->canChargeUser($order, $accessCard);
         }
-
-        // decrementer le quota de repas
-
-        // $accessCard->decrement('quota_lunch');
 
         activity()
             ->causedBy(Auth()->user())

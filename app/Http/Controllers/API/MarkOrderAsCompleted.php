@@ -58,7 +58,7 @@ class MarkOrderAsCompleted extends Controller
 
             $order = $ordersConfirmed->first();
             $order->markAsCompleted();
-            $accessCard->decrement('quota_lunch');
+            // $accessCard->decrement('quota_lunch');
 
 
             return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.", [
@@ -103,7 +103,7 @@ class MarkOrderAsCompleted extends Controller
                      'menu_id' => \App\Models\Menu::whereDate('served_at', today())->first()->id,
                 ]);
 
-                $accessCard->decrement('quota_lunch');
+                // $accessCard->decrement('quota_lunch');
 
                 // ActivityHelper::createActivity(
                 //     $accessCard->user,

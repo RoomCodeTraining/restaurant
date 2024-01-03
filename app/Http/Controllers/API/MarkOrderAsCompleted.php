@@ -58,6 +58,8 @@ class MarkOrderAsCompleted extends Controller
 
             $order = $ordersConfirmed->first();
             $order->markAsCompleted();
+            $accessCard->decrement('quota_lunch');
+
 
             return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.", [
               'order' => $order

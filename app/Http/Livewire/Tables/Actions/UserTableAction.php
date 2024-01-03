@@ -124,7 +124,6 @@ class UserTableAction
                 ->label('')
                 ->icon('heroicon-o-arrow-path')
                 ->tooltip('Réinitialiser le mot de passe')
-
                 ->color('warning')
                 ->hidden(function (User $user) {
                     return $user->id == auth()->user()->id ||

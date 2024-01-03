@@ -39,8 +39,34 @@ class MarkOrderAsCompleted extends Controller
     public function markAsLunchCompleted(Request $request)
     {
         $accessCard = AccessCard::with('user')->firstWhere('identifier', $request->identifier);
-        $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
         $user = $accessCard->user->load('organization');
+
+        if($user->organization->is_entitled_two_dishes) {
+            $orders = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->get();
+
+            if($orders->count() == 0) {
+                return $this->responseBadRequest("Vous n'avez pas de commande pour aujourd'hui.", "Commande non trouvée");
+            }
+
+            $ordersConfirmed = $orders->filter(function ($order) {
+                return $order->isCurrentState(Confirmed::class);
+            });
+
+            if($ordersConfirmed->count() == 0) {
+                return $this->responseBadRequest("Vous avez déjà récupéré vos plats de ce jour.", "Plat déjà récupéré");
+            }
+
+            $order = $ordersConfirmed->first();
+            $order->markAsCompleted();
+
+            return $this->responseSuccess("Bonjour {$accessCard->user->full_name}, votre commande de {$order->dish->name} a été marquée comme récupérée.", [
+              'order' => $order
+            ]);
+
+        } else {
+            $order = Order::today()->where('user_id', $accessCard->user_id)->whereState('state', [Confirmed::class, Completed::class])->first();
+        }
+
 
         if(! $accessCard->is_used) {
             return $this->responseBadRequest("Cette carte n'est plus associée a vote compte.", "Carte non associée");

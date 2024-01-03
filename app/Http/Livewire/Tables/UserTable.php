@@ -7,7 +7,6 @@ use App\Exports\UserExport;
 use App\Http\Livewire\Tables\Actions\UserTableAction;
 use App\Imports\UsersImport;
 use App\Models\User;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
@@ -100,16 +99,12 @@ class UserTable extends Component implements HasTable, HasForms
                     ->color('success')
                     ->label(__('Importer les utilisateurs'))
                     ->icon('heroicon-m-user-group')
-                    ->form([
-                        FileUpload::make('file')
-                            ->label(__('Choisir un fichier'))
-                            ->rules('required', 'mimes:xlsx, xls, csv')
-                            ->required(),
-                    ])
+                    ->modalContent(fn () => view('livewire.users.create-users-by-import'))
                     ->modalHeading('Importer les utilisateurs')
                     ->action(function (array $data) {
                         $path = $data['file'];
-                        (new UsersImport())->import($path);
+                        $result = (new UsersImport())->import($path);
+                        dd($result);
                         Notification::make()
                             ->title('Importation des utilisateurs')
                             ->body('Les utilisateurs ont été importés avec succès.')

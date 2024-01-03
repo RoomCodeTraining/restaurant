@@ -1,13 +1,8 @@
 <div>
-    <button @click="$wire.$toggle('showModal')" class="btn btn-sm btn-secondary">
-        Importer
-    </button>
-
     <x-dialog-modal wire:model="showModal">
         <x-slot name="title">
             Importer depuis un fichier Excel
         </x-slot>
-
         <x-slot name="content">
             <div class="form-control">
                 <label class="label">

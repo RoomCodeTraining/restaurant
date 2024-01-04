@@ -9,10 +9,7 @@ class Organization extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'family', 'is_entitled_two_dishes', 'description'];
-
-    public const GROUP_1 = 'Famille A';
-    public const GROUP_2 = 'Famille B';
+    protected $fillable = ['name'];
 
     public function users()
     {
@@ -22,15 +19,5 @@ class Organization extends Model
     public function getNameAttribute($value)
     {
         return ucfirst($value);
-    }
-
-    public function isGroup1()
-    {
-        return $this->family === self::GROUP_1;
-    }
-
-    public function isGroup2()
-    {
-        return $this->family === self::GROUP_2;
     }
 }

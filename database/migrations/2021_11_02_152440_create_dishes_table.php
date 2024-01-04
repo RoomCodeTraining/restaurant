@@ -18,7 +18,7 @@ class CreateDishesTable extends Migration
             $table->string('name')->index();
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
-            $table->foreignId('dish_type_id')->constrained();
+            $table->foreignId('dish_type_id')->constrained()->nullable();
             $table->timestamps();
             $table->softDeletes();
 

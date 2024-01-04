@@ -3,9 +3,11 @@
     <div id="page-container" class="flex flex-col mx-auto w-full min-h-screen bg-gray-100">
         <!-- Page Content -->
         <div class="w-full h-screen  md:flex lg:flex xl:flex">
+           <img src="{{ asset('images/login_image.jpg') }}" alt="background"
+                class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
             <div class="bg-white flex justify-center flex-col lg:w-5/12 xl:w-5/12 md:w-6/12 w-full shadow-lg">
                 <div class="flex font-bold justify-center mb-6 mt-2">
-                    <img class="h-auto w-1/3" src="{{ asset('images/logo-ciprel-vf.png') }}">
+                    {{-- <img class="h-auto w-1/3" src="{{ asset('images/logo-ciprel-vf.png') }}"> --}}
                 </div>
                 <div class="w-full text-center px-16">
                     <form class="w-full bg-white rounded-lg" method="POST" action="{{ route('login') }}">
@@ -56,15 +58,14 @@
                             </div>
 
                             <button type="submit"
-                                class="w-full py-3 font-medium bg-primary-900  text-white  focus:outline-none">
+                                class="w-full py-3 font-medium bg-primary-900 text-gray-100  focus:outline-none rounded-lg uppercase">
                                 Connectez-vous
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <img src="{{ asset('images/login_image.jpg') }}" alt="background"
-                class="object-cover object-center h-screen w-full md:w-6/12 lg:w-7/12 xl:w-7/12">
+
         </div>
     </div>
 </x-guest-layout>

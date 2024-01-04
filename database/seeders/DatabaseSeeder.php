@@ -2,30 +2,26 @@
 
 namespace Database\Seeders;
 
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Organization;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
-        if (config('app.env') === 'local') {
-            $this->call([
-                OrganizationSeeder::class,
-                DepartmentSeeder::class,
-                EmployeeStatusSeeder::class,
-                PaymentMethodSeeder::class,
-                UserTypeSeeder::class,
-                PermissionSeeder::class,
-                DishTypeSeeder::class,
-                // MenuSeeder::class,
-                UserSeeder::class,
-                SuggestionTypeSeeder::class,
-            ]);
-        }
+        Organization::create([
+            'name' => 'Restaurant Emmannuel',
+        ]);
+
+        $this->call([
+            SuggestionTypeSeeder::class,
+            DishSeeder::class,
+            UserSeeder::class,
+        ]);
     }
 }

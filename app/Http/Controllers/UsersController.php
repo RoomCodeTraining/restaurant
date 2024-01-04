@@ -12,7 +12,7 @@ class UsersController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+
     }
 
     public function index()
@@ -34,7 +34,7 @@ class UsersController extends Controller
             ->limit(5)->get();
 
         return view('users.show', [
-            'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType'),
+            // 'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType'),
             'totalOrders' => $user->orders()->count(),
             'totalOrdersCompleted' => $user->orders()->whereState('state', Completed::class)->count(),
             'latestOrders' => $user->orders()
@@ -48,7 +48,7 @@ class UsersController extends Controller
     public function edit(User $user)
     {
         return view('users.edit', [
-            'user' => $user->load('accessCard', 'role', 'organization', 'department', 'employeeStatus', 'userType')
+            'user' => $user->load('role', 'organization', 'department', 'employeeStatus', 'userType')
         ]);
     }
 

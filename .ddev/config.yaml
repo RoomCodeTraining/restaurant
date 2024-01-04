@@ -1,4 +1,4 @@
-name: cantine-ciprel.ci
+name: emma-resto
 type: laravel
 docroot: public
 php_version: "8.1"

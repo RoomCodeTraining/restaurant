@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Tables\Actions;
 
 use App\Events\UserLocked;
 use App\Events\UserUnlocked;
-use App\Models\Role;
 use App\Models\User;
 use App\States\Order\Cancelled;
 use App\Support\ActivityHelper;
@@ -28,25 +27,8 @@ class UserTableAction
                 ->url(function (User $user) {
                     return route('users.show', $user);
                 }),
-            Action::make('top_up_card')
-                ->label('')
-                ->tooltip('Recharger la carte')
-                ->icon('heroicon-o-plus-circle')
-                ->color('primary')
-                ->hidden(function (User $user) {
-                    return ! $user->isActive() ||
-                        ! auth()
-                            ->user()
-                            ->hasRole(Role::ADMIN_RH) ||
-                        ! $user->currentAccessCard;
-                })
-                ->url(fn (User $user) => route('reload.card', $user->currentAccessCard)),
+
             EditAction::make()
-                ->hidden(
-                    fn () => ! auth()
-                        ->user()
-                        ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
-                )
                 ->label('')
                 ->icon('heroicon-o-pencil-square')
                 ->color('secondary')
@@ -58,11 +40,6 @@ class UserTableAction
             Action::make('lock')
                 ->label('')
                 ->icon('heroicon-o-lock-closed')
-                ->hidden(
-                    fn () => ! auth()
-                        ->user()
-                        ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL),
-                )
                 ->color('danger')
                 ->tooltip('Désactiver le compte')
                 ->modalHeading('Désactiver le compte')
@@ -78,13 +55,6 @@ class UserTableAction
                     return redirect()->route('users.index');
                 })
                 ->tooltip('Désactiver')
-                ->hidden(function (User $user) {
-                    return ! $user->isActive() ||
-                        $user->id == auth()->user()->id ||
-                        ! auth()
-                            ->user()
-                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
-                })
                 ->requiresConfirmation(),
 
 
@@ -92,12 +62,6 @@ class UserTableAction
                 ->label('')
                 ->icon('heroicon-o-lock-open')
                 ->tooltip('Activer')
-                ->hidden(function (User $user) {
-                    return $user->isActive() ||
-                        ! auth()
-                            ->user()
-                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
-                })
                 ->requiresConfirmation()
                 ->modalHeading('Activer le compte')
                 ->modalDescription('Etes-vous sûr de vouloir activer ce compte ?')
@@ -125,13 +89,6 @@ class UserTableAction
                 ->icon('heroicon-o-arrow-path')
                 ->tooltip('Réinitialiser le mot de passe')
                 ->color('warning')
-                ->hidden(function (User $user) {
-                    return $user->id == auth()->user()->id ||
-                        ! $user->isActive() ||
-                        ! auth()
-                            ->user()
-                            ->hasRole(Role::ADMIN);
-                })
                 ->requiresConfirmation()
                 ->modalHeading('Réinitialiser le mot de passe')
                 ->modalDescription('Etes-vous sûr de vouloir réinitialiser le mot de passe de cet utilisateur ?')
@@ -143,29 +100,7 @@ class UserTableAction
                         ->body('Le mot de passe de l\'utilisateur a été réinitialisé avec succès !')
                         ->send();
                 }),
-            Action::make('restore_current_card')
-                ->label('')
-                ->icon('heroicon-o-credit-card')
-                ->tooltip('Restaurer la carte primaire')
-                ->color('secondary')
-                ->hidden(function (User $user) {
-                    if ($user->currentAccessCard) {
-                        return $user->currentAccessCard->isCurrent() || ! auth()->user()->hasRole(Role::ADMIN_RH)  ? true : false;
-                    }
 
-                    return true;
-                })
-                ->requiresConfirmation()
-                ->modalHeading('Restaurer la carte')
-                ->modalDescription('Etes-vous sûr de vouloir restaurer  la carte primaire de cet utilisateur ?')
-                ->action(function (User $user) {
-                    $this->restoreCurrentCard($user);
-                    Notification::make()
-                        ->title('Restauration de la carte primaire')
-                        ->success()
-                        ->body('La carte de l\'utilisateur a été restaurée avec succès !')
-                        ->send();
-                }),
             Action::make('delete')
                 ->label('')
                 ->icon('heroicon-o-trash')
@@ -183,32 +118,11 @@ class UserTableAction
                 ->color('danger')
                 ->modalHeading('Supprimer le compte')
                 ->modalDescription('Etes-vous sûr de vouloir supprimer ce compte ?')
-                ->hidden(function (User $user) {
-                    return $user->id == auth()->user()->id ||
-                        ! auth()
-                            ->user()
-                            ->hasRole(Role::ADMIN) && ! auth()->user()->hasRole(Role::ADMIN_TECHNICAL);
-                })
                 ->requiresConfirmation(),
         ];
     }
 
-    public function restoreCurrentCard(User $user): void
-    {
-        $temporaryCard = \App\Models\AccessCard::where('user_id', $user->id)
-            ->where('type', 'temporary')
-            ->latest()
-            ->first();
 
-        $currentCard = $user
-            ->accessCards()
-            ->where('type', 'primary')
-            ->latest()
-            ->first();
-
-        $user->dettachAccessCard($temporaryCard);
-        $user->switchAccessCard($currentCard);
-    }
 
     public function confirmLunch(User $user)
     {

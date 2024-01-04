@@ -15,9 +15,6 @@ class SuggestionType extends Model
         'description',
     ];
 
-    public const IMPROVEMENT_APPLICATION = 1;
-    public const IMPROVEMENT_CANTEEN_SERVICE = 2;
-
     public function suggestions()
     {
         return $this->hasMany(SuggestionBox::class);
@@ -28,13 +25,5 @@ class SuggestionType extends Model
         return 'slug';
     }
 
-    public function scopeImprovementApplication($query)
-    {
-        return $query->where('id', self::IMPROVEMENT_APPLICATION);
-    }
 
-    public function scopeImprovementCanteenService($query)
-    {
-        return $query->where('id', self::IMPROVEMENT_CANTEEN_SERVICE);
-    }
 }

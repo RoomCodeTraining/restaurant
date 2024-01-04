@@ -25,16 +25,7 @@ class OrganizationTable extends Component implements HasTable, HasForms
             ->columns([
                 TextColumn::make('created_at')->label('Date de création')->searchable()->dateTime('d/m/Y'),
                 TextColumn::make('name')->label('Nom')->searchable(),
-                TextColumn::make('family')->label('Famille')
-                    ->searchable()
-                    ->badge()
-                    ->color(fn (Organization $record) => $record->family == Organization::GROUP_1 ? 'primary' : 'gray'),
                 TextColumn::make('users_count')->label('Nbr employés')->searchable(),
-                TextColumn::make('is_entitled_two_dishes')
-                ->label('2 plats')->searchable()
-                ->tooltip(fn ($record) => $record->is_entitled_two_dishes ? 'Les employés de cette sociéte ont-ils droit à 2 plats' : 'Les employés de cette sociéte ont-ils droit à 1 plat')
-                ->badge()->color(fn (Organization $record) => $record->is_entitled_two_dishes ? 'success' : 'gray')
-                ->formatStateUsing(fn (Organization $record) => $record->is_entitled_two_dishes ? 'Oui' : 'Non'),
             ])->actions([
                 Action::make('Editer')
                     ->url(fn (Organization $record): string => route('organizations.edit', $record))

@@ -1,6 +1,5 @@
 <x-app-layout>
     <x-section-header title="Mes commandes">
-        @if (! auth()->user()->isFromLunchroom())
             <x-slot name="actions">
                 <a href="{{ route('orders.create') }}" class="btn btn-sm btn-secondary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="inline-block font-bold w-4 h-4 mr-1 stroke-current"
@@ -14,7 +13,6 @@
                     Passer une commande
                 </a>
             </x-slot>
-        @endif
     </x-section-header>
     <div class="px-6 py-4">
         <livewire:tables.order-table />

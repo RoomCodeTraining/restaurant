@@ -8,7 +8,6 @@ class MenusController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Menu::class, 'menu');
     }
 
     public function index()

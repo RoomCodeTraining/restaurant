@@ -11,9 +11,6 @@ class DishType extends Model
 
     protected $guarded = [];
 
-    public const DESSERT = 1;
-    public const STARTER = 2;
-    public const MAIN = 3;
 
     public function dishes()
     {

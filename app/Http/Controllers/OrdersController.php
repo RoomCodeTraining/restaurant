@@ -8,7 +8,6 @@ class OrdersController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Order::class, 'order');
     }
 
     public function index()

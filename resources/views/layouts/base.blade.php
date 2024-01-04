@@ -45,7 +45,7 @@
         x-bind:class="{
             'lg:pl-72': desktopSidebarOpen
         }">
-        @include('include.navigation')
+        @include('partials.sidebar')
         @include('include.header')
         <main id="page-content" class="flex flex-auto flex-col bg-stone-100 max-w-full pt-16">
             <!-- Page Section -->

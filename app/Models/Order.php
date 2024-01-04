@@ -7,7 +7,6 @@ use App\States\Order\Completed;
 use App\States\Order\Confirmed;
 use App\States\Order\OrderState;
 use App\Support\DateTimeHelper;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,18 +27,7 @@ class Order extends Model
         'state' => OrderState::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'is_decrement' => 'boolean',
     ];
-
-    public const LUNCH = 'Commande pour midi';
-    public const EVENING = 'Commande pour le soir';
-
-    protected static function booted()
-    {
-        static::addGlobalScope('lunch', function (Builder $builder) {
-            $builder->whereIn('type', ['lunch']);
-        });
-    }
 
     public function scopeToday($query)
     {
@@ -64,11 +52,6 @@ class Order extends Model
     public function scopeFilter($query, $period)
     {
         return $query->whereHas('menu', fn ($query) => $query->whereBetween('served_at', DateTimeHelper::inThePeriod($period)));
-    }
-
-    public function scopeBreakfastPeriodFilter($query, $period)
-    {
-        return $query->where('created_at', DateTimeHelper::inThePeriod($period));
     }
 
     public function canBeCancelled()
@@ -127,21 +110,6 @@ class Order extends Model
         return $this->belongsTo(Menu::class);
     }
 
-    public function paymentMethod()
-    {
-        return $this->belongsTo(PaymentMethod::class);
-    }
-
-    public function accessCard()
-    {
-        return $this->belongsTo(AccessCard::class);
-    }
-
-    public function getOrderTypeAttribute()
-    {
-        return $this->type == 'lunch' ? 'Dejeuner' : 'Pétit dejeuner';
-    }
-
     public function isToday()
     {
         return $this->menu->served_at->isCurrentDay();
@@ -175,11 +143,4 @@ class Order extends Model
         };
     }
 
-
-    public function setPointingAt() : self
-    {
-        $this->update(['pointing_at' => now()]);
-
-        return $this;
-    }
 }

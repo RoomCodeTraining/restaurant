@@ -18,7 +18,6 @@ class CreateMenusTable extends Migration
             $table->dateTime('served_at')->unique()->index();
             $table->timestamps();
             $table->softDeletes();
-
             $table->index(['deleted_at']);
         });
     }

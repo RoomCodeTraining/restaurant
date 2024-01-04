@@ -3,30 +3,49 @@
 namespace Database\Seeders;
 
 use App\Models\SuggestionType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class SuggestionTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         SuggestionType::create([
-            'id' => SuggestionType::IMPROVEMENT_APPLICATION,
+            'id' => \App\Enums\SuggestionType::IMPROVEMENT_APPLICATION,
             'name' => 'Amélioration de l\'application',
-            'slug' => 'amelioration-de-l-application',
-            'description' => 'Amélioration de l\'application',
+            'slug' => 'amelioration-application',
         ]);
 
         SuggestionType::create([
-            'id' => SuggestionType::IMPROVEMENT_CANTEEN_SERVICE,
-            'name' => 'Amélioration du service de la cantine',
-            'slug' => 'amelioration-du-service-de-la-cantine',
-            'description' => 'Amélioration du service de la cantine',
+            'id' => \App\Enums\SuggestionType::BUG_REPORT,
+            'name' => 'Signaler un bug',
+            'slug' => 'signaler-un-bug',
+        ]);
+
+        SuggestionType::create([
+            'id' => \App\Enums\SuggestionType::IMPROVEMENT_DISH,
+            'name' => 'Amélioration d\'un plat',
+            'slug' => 'amelioration-d-un-plat',
+        ]);
+
+        SuggestionType::create([
+            'id' => \App\Enums\SuggestionType::IMPROVEMENT_MENU,
+            'name' => 'Amélioration d\'un menu',
+            'slug' => 'amelioration-d-un-menu',
+        ]);
+
+        SuggestionType::create([
+            'id' => \App\Enums\SuggestionType::IMPROVEMENT_DELIVERY,
+            'name' => 'Amélioration de la livraison',
+            'slug' => 'amelioration-de-la-livraison',
+        ]);
+
+        SuggestionType::create([
+            'id' => \App\Enums\SuggestionType::OTHER,
+            'name' => 'Autre',
+            'slug' => 'autre',
         ]);
     }
 }

@@ -26,22 +26,20 @@ class DishTable extends Component implements HasTable, HasForms
             ->paginated([10, 25, 50, 100, 'all'])
             ->columns([
                 TextColumn::make('created_at')
-                    ->label(__('DATE CREATION'))
+                    ->label(__('Date de création'))
                     ->searchable()
                     ->sortable()
                     ->dateTime('d/m/Y'),
                 ImageColumn::make('image')
-                    ->label(__('IMAGE'))
                     ->width(50)
                     ->height(50),
                 TextColumn::make('name')
                     ->label(__('Libellé'))
                     ->searchable()
                     ->sortable(),
-
-                TextColumn::make('dishType.name')->label(__('TYPE DE PLAT')),
+                TextColumn::make('dishType.name')->label(__('Type')),
                 TextColumn::make('orders_count')
-                    ->label(__('COMMANDES ASSOCIEES'))
+                    ->label(__('Nbr commandes associées'))
                     ->sortable(),
             ])
             ->actions([

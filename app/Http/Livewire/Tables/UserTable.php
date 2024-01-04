@@ -66,7 +66,7 @@ class UserTable extends Component implements HasTable, HasForms
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('full_name')
-                    ->label('NOM & PRENOMS')
+                    ->label('Nomp complet')
                     ->searchable(),
                 TextColumn::make('email')->label('Email'),
                 TextColumn::make('contact')->label('Contact'),
@@ -78,21 +78,6 @@ class UserTable extends Component implements HasTable, HasForms
                     ->formatStateUsing(function (User $row) {
                         return $row->is_active ? 'Actif' : 'Inactif';
                     }),
-
-                TextColumn::make('id')
-                    ->hidden()
-                    ->label('Numéro de carte NFC')
-                    ->formatStateUsing(fn (User $record) => $record->currentAccessCard->identifier ?? 'Aucune carte associée'),
-
-                TextColumn::make('is_active')
-                    ->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->breakfast_reload_count : 'Aucun rechargement')
-                    ->label('Réchargement petit dejeuner')
-                    ->hidden(),
-
-                TextColumn::make('updated_at')
-                    ->formatStateUsing(fn (User $record) => $record->accessCard ? $record->accessCard->lunch_reload_count : 'Aucun rechargement')
-                    ->label('Réchargement déjeuner')
-                    ->hidden(),
             ])
             ->headerActions([
                 Action::make('import_users')

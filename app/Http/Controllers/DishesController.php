@@ -7,10 +7,10 @@ use App\Models\DishType;
 
 class DishesController extends Controller
 {
-    public function __construct()
-    {
-        $this->authorizeResource(Dish::class, 'dish');
-    }
+    // public function __construct()
+    // {
+    //     $this->authorizeResource(Dish::class, 'dish');
+    // }
 
     public function index()
     {

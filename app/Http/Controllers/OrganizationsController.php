@@ -8,7 +8,7 @@ class OrganizationsController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Organization::class, 'organization');
+        // $this->authorizeResource(Organization::class, 'organization');
     }
 
     public function index()

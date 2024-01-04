@@ -27,12 +27,10 @@ class Dish extends Model
     public function getPositionAttribute()
     {
         switch ($this->dish_type_id) {
-            case DishType::STARTER:
-                return 1;
-            case DishType::MAIN:
+            case \App\Enums\DishType::SIDE:
                 return 2;
-            case DishType::DESSERT:
-                return 3;
+            case \App\Enums\DishType::MAIN:
+                return 2;
             default:
                 return 1;
         };
@@ -47,7 +45,7 @@ class Dish extends Model
 
     public function scopeStarter($query)
     {
-        return $query->where('dish_type_id', DishType::STARTER);
+        return $query->where('dish_type_id', \App\Enums\DishType::SIDE);
     }
 
     public function dishMenu()
@@ -57,12 +55,7 @@ class Dish extends Model
 
     public function scopeMain($query)
     {
-        return $query->where('dish_type_id', DishType::MAIN);
-    }
-
-    public function scopeDessert($query)
-    {
-        return $query->where('dish_type_id', DishType::DESSERT);
+        return $query->where('dish_type_id', \App\Enums\DishType::MAIN);
     }
 
     public function dishType()
@@ -74,12 +67,8 @@ class Dish extends Model
     {
         $img = asset("storage/".$this->attributes['image_path']);
         switch ($this->dish_type_id) {
-            case DishType::STARTER:
-                return $this->attributes['image_path'] ? $img : asset('images/entree1.png');
-            case DishType::MAIN:
+            case \App\Enums\DishType::MAIN:
                 return $this->attributes['image_path'] ? $img : asset('images/plat1.png');
-            case DishType::DESSERT:
-                return $this->attributes['image_path'] ? $img : asset('images/dessert1.png');
             default:
                 return $this->attributes['image_path'] ? $img : asset('images/plat1.png');
         };

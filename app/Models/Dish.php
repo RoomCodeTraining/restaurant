@@ -43,7 +43,7 @@ class Dish extends Model
         );
     }
 
-    public function scopeStarter($query)
+    public function scopeSide($query)
     {
         return $query->where('dish_type_id', \App\Enums\DishType::SIDE);
     }

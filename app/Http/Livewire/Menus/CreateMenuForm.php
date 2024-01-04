@@ -2,10 +2,8 @@
 
 namespace App\Http\Livewire\Menus;
 
-use App\Actions\Menu\CreateMenuAction;
 use App\Models\Dish;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -18,16 +16,14 @@ class CreateMenuForm extends Component implements HasForms
     use InteractsWithForms;
 
     public $state = [
-        'starter_id' => null,
-        'main_dish_id' => null,
-        'second_dish_id' => null,
-        'third_dish_id' => null,
-        'dessert_id' => null,
+        'main_dishes' => [],
+        'side_dishes' => [],
         'served_at' => null,
     ];
 
-    public function saveMenu(CreateMenuAction $action)
+    public function saveMenu()
     {
+        dd($this->state);
         $this->validate([
             'state.starter_id' => ['required', Rule::exists('dishes', 'id')],
             'state.main_dish_id' => ['required', Rule::exists('dishes', 'id')],
@@ -36,7 +32,7 @@ class CreateMenuForm extends Component implements HasForms
             'state.served_at' => ['required', 'after:yesterday', Rule::unique('menus', 'served_at')],
         ]);
 
-        $action->execute($this->state);
+        // $action->execute($this->state);
 
         flasher('success', 'Le menu a été crée avec succès.');
 
@@ -52,38 +48,6 @@ class CreateMenuForm extends Component implements HasForms
         ];
     }
 
-    // protected function getFormSchema(): array
-    // {
-    //     return [
-    //         Grid::make(2)
-    //             ->schema([
-
-    //                 DatePicker::make('state.served_at')
-    //                     ->label('Menu du')
-    //                     ->columnSpan(2)
-    //                     ->minDate(now())
-    //                     ->maxDate(now()->addDays(7))
-    //                     ->format('d/m/Y'),
-    //                 Select::make('state.starter_id')
-    //                     ->label("Choississez l'entrée")
-    //                     ->required()
-    //                     ->options(Dish::starter()->pluck('name', 'id')),
-    //                 Select::make('state.dessert_id')
-    //                     ->label("Choississez le dessert")
-    //                     ->required()
-    //                     ->options(Dish::dessert()->pluck('name', 'id')),
-    //                 Select::make('state.main_dish_id')
-    //                     ->label("Choississez le plat principal 1")
-    //                     ->required()
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //                 Select::make('state.second_dish_id')
-    //                     ->label("Choississez le plat principal 2")
-    //                     ->options(Dish::main()->pluck('name', 'id')),
-    //             ])
-
-    //     ];
-    // }
-
     public function form(Form $form): Form
     {
         return $form
@@ -93,31 +57,21 @@ class CreateMenuForm extends Component implements HasForms
                     ->minDate(now())
                     ->maxDate(now()->addDays(7))
                     ->format('d/m/Y'),
-                Select::make('starter_id')
-                    ->label("Choississez l'entrée")
-                    ->required()
-                    ->options(Dish::starter()->pluck('name', 'id')),
-                Select::make('dessert_id')
-                    ->label('Choississez le dessert')
-                    ->required()
-                    ->options(Dish::dessert()->pluck('name', 'id')),
-                Select::make('main_dish_id')
-                    ->label('Choississez le plat principal 1')
-                    ->required()
+                Select::make('main_dishes')
+                    ->label('Choississez les plats principaux')
+                    ->multiple()
                     ->options(Dish::main()->pluck('name', 'id')),
-                Select::make('second_dish_id')
-                    ->label('Choississez le plat principal 2')
-                    ->options(Dish::main()->pluck('name', 'id')),
+                    Select::make('side_dishes')
+                    ->label("Choississez choisir les accompagnements")
+                    ->required()
+                    ->multiple()
+                    ->options(Dish::side()->pluck('name', 'id'))
             ])->columns(2)
             ->statePath('state');
     }
 
     public function render()
     {
-        return view('livewire.menus.create-menu-form', [
-            'starter_dishes' => Dish::starter()->pluck('name', 'id'),
-            'main_dishes' => Dish::main()->pluck('name', 'id'),
-            'dessert_dishes' => Dish::dessert()->pluck('name', 'id'),
-        ]);
+        return view('livewire.menus.create-menu-form');
     }
 }
